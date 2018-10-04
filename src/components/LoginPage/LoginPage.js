@@ -72,7 +72,7 @@ class LoginPage extends Component {
           <h1>Login</h1>
           <div>
             <label htmlFor="username">
-              Username:
+              Email:
               <input
                 type="text"
                 name="username"
@@ -98,7 +98,7 @@ class LoginPage extends Component {
               name="submit"
               value="Log In"
             />
-            <Link to="/register">Register</Link>
+            <p>Interested in tutoring? <Link to="/new-application">Apply here</Link></p>
           </div>
         </form>
       </div>

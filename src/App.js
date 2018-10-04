@@ -6,7 +6,6 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import Header from './components/Header/Header';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import SelectLocationPage from './components/SelectLocationPage/SelectLocationPage';
@@ -22,7 +21,6 @@ import './styles/main.css';
 
 const App = () => (
   <div>
-    <Header title="Project Base" />
     <Router>
       <Switch>
         <Redirect exact from="/" to="/login" />
