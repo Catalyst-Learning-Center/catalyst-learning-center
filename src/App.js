@@ -9,8 +9,14 @@ import {
 import Header from './components/Header/Header';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
-import UserPage from './components/UserPage/UserPage';
-import InfoPage from './components/InfoPage/InfoPage';
+import SelectLocationPage from './components/SelectLocationPage/SelectLocationPage';
+import SessionsPage from './components/SessionsPage/SessionsPage';
+import AdminDataPage from './components/AdminDataPage/AdminDataPage';
+import ManageApplicationsPage from './components/ManageApplicationsPage/ManageApplicationsPage';
+import ManageLocationsPage from './components/ManageLocationsPage/ManageLocationsPage';
+import ManageTutorsPage from './components/ManageTutorsPage/ManageTutorsPage';
+import AddTutorPage from './components/AddTutorPage/AddTutorPage';
+import NewApplicationPage from './components/NewApplicationPage/NewApplicationPage';
 
 import './styles/main.css';
 
@@ -19,9 +25,9 @@ const App = () => (
     <Header title="Project Base" />
     <Router>
       <Switch>
-        <Redirect exact from="/" to="/home" />
+        <Redirect exact from="/" to="/login" />
         <Route
-          path="/home"
+          path="/login"
           component={LoginPage}
         />
         <Route
@@ -29,12 +35,36 @@ const App = () => (
           component={RegisterPage}
         />
         <Route
-          path="/user"
-          component={UserPage}
+          path="/select-location"
+          component={SelectLocationPage}
         />
         <Route
-          path="/info"
-          component={InfoPage}
+          path="/sessions"
+          component={SessionsPage}
+        />
+        <Route
+          path="/admin-data"
+          component={AdminDataPage}
+        />
+        <Route
+          path="/manage-applications"
+          component={ManageApplicationsPage}
+        />
+        <Route
+          path="/manage-locations"
+          component={ManageLocationsPage}
+        />
+        <Route
+          path="/manage-tutors"
+          component={ManageTutorsPage}
+        />
+        <Route
+          path="/add-tutor"
+          component={AddTutorPage}
+        />
+        <Route
+          path="/new-application"
+          component={NewApplicationPage}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />
