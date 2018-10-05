@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 // Material UI imports
 import Button from '@material-ui/core/Button';
 // action imports
@@ -12,11 +13,11 @@ class TutorNav extends Component {
     render() {
         return (
             <div>
-                <h1>Catalyst Learning Center Tutor</h1>
+                <h3>Catalyst Learning Center Tutor</h3>
                 <Button onClick={this.logout}>Logout</Button>
             </div>
         )
     }
 }
 
-export default TutorNav;
+export default connect()(TutorNav);
