@@ -2,8 +2,8 @@ CREATE TABLE "users" (
 	"id" serial primary key NOT NULL,
 	"username" varchar(1000) NOT NULL,
 	"password" varchar(1000) NOT NULL,
-	"permissions" integer NOT NULL,
-	"active" BOOLEAN NOT NULL
+	"permissions" integer DEFAULT 1,
+	"active" BOOLEAN DEFAULT true
 );
 
 CREATE TABLE "grade" (
