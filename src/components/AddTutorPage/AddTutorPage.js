@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+// action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
@@ -22,7 +22,7 @@ class AddTutorPage extends Component {
 
     render() {
         let content = null;
-        
+
         if (this.props.user.userName) {
             content = (
                 <div>

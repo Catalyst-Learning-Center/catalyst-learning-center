@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+// action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
+// component imports
+import AdminNav from '../AdminNav/AdminNav';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -22,6 +24,14 @@ class ManageApplicationsPage extends Component {
 
     render() {
         let content = null;
+        let nav = null;
+
+        if (this.props.user.permissions === 2) {
+            nav = (
+                {AdminNav}
+            )
+        }
+
         if (this.props.user.userName) {
             content = (
                 <div>
@@ -31,6 +41,7 @@ class ManageApplicationsPage extends Component {
         }
         return (
             <div>
+                {nav}
                 {content}
             </div>
         )
