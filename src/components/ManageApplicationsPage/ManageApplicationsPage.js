@@ -30,7 +30,7 @@ class ManageApplicationsPage extends Component {
 
         if (this.props.user.permissions === 2) {
             nav = (
-                {AdminNav}
+                <AdminNav history={this.props.history} />
             )
         }
 

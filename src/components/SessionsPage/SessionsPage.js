@@ -29,19 +29,17 @@ class SessionsPage extends Component {
 
         if (this.props.user.permissions === 1) {
             nav = (
-                {TutorNav}
+                <TutorNav />
             )
         } else if (this.props.user.permissions === 2) {
             nav = (
-                {AdminNav}
+                <AdminNav history={this.props.history} />
             )
         }
 
         if (this.props.user.userName) {
             content = (
-                <div>
-
-                </div>
+                <div></div>
             )
         }
         return (

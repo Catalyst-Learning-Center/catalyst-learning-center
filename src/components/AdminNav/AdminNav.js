@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 // Material UI imports
 import Button from '@material-ui/core/Button';
 // action imports
@@ -17,7 +19,7 @@ class AdminNav extends Component {
     render() {
         return (
             <div>
-                <h1>Catalyst Learning Center Admin</h1>
+                <h3>Catalyst Learning Center Admin</h3>
                 <ul>
                     <li><Link to="/admin-data">View Data</Link></li>
                     <li><Link to="/manage-tutors">Manage Tutors</Link></li>
@@ -31,4 +33,4 @@ class AdminNav extends Component {
     }
 }
 
-export default AdminNav;
+export default connect()(AdminNav);

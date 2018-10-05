@@ -5,6 +5,7 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
 import TutorNav from '../TutorNav/TutorNav';
 import AdminNav from '../AdminNav/AdminNav';
+import SelectLocationDropdown from './SelectLocationDropdown';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -18,6 +19,8 @@ class SelectLocationPage extends Component {
     // componentDidUpdate runs after props and state have changed.
     //If we arent loading the user call AND we dont have a user, kick us out to home
     componentDidUpdate() {
+        console.log(this.props.user.permissions);
+
         if (!this.props.user.isLoading && this.props.user.userName === null) {
             this.props.history.push('/login');
         }
@@ -29,18 +32,19 @@ class SelectLocationPage extends Component {
 
         if (this.props.user.permissions === 1) {
             nav = (
-                {TutorNav}
+                    <TutorNav />
             )
         } else if (this.props.user.permissions === 2) {
             nav = (
-                {AdminNav}
+                    <AdminNav history={this.props.history} />
             )
         }
 
         if (this.props.user.userName) {
             content = (
                 <div>
-
+                    <h1>Select Location</h1>
+                    <SelectLocationDropdown />
                 </div>
             )
         }
