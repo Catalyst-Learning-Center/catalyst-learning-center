@@ -79,18 +79,6 @@ CREATE TABLE "sessions_subject" (
 	"subject_id" INT REFERENCES "subject" NOT NULL
 );
 
-INSERT INTO "users" ("username", "password", "permissions", "active") 
-VALUES ('user1@email.com', 'user1', 1, true),
-('user2@email.com', 'user2', 1, true),
-('user3@email.com', 'user3', 1, true),
-('user4@email.com', 'user4', 1, true),
-('user5@email.com', 'user5', 1, false),
-('user6@email.com', 'user6', 2, true),
-('user7@email.com', 'user7', 2, true),
-('user8@email.com', 'user8', 2, true),
-('user9@email.com', 'user9', 2, true),
-('user10@email.com', 'user10', 2, false);
-
 INSERT INTO "grade" ("grade_level")
 VALUES ('K'), ('1'), ('2'), ('3'), ('4'), ('5'), ('6'), ('7'), ('8'), ('9'), ('10'), ('11'), ('12'), ('Other');
 
@@ -135,6 +123,7 @@ VALUES ('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '
 ('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user19@email.com', 'math', 'resume url'),
 ('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user20@email.com', 'math', 'resume url');
 
+-- Manually register ten users using the emails listed below before inserting this info into its table.
 INSERT INTO "user_info" ("user_id", "user_first_name", "user_last_name", "user_address", "user_city", "user_state", "user_zipcode", "user_cell_phone", "user_email", "user_skills", "resume")
 VALUES (1, 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user1@email.com', 'math', 'resume url'),
 (2, 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user2@email.com', 'math', 'resume url'),

@@ -9,7 +9,15 @@ const router = express.Router();
 // Handles Ajax request for user information if user is authenticated
 router.get('/', rejectUnauthenticated, (req, res) => {
   // Send back user object from database
-  res.send(req.user);
+  const queryText = `SELECT "permissions" FROM "users" WHERE "id" = $1;`;
+  pool.query(queryText, [req.user.id]).then((results) => {
+    let user = { ...req.user, permissions: results.rows[0].permissions }
+    console.log(user);
+    res.send(user);
+  }).catch((error) => {
+    console.log(error);
+    res.sendStatus(500);
+  })
 });
 
 // Handles POST request with new user data
@@ -17,7 +25,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 // is that the password gets encrypted before being inserted
 router.post('/register', (req, res, next) => {
   console.log('req: ', req.body);
-  
+
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
 
