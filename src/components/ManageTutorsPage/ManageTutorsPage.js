@@ -19,6 +19,8 @@ class ManageTutorsPage extends Component {
     componentDidUpdate() {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
             this.props.history.push('/login');
+        } else if (!this.props.user.isLoading && this.props.user.permissions === 1) {
+            this.props.history.push('/select-location');
         }
     }
 

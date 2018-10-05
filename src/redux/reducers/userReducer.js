@@ -25,6 +25,17 @@ const userName = (state = null, action) => {
   }
 };
 
+const permissions = (state = null, action) => {
+  switch (action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.permissions || state;
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default:
+      return state;
+  }
+}
+
 //isLoading holds the boolean that tracks whether or not this async call is out in the internet or not
 const isLoading = (state = false, action) => {
   switch (action.type) {
@@ -42,4 +53,5 @@ export default combineReducers({
   id,
   userName,
   isLoading,
+  permissions
 });
