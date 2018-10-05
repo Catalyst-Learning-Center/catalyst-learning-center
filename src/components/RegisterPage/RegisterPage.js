@@ -73,7 +73,7 @@ class RegisterPage extends Component {
           <h1>Register User</h1>
           <div>
             <label htmlFor="username">
-              Username:
+              Email:
               <input
                 type="text"
                 name="username"

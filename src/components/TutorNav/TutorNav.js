@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 // Material UI imports
 import Button from '@material-ui/core/Button';
-
+// action imports
 import { triggerLogout } from '../../redux/actions/loginActions';
 
 class TutorNav extends Component {

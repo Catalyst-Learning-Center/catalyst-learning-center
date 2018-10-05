@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 // Material UI imports
 import Button from '@material-ui/core/Button';
-
+// action imports
 import { triggerLogout } from '../../redux/actions/loginActions';
 
 class AdminNav extends Component {
