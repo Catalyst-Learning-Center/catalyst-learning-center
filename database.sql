@@ -73,7 +73,7 @@ CREATE TABLE "sessions" (
 	"end_time" TIMESTAMP NOT NULL
 );
 
-CREATE TABLE "sessions_table" (
+CREATE TABLE "sessions_subject" (
 	"id" serial primary key NOT NULL,
 	"sessions_id" INT REFERENCES "sessions" NOT NULL,
 	"subject_id" INT REFERENCES "subject" NOT NULL
