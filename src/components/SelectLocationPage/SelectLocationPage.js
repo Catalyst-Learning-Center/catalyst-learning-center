@@ -41,12 +41,8 @@ class SelectLocationPage extends Component {
         if (this.props.user.userName) {
             content = (
                 <div>
-<<<<<<< HEAD
-
-=======
                     <h1>Select Location</h1>
                     <SelectLocationForm history={this.props.history} />
->>>>>>> master
                 </div>
             )
         }

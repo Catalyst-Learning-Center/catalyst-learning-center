@@ -4,13 +4,21 @@ import { connect } from 'react-redux';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
 import AdminNav from '../AdminNav/AdminNav';
-
+import LocationExpansionPanel from './LocationExpansionPanel/LocationExpansionPanel';
+import EditLocationsDialog from './EditLocationsDialog/EditLocationsDialog';
 
 const mapStateToProps = state => ({
     user: state.user,
 });
 
 class ManageLocationsPage extends Component {
+    constructor (props) {
+        super(props);
+        this.state = {
+            editDialogOpen: false,
+            locationToEdit: {},
+        }
+    }
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
     }
@@ -25,6 +33,12 @@ class ManageLocationsPage extends Component {
         }
     }
 
+    handleEditDialogOpen = () => {
+        this.setState({
+            editDialogOpen: true,
+        })
+    }//end handleEditDialogOpen
+
     render() {
         let content = null;
         let nav = null;
@@ -38,7 +52,8 @@ class ManageLocationsPage extends Component {
         if (this.props.user.userName) {
             content = (
                 <div>
-
+                    <LocationExpansionPanel handleEditDialogOpen={this.handleEditDialogOpen}/>
+                    <EditLocationsDialog open={this.state.editDialogOpen}/>
                 </div>
             )
         }
