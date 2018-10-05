@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 // Material UI imports
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -15,7 +16,7 @@ class SelectLocationDropdown extends Component {
         super(props);
         this.state = {
             locations: [],
-            selectedLocation: '',
+            selectedLocation: {},
         }
     }
 
@@ -47,6 +48,12 @@ class SelectLocationDropdown extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         console.log(this.state.selectedLocation);
+        let action = {
+            type: 'SET_SESSION_LOCATION',
+            payload: this.state.selectedLocation
+        }
+        this.props.dispatch(action);
+        this.props.history.push('/sessions');
     }
 
     render() {
@@ -66,7 +73,7 @@ class SelectLocationDropdown extends Component {
                             return(
                                 <MenuItem 
                                 key={location.id} 
-                                value={location.id}>
+                                value={location}>
                                     {location.location_name}
                                 </MenuItem>
                             )
@@ -80,4 +87,4 @@ class SelectLocationDropdown extends Component {
     }
 }
 
-export default SelectLocationDropdown;
+export default connect()(SelectLocationDropdown);
