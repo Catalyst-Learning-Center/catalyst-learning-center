@@ -137,11 +137,13 @@ class LoginPage extends Component {
           </div>
           <div>
             <Button
+              size="small"
               onClick={this.handlePasswordResetOpen}>
               Forgot Password?
             </Button>
             <Button
-              color="primary"
+              size="small"
+              variant="contained"
               type="submit"
               name="submit">
               Log In
