@@ -112,16 +112,16 @@ INSERT INTO "location" ("location_name", "location_address", "location_city", "l
 VALUES ('Franklin Library', '1314 E Franklin Ave', 'Minneapolis', 'MN', '55404', '612-543-6925'), ('Hosmer Library', '347 E 36th St', 'Minneapolis', 'MN', '55408', '612-543-6400');
 
 INSERT INTO "application_info" ("date", "applicant_first_name", "applicant_last_name", "applicant_address", "applicant_city", "applicant_state", "applicant_zipcode", "applicant_cell_phone", "applicant_email", "applicant_skills", "resume")
-VALUES ('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user1@email.com', 'math', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user2@email.com', 'math', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user3@email.com', 'math', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user4@email.com', 'math', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user5@email.com', 'math', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user6@email.com', 'math', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user7@email.com', 'math', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user8@email.com', 'math', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user9@email.com', 'math', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user10@email.com', 'math', 'resume url');
+VALUES ('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user11@email.com', 'math', 'resume url'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user12@email.com', 'math', 'resume url'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user13@email.com', 'math', 'resume url'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user14@email.com', 'math', 'resume url'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user15@email.com', 'math', 'resume url'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user16@email.com', 'math', 'resume url'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user17@email.com', 'math', 'resume url'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user18@email.com', 'math', 'resume url'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user19@email.com', 'math', 'resume url'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user20@email.com', 'math', 'resume url');
 
 -- Manually register ten users using the emails listed below before inserting this info into its table.
 INSERT INTO "user_info" ("user_id", "user_first_name", "user_last_name", "user_address", "user_city", "user_state", "user_zipcode", "user_cell_phone", "user_email", "user_skills", "resume")

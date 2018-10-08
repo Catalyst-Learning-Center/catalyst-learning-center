@@ -5,9 +5,13 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
 import TutorNav from '../TutorNav/TutorNav';
 import AdminNav from '../AdminNav/AdminNav';
+import NewSessionDialog from './NewSessionDialog';
+import ActiveSessionsTable from './ActiveSessionsTable';
+import CompletedSessionsTable from './CompletedSessionsTable';
 
 const mapStateToProps = state => ({
     user: state.user,
+    location: state.sessions.location
 });
 
 class SessionsPage extends Component {
@@ -20,6 +24,8 @@ class SessionsPage extends Component {
     componentDidUpdate() {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
             this.props.history.push('/login');
+        } else if (this.props.location === null) {
+            this.props.history.push('/select-location');
         }
     }
 
@@ -39,7 +45,15 @@ class SessionsPage extends Component {
 
         if (this.props.user.userName) {
             content = (
-                <div></div>
+                <div>
+                    <h1>Sessions</h1>
+                    You are tutoring at {this.props.location.location_name}
+                    <NewSessionDialog />
+                    <h3>Active Sessions</h3>
+                    <ActiveSessionsTable />
+                    <h3>Completed Sessions</h3>
+                    <CompletedSessionsTable />
+                </div>
             )
         }
         return (
