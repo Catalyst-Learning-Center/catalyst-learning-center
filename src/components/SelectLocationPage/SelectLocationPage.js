@@ -5,7 +5,7 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
 import TutorNav from '../TutorNav/TutorNav';
 import AdminNav from '../AdminNav/AdminNav';
-import SelectLocationDropdown from './SelectLocationDropdown';
+import SelectLocationForm from './SelectLocationForm';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -44,7 +44,7 @@ class SelectLocationPage extends Component {
             content = (
                 <div>
                     <h1>Select Location</h1>
-                    <SelectLocationDropdown />
+                    <SelectLocationForm history={this.props.history} />
                 </div>
             )
         }

@@ -69,8 +69,8 @@ CREATE TABLE "sessions" (
 	"student_name" varchar(1000) NOT NULL,
 	"school_id" INT REFERENCES "schools" NOT NULL,
 	"grade_id" INT REFERENCES "grade" NOT NULL,
-	"start_time" TIMESTAMP NOT NULL,
-	"end_time" TIMESTAMP NOT NULL
+	"start_time" TIME NOT NULL,
+	"end_time" TIME NOT NULL
 );
 
 CREATE TABLE "sessions_subject" (
