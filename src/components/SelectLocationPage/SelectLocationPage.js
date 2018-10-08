@@ -19,8 +19,6 @@ class SelectLocationPage extends Component {
     // componentDidUpdate runs after props and state have changed.
     //If we arent loading the user call AND we dont have a user, kick us out to home
     componentDidUpdate() {
-        console.log(this.props.user.permissions);
-
         if (!this.props.user.isLoading && this.props.user.userName === null) {
             this.props.history.push('/login');
         }
@@ -32,11 +30,11 @@ class SelectLocationPage extends Component {
 
         if (this.props.user.permissions === 1) {
             nav = (
-                    <TutorNav />
+                {TutorNav}
             )
         } else if (this.props.user.permissions === 2) {
             nav = (
-                    <AdminNav history={this.props.history} />
+                {AdminNav}
             )
         }
 
