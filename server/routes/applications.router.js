@@ -34,7 +34,6 @@ router.post('/', (req, res) => {
         if (body.success !== undefined && !body.success) {
             return res.json({ "success": false, "msg": "Failed captcha verification" });
         }
-
         //if successful
         return res.json({ "success": true, "msg": "Captcha passed" });
     }).catch((error) => {

@@ -3,6 +3,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 
+import CheckboxField from '@material-ui/core/Checkbox';
+
 class NewApplicationPage extends Component {
     constructor(props) {
         super(props);
@@ -32,10 +34,6 @@ class NewApplicationPage extends Component {
         axios({
             method: 'POST',
             url: '/applications',
-            // headers: {
-            //     'Accept': 'application/json, text/plain, */*',
-            //     'Content-type': 'application/json'
-            // },
             data: {captcha: captcha}
         }).then((response)=> {
             console.log(response.data);
@@ -44,11 +42,24 @@ class NewApplicationPage extends Component {
         })
     }
 
+    handleCheckbox(event, isChecked) {
+        console.log(event.target.value, isChecked);
+    }
+
+    labelList = [{ id: 1, category: 'a' }, { id: 2, category: 'b' }, { id: 3, category: 'c' }];
 
     render() {
         return (
             <div>
                 <form onSubmit={this.postApplication}>
+                    {this.labelList.map(element => (
+                        <CheckboxField
+                            key={element.id}
+                            label='{element.category}'
+                            value={element.category}
+                            onChange={this.handleCheckbox}
+                        />
+                    ))}
                     <TextField
                         required
                         label="First Name"
