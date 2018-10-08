@@ -35,13 +35,13 @@ class SelectSchool extends Component {
         })
     }
 
-    handleChange = (event) => {
+    handleChange = (value) => {
         this.setState({
-            selectedSchool: event.target.value,
+            selectedSchool: value,
         });
         let action = {
             type: 'SET_SESSION_SCHOOL',
-            payload: event.target.value
+            payload: value.value 
         }
         this.props.dispatch(action);
     };

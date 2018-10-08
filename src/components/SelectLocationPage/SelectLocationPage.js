@@ -48,7 +48,7 @@ class SelectLocationPage extends Component {
         }
         return (
             <div>
-                {nav}
+                {/* {nav} */}
                 {content}
             </div>
         )

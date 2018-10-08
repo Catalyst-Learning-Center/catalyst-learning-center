@@ -30,5 +30,6 @@ const school = (state = null, action) => {
 //make one object that has keys id, username, isLoading
 export default combineReducers({
   location,
-  grade
+  grade,
+  school
 });
