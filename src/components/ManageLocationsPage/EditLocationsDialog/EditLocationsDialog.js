@@ -8,6 +8,19 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
  class EditLocationsDialog extends Component {
+   constructor (props) {
+     super(props);
+
+     this.state = {
+       open: this.props.open,
+     }
+   }
+   handleClose = () => {
+     this.setState({
+       open: false,
+     })
+   }
+
   render() {
     return (
         <Dialog
@@ -15,27 +28,21 @@ import DialogTitle from '@material-ui/core/DialogTitle';
         onClose={this.handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit Location Information</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send
-            updates occasionally.
+            Please enter changes here:
           </DialogContentText>
           <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
-            fullWidth
+            
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleClose} color="primary">
+          <Button onClick={this.props.handleEditDialogClose} color="primary">
             Cancel
           </Button>
           <Button onClick={this.handleClose} color="primary">
-            Subscribe
+            Submit
           </Button>
         </DialogActions>
       </Dialog>
