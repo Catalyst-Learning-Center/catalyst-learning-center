@@ -1,0 +1,10 @@
+insert into user_info_location (id, user_info_id, location_id) values (1, 2, 2);
+insert into user_info_location (id, user_info_id, location_id) values (2, 6, 1);
+insert into user_info_location (id, user_info_id, location_id) values (3, 3, 1);
+insert into user_info_location (id, user_info_id, location_id) values (4, 3, 1);
+insert into user_info_location (id, user_info_id, location_id) values (5, 3, 2);
+insert into user_info_location (id, user_info_id, location_id) values (6, 8, 1);
+insert into user_info_location (id, user_info_id, location_id) values (7, 7, 2);
+insert into user_info_location (id, user_info_id, location_id) values (8, 1, 1);
+insert into user_info_location (id, user_info_id, location_id) values (9, 6, 1);
+insert into user_info_location (id, user_info_id, location_id) values (10, 1, 2);
