@@ -26,6 +26,8 @@ const MapStateToProps = state => ({
     state,
 });
 
+
+
 class AdminDataTable extends Component {
 componentDidMount() {
 
@@ -33,6 +35,7 @@ componentDidMount() {
 
 render () {
     let content = null;
+
 
     // if (this.props.user.userName) {
         content = (
