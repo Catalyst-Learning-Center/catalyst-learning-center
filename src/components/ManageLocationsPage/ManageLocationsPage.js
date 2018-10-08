@@ -4,15 +4,25 @@ import { connect } from 'react-redux';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
 import AdminNav from '../AdminNav/AdminNav';
+import LocationExpansionPanel from './LocationExpansionPanel/LocationExpansionPanel';
+import EditLocationsDialog from './EditLocationsDialog/EditLocationsDialog';
 
 const mapStateToProps = state => ({
     user: state.user,
 });
 
 class ManageLocationsPage extends Component {
+    constructor (props) {
+        super(props);
+        this.state = {
+            editDialogOpen: false,
+            locationToEdit: {},
+        }//end this.state
+    }//end constructor
+
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
-    }
+    }//end componentDidMount
 
     // componentDidUpdate runs after props and state have changed.
     //If we arent loading the user call AND we dont have a user, kick us out to home
@@ -22,7 +32,21 @@ class ManageLocationsPage extends Component {
         } else if (!this.props.user.isLoading && this.props.user.permissions === 1) {
             this.props.history.push('/select-location');
         }
-    }
+    }//end componentDidUpdate
+
+    handleEditDialogOpen = () => {
+        //this handles openining the edit dialog
+        this.setState({
+            editDialogOpen: true,
+        })
+    }//end handleEditDialogOpen
+
+    handleEditDialogClose = () => {
+        //this handles closing the edit dialog
+        this.setState({
+            editDialogOpen: false,
+        })
+    }//end handleEditDialogClose
 
     render() {
         let content = null;
@@ -37,7 +61,9 @@ class ManageLocationsPage extends Component {
         if (this.props.user.userName) {
             content = (
                 <div>
-
+                    <LocationExpansionPanel handleEditDialogOpen={this.handleEditDialogOpen}/>
+                    <EditLocationsDialog open={this.state.editDialogOpen}
+                     handleEditDialogClose={this.handleEditDialogClose}/>
                 </div>
             )
         }

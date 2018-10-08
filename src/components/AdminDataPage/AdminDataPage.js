@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
 import AdminNav from '../AdminNav/AdminNav';
+import AdminDataTable from './AdminDataTable/AdminDataTable.js'
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -37,7 +38,7 @@ class AdminDataPage extends Component {
         if (this.props.user.userName) {
             content = (
                 <div>
-
+                <AdminDataTable />
                 </div>
             )
         }
