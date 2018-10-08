@@ -1,15 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Axios from 'axios';
 // Material UI imports
 import Select from 'react-select';
+
+const mapStateToProps = state => ({
+    school: state.sessions.school
+});
 
 class SelectSchool extends Component {
     constructor(props) {
         super(props);
         this.state = {
             schools: [],
-            single: null,
-            multi: null,
+            selectedSchool: null,
         }
     }
     componentDidMount = () => {
@@ -31,10 +35,15 @@ class SelectSchool extends Component {
         })
     }
 
-    handleChange = (name) => (value) => {
+    handleChange = (event) => {
         this.setState({
-            [name]: value,
+            selectedSchool: event.target.value,
         });
+        let action = {
+            type: 'SET_SESSION_SCHOOL',
+            payload: event.target.value
+        }
+        this.props.dispatch(action);
     };
 
     render() {
@@ -51,13 +60,14 @@ class SelectSchool extends Component {
                         label: school.school_name,
                     }))}
                     // components={components}
-                    value={this.state.single}
-                    onChange={this.handleChange('single')}
+                    value={this.state.selectedSchool}
+                    onChange={this.handleChange}
                     placeholder="select a school"
                 />
+                {JSON.stringify(this.state.selectedSchool)}
             </div>
         )
     }
 }
 
-export default SelectSchool;
+export default connect(mapStateToProps)(SelectSchool);
