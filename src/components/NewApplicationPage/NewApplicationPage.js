@@ -66,6 +66,21 @@ class NewApplicationPage extends Component {
         });
     }
 
+    // get list of locations
+    getSubjects = () => {
+        axios({
+            method: 'GET',
+            url: '/locations'
+        }).then((response) => {
+            console.log(response.data);
+            this.setState({
+                locations: response.data
+            })
+        }).catch((error) => {
+            console.log('Error getting locations from server', error)
+        });
+    }
+
     // change application values
     handleApplicationChange = (e) => {
         this.setState({
