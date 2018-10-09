@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import StateSelect from './StateSelect';
+
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
@@ -25,6 +27,8 @@ class NewApplicationPage extends Component {
                 resume: '',
 
             },
+            applicant_subjects: [],
+            applicant_locations: [],
             subjects: [],
             locations: []
         }
@@ -82,6 +86,12 @@ class NewApplicationPage extends Component {
         });
     }
 
+    handleApplicantStateChange = (value) => {
+        this.setState({
+            application: {...this.state.application, applicant_state: value}
+        });
+    }
+
     // change application values
     handleApplicationChange = (e) => {
         this.setState({
@@ -98,15 +108,6 @@ class NewApplicationPage extends Component {
         return (
             <div>
                 <form onSubmit={this.postApplication}>
-                    {this.state.subjects.map(element => (
-                        <Checkbox
-                            key={element.id}
-                            label={element.subjects}
-                            value={element.id}
-                            onChange={this.handleCheckbox}
-                            color="primary"
-                        />
-                    ))}
                     <TextField
                         required
                         name="applicant_first_name"
@@ -140,6 +141,9 @@ class NewApplicationPage extends Component {
                         onChange={this.handleApplicationChange}
                     />
                     
+                    <StateSelect 
+                        handleApplicantStateChange={this.handleApplicantStateChange}
+                    />
 
                     <TextField
                         required
@@ -189,6 +193,28 @@ class NewApplicationPage extends Component {
                         value={this.state.application.applicant_age_group}
                         onChange={this.handleApplicationChange}
                     />
+                    <br />
+                    {this.state.subjects.map(subject => (
+                        <Checkbox
+                            name="applicant_subjects"
+                            key={subject.id}
+                            label={subject.subjects}
+                            value={subject.id}
+                            onChange={this.handleCheckbox}
+                            color="primary"
+                        />
+                    ))}
+                    <br />
+                    {this.state.locations.map(location => (
+                        <Checkbox
+                            name="applicant_subjects"
+                            key={location.id}
+                            label={location.subjects}
+                            value={location.id}
+                            onChange={this.handleCheckbox}
+                            color="primary"
+                        />
+                    ))}
                     <div className="g-recaptcha" data-sitekey="6Ld9BHQUAAAAANG2ZTJ-tsZGsw9uaE1_1PTUKXlM"></div>
                     <Button type="submit">
                         Submit

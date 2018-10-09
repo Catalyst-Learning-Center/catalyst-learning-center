@@ -56,34 +56,30 @@ class StateSelect extends Component {
                 'WV',
                 'WI',
                 'WY'
-            ],
-            selectedState: '',
+            ]
         }
+    }
+
+    handleChange = (value) => {
+        this.props.handleApplicantStateChange(value.value);
     }
 
   render() {
     return (
         <Select
-            textFieldProps={{
-                label: 'State',
-                InputLabelProps: {
-                    shrink: true,
-                },
-            }}
             options = {
                 this.state.states.map((state) => ({
                     value: state,
                     label: state,
                 }))
             }
-            value={this.state.selectedState}
-            onChange={this.handleChange('multi')}
-            placeholder="Select multiple countries"
-            isMulti
+            onChange={this.handleChange}
+            placeholder="State"
+            name="applicant_state"
         />
     )
   }
 }
 
 
-export default StateSelect
+export default StateSelect;
