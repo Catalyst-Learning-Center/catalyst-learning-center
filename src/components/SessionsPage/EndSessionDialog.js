@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Axios from 'axios';
 // Material UI imports
 import { Button } from '@material-ui/core';
@@ -11,23 +12,35 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 // component impors
 import SelectSubject from './SelectSubject';
 
+const mapStateToProps = state => ({
+    subject: state.sessions.subject
+});
+
 class EndSessionDialog extends Component {
     constructor(props) {
         super(props);
         this.state = {
             open: false,
+            topic: ''
         }
     }
 
-    endSession = (event) => {
+    endSession = () => {
+        console.log('endSession id: ', this.props.id);
+        let dataToSend = {
+            id: this.props.id,
+            subject: this.props.subject,
+            topic: this.state.topic
+        }
         Axios({
             method: 'PUT',
-            url: '/sessions/' + event.target.value
+            url: '/sessions',
+            data: dataToSend,
         }).then((response) => {
-            console.log('back from /sessions/:id with: ', response.data);
+            console.log('back from /sessions put with: ', response.data);
             this.props.getActiveSessions();
         }).catch((error) => {
-            console.log('/sessions/:id error: ', error);
+            console.log('/sessions put error: ', error);
             alert('there was a problem ending the sessions');
         })
     }
@@ -40,10 +53,16 @@ class EndSessionDialog extends Component {
         this.setState({ open: false });
     };
 
+    handleInputChange = (event) => {
+        this.setState({
+            topic: event.target.value
+        })
+    }
+
     render() {
         return (
             <div>
-                <Button value={this.props.id} onClick={this.handleClickOpen}>End Session</Button>
+                <Button onClick={this.handleClickOpen}>End Session</Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
@@ -61,6 +80,7 @@ class EndSessionDialog extends Component {
                             id="name"
                             label="Subtopic"
                             type="email"
+                            onChange={this.handleInputChange}
                             fullWidth
                         />
                     </DialogContent>
@@ -78,4 +98,4 @@ class EndSessionDialog extends Component {
     }
 }
 
-export default EndSessionDialog;
+export default connect(mapStateToProps)(EndSessionDialog);
