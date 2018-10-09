@@ -16,7 +16,28 @@ router.get('/active', (req, res) => {
             console.log('back from /sessions/active GET with: ', results.rows);
             res.send(results.rows);
         }).catch((error) => {
-            console.log('/sessions POST error: ', error);
+            console.log('/sessions/active GET error: ', error);
+            res.sendStatus(500);
+        })
+    } else {
+        res.sendStatus(401);
+    }
+});
+
+router.get('/completed', (req, res) => {
+    if (req.isAuthenticated()) {
+        console.log('/sessions/active GET hit');
+        const queryText = `SELECT "sessions"."student_name", "sessions"."id", "sessions"."session_date", "sessions"."topics", "sessions"."end_time" - "sessions"."start_time" AS "time", "subjects"."subjects", "schools"."school_name", "grade"."grade_level"
+        FROM "sessions" JOIN "schools" ON "schools"."id" = "sessions"."school_id"
+        JOIN "grade" ON "grade"."id" = "sessions"."grade_id"
+        JOIN "subjects" ON "subjects"."id" = "sessions"."subjects_id"
+        WHERE "user_id" = $1 AND "end_time" is not NULL
+        ORDER BY "session_date" DESC;`;
+        pool.query(queryText, [req.user.id]).then((results) => {
+            console.log('back from /sessions/completed GET with: ', results.rows);
+            res.send(results.rows);
+        }).catch((error) => {
+            console.log('/sessions/completed GET error: ', error);
             res.sendStatus(500);
         })
     } else {
