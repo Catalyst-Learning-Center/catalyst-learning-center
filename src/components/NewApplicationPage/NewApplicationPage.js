@@ -3,7 +3,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 
-import CheckboxField from '@material-ui/core/Checkbox';
+import Checkbox from '@material-ui/core/Checkbox';
+
 
 class NewApplicationPage extends Component {
     constructor(props) {
@@ -21,7 +22,8 @@ class NewApplicationPage extends Component {
                 applicant_qualifications: '',
                 applicant_experience: '',
                 applicant_age_group: '',
-                resume: ''
+                resume: '',
+
             }
         }
     }
@@ -42,6 +44,12 @@ class NewApplicationPage extends Component {
         })
     }
 
+    handleApplicationChange = (e) => {
+        this.setState({
+            application: {...this.state.application, [e.target.name]: e.target.value}
+        })
+    }
+
     handleCheckbox(event, isChecked) {
         console.log(event.target.value, isChecked);
     }
@@ -53,75 +61,102 @@ class NewApplicationPage extends Component {
             <div>
                 <form onSubmit={this.postApplication}>
                     {this.labelList.map(element => (
-                        <CheckboxField
+                        
+                        <Checkbox
                             key={element.id}
-                            label='{element.category}'
+                            label={element.category}
                             value={element.category}
                             onChange={this.handleCheckbox}
                         />
                     ))}
                     <TextField
                         required
+                        name="applicant_first_name"
                         label="First Name"
                         margin="normal"
+                        value={this.state.application.applicant_first_name}
+                        onChange={this.handleApplicationChange}
                     />
                     <TextField
                         required
+                        name="applicant_last_name"
                         label="Last Name"
                         margin="normal"
+                        value={this.state.application.applicant_last_name}
+                        onChange={this.handleApplicationChange}
                     />
                     <TextField
                         required
+                        name="applicant_address"
                         label="Address"
                         margin="normal"
+                        value={this.state.application.applicant_address}
+                        onChange={this.handleApplicationChange}
                     />
                     <TextField
                         required
+                        name="applicant_city"
                         label="City"
                         margin="normal"
+                        value={this.state.application.applicant_city}
+                        onChange={this.handleApplicationChange}
                     />
-
+                    
 
                     <TextField
                         required
+                        name="applicant_zipcode"
                         label="Zip Code"
                         margin="normal"
+                        value={this.state.application.applicant_zipcode}
+                        onChange={this.handleApplicationChange}
                     />
                     <TextField
                         required
+                        name="applicant_cell_phone"
                         label="Cell Phone"
                         margin="normal"
+                        value={this.state.application.applicant_cell_phone}
+                        onChange={this.handleApplicationChange}
                     />
                     <TextField
                         required
+                        name="applicant_email"
                         label="Email Address"
                         margin="normal"
+                        value={this.state.application.applicant_email}
+                        onChange={this.handleApplicationChange}
                     />
                     <TextField
                         required
-                        label="Subject Area of Interest"
-                        margin="normal"
-                    />
-                    <TextField
-                        required
+                        name="applicant_qualifications"
                         label="Applicable Qualifications"
                         margin="normal"
+                        value={this.state.application.applicant_qualifications}
+                        onChange={this.handleApplicationChange}
                     />
                     <TextField
                         required
+                        name="applicant_experience"
                         label="Past Tutoring Experience"
                         margin="normal"
+                        value={this.state.application.applicant_experience}
+                        onChange={this.handleApplicationChange}
                     />
                     <TextField
                         required
+                        name="applicant_age_group"
                         label="Which Age Group do you Prefer to Teach?"
                         margin="normal"
+                        value={this.state.application.applicant_age_group}
+                        onChange={this.handleApplicationChange}
                     />
                     <div className="g-recaptcha" data-sitekey="6Ld9BHQUAAAAANG2ZTJ-tsZGsw9uaE1_1PTUKXlM"></div>
                     <Button type="submit">
                         Submit
                     </Button>
                 </form>
+                {JSON.stringify(this.state)}
             </div>
         )
     }

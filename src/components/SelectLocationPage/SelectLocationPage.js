@@ -30,11 +30,11 @@ class SelectLocationPage extends Component {
 
         if (this.props.user.permissions === 1) {
             nav = (
-                {TutorNav}
+                <TutorNav />
             )
         } else if (this.props.user.permissions === 2) {
             nav = (
-                {AdminNav}
+                <AdminNav history={this.props.history}/>
             )
         }
 
@@ -48,7 +48,7 @@ class SelectLocationPage extends Component {
         }
         return (
             <div>
-                {/* {nav} */}
+                {nav}
                 {content}
             </div>
         )
