@@ -13,13 +13,15 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
      this.state = {
        open: this.props.open,
-     }
-   }
+     }//end state
+   }//end constructor
+
    handleClose = () => {
+     //sets dialog box to close initially
      this.setState({
        open: false,
      })
-   }
+   }//end handleClose
 
   render() {
     return (
@@ -34,14 +36,59 @@ import DialogTitle from '@material-ui/core/DialogTitle';
             Please enter changes here:
           </DialogContentText>
           <TextField
-            
-          />
+              autoFocus
+              margin="dense"
+              id="locationName"
+              label="Location Name"
+              type="text"
+              fullWidth
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="locationAddress"
+              label="Address"
+              type="text"
+              fullWidth
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="locationCity"
+              label="City"
+              type="text"
+              fullWidth
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="locationState"
+              label="State"
+              type="text"
+              fullWidth
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="areaZipcode"
+              label="Zipcode"
+              type="number"
+              fullWidth
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="telephoneNumber"
+              label="Phone"
+              type="tel"
+              fullWidth
+            />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.props.handleEditDialogClose} color="primary">
+          <Button onClick={this.props.handleEditDialogClose} color="secondary">
             Cancel
           </Button>
-          <Button onClick={this.handleClose} color="primary">
+          <Button onClick={this.handleSubmit} color="primary">
             Submit
           </Button>
         </DialogActions>

@@ -12,30 +12,20 @@ class LocationExpansionPanel extends Component {
         <div>
         <ExpansionPanel>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Franklin Library</Typography>
+                <Typography>{this.props.location.location_name}</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
                <div>
                    <ListItem>
-                       <ListItemText primary="Franklin Library" />
+                       <ListItemText primary={this.props.location.location_address} />
                    </ListItem>
                    <ListItem>
-                       <ListItemText primary="Address here"/>
+                       <ListItemText primary={`${this.props.location.location_city} ${this.props.location.location_state} ${this.props.location.location_zipcode} `}/>
                    </ListItem>
                    <ListItem>
-                       <ListItemText primary=" Phone Number here"/>
+                       <ListItemText primary={this.props.location.location_phone}/>
                    </ListItem>
                </div>
-            <div>
-            <button onClick={this.props.handleEditDialogOpen}>Edit</button>
-            </div>
-            </ExpansionPanelDetails>
-        </ExpansionPanel>
-        <ExpansionPanel>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Hosmer Library</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
             <div>
             <button onClick={this.props.handleEditDialogOpen}>Edit</button>
             </div>
