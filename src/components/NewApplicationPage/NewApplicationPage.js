@@ -32,6 +32,7 @@ class NewApplicationPage extends Component {
 
     componentDidMount = () => {
         this.getSubjects();
+        this.getLocations();
     }
 
     //send application to server
@@ -67,7 +68,7 @@ class NewApplicationPage extends Component {
     }
 
     // get list of locations
-    getSubjects = () => {
+    getLocations = () => {
         axios({
             method: 'GET',
             url: '/locations'
@@ -92,17 +93,16 @@ class NewApplicationPage extends Component {
         console.log(event.target.value, isChecked);
     }
 
-    labelList = [{ id: 1, category: 'a' }, { id: 2, category: 'b' }, { id: 3, category: 'c' }];
 
     render() {
         return (
             <div>
                 <form onSubmit={this.postApplication}>
-                    {this.labelList.map(element => (
+                    {this.state.subjects.map(element => (
                         <Checkbox
                             key={element.id}
-                            label={element.category}
-                            value={element.category}
+                            label={element.subjects}
+                            value={element.id}
                             onChange={this.handleCheckbox}
                             color="primary"
                         />
