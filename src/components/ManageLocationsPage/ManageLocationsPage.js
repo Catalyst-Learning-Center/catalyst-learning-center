@@ -78,9 +78,9 @@ class ManageLocationsPage extends Component {
         if (this.props.user.userName) {
             content = (
                 <div>
-                    {this.state.locations.map((location, index)=>{
+                    {this.state.locations.map((location, i)=>{
                         return (
-                            <LocationExpansionPanel location={location} handleEditDialogOpen={this.handleEditDialogOpen}/>
+                            <LocationExpansionPanel key={i} location={location} handleEditDialogOpen={this.handleEditDialogOpen}/>
                         )
                     })}
                     <EditLocationsDialog open={this.state.editDialogOpen}
