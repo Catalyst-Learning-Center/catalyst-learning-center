@@ -1,4 +1,4 @@
-/* body {
+body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 
@@ -15,8 +15,8 @@
 
 form {
     background-color: #dbd5d5;
-    width: 30%;
-    height: 250px;
+    width: 80%;
+    height: auto;
     margin: 20px auto;
     padding: 25px;
     border-radius: 2px;
@@ -75,4 +75,4 @@ li a {
 
 li a:hover {
     text-decoration: underline;
-} */
+}

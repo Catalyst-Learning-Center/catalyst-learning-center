@@ -24,10 +24,17 @@ class NewApplicationPage extends Component {
                 applicant_age_group: '',
                 resume: '',
 
-            }
+            },
+            subjects: [],
+            locations: []
         }
     }
 
+    componentDidMount = () => {
+        this.getSubjects();
+    }
+
+    //send application to server
     postApplication = (e) => {
         e.preventDefault();
         console.log(document.querySelector('#g-recaptcha-response').value);
@@ -44,6 +51,22 @@ class NewApplicationPage extends Component {
         })
     }
 
+    // get list of subjects from database
+    getSubjects = () => {
+        axios({
+            method: 'GET',
+            url: '/subjects'
+        }).then((response)=>{
+            console.log(response.data);
+            this.setState({
+                subjects: response.data
+            })
+        }).catch((error)=>{
+            console.log('Error getting subjects from server', error)
+        });
+    }
+
+    // change application values
     handleApplicationChange = (e) => {
         this.setState({
             application: {...this.state.application, [e.target.name]: e.target.value}
@@ -61,12 +84,12 @@ class NewApplicationPage extends Component {
             <div>
                 <form onSubmit={this.postApplication}>
                     {this.labelList.map(element => (
-                        
                         <Checkbox
                             key={element.id}
                             label={element.category}
                             value={element.category}
                             onChange={this.handleCheckbox}
+                            color="primary"
                         />
                     ))}
                     <TextField
