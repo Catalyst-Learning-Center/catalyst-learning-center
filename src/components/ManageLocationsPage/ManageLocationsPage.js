@@ -18,7 +18,14 @@ class ManageLocationsPage extends Component {
         this.state = {
             locations: [],
             editDialogOpen: false,
-            locationToEdit: {},
+            locationToEdit: {
+                location_name: '',
+                location_address: '',
+                location_city: '',
+                location_state: '',
+                location_zipcode: '',
+                location_phone: ''
+            },
         }//end this.state
     }//end constructor
 
@@ -37,10 +44,11 @@ class ManageLocationsPage extends Component {
         }//end if else
     }//end componentDidUpdate
 
-    handleEditDialogOpen = () => {
+    handleEditDialogOpen = (location) => {
         //this handles openining the edit dialog
         this.setState({
             editDialogOpen: true,
+            locationToEdit: location,
         })//end setState
     }//end handleEditDialogOpen
 
@@ -51,16 +59,23 @@ class ManageLocationsPage extends Component {
         })//end setState
     }//end handleEditDialogClose
 
+    handleEditChange = (event) => {
+        //this allows edits to the dialog fields
+
+    }//end handleEditChange
+
     getLocations() {
-        //Get array of location from server
+        //Get location data from server
         axios({
             method: 'get',
             url: '/locations',
-        }).then( (response) => {
+        })//response handling
+        .then( (response) => {
             this.setState({
                 locations: response.data
-            })
-        }).catch(function (error) {
+            })//end setState
+        })//error handling
+        .catch(function (error) {
             console.log(error);
         });
     }//end getLocations
@@ -83,7 +98,8 @@ class ManageLocationsPage extends Component {
                             <LocationExpansionPanel key={i} location={location} handleEditDialogOpen={this.handleEditDialogOpen}/>
                         )
                     })}
-                    <EditLocationsDialog open={this.state.editDialogOpen}
+                    <EditLocationsDialog location = {this.state.locationToEdit}
+                    open={this.state.editDialogOpen}
                      handleEditDialogClose={this.handleEditDialogClose}/>
                 </div>
             )

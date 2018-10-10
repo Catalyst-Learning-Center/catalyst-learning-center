@@ -7,6 +7,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { ListItemText, ListItem } from '@material-ui/core';
 
 class LocationExpansionPanel extends Component {
+
+    handleEditClick = () => {
+        this.props.handleEditDialogOpen(this.props.location)
+    }//end handleEditClick
+
   render() {
     return (
         <div>
@@ -27,7 +32,7 @@ class LocationExpansionPanel extends Component {
                    </ListItem>
                </div>
             <div>
-            <button onClick={this.props.handleEditDialogOpen}>Edit</button>
+            <button onClick={this.handleEditClick}>Edit</button>
             </div>
             </ExpansionPanelDetails>
         </ExpansionPanel>

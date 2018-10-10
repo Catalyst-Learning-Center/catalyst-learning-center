@@ -20,7 +20,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
      //sets dialog box to close initially
      this.setState({
        open: false,
-     })
+     });//end setState
    }//end handleClose
 
   render() {
@@ -38,50 +38,62 @@ import DialogTitle from '@material-ui/core/DialogTitle';
           <TextField
               autoFocus
               margin="dense"
-              id="locationName"
+              name="location_name"
               label="Location Name"
               type="text"
               fullWidth
+              value = {this.props.location.location_name}
+              onChange={this.props.handleEditChange}
             />
             <TextField
               autoFocus
               margin="dense"
-              id="locationAddress"
+              name="location_address"
               label="Address"
               type="text"
               fullWidth
+              value = {this.props.location.location_address}
+              onChange={this.props.handleEditChange}
             />
             <TextField
               autoFocus
               margin="dense"
-              id="locationCity"
+              name="location_city"
               label="City"
               type="text"
               fullWidth
+              value = {this.props.location.location_city}
+              onChange={this.props.handleEditChange}
             />
             <TextField
               autoFocus
               margin="dense"
-              id="locationState"
+              name="location_state"
               label="State"
               type="text"
               fullWidth
+              value = {this.props.location.location_state}
+              onChange={this.props.handleEditChange}
             />
             <TextField
               autoFocus
               margin="dense"
-              id="areaZipcode"
+              name="location_zipcode"
               label="Zipcode"
-              type="number"
+              type="text"
               fullWidth
+              value = {this.props.location.location_zipcode}
+              onChange={this.props.handleEditChange}
             />
             <TextField
               autoFocus
               margin="dense"
-              id="telephoneNumber"
+              name="location_phone"
               label="Phone"
-              type="tel"
+              type="text"
               fullWidth
+              value = {this.props.location.location_phone}
+              onChange={this.props.handleEditChange}
             />
         </DialogContent>
         <DialogActions>
