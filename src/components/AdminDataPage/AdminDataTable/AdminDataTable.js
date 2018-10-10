@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-// import axios from 'axios';
+// import { connect } from 'react-redux';
+import axios from 'axios';
 
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -21,18 +21,17 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+// import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter';
 
-// import AdminTableToolbar from '../AdminDataTable/AdminTableToolbar.js';
+// const MapStateToProps = state => ({
+//     state,
+// });
 
-const MapStateToProps = state => ({
-    state,
-});
-
-let counter = 0;
-function createData(date, student, school, grade, subject, time) {
-    counter += 1;
-    return { id: date, student, school, grade, subject, time };
-}
+// let counter = 0;
+// function createData(date, student, school, grade, subject, time) {
+//     counter += 1;
+//     return { id: counter, date, student, school, grade, subject, time };
+// }
 
 function desc(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -68,6 +67,7 @@ const rows = [
 ];
 
 class AdminDataHeader extends Component {
+
     createSortHandler = property => event => {
         this.props.onRequestSort(event, property);
     };
@@ -83,7 +83,8 @@ class AdminDataHeader extends Component {
                             indeterminate={numSelected > 0 && numSelected < rowCount}
                             checked={numSelected === rowCount}
                             onChange={onSelectAllClick}
-                        /></TableCell>
+                        />
+                    </TableCell>
                     {rows.map(row => {
                         return (
                             <TableCell
@@ -114,7 +115,7 @@ class AdminDataHeader extends Component {
     }
 }
 
-AdminDataHeader.PropTypes = {
+AdminDataHeader.propTypes = {
     numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
     onSelectAllClick: PropTypes.func.isRequired,
@@ -150,40 +151,52 @@ const toolbarStyles = theme => ({
 let AdminTableToolbar = props => {
     const { numSelected, classes } = props;
 
+
+    // const filterFields = [
+    //     { name: 'date', label: 'Date', type: 'date' },
+    //     { name: 'student', label: 'Student' },
+    //     { name: 'school', label: 'School' },
+    //     { name: 'grade', label: 'Grade' },
+    //     { name: 'subject', label: 'Total Time' },
+    // ]
+
+
     return (
-        <Toolbar
-            className={classNames(classes.root, {
-                [classes.highlight]: numSelected > 0,
-            })}
-        >
-            <div className={classes.title}>
-                {numSelected > 0 ? (
-                    <Typography color="inherit" variant="subheading">
-                        {numSelected} Selected
+        <div>
+            <Toolbar
+                className={classNames(classes.root, {
+                    [classes.highlight]: numSelected > 0,
+                })}
+            >
+                <div className={classes.title}>
+                    {numSelected > 0 ? (
+                        <Typography color="inherit" variant="subtitle1">
+                            {numSelected} Selected
             </Typography>
-                ) : (
-                        <Typography variant="title" id="tableTitle">
-                            Tutoring Data
+                    ) : (
+                            <Typography variant="h6" id="tableTitle">
+                                Tutoring Data
             </Typography>
-                    )}
-            </div>
-            <div className={classes.spacer} />
-            <div className={classes.actions} >
-                {numSelected > 0 ? (
-                    <Tooltip title="Delete">
-                        <IconButton aria-label="Delete">
-                            <DeleteIcon />
-                        </IconButton>
-                    </Tooltip>
-                ) : (
-                        <Tooltip title="Filter List">
-                            <IconButton aria-label="Filter List">
-                                <FilterListIcon />
+                        )}
+                </div>
+                <div className={classes.spacer} />
+                <div className={classes.actions} >
+                    {numSelected > 0 ? (
+                        <Tooltip title="Delete">
+                            <IconButton aria-label="Delete">
+                                <DeleteIcon />
                             </IconButton>
                         </Tooltip>
-                    )}
-            </div>
-        </Toolbar>
+                    ) : (
+                            <Tooltip title="Filter List">
+                                <IconButton aria-label="Filter List">
+                                    <FilterListIcon />
+                                </IconButton>
+                            </Tooltip>
+                        )}
+                </div>
+            </Toolbar>
+        </div>
     );
 };
 
@@ -208,29 +221,46 @@ const styles = theme => ({
 });
 
 class AdminDataTable extends Component {
-    componentDidMount() {
 
+    componentDidMount() {
+        this.getSessionData();
     }
 
     state = {
         order: 'asc',
-        orderBy: 'calories',
+        orderBy: 'date',
         selected: [],
-        data: [
-            createData('08-20-17', 'Kyra', 'School1', 12, 'Math1', 120),
-            createData('09-20-17', 'Travis', 'School2', 9, 'Math2', 600),
-            createData('10-20-17', 'AJ', 'School3', 1, 'Math3', 20),
-            createData('11-20-17', 'Julia', 'School4', 2, 'Math4', 10),
-            createData('12-20-17', 'Jesse', 'School1', 11, 'Math5', 200),
-            createData('01-20-18', 'Lars', 'School6', 6, 'Math2', 120),
-            createData('02-20-18', 'Dan', 'School4', 9, 'Math6', 75),
-            createData('03-20-18', 'Kara', 'School7', 4, 'Math9', 100),
-            createData('04-20-18', 'Jennifer', 'School2', 3, 'Math10', 130),
-            createData('05-20-18', 'Ahmed', 'School7', 2, 'Math4', 100),
-        ],
+        data: [],
+        //     createData('08-20-17', 'Kyra', 'School1', 12, 'Math 1', 120),
+        //     createData('09-20-17', 'Travis', 'School2', 9, 'Math 2', 600),
+        //     createData('10-20-17', 'AJ', 'School3', 1, 'Math 3', 20),
+        //     createData('11-20-17', 'Julia', 'School4', 2, 'Math 4', 10),
+        //     createData('12-20-17', 'Jesse', 'School1', 11, 'Math 5', 200),
+        //     createData('01-20-18', 'Lars', 'School6', 6, 'Math 2', 120),
+        //     createData('02-20-18', 'Dan', 'School4', 9, 'Math 6', 75),
+        //     createData('03-20-18', 'Kara', 'School7', 4, 'Math 9', 100),
+        //     createData('04-20-18', 'Jennifer', 'School2', 3, 'Math 10', 130),
+        //     createData('05-20-18', 'Ahmed', 'School7', 2, 'Math 4', 100),
+        // ],
         page: 0,
         rowsPerPage: 5,
     };
+
+    getSessionData = () => {
+        console.log('in getSessionData');
+        axios({
+            method: 'GET',
+            url: '/sessions'
+        }).then((response) => {
+            this.setState({data: response.data});
+            // this.state.data = response.data;
+            console.log('back from server with: ', response.data);
+        }).catch((error) => {
+            console.log('error: ', error);
+            alert('There was an error getting sessions data.')
+        })
+
+    }
 
     handleRequestSort = (event, property) => {
         const orderBy = property;
@@ -245,7 +275,7 @@ class AdminDataTable extends Component {
 
     handleSelectAllClick = event => {
         if (event.target.checked) {
-            this.setState(state => ({ selected: state.data.map(n => n.id) }));
+            this.setState(state => ({ selected: state.data.map(session => session.id) }));
             return;
         }
         this.setState({ selected: [] });
@@ -305,29 +335,29 @@ class AdminDataTable extends Component {
                             <TableBody>
                                 {stableSort(data, getSorting(order, orderBy))
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .map(n => {
-                                        const isSelected = this.isSelected(n.id);
+                                    .map((session, i) => {
+                                        const isSelected = this.isSelected(session.id);
                                         return (
                                             <TableRow
                                                 hover
-                                                onClick={event => this.handleClick(event, n.id)}
+                                                onClick={event => this.handleClick(event, session.id)}
                                                 role="checkbox"
                                                 aria-checked={isSelected}
-                                                tableIndex={-1}
-                                                key={n.id}
+                                                tableindex={-1}
+                                                key={i}
                                                 selected={isSelected}
                                             >
                                                 <TableCell padding="checkbox">
                                                     <Checkbox checked={isSelected} />
                                                 </TableCell>
                                                 <TableCell component="th" scope="row" padding="none">
-                                                    {n.date}
+                                                    {session.date}
                                                 </TableCell>
-                                                <TableCell>{n.student}</TableCell>
-                                                <TableCell>{n.school}</TableCell>
-                                                <TableCell numeric>{n.grade}</TableCell>
-                                                <TableCell>{n.subject}</TableCell>
-                                                <TableCell numeric>{n.time}</TableCell>
+                                                <TableCell>{session.student}</TableCell>
+                                                <TableCell>{session.school}</TableCell>
+                                                <TableCell numeric>{session.grade}</TableCell>
+                                                <TableCell>{session.subject}</TableCell>
+                                                <TableCell numeric>{session.time}</TableCell>
                                             </TableRow>
                                         );
                                     })}
@@ -344,7 +374,7 @@ class AdminDataTable extends Component {
                         count={data.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
-                        backIconButtonProp={{
+                        backiconbuttonprop={{
                             'aria-label': 'Previous Page',
                         }}
                         nextIconButtonProps={{
