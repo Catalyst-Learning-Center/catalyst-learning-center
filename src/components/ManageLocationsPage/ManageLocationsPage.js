@@ -49,19 +49,20 @@ class ManageLocationsPage extends Component {
         this.setState({
             editDialogOpen: true,
             locationToEdit: location,
-        })//end setState
+        });//end setState
     }//end handleEditDialogOpen
 
     handleEditDialogClose = () => {
         //this handles closing the edit dialog
         this.setState({
             editDialogOpen: false,
-        })//end setState
+        });//end setState
     }//end handleEditDialogClose
 
     handleEditChange = (event) => {
         //this allows edits to the dialog fields
-
+        console.log('in handleEditChange');
+        event.preventDefault();
     }//end handleEditChange
 
     getLocations() {
@@ -73,7 +74,7 @@ class ManageLocationsPage extends Component {
         .then( (response) => {
             this.setState({
                 locations: response.data
-            })//end setState
+            });//end setState
         })//error handling
         .catch(function (error) {
             console.log(error);

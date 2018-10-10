@@ -5,6 +5,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { ListItemText, ListItem } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 class LocationExpansionPanel extends Component {
 
@@ -15,6 +16,12 @@ class LocationExpansionPanel extends Component {
   render() {
     return (
         <div>
+            <div>
+                <p>Manage Tutoring Locations</p>
+            </div>
+            <div>
+                <Button variant="contained" color="secondary">Add Location</Button>
+            </div>
         <ExpansionPanel>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography>{this.props.location.location_name}</Typography>
@@ -32,7 +39,10 @@ class LocationExpansionPanel extends Component {
                    </ListItem>
                </div>
             <div>
-            <button onClick={this.handleEditClick}>Edit</button>
+                <Button onClick={this.handleEditClick} variant="contained" color="primary">Edit</Button>
+            </div>
+            <div>
+                <Button onClick={this.handleRemoveClick} variant="contained" color="secondary">Remove</Button>
             </div>
             </ExpansionPanelDetails>
         </ExpansionPanel>
