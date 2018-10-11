@@ -21,6 +21,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
+import moment from 'moment';
 // import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter';
 
 // const MapStateToProps = state => ({
@@ -351,13 +352,13 @@ class AdminDataTable extends Component {
                                                     <Checkbox checked={isSelected} />
                                                 </TableCell>
                                                 <TableCell component="th" scope="row" padding="none">
-                                                    {session.date}
+                                                    {moment(session.session_date.toString()).format('MM-DD-YY')}
                                                 </TableCell>
-                                                <TableCell>{session.student}</TableCell>
-                                                <TableCell>{session.school}</TableCell>
-                                                <TableCell numeric>{session.grade}</TableCell>
-                                                <TableCell>{session.subject}</TableCell>
-                                                <TableCell numeric>{session.time}</TableCell>
+                                                <TableCell>{session.student_name}</TableCell>
+                                                <TableCell>{session.school_name}</TableCell>
+                                                <TableCell numeric>{session.grade_level}</TableCell>
+                                                <TableCell>{session.subjects}</TableCell>
+                                                <TableCell numeric>{session.start_time}</TableCell>
                                             </TableRow>
                                         );
                                     })}
