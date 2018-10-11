@@ -237,7 +237,6 @@ class AdminDataTable extends Component {
             url: '/sessions'
         }).then((response) => {
             this.setState({data: response.data});
-            // this.state.data = response.data;
             console.log('back from server with: ', response.data);
         }).catch((error) => {
             console.log('error: ', error);
@@ -335,13 +334,13 @@ class AdminDataTable extends Component {
                                                     <Checkbox checked={isSelected} />
                                                 </TableCell>
                                                 <TableCell component="th" scope="row" padding="none">
-                                                    {moment(session.session_date.toString()).format('MM-DD-YY')}
+                                                    {moment(session.session_date.toString()).format('MM/DD/YY')}
                                                 </TableCell>
                                                 <TableCell>{session.student_name}</TableCell>
                                                 <TableCell>{session.school_name}</TableCell>
                                                 <TableCell numeric>{session.grade_level}</TableCell>
                                                 <TableCell>{session.subjects}</TableCell>
-                                                <TableCell numeric>{session.start_time}</TableCell>
+                                                <TableCell numeric>{moment(session.time).format('h:mm:ss')}</TableCell>
                                             </TableRow>
                                         );
                                     })}
