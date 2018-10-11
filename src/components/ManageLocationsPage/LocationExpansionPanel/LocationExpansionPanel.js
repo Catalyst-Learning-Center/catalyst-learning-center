@@ -16,12 +16,6 @@ class LocationExpansionPanel extends Component {
   render() {
     return (
         <div>
-            <div>
-                <p>Manage Tutoring Locations</p>
-            </div>
-            <div>
-                <Button variant="contained" color="secondary">Add Location</Button>
-            </div>
         <ExpansionPanel>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography>{this.props.location.location_name}</Typography>

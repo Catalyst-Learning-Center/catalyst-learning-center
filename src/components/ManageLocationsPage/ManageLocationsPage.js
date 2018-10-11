@@ -7,6 +7,7 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 import AdminNav from '../AdminNav/AdminNav';
 import LocationExpansionPanel from './LocationExpansionPanel/LocationExpansionPanel';
 import EditLocationsDialog from './EditLocationsDialog/EditLocationsDialog';
+import Button from '@material-ui/core/Button';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -61,8 +62,10 @@ class ManageLocationsPage extends Component {
 
     handleEditChange = (event) => {
         //this allows edits to the dialog fields
-        console.log('in handleEditChange');
-        event.preventDefault();
+        console.log('in handleEditChange', event);
+        this.setState({
+            [event.target.name]: event.target.value
+        });
     }//end handleEditChange
 
     getLocations() {
@@ -94,6 +97,12 @@ class ManageLocationsPage extends Component {
         if (this.props.user.userName) {
             content = (
                 <div>
+                    <div>
+                        <p>Manage Tutoring Locations</p>
+                    </div>
+                    <div>
+                        <Button variant="contained" color="secondary">Add Location</Button>
+                    </div>
                     {this.state.locations.map((location, i)=>{
                         return (
                             <LocationExpansionPanel key={i} location={location} handleEditDialogOpen={this.handleEditDialogOpen}/>
@@ -101,7 +110,8 @@ class ManageLocationsPage extends Component {
                     })}
                     <EditLocationsDialog location = {this.state.locationToEdit}
                     open={this.state.editDialogOpen}
-                     handleEditDialogClose={this.handleEditDialogClose}/>
+                     handleEditDialogClose={this.handleEditDialogClose}
+                     handleEditChange={this.handleEditChange}/>
                 </div>
             )
         }

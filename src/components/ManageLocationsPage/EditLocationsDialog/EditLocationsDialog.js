@@ -13,6 +13,14 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
      this.state = {
        open: this.props.open,
+       locationToEdit: {
+        location_name: this.props.location.location_name,
+        location_address: this.props.location.location_address,
+        location_city: this.props.location.location_city,
+        location_state: this.props.location.location_state,
+        location_zipcode: this.props.location.location_zipcode,
+        location_phone: this.props.location.location_phone,
+      }//end locationToEdit
      }//end state
    }//end constructor
 
@@ -22,6 +30,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
        open: false,
      });//end setState
    }//end handleClose
+
+   handleChange = (event) => {
+     console.log('in handleChange', event);
+     this.props.handleEditChange(event);
+   }
 
   render() {
     return (
@@ -42,7 +55,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="Location Name"
               type="text"
               fullWidth
-              value = {this.props.location.location_name}
+              value = {this.state.locationToEdit.location_name}
               onChange={this.props.handleEditChange}
             />
             <TextField
@@ -52,7 +65,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="Address"
               type="text"
               fullWidth
-              value = {this.props.location.location_address}
+              value = {this.state.locationToEdit.location_address}
               onChange={this.props.handleEditChange}
             />
             <TextField
@@ -62,7 +75,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="City"
               type="text"
               fullWidth
-              value = {this.props.location.location_city}
+              value = {this.state.locationToEdit.location_city}
               onChange={this.props.handleEditChange}
             />
             <TextField
@@ -72,7 +85,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="State"
               type="text"
               fullWidth
-              value = {this.props.location.location_state}
+              value = {this.state.locationToEdit.location_state}
               onChange={this.props.handleEditChange}
             />
             <TextField
@@ -82,7 +95,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="Zipcode"
               type="text"
               fullWidth
-              value = {this.props.location.location_zipcode}
+              value = {this.state.locationToEdit.location_zipcode}
               onChange={this.props.handleEditChange}
             />
             <TextField
@@ -92,7 +105,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="Phone"
               type="text"
               fullWidth
-              value = {this.props.location.location_phone}
+              value = {this.state.locationToEdit.location_phone}
               onChange={this.props.handleEditChange}
             />
         </DialogContent>
