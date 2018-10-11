@@ -27,9 +27,19 @@ const school = (state = null, action) => {
   }
 };
 
+const subject = (state = null, action) => {
+  switch (action.type) {
+    case 'SET_SESSION_SUBJECT':
+      return action.payload || state;
+    default:
+      return state;
+  }
+};
+
 //make one object that has keys id, username, isLoading
 export default combineReducers({
   location,
   grade,
-  school
+  school,
+  subject
 });

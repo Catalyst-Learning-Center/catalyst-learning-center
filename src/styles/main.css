@@ -14,12 +14,13 @@ body {
 }
 
 form {
-    background-color: #dbd5d5;
-    width: 30%;
-    height: 250px;
+    background-color: #fff;
+    width: 80%;
+    height: auto;
     margin: 20px auto;
     padding: 25px;
     border-radius: 2px;
+    box-shadow: 1px 1px 7px 5px darkred; 
 }
 
 input {
@@ -72,7 +73,12 @@ li a {
 
 }
 
-/* Change the link color to #111 (black) on hover */
+
 li a:hover {
     text-decoration: underline;
+}
+
+.application-container{
+    height: 90vh;
+    overflow-y: scroll;
 }
