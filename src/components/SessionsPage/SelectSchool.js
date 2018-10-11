@@ -47,25 +47,16 @@ class SelectSchool extends Component {
     };
 
     render() {
-        const suggestions = this.state.schools.map((school) => ({
-            value: school.id,
-            label: school.school_name,
-        }));
-
         return (
-            <div>
                 <Select
                     options={this.state.schools.map((school) => ({
                         value: school.id,
                         label: school.school_name,
                     }))}
-                    // components={components}
                     value={this.state.selectedSchool}
                     onChange={this.handleChange}
                     placeholder="select a school"
                 />
-                {JSON.stringify(this.state.selectedSchool)}
-            </div>
         )
     }
 }

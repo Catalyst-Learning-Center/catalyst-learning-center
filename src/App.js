@@ -20,6 +20,13 @@ import NewApplicationPage from './components/NewApplicationPage/NewApplicationPa
 import { loadReCaptcha } from 'react-recaptcha-google'
 
 import './styles/main.css';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
+});
 
 class App extends Component {
   componentDidMount() {
@@ -29,54 +36,55 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Router>
-          <Switch>
-            <Redirect exact from="/" to="/login" />
-            <Route
-              path="/login"
-              component={LoginPage}
-            />
-            <Route
-              path="/register"
-              component={RegisterPage}
-            />
-            <Route
-              path="/select-location"
-              component={SelectLocationPage}
-            />
-            <Route
-              path="/sessions"
-              component={SessionsPage}
-            />
-            <Route
-              path="/admin-data"
-              component={AdminDataPage}
-            />
-            <Route
-              path="/manage-applications"
-              component={ManageApplicationsPage}
-            />
-            <Route
-              path="/manage-locations"
-              component={ManageLocationsPage}
-            />
-            <Route
-              path="/manage-tutors"
-              component={ManageTutorsPage}
-            />
-            <Route
-              path="/add-tutor"
-              component={AddTutorPage}
-            />
-            <Route
-              path="/new-application"
-              component={NewApplicationPage}
-            />
-            {/* OTHERWISE (no path!) */}
-            <Route render={() => <h1>404</h1>} />
-
-          </Switch>
-        </Router>
+        <MuiThemeProvider theme={theme}>
+          <Router>
+            <Switch>
+              <Redirect exact from="/" to="/login" />
+              <Route
+                path="/login"
+                component={LoginPage}
+              />
+              <Route
+                path="/register"
+                component={RegisterPage}
+              />
+              <Route
+                path="/select-location"
+                component={SelectLocationPage}
+              />
+              <Route
+                path="/sessions"
+                component={SessionsPage}
+              />
+              <Route
+                path="/admin-data"
+                component={AdminDataPage}
+              />
+              <Route
+                path="/manage-applications"
+                component={ManageApplicationsPage}
+              />
+              <Route
+                path="/manage-locations"
+                component={ManageLocationsPage}
+              />
+              <Route
+                path="/manage-tutors"
+                component={ManageTutorsPage}
+              />
+              <Route
+                path="/add-tutor"
+                component={AddTutorPage}
+              />
+              <Route
+                path="/new-application"
+                component={NewApplicationPage}
+              />
+              {/* OTHERWISE (no path!) */}
+              <Route render={() => <h1>404</h1>} />
+            </Switch>
+          </Router>
+        </MuiThemeProvider>
       </div>
     )
   }

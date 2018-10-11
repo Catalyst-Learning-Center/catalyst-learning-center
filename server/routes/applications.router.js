@@ -48,7 +48,7 @@ router.post('/', (req, res) => {
                 await client.query('BEGIN');
                 let queryText = `INSERT INTO "applications" 
                     ("applicant_first_name", "applicant_last_name", "applicant_address", "applicant_city", "applicant_state", "applicant_zipcode", "applicant_cell_phone", "applicant_email", "applicant_qualifications", "applicant_experience", "applicant_age_group", "resume")
-                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) 
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) =
                     RETURNING "id";`;
                 const values = [application.applicant_first_name, application.applicant_last_name, application.applicant_address, application.applicant_city, application.applicant_state, application.applicant_zipcode, application.applicant_cell_phone, application.applicant_email, application.applicant_qualifications, application.applicant_experience, application.applicant_age_group, application.resume];
                 const applicationResult = await client.query(queryText, values);
