@@ -111,7 +111,6 @@ class LoginPage extends Component {
                 'aria-label': 'Email',
               }}
             />
-
           </div>
           <div>
             <Input
