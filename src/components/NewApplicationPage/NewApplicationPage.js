@@ -105,7 +105,7 @@ class NewApplicationPage extends Component {
         });
     }
 
-
+    // update application to send
     handleApplicantStateChange = (value) => {
         this.setState({
             application: { ...this.state.application, applicant_state: value }
@@ -119,8 +119,30 @@ class NewApplicationPage extends Component {
         })
     }
 
-    handleSubjectCheckbox(event, isChecked) {
-        console.log(event.target.value, isChecked);
+    //update applicant_subjects in local state
+    handleSubjectCheckbox = (event, isChecked) => {
+        if (isChecked) {
+            this.setState({
+                applicant_subjects: [...this.state.applicant_subjects, event.target.value]
+            });
+        } else if (isChecked === false) {
+            this.setState({
+                applicant_subjects: this.state.applicant_subjects.filter((id) => id !== event.target.value)
+            });
+        }
+    }
+
+    //update applicant_locations in local state
+    handleLocationsCheckbox = (event, isChecked) => {
+        if (isChecked) {
+            this.setState({
+                applicant_locations: [...this.state.applicant_locations, event.target.value]
+            });
+        } else if (isChecked === false) {
+            this.setState({
+                applicant_locations: this.state.applicant_locations.filter((id) => id !== event.target.value)
+            });
+        }
     }
 
 
@@ -228,7 +250,7 @@ class NewApplicationPage extends Component {
                                 key={subject.id}
                                 label={subject.subjects}
                                 value={`${subject.id}`}
-                                onChange={this.handleCheckbox}
+                                onChange={this.handleSubjectCheckbox}
                                 color="primary"
                             />
                             <br />
@@ -244,7 +266,7 @@ class NewApplicationPage extends Component {
                                 key={location.id}
                                 label={location.location_name}
                                 value={`${location.id}`}
-                                onChange={this.handleCheckbox}
+                                onChange={this.handleLocationsCheckbox}
                                 color="primary"
                             />
                         </label>
