@@ -22,7 +22,6 @@ router.get('/', (req, res) => {
     }else {
         res.sendStatus(403);
     }
-=======
 
 
 });
