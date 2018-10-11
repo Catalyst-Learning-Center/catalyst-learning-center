@@ -13,12 +13,27 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
      this.state = {
        open: this.props.open,
-     }
-   }
+       locationToEdit: {
+        location_name: this.props.location.location_name,
+        location_address: this.props.location.location_address,
+        location_city: this.props.location.location_city,
+        location_state: this.props.location.location_state,
+        location_zipcode: this.props.location.location_zipcode,
+        location_phone: this.props.location.location_phone,
+      }//end locationToEdit
+     }//end state
+   }//end constructor
+
    handleClose = () => {
+     //sets dialog box to close initially
      this.setState({
        open: false,
-     })
+     });//end setState
+   }//end handleClose
+
+   handleChange = (event) => {
+     console.log('in handleChange', event);
+     this.props.handleEditChange(event);
    }
 
   render() {
@@ -34,14 +49,71 @@ import DialogTitle from '@material-ui/core/DialogTitle';
             Please enter changes here:
           </DialogContentText>
           <TextField
-            
-          />
+              autoFocus
+              margin="dense"
+              name="location_name"
+              label="Location Name"
+              type="text"
+              fullWidth
+              value = {this.state.locationToEdit.location_name}
+              onChange={this.props.handleEditChange}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              name="location_address"
+              label="Address"
+              type="text"
+              fullWidth
+              value = {this.state.locationToEdit.location_address}
+              onChange={this.props.handleEditChange}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              name="location_city"
+              label="City"
+              type="text"
+              fullWidth
+              value = {this.state.locationToEdit.location_city}
+              onChange={this.props.handleEditChange}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              name="location_state"
+              label="State"
+              type="text"
+              fullWidth
+              value = {this.state.locationToEdit.location_state}
+              onChange={this.props.handleEditChange}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              name="location_zipcode"
+              label="Zipcode"
+              type="text"
+              fullWidth
+              value = {this.state.locationToEdit.location_zipcode}
+              onChange={this.props.handleEditChange}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              name="location_phone"
+              label="Phone"
+              type="text"
+              fullWidth
+              value = {this.state.locationToEdit.location_phone}
+              onChange={this.props.handleEditChange}
+            />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.props.handleEditDialogClose} color="primary">
+          <Button onClick={this.props.handleEditDialogClose} color="secondary">
             Cancel
           </Button>
-          <Button onClick={this.handleClose} color="primary">
+          <Button onClick={this.handleSubmit} color="primary">
             Submit
           </Button>
         </DialogActions>
