@@ -5,19 +5,16 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
 import AdminNav from '../AdminNav/AdminNav';
 import axios from '../../../node_modules/axios';
+import ManageAppsExpansionPanel from './ManageAppsExpansionPanel';
 
 
 
 const mapStateToProps = state => ({
     user: state.user,
+    pendingApplications: state.pendingApplications,
 });
 
 class ManageApplicationsPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = [] // set to an empty array to start
-    }
-    
     componentDidMount = () => {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
         this.getPendingApplications();
@@ -40,7 +37,11 @@ class ManageApplicationsPage extends Component {
             url: '/applications',
         }).then((response) => {
             console.log(response.data);
-        }).catch((error)=> {
+            this.props.dispatch({
+                payload: response.data,
+                type: 'DISPLAY_APPLICATIONS',
+            })
+        }).catch((error) => {
             console.log('Error GETTING applications from the database: ', error)
         })
     } // end getPendingApplications
@@ -61,7 +62,20 @@ class ManageApplicationsPage extends Component {
             content = (
                 <div>
                     <br />
-                    Pending Applications
+                    Pending Applications 
+                    <br />
+                    <ul>
+                        {/* pendingApplications is held in the ApplicationsReducer */}
+                        {/* we are mapping over each application in the database */}
+                        {this.props.pendingApplications.map((item, i) => {
+                            return(
+                                // <li key={i}>
+                                // {item.applicant_first_name}
+                                // </li>
+                                <ManageAppsExpansionPanel item={item}/>
+                            )
+                        })}
+                    </ul>
                 </div>
 
             )
