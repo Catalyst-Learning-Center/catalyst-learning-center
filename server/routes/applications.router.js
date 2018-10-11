@@ -7,7 +7,20 @@ const axios = require('axios');
  * GET route template
  */
 router.get('/', (req, res) => {
-    
+    if (req.isAuthenticated()) {
+        const query = `SELECT "date", "applicant_first_name", 
+        "applicant_last_name", "applicant_address", "applicant_city", 
+        "applicant_state", "applicant_zipcode", "applicant_cell_phone", 
+        "applicant_email", "applicant_qualifications", "applicant_experience", 
+        "applicant_age_group", "resume" FROM "applications";`;
+        pool.query(query).then((results)=> {
+            res.send(results.rows);
+        }).catch((error) => {
+            res.sendStatus(500);
+        });
+    }else {
+        res.sendStatus(403);
+    }
 });
 
 /**
