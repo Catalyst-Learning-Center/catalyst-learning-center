@@ -99,14 +99,9 @@ class CompletedSessionsTableRow extends Component {
         }
 
         return (
-            <TableRow
-                hover
-                role="checkbox"
-                tabIndex={-1}
-                key={this.props.n.id}
-            >
+            <div>
                 {content}
-            </TableRow>
+            </div>
         )
     }
 }
