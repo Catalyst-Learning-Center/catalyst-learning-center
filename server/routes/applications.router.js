@@ -7,7 +7,6 @@ const axios = require('axios');
  * GET route template
  */
 router.get('/', (req, res) => {
-
     if (req.isAuthenticated()) {
         const query = `SELECT "date", "applicant_first_name", 
         "applicant_last_name", "applicant_address", "applicant_city", 
@@ -22,9 +21,6 @@ router.get('/', (req, res) => {
     }else {
         res.sendStatus(403);
     }
-=======
-
-
 });
 
 /**
