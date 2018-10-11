@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Select from 'react-select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 class StateSelect extends Component {
     constructor(props){
@@ -66,17 +67,17 @@ class StateSelect extends Component {
 
   render() {
     return (
-        <Select
-            options = {
-                this.state.states.map((state) => ({
-                    value: state,
-                    label: state,
-                }))
-            }
-            onChange={this.handleChange}
-            placeholder="State"
-            name="applicant_state"
-        />
+            <Select
+                options={
+                    this.state.states.map((state) => ({
+                        value: state,
+                        label: state,
+                    }))
+                }
+                onChange={this.handleChange}
+                placeholder="State"
+                name="applicant_state"
+            />
     )
   }
 }

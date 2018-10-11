@@ -33,7 +33,7 @@ CREATE TABLE "location" (
 
 CREATE TABLE "applications" (
 	"id" serial primary key NOT NULL,
-	"date" DATE NOT NULL,
+	"date" DATE DEFAULT CURRENT_DATE NOT NULL,
 	"applicant_first_name" varchar(1000) NOT NULL,
 	"applicant_last_name" varchar(1000) NOT NULL,
 	"applicant_address" varchar(1000) NOT NULL,
@@ -45,7 +45,8 @@ CREATE TABLE "applications" (
 	"applicant_qualifications" varchar(10000) NOT NULL,
 	"applicant_experience" varchar(10000) NOT NULL,
 	"applicant_age_group" varchar(10000) NOT NULL,
-	"resume" varchar(10000) NOT NULL
+	"resume" varchar(10000) NOT NULL,
+	"active" BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE "user_info" (
@@ -73,10 +74,10 @@ CREATE TABLE "sessions" (
 	"student_name" varchar(1000) NOT NULL,
 	"school_id" INT REFERENCES "schools" NOT NULL,
 	"grade_id" INT REFERENCES "grade",
-	"subjects_id" INT REFERENCES "subjects" NOT NULL,
+	"subjects_id" INT REFERENCES "subjects",
 	"topics" varchar(10000),
 	"start_time" TIME DEFAULT CURRENT_TIME NOT NULL,
-	"end_time" TIME NOT NULL
+	"end_time" TIME
 );
 
 CREATE TABLE "applications_subjects" (
@@ -135,17 +136,17 @@ VALUES ('Roosevelt'), ('Washburn'), ('Ubah Medical Academy'), ('Southwest'), ('M
 INSERT INTO "location" ("location_name", "location_address", "location_city", "location_state", "location_zipcode", "location_phone")
 VALUES ('Franklin Library', '1314 E Franklin Ave', 'Minneapolis', 'MN', '55404', '612-543-6925'), ('Hosmer Library', '347 E 36th St', 'Minneapolis', 'MN', '55408', '612-543-6400');
 
-INSERT INTO "applications" ("date", "applicant_first_name", "applicant_last_name", "applicant_address", "applicant_city", "applicant_state", "applicant_zipcode", "applicant_cell_phone", "applicant_email", "applicant_qualifications", "applicant_experience", "applicant_age_group", "resume")
-VALUES ('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user11@email.com', 'qualifications', 'experience', 'kids', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user12@email.com', 'qualifications', 'experience', 'kids', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user13@email.com', 'qualifications', 'experience', 'kids', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user14@email.com', 'qualifications', 'experience', 'kids', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user15@email.com', 'qualifications', 'experience', 'kids', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user16@email.com', 'qualifications', 'experience', 'kids', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user17@email.com', 'qualifications', 'experience', 'kids', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user18@email.com', 'qualifications', 'experience', 'kids', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user19@email.com', 'qualifications', 'experience', 'kids', 'resume url'),
-('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user20@email.com', 'qualifications', 'experience', 'kids', 'resume url');
+INSERT INTO "applications" ("date", "applicant_first_name", "applicant_last_name", "applicant_address", "applicant_city", "applicant_state", "applicant_zipcode", "applicant_cell_phone", "applicant_email", "applicant_qualifications", "applicant_experience", "applicant_age_group", "resume", "active")
+VALUES ('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user11@email.com', 'qualifications', 'experience', 'kids', 'resume url', 'true'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user12@email.com', 'qualifications', 'experience', 'kids', 'resume url', 'true'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user13@email.com', 'qualifications', 'experience', 'kids', 'resume url', 'true'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user14@email.com', 'qualifications', 'experience', 'kids', 'resume url', 'true'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user15@email.com', 'qualifications', 'experience', 'kids', 'resume url', 'true'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user16@email.com', 'qualifications', 'experience', 'kids', 'resume url', 'true'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user17@email.com', 'qualifications', 'experience', 'kids', 'resume url', 'true'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user18@email.com', 'qualifications', 'experience', 'kids', 'resume url', 'true'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user19@email.com', 'qualifications', 'experience', 'kids', 'resume url', 'true'),
+('10/04/2018', 'Jane', 'Smith', '123 Main Street', 'Minneapolis', 'MN', '55408', '612-555-5555', 'user20@email.com', 'qualifications', 'experience', 'kids', 'resume url', 'true');
 
 -- NOTES: Manually register ten users using the emails listed below before inserting this info into its table.
 INSERT INTO "user_info" ("user_id", "user_first_name", "user_last_name", "user_address", "user_city", "user_state", "user_zipcode", "user_cell_phone", "user_email", "user_qualifications", "user_experience", "user_age_group", "resume")

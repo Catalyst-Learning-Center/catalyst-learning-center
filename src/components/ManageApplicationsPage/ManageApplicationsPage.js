@@ -13,6 +13,11 @@ const mapStateToProps = state => ({
 });
 
 class ManageApplicationsPage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = [] // set to an empty array to start
+    }
+    
     componentDidMount = () => {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
         this.getPendingApplications();
