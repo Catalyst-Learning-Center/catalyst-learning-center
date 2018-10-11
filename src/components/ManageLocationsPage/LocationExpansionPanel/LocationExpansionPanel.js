@@ -5,39 +5,38 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { ListItemText, ListItem } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 class LocationExpansionPanel extends Component {
+
+    handleEditClick = () => {
+        this.props.handleEditDialogOpen(this.props.location)
+    }//end handleEditClick
+
   render() {
     return (
         <div>
         <ExpansionPanel>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Franklin Library</Typography>
+                <Typography>{this.props.location.location_name}</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
                <div>
                    <ListItem>
-                       <ListItemText primary="Franklin Library" />
+                       <ListItemText primary={this.props.location.location_address} />
                    </ListItem>
                    <ListItem>
-                       <ListItemText primary="Address here"/>
+                       <ListItemText primary={`${this.props.location.location_city} ${this.props.location.location_state} ${this.props.location.location_zipcode} `}/>
                    </ListItem>
                    <ListItem>
-                       <ListItemText primary=" Phone Number here"/>
+                       <ListItemText primary={this.props.location.location_phone}/>
                    </ListItem>
                </div>
             <div>
-            <button onClick={this.props.handleEditDialogOpen}>Edit</button>
+                <Button onClick={this.handleEditClick} variant="contained" color="primary">Edit</Button>
             </div>
-            </ExpansionPanelDetails>
-        </ExpansionPanel>
-        <ExpansionPanel>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Hosmer Library</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
             <div>
-            <button onClick={this.props.handleEditDialogOpen}>Edit</button>
+                <Button onClick={this.handleRemoveClick} variant="contained" color="secondary">Remove</Button>
             </div>
             </ExpansionPanelDetails>
         </ExpansionPanel>
