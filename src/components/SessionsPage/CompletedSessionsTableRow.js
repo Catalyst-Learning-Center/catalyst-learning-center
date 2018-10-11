@@ -3,7 +3,11 @@ import moment from 'moment';
 // Material UI imports
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import { Button, Input, TextField } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
+// component imports
+import SelectSchool from './SelectSchool';
+import SelectGrade from './SelectGrade';
+import SelectSubject from './SelectSubject';
 
 class CompletedSessionsTableRow extends Component {
     constructor(props) {
@@ -22,22 +26,53 @@ class CompletedSessionsTableRow extends Component {
         }
     }
 
+    // componentDidMount = () => {
+    //     this.getSchools();
+    //     this.getGrades();
+    //     this.getSubject();
+    // }
+
     toggleEdit = () => {
         this.setState({
             editing: !this.state.editing,
         })
     }
 
+    confirmEdit = () => {
+        console.log(this.state.session);
+    }
+
+    changeSession = (event) => {
+        this.setState({
+            session: {
+                ...this.state.session,
+                [event.target.name]: event.target.value,
+            }
+        })
+    }
+
     render() {
         let content = null;
+        let time = null;
+        if (this.props.n.time.hours > 0) {
+            time = (this.props.n.time.hours * 60) + this.props.n.time.minutes
+        } else {
+            time = this.props.n.time.minutes
+        }
+        
 
         if (this.state.editing) {
             content = (
-                <div>
+                <TableRow
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                >
                     <TableCell padding="checkbox">
-                        {/* <Input type="date">{moment(this.props.n.session_date).format('MM/DD/YY')}</Input> */}
                         <TextField
                             type="date"
+                            name="session_date"
+                            onChange={this.changeSession}
                             defaultValue={moment(this.props.n.session_date).format('YYYY-MM-DD')}
                         />
                     </TableCell>
@@ -60,17 +95,19 @@ class CompletedSessionsTableRow extends Component {
                         <TextField
                             value={this.props.n.subjects}
                         />
+                        {/* <SelectSubject default={this.props.n.subjects} /> */}
                     </TableCell>
                     <TableCell>
                         <TextField
                             value={this.props.n.topics}
                         />
                     </TableCell>
-                    <TableCell>{moment(this.props.n.time).format('h:mm:ss')}</TableCell>
+                    <TableCell>{time}</TableCell>
                     <TableCell>
                         <Button onClick={this.toggleEdit}>Cancel</Button>
+                        <Button onClick={this.confirmEdit}>Confirm Changes</Button>
                     </TableCell>
-                </div>
+                </TableRow>
             )
         } else {
             content = (
@@ -78,7 +115,6 @@ class CompletedSessionsTableRow extends Component {
                     hover
                     role="checkbox"
                     tabIndex={-1}
-                    key={this.props.n.id}
                 >
                     <TableCell padding="checkbox">
                         {moment(this.props.n.session_date).format('MM/DD/YY')}
@@ -86,11 +122,11 @@ class CompletedSessionsTableRow extends Component {
                     <TableCell component="th" scope="row" padding="none">
                         {this.props.n.student_name}
                     </TableCell>
-                    <TableCell numeric>{this.props.n.school_name}</TableCell>
-                    <TableCell numeric>{this.props.n.grade_level}</TableCell>
-                    <TableCell numeric>{this.props.n.subjects}</TableCell>
-                    <TableCell numeric>{this.props.n.topics}</TableCell>
-                    <TableCell numeric>{moment(this.props.n.time).format('h:mm:ss')}</TableCell>
+                    <TableCell>{this.props.n.school_name}</TableCell>
+                    <TableCell>{this.props.n.grade_level}</TableCell>
+                    <TableCell>{this.props.n.subjects}</TableCell>
+                    <TableCell>{this.props.n.topics}</TableCell>
+                    <TableCell>{time} minutes</TableCell>
                     <TableCell>
                         <Button onClick={this.toggleEdit}>Edit</Button>
                     </TableCell>
@@ -99,9 +135,9 @@ class CompletedSessionsTableRow extends Component {
         }
 
         return (
-            <div>
+            <React.Fragment>
                 {content}
-            </div>
+            </React.Fragment>
         )
     }
 }

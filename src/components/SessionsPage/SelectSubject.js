@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Axios from 'axios';
 // Material UI imports
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
@@ -50,8 +49,8 @@ class SelectSubject extends Component {
     render() {
         return (
             <div>
-                <InputLabel htmlFor="subject">Subject</InputLabel>
                 <Select
+                    defaultValue="3"
                     value={this.props.subject}
                     onChange={this.handleChange}
                     inputProps={{

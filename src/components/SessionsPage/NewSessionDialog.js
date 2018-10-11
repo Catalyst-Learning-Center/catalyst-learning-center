@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Axios from 'axios';
 // Material UI imports
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -10,7 +11,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 // component imports
 import SelectSchool from './SelectSchool';
 import SelectGrade from './SelectGrade';
-import Axios from 'axios';
 
 const mapStateToProps = state => ({
     sessions: state.sessions
@@ -58,12 +58,13 @@ class NewSessionDialog extends Component {
         }).then((response) => {
             console.log('back from /sessions POST with: ', response.data);
             this.handleClose();
+            this.props.getActiveSessions();
         }).catch((error) => {
             console.log('/sessions POST error: ', error);
             alert('there was a problem starting the session!');
         })
     }
-
+    
     render() {
         return (
             <div>
@@ -75,10 +76,6 @@ class NewSessionDialog extends Component {
                 >
                     <DialogTitle id="form-dialog-title">New Tutoring Session</DialogTitle>
                     <DialogContent>
-                        {/* <DialogContentText>
-                            To subscribe to this website, please enter your email address here. We will send
-                            updates occasionally.
-            </DialogContentText> */}
                         <TextField
                             autoFocus
                             margin="dense"

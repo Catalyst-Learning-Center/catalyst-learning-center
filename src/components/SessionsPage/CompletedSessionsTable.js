@@ -297,7 +297,7 @@ class EnhancedTable extends React.Component {
                                 .map(n => {
                                     // const isSelected = this.isSelected(n.id);
                                     return (
-                                        <CompletedSessionsTableRow n={n} />
+                                        <CompletedSessionsTableRow key={n.id} n={n} />
                                     );
                                 })}
                             {emptyRows > 0 && (

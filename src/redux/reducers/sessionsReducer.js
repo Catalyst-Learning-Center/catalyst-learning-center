@@ -36,10 +36,20 @@ const subject = (state = null, action) => {
   }
 };
 
+const activeSessions = (state = [], action) => {
+  switch (action.type) {
+    case 'SET_ACTIVE_SESSIONS':
+      return action.payload || state;
+    default:
+      return state;
+  }
+};
+
 //make one object that has keys id, username, isLoading
 export default combineReducers({
   location,
   grade,
   school,
-  subject
+  subject,
+  activeSessions
 });

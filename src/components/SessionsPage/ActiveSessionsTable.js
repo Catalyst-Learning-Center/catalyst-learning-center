@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Axios from 'axios';
 // Material UI imports
 import Table from '@material-ui/core/Table';
@@ -11,40 +12,38 @@ import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
 // component imports
 import EndSessionDialog from './EndSessionDialog';
+import NewSessionDialog from './NewSessionDialog';
+
+const mapStateToProps = state => ({
+    activeSessions: state.sessions.activeSessions
+});
 
 class ActiveSessionsTable extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            activeSessions: [],
-        }
-    }
-
-    componentDidMount = () => {
+   componentDidMount = () => {
         this.getActiveSessions();
     }
 
     getActiveSessions = () => {
         console.log('in getActiveSessions');
-        Axios({
-            method: 'GET',
-            url: '/sessions/active',
-        }).then((response) => {
-            console.log('back from /sessions/active with: ', response.data);
-            this.setState({
-                activeSessions: response.data,
-            });
-        }).catch((error) => {
-            console.log('/sessions/active error: ', error);
-            alert('there was a problem getting the active sessions');
-        })
+        // Axios({
+        //     method: 'GET',
+        //     url: '/sessions/active',
+        // }).then((response) => {
+        //     console.log('back from /sessions/active with: ', response.data);
+        //     this.setState({
+        //         activeSessions: response.data,
+        //     });
+        // }).catch((error) => {
+        //     console.log('/sessions/active error: ', error);
+        //     alert('there was a problem getting the active sessions');
+        // })
+        this.props.dispatch({type: 'GET_ACTIVE_SESSIONS'});
     }
-
-
 
     render() {
         return (
             <Paper>
+                <NewSessionDialog />
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -52,10 +51,11 @@ class ActiveSessionsTable extends Component {
                             <TableCell>School</TableCell>
                             <TableCell>Grade</TableCell>
                             <TableCell>Start Time</TableCell>
+                            <TableCell></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {this.state.activeSessions.map(session => {
+                        {this.props.activeSessions.map(session => {
                             return (
                                 <TableRow key={session.id}>
                                     <TableCell component="th" scope="row">
@@ -65,9 +65,7 @@ class ActiveSessionsTable extends Component {
                                     <TableCell>{session.grade_level}</TableCell>
                                     <TableCell>{moment(session.start_time).format('h:mm:ss a')}</TableCell>
                                     <TableCell>
-                                        <EndSessionDialog
-                                        id={session.id} 
-                                        getActiveSessions={this.getActiveSessions} />
+                                        <EndSessionDialog id={session.id} />
                                     </TableCell>
                                 </TableRow>
                             );
@@ -79,4 +77,4 @@ class ActiveSessionsTable extends Component {
     }
 }
 
-export default ActiveSessionsTable;
+export default connect(mapStateToProps)(ActiveSessionsTable);

@@ -5,7 +5,6 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
 import TutorNav from '../TutorNav/TutorNav';
 import AdminNav from '../AdminNav/AdminNav';
-import NewSessionDialog from './NewSessionDialog';
 import ActiveSessionsTable from './ActiveSessionsTable';
 import CompletedSessionsTable from './CompletedSessionsTable';
 
@@ -48,7 +47,6 @@ class SessionsPage extends Component {
                 <div>
                     <h1>Sessions</h1>
                     You are tutoring at {this.props.location.location_name}
-                    <NewSessionDialog />
                     <h3>Active Sessions</h3>
                     <ActiveSessionsTable />
                     <h3>Completed Sessions</h3>
