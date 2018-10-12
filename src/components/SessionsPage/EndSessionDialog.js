@@ -32,17 +32,23 @@ class EndSessionDialog extends Component {
             subject: this.props.subject,
             topic: this.state.topic
         }
-        Axios({
-            method: 'PUT',
-            url: '/sessions',
-            data: dataToSend,
-        }).then((response) => {
-            console.log('back from /sessions put with: ', response.data);
-            this.props.getActiveSessions();
-        }).catch((error) => {
-            console.log('/sessions put error: ', error);
-            alert('there was a problem ending the sessions');
-        })
+        // Axios({
+        //     method: 'PUT',
+        //     url: '/sessions',
+        //     data: dataToSend,
+        // }).then((response) => {
+        //     console.log('back from /sessions put with: ', response.data);
+        //     this.props.dispatch({type: 'GET_ACTIVE_SESSIONS'});
+        //     this.props.dispatch({type: 'GET_COMPLETED_SESSIONS'});
+        // }).catch((error) => {
+        //     console.log('/sessions put error: ', error);
+        //     alert('there was a problem ending the sessions');
+        // })
+        let action = {
+            type: 'END_SESSION',
+            payload: dataToSend
+        }
+        this.props.dispatch(action);
     }
 
     handleClickOpen = () => {
