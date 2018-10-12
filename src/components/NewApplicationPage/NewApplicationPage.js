@@ -10,7 +10,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { ReCaptcha } from 'react-recaptcha-google';
 
 
-
 class NewApplicationPage extends Component {
     constructor(props) {
         super(props);
@@ -46,6 +45,13 @@ class NewApplicationPage extends Component {
             console.log("started, just a second...")
             this.captcha.reset();
         }
+
+        this.config = {
+            cloud_name: "catalyst-learning-center",
+            api_key: "255835282191515",
+            api_secret: "yH9YfkH09vTW1-snCMMPjiHkF-Q",
+            upload_preset: "c7bvn7bu"
+        }
     }
 
     onLoadRecaptcha() {
@@ -61,13 +67,47 @@ class NewApplicationPage extends Component {
         });
     }
 
+    openCloudinary = (event) => {
+        event.preventDefault();
+        window.cloudinary.openUploadWidget(this.config, (error, result) => {
+            if (result) {
+                let cloudinaryUrl = result[0].url
+                this.setState({
+                    // store url to local state BEFORE dispatching an action
+                    application: {...this.state.application, resume: cloudinaryUrl}
+                });
+            }
+        })
+    }
+
+    easyFunction = () => {
+        this.setState({
+            application: {
+                applicant_first_name: 'Trav',
+                applicant_last_name: 'Dunn',
+                applicant_address: '1234 Main St',
+                applicant_city: 'Minneapolis',
+                applicant_state: 'MN',
+                applicant_zipcode: '55415',
+                applicant_cell_phone: '612-555-5555',
+                applicant_email: 'guy@stuff.com',
+                applicant_qualifications: 'I like turtles',
+                applicant_experience: 'No I really like turtles',
+                applicant_age_group: 'Turtles',
+                resume: 'http://res.cloudinary.com/catalyst-learning-center/image/upload/v1539368056/a886mxbmrz2bdpq1a9qg.png',
+            },
+            applicant_subjects: ['1','4'],
+            applicant_locations: ['1','2'],
+        })
+    }
+
     //send application to server
     postApplication = (e) => {
         e.preventDefault();
         axios({
             method: 'POST',
             url: '/applications',
-            data: { captcha: this.state.recaptchaToken }
+            data: { captcha: this.state.recaptchaToken, application: this.state.application, applicant_subjects: this.state.applicant_subjects, applicant_locations: this.state.applicant_locations }
         }).then((response) => {
             console.log(response.data);
         }).catch((error) => {
@@ -271,6 +311,10 @@ class NewApplicationPage extends Component {
                             />
                         </label>
                     ))}
+
+    
+                    <Button onClick={this.openCloudinary}>Upload Resume (PDF)</Button>
+
                     <ReCaptcha
                         ref={(el) => { this.captcha = el; }}
                         size="normal"
@@ -279,11 +323,11 @@ class NewApplicationPage extends Component {
                         onloadCallback={this.onLoadRecaptcha}
                         verifyCallback={this.verifyCallback}
                     />
+                    <Button onClick={this.easyFunction}>Easy</Button>
                     <Button type="submit">
                         Submit
                     </Button>
                 </form>
-                {JSON.stringify(this.state)}
             </div>
         )
     }
