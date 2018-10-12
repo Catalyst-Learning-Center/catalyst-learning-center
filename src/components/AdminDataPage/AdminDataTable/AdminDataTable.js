@@ -236,7 +236,7 @@ class AdminDataTable extends Component {
             method: 'GET',
             url: '/sessions'
         }).then((response) => {
-            this.setState({data: response.data});
+            this.setState({ data: response.data });
             console.log('back from server with: ', response.data);
         }).catch((error) => {
             console.log('error: ', error);
@@ -264,7 +264,7 @@ class AdminDataTable extends Component {
         this.setState({ selected: [] });
     };
 
-    handleClick = (event, id) => {        
+    handleClick = (event, id) => {
         const { selected } = this.state;
         const selectedIndex = selected.indexOf(id);
         let newSelected = [];
