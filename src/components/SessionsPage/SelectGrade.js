@@ -7,35 +7,29 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
 const mapStateToProps = state => ({
-    grade: state.sessions.grade
+    selectedGrade: state.sessions.grade,
+    grades: state.grades
 });
 
 class SelectGrade extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            grades: [],
-            selectedGrade: 0,
-        };
-    }
-
     componentDidMount = () => {
         this.getGrades();
     }
 
     getGrades = () => {
-        Axios({
-            method: 'GET',
-            url: '/grades'
-        }).then((response) => {
-            console.log('back from /grades GET with: ', response.data);
-            this.setState({
-                grades: response.data,
-            });
-        }).catch((error) => {
-            console.log('/grades GET error: ', error);
-            alert('there was a problem getting the grades');
-        })
+        // Axios({
+        //     method: 'GET',
+        //     url: '/grades'
+        // }).then((response) => {
+        //     console.log('back from /grades GET with: ', response.data);
+        //     this.setState({
+        //         grades: response.data,
+        //     });
+        // }).catch((error) => {
+        //     console.log('/grades GET error: ', error);
+        //     alert('there was a problem getting the grades');
+        // })
+        this.props.dispatch({type: 'GET_GRADES'});
     }
 
     handleChange = (event) => {
@@ -52,7 +46,7 @@ class SelectGrade extends Component {
             <div>
                 <InputLabel htmlFor="grade">Grade</InputLabel>
                 <Select
-                    value={this.props.grade}
+                    value={this.props.selectedGrade}
                     onChange={this.handleChange}
                     inputProps={{
                         name: 'grade',
@@ -62,7 +56,7 @@ class SelectGrade extends Component {
                     <MenuItem value="">
                         <em>None</em>
                     </MenuItem>
-                    {this.state.grades.map((grade) => {
+                    {this.props.grades.map((grade) => {
                         return(
                             <MenuItem key={grade.id} value={grade.id}>{grade.grade_level}</MenuItem>
                         )

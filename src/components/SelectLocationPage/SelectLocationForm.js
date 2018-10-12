@@ -8,15 +8,21 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { Button } from '@material-ui/core';
-// axios import
-import Axios from 'axios';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+
+const mapStateToProps = state => ({
+    locations: state.locations
+});
 
 class SelectLocationDropdown extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            locations: [],
-            selectedLocation: {},
+            selectedLocation: null,
+            open: false
         }
     }
 
@@ -25,18 +31,19 @@ class SelectLocationDropdown extends Component {
     }
 
     getLocations = () => {
-        Axios({
-            method: 'GET',
-            url: '/locations'
-        }).then((response) => {
-            console.log('back from /locations GET with: ', response.data);
-            this.setState({
-                locations: response.data
-            });
-        }).catch((error) => {
-            console.log('/locations GET error: ', error);
-            alert('there was a problem getting the locations');
-        })
+        // Axios({
+        //     method: 'GET',
+        //     url: '/locations'
+        // }).then((response) => {
+        //     console.log('back from /locations GET with: ', response.data);
+        //     this.setState({
+        //         locations: response.data
+        //     });
+        // }).catch((error) => {
+        //     console.log('/locations GET error: ', error);
+        //     alert('there was a problem getting the locations');
+        // })
+        this.props.dispatch({type: 'GET_LOCATIONS'});
     }
 
     handleChange = (event) => {
@@ -47,13 +54,24 @@ class SelectLocationDropdown extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log(this.state.selectedLocation);
-        let action = {
-            type: 'SET_SESSION_LOCATION',
-            payload: this.state.selectedLocation
+        if (this.state.selectedLocation !== null) {
+            let action = {
+                type: 'SET_SESSION_LOCATION',
+                payload: this.state.selectedLocation
+            }
+            this.props.dispatch(action);
+            this.props.history.push('/sessions');
+        } else {
+            this.setState({
+                open: true,
+            })
         }
-        this.props.dispatch(action);
-        this.props.history.push('/sessions');
+    }
+
+    handleClose = () => {
+        this.setState({
+            open: false,
+        })
     }
 
     render() {
@@ -69,11 +87,11 @@ class SelectLocationDropdown extends Component {
                         <MenuItem value="">
                             <em>None</em>
                         </MenuItem>
-                        {this.state.locations.map((location) => {
-                            return(
-                                <MenuItem 
-                                key={location.id} 
-                                value={location}>
+                        {this.props.locations.map((location) => {
+                            return (
+                                <MenuItem
+                                    key={location.id}
+                                    value={location}>
                                     {location.location_name}
                                 </MenuItem>
                             )
@@ -82,9 +100,24 @@ class SelectLocationDropdown extends Component {
                     <FormHelperText>Select where you are tutoring</FormHelperText>
                 </FormControl>
                 <Button type="submit">Start Tutoring</Button>
+                <Dialog
+                    open={this.state.open}
+                    onClose={this.handleClose}
+                >
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Please select a location.
+            </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleClose} color="primary" autoFocus>
+                            Okay
+            </Button>
+                    </DialogActions>
+                </Dialog>
             </form>
         )
     }
 }
 
-export default connect()(SelectLocationDropdown);
+export default connect(mapStateToProps)(SelectLocationDropdown);

@@ -5,9 +5,9 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
 import TutorNav from '../TutorNav/TutorNav';
 import AdminNav from '../AdminNav/AdminNav';
-import NewSessionDialog from './NewSessionDialog';
 import ActiveSessionsTable from './ActiveSessionsTable';
 import CompletedSessionsTable from './CompletedSessionsTable';
+import NewSessionDialog from './NewSessionDialog';
 
 const mapStateToProps = state => ({
     user: state.user,
