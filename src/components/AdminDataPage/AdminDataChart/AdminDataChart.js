@@ -17,8 +17,8 @@ class AdminDataChart extends Component {
                         ],
                         backgroundColor: [
                             'rgba(127, 0, 0, 0.6)',
-                            'rgba(127, 0, 0, 0.6)',
-                            'rgba(127, 0, 0, 0.6)',
+                            'rgba(245, 0, 0, 0.6)',
+                            'rgba(321, 0, 0, 0.6)',
                             'rgba(127, 0, 0, 0.6)',
                             'rgba(127, 0, 0, 0.6)',
                             'rgba(127, 0, 0, 0.6)',

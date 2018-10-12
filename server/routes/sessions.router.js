@@ -7,7 +7,7 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
-        const query = `SELECT "sessions"."session_date", "sessions"."student_name", "sessions"."school_id", 
+        const query = `SELECT "sessions"."id", "sessions"."session_date", "sessions"."student_name", "sessions"."school_id", 
         "sessions"."grade_id", "sessions"."subjects_id", "sessions"."end_time" - "sessions"."start_time" AS "time", 
         "schools"."school_name", "grade"."grade_level", "subjects"."subjects" FROM "sessions"
         JOIN "schools" ON "schools"."id" = "sessions"."school_id" 

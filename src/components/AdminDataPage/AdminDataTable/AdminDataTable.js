@@ -264,7 +264,7 @@ class AdminDataTable extends Component {
         this.setState({ selected: [] });
     };
 
-    handleClick = (event, id) => {
+    handleClick = (event, id) => {        
         const { selected } = this.state;
         const selectedIndex = selected.indexOf(id);
         let newSelected = [];
@@ -293,7 +293,10 @@ class AdminDataTable extends Component {
         this.setState({ rowsPerPage: event.target.value });
     };
 
-    isSelected = id => this.state.selected.indexOf(id) !== -1;
+    isSelected = id => {
+        return this.state.selected.indexOf(id) !== -1;
+    }
+
 
     render() {
         let content = null;
@@ -326,7 +329,7 @@ class AdminDataTable extends Component {
                                                 onClick={event => this.handleClick(event, session.id)}
                                                 role="checkbox"
                                                 aria-checked={isSelected}
-                                                tableindex={-1}
+                                                tabIndex={-1}
                                                 key={i}
                                                 selected={isSelected}
                                             >
