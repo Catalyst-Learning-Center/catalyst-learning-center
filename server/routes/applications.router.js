@@ -95,9 +95,6 @@ router.post('/', (req, res) => {
             return res.json({ "success": false, "msg": "Failed captcha verification" });
         }
         //if successful
-        console.log(req.body);
-        
-
         (async () => {
             const client = await pool.connect();
 
@@ -112,9 +109,6 @@ router.post('/', (req, res) => {
 
                 // id of the newly inserted application
                 const applicationId = applicationResult.rows[0].id;
-
-                console.log(applicantSubjects);
-                
 
                 for (let subject of applicantSubjects) {
                     queryText = 'INSERT INTO "applications_subjects" ("applications_id", "subjects_id") VALUES ($1, $2);';
@@ -134,13 +128,10 @@ router.post('/', (req, res) => {
             } finally {
                 client.release();
             }
-
-            // return res.json({ "success": true, "msg": "Captcha passed" });
         })().catch((error) => {
             console.log('CATCH', error);
             res.sendStatus(500);
         });
-
     }).catch((error) => {
         console.log('ERROR', error);
         res.sendStatus(500);
