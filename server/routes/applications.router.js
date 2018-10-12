@@ -60,11 +60,6 @@ router.get('/', (req, res) => {
     }else {
         res.sendStatus(403);
     }
-<<<<<<< HEAD
-});
-=======
-
-
 }); // end applications GET route
 
 /**
@@ -83,7 +78,6 @@ router.put('/:id', (req, res) => {
         res.sendStatus(403);
     }
 }); // end delete
->>>>>>> origin
 
 /**
  * POST route template
