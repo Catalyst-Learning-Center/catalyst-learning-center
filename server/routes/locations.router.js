@@ -6,7 +6,6 @@ const router = express.Router();
  * GET route template
  */
 router.get('/', (req, res) => {
-    if(req.isAuthenticated()) {
         console.log('/locations GET route hit');
         const queryText = `SELECT * from "location";`;
         pool.query(queryText).then((results) => {
@@ -16,9 +15,6 @@ router.get('/', (req, res) => {
         .catch((error) => {
             console.log('Error making GET request: ', error);
         });
-    }else{
-        res.sendStatus(403);
-    }//end isAuthenticted
 });//end GET
 
 /**
