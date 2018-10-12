@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 // // import { connect } from 'react-redux';
 import axios from 'axios';
-import { Bar, Pie } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 
-class AdminDataChart extends Component {
+class AdminDataBarGraph extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -68,20 +68,6 @@ class AdminDataChart extends Component {
                         }
                     }}
                 />
-                <Pie
-                    data={this.state.chartData}
-                    options={{
-                        title: {
-                            display: true,
-                            text: 'Library Site Tutor Summary: ',
-                            fontsize: 25,
-                        },
-                        legend: {
-                            display: true,
-                            position: 'bottom',
-                        }
-                    }}
-                />
             </div>
         )
 
@@ -94,4 +80,4 @@ class AdminDataChart extends Component {
     }
 }
 
-export default AdminDataChart;
+export default AdminDataBarGraph;
