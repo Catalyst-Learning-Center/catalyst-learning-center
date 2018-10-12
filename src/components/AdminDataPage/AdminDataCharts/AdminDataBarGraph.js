@@ -19,9 +19,9 @@ class AdminDataBarGraph extends Component {
                             'rgba(127, 0, 0, 0.6)',
                             'rgba(245, 0, 0, 0.6)',
                             'rgba(321, 0, 0, 0.6)',
-                            'rgba(127, 0, 0, 0.6)',
-                            'rgba(127, 0, 0, 0.6)',
-                            'rgba(127, 0, 0, 0.6)',
+                            'rgba(405, 0, 0, 0.6)',
+                            'rgba(007, 0, 0, 0.6)',
+                            'rgba(100, 0, 0, 0.6)',
                         ]
                     }
                 ],
