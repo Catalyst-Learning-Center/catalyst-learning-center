@@ -236,8 +236,7 @@ class AdminDataTable extends Component {
             method: 'GET',
             url: '/sessions'
         }).then((response) => {
-            this.setState({data: response.data});
-            // this.state.data = response.data;
+            this.setState({ data: response.data });
             console.log('back from server with: ', response.data);
         }).catch((error) => {
             console.log('error: ', error);
@@ -294,7 +293,10 @@ class AdminDataTable extends Component {
         this.setState({ rowsPerPage: event.target.value });
     };
 
-    isSelected = id => this.state.selected.indexOf(id) !== -1;
+    isSelected = id => {
+        return this.state.selected.indexOf(id) !== -1;
+    }
+
 
     render() {
         let content = null;
@@ -327,7 +329,7 @@ class AdminDataTable extends Component {
                                                 onClick={event => this.handleClick(event, session.id)}
                                                 role="checkbox"
                                                 aria-checked={isSelected}
-                                                tableindex={-1}
+                                                tabIndex={-1}
                                                 key={i}
                                                 selected={isSelected}
                                             >
@@ -335,13 +337,13 @@ class AdminDataTable extends Component {
                                                     <Checkbox checked={isSelected} />
                                                 </TableCell>
                                                 <TableCell component="th" scope="row" padding="none">
-                                                    {moment(session.session_date.toString()).format('MM-DD-YY')}
+                                                    {moment(session.session_date.toString()).format('MM/DD/YY')}
                                                 </TableCell>
                                                 <TableCell>{session.student_name}</TableCell>
                                                 <TableCell>{session.school_name}</TableCell>
                                                 <TableCell numeric>{session.grade_level}</TableCell>
                                                 <TableCell>{session.subjects}</TableCell>
-                                                <TableCell numeric>{session.start_time}</TableCell>
+                                                <TableCell numeric>{moment(session.time).format('h:mm:ss')}</TableCell>
                                             </TableRow>
                                         );
                                     })}

@@ -7,12 +7,13 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
-        const query = `SELECT "sessions"."session_date", "sessions"."student_name", "sessions"."school_id", 
-        "sessions"."grade_id", "sessions"."subjects_id", "sessions"."start_time", "sessions"."end_time", 
+        const query = `SELECT "sessions"."id", "sessions"."location_id", "sessions"."session_date", "sessions"."student_name", "sessions"."school_id", 
+        "sessions"."grade_id", "sessions"."subjects_id", "sessions"."end_time" - "sessions"."start_time" AS "time", 
         "schools"."school_name", "grade"."grade_level", "subjects"."subjects" FROM "sessions"
         JOIN "schools" ON "schools"."id" = "sessions"."school_id" 
         JOIN "subjects" ON "subjects"."id" = "sessions"."subjects_id"
-        JOIN "grade" ON "grade"."id" = "sessions"."grade_id";`;
+        JOIN "grade" ON "grade"."id" = "sessions"."grade_id"
+        JOIN "location" ON "location"."id" = "sessions"."location_id";`;
         pool.query(query).then((results) => {
             res.send(results.rows);
         }).catch((error) => {
@@ -22,7 +23,7 @@ router.get('/', (req, res) => {
         res.sendStatus(403);
 
     }});
-    
+
 router.get('/active', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/sessions/active GET hit');
@@ -45,7 +46,9 @@ router.get('/active', (req, res) => {
 router.get('/completed', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/sessions/active GET hit');
-        const queryText = `SELECT "sessions"."student_name", "sessions"."id", "sessions"."session_date", "sessions"."topics", "sessions"."end_time" - "sessions"."start_time" AS "time", "subjects"."subjects", "schools"."school_name", "grade"."grade_level"
+        const queryText = `SELECT "sessions"."student_name", "sessions"."id", "sessions"."session_date", 
+        "sessions"."topics", "sessions"."end_time" - "sessions"."start_time" AS "time", "subjects"."subjects", 
+        "schools"."school_name", "grade"."grade_level"
         FROM "sessions" JOIN "schools" ON "schools"."id" = "sessions"."school_id"
         JOIN "grade" ON "grade"."id" = "sessions"."grade_id"
         JOIN "subjects" ON "subjects"."id" = "sessions"."subjects_id"

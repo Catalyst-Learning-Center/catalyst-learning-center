@@ -5,6 +5,8 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
 import AdminNav from '../AdminNav/AdminNav';
 import AdminDataTable from './AdminDataTable/AdminDataTable.js'
+import AdminDataBarGraph from './AdminDataCharts/AdminDataBarGraph';
+import AdminDataPieChart from './AdminDataCharts/AdminDataPieChart';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -38,7 +40,9 @@ class AdminDataPage extends Component {
         if (this.props.user.userName) {
             content = (
                 <div>
-                <AdminDataTable />
+                    <AdminDataPieChart />
+                    <AdminDataBarGraph />
+                    <AdminDataTable />
                 </div>
             )
         }
