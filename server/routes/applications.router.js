@@ -51,11 +51,7 @@ const axios = require('axios');
  */
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
-        const query = `SELECT "date", "applicant_first_name", 
-        "applicant_last_name", "applicant_address", "applicant_city", 
-        "applicant_state", "applicant_zipcode", "applicant_cell_phone", 
-        "applicant_email", "applicant_qualifications", "applicant_experience", 
-        "applicant_age_group", "resume" FROM "applications";`;
+        const query = `SELECT * FROM "applications" WHERE "active" = true;`;
         pool.query(query).then((results)=> {
             res.send(results.rows);
         }).catch((error) => {
@@ -64,7 +60,30 @@ router.get('/', (req, res) => {
     }else {
         res.sendStatus(403);
     }
+<<<<<<< HEAD
 });
+=======
+
+
+}); // end applications GET route
+
+/**
+ * "Delete" (Update) an application from the database
+ */
+router.put('/:id', (req, res) => {
+    if (req.isAuthenticated()){
+        console.log(req.params.id)
+        const query =  `UPDATE "applications" SET "active" = false WHERE "id" = $1;`;
+        pool.query(query, [req.params.id]).then((results) => {
+            res.sendStatus(201);
+        }).catch((error)=> {
+            res.sendStatus(500);
+        })
+    }else {
+        res.sendStatus(403);
+    }
+}); // end delete
+>>>>>>> origin
 
 /**
  * POST route template
@@ -136,6 +155,6 @@ router.post('/', (req, res) => {
         console.log('ERROR', error);
         res.sendStatus(500);
     })
-});
+}); // end POST
 
 module.exports = router;

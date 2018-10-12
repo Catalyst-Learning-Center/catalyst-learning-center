@@ -45,7 +45,7 @@ CREATE TABLE "applications" (
 	"applicant_qualifications" varchar(10000) NOT NULL,
 	"applicant_experience" varchar(10000) NOT NULL,
 	"applicant_age_group" varchar(10000) NOT NULL,
-	"resume" varchar(10000) NOT NULL,
+	"resume" varchar(10000),
 	"active" BOOLEAN DEFAULT TRUE
 );
 
