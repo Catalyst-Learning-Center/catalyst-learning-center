@@ -6,6 +6,8 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 import AdminNav from '../AdminNav/AdminNav';
 import axios from '../../../node_modules/axios';
 import ManageAppsExpansionPanel from './ManageAppsExpansionPanel';
+import './ManageApplications.css';
+
 
 
 
@@ -72,7 +74,7 @@ class ManageApplicationsPage extends Component {
                                 // <li key={i}>
                                 // {item.applicant_first_name}
                                 // </li>
-                                <ManageAppsExpansionPanel item={item}/>
+                                <ManageAppsExpansionPanel getPendingApplications={this.getPendingApplications} item={item}/>
                             )
                         })}
                     </ul>

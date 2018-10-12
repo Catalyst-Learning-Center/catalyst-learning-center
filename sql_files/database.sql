@@ -45,7 +45,7 @@ CREATE TABLE "applications" (
 	"applicant_qualifications" varchar(10000) NOT NULL,
 	"applicant_experience" varchar(10000) NOT NULL,
 	"applicant_age_group" varchar(10000) NOT NULL,
-	"resume" varchar(10000) NOT NULL,
+	"resume" varchar(10000),
 	"active" BOOLEAN DEFAULT TRUE
 );
 
@@ -77,7 +77,7 @@ CREATE TABLE "sessions" (
 	"subjects_id" INT REFERENCES "subjects",
 	"topics" varchar(10000),
 	"start_time" TIME DEFAULT CURRENT_TIME NOT NULL,
-	"end_time" TIME DEFAULT NULL
+	"end_time" TIME DEFAULT NULL 
 );
 
 CREATE TABLE "applications_subjects" (
