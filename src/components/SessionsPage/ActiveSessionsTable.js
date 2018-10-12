@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Axios from 'axios';
 // Material UI imports
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,7 +11,6 @@ import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
 // component imports
 import EndSessionDialog from './EndSessionDialog';
-import NewSessionDialog from './NewSessionDialog';
 
 const mapStateToProps = state => ({
     activeSessions: state.sessions.activeSessions
@@ -43,7 +41,6 @@ class ActiveSessionsTable extends Component {
     render() {
         return (
             <Paper>
-                <NewSessionDialog />
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -63,7 +60,7 @@ class ActiveSessionsTable extends Component {
                                     </TableCell>
                                     <TableCell>{session.school_name}</TableCell>
                                     <TableCell>{session.grade_level}</TableCell>
-                                    <TableCell>{moment(session.start_time).format('h:mm:ss a')}</TableCell>
+                                    <TableCell>{moment(session.start_time, 'HH:mm:ss.SSSSSS').format('h:mm a')}</TableCell>
                                     <TableCell>
                                         <EndSessionDialog id={session.id} />
                                     </TableCell>

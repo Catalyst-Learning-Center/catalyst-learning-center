@@ -7,6 +7,7 @@ import TutorNav from '../TutorNav/TutorNav';
 import AdminNav from '../AdminNav/AdminNav';
 import ActiveSessionsTable from './ActiveSessionsTable';
 import CompletedSessionsTable from './CompletedSessionsTable';
+import NewSessionDialog from './NewSessionDialog';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -47,6 +48,7 @@ class SessionsPage extends Component {
                 <div>
                     <h1>Sessions</h1>
                     You are tutoring at {this.props.location.location_name}
+                    <NewSessionDialog />
                     <h3>Active Sessions</h3>
                     <ActiveSessionsTable />
                     <h3>Completed Sessions</h3>

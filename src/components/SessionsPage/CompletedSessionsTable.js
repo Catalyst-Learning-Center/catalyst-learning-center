@@ -1,7 +1,6 @@
 import React from 'react';
-import Axios from 'axios';
+import { connect } from 'react-redux';
 // Material UI imports
-import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,11 +11,15 @@ import Paper from '@material-ui/core/Paper';
 // component imports
 import CompletedSessionsTableRow from './CompletedSessionsTableRow';
 
-let counter = 0;
-function createData(name, calories, fat, carbs, protein) {
-    counter += 1;
-    return { id: counter, name, calories, fat, carbs, protein };
-}
+const mapStateToProps = state => ({
+    completedSessions: state.sessions.completedSessions
+});
+
+// let counter = 0;
+// function createData(name, calories, fat, carbs, protein) {
+//     counter += 1;
+//     return { id: counter, name, calories, fat, carbs, protein };
+// }
 
 function desc(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -192,11 +195,11 @@ function getSorting(order, orderBy) {
 //   },
 // });
 
-class EnhancedTable extends React.Component {
+class CompletedSessionsTable extends React.Component {
     state = {
-        order: 'asc',
-        orderBy: 'calories',
-        data: [],
+        // order: 'asc',
+        // orderBy: 'calories',
+        // data: [],
         page: 0,
         rowsPerPage: 5,
     };
@@ -206,59 +209,60 @@ class EnhancedTable extends React.Component {
     }
 
     getCompletedSessions = () => {
-        Axios({
-            method: 'GET',
-            url: '/sessions/completed'
-        }).then((response) => {
-            console.log('back from /sessions/completed get with: ', response.data);
-            this.setState({
-                data: response.data
-            });
-        }).catch((error) => {
-            console.log('/sessions/completed get error: ', error);
-            alert('there was an error getting the completed sessions');
-        })
+        // Axios({
+        //     method: 'GET',
+        //     url: '/sessions/completed'
+        // }).then((response) => {
+        //     console.log('back from /sessions/completed get with: ', response.data);
+        //     this.setState({
+        //         data: response.data
+        //     });
+        // }).catch((error) => {
+        //     console.log('/sessions/completed get error: ', error);
+        //     alert('there was an error getting the completed sessions');
+        // })
+        this.props.dispatch({type: 'GET_COMPLETED_SESSIONS'});
     }
 
-    handleRequestSort = (event, property) => {
-        const orderBy = property;
-        let order = 'desc';
+    // handleRequestSort = (event, property) => {
+    //     const orderBy = property;
+    //     let order = 'desc';
 
-        if (this.state.orderBy === property && this.state.order === 'desc') {
-            order = 'asc';
-        }
+    //     if (this.state.orderBy === property && this.state.order === 'desc') {
+    //         order = 'asc';
+    //     }
 
-        this.setState({ order, orderBy });
-    };
+    //     this.setState({ order, orderBy });
+    // };
 
-    handleSelectAllClick = event => {
-        if (event.target.checked) {
-            this.setState(state => ({ selected: state.data.map(n => n.id) }));
-            return;
-        }
-        this.setState({ selected: [] });
-    };
+    // handleSelectAllClick = event => {
+    //     if (event.target.checked) {
+    //         this.setState(state => ({ selected: state.data.map(n => n.id) }));
+    //         return;
+    //     }
+    //     this.setState({ selected: [] });
+    // };
 
-    handleClick = (event, id) => {
-        const { selected } = this.state;
-        const selectedIndex = selected.indexOf(id);
-        let newSelected = [];
+    // handleClick = (event, id) => {
+    //     const { selected } = this.state;
+    //     const selectedIndex = selected.indexOf(id);
+    //     let newSelected = [];
 
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
+    //     if (selectedIndex === -1) {
+    //         newSelected = newSelected.concat(selected, id);
+    //     } else if (selectedIndex === 0) {
+    //         newSelected = newSelected.concat(selected.slice(1));
+    //     } else if (selectedIndex === selected.length - 1) {
+    //         newSelected = newSelected.concat(selected.slice(0, -1));
+    //     } else if (selectedIndex > 0) {
+    //         newSelected = newSelected.concat(
+    //             selected.slice(0, selectedIndex),
+    //             selected.slice(selectedIndex + 1),
+    //         );
+    //     }
 
-        this.setState({ selected: newSelected });
-    };
+    //     this.setState({ selected: newSelected });
+    // };
 
     handleChangePage = (event, page) => {
         this.setState({ page });
@@ -272,8 +276,8 @@ class EnhancedTable extends React.Component {
 
     render() {
         // const { classes } = this.props;
-        const { data, order, orderBy, rowsPerPage, page } = this.state;
-        const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+        const { rowsPerPage, page } = this.state;
+        const emptyRows = rowsPerPage - Math.min(rowsPerPage, this.props.completedSessions.length - page * rowsPerPage);
 
         return (
             <Paper>
@@ -292,7 +296,7 @@ class EnhancedTable extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {stableSort(data, getSorting(order, orderBy))
+                            {stableSort(this.props.completedSessions, getSorting())
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(n => {
                                     // const isSelected = this.isSelected(n.id);
@@ -310,7 +314,7 @@ class EnhancedTable extends React.Component {
                 </div>
                 <TablePagination
                     component="div"
-                    count={data.length}
+                    count={this.props.completedSessions.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     backIconButtonProps={{
@@ -327,8 +331,8 @@ class EnhancedTable extends React.Component {
     }
 }
 
-EnhancedTable.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
+// EnhancedTable.propTypes = {
+//     classes: PropTypes.object.isRequired,
+// };
 
-export default EnhancedTable;
+export default connect(mapStateToProps)(CompletedSessionsTable);

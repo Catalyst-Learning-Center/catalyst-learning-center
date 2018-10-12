@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Axios from 'axios';
 // Material UI imports
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -51,20 +50,26 @@ class NewSessionDialog extends Component {
             school: this.props.sessions.school,
             grade: this.props.sessions.grade
         }
-        Axios({
-            method: 'POST',
-            url: '/sessions',
-            data: dataToSend
-        }).then((response) => {
-            console.log('back from /sessions POST with: ', response.data);
-            this.handleClose();
-            this.props.getActiveSessions();
-        }).catch((error) => {
-            console.log('/sessions POST error: ', error);
-            alert('there was a problem starting the session!');
-        })
+        // Axios({
+        //     method: 'POST',
+        //     url: '/sessions',
+        //     data: dataToSend
+        // }).then((response) => {
+        //     console.log('back from /sessions POST with: ', response.data);
+        //     this.handleClose();
+        //     this.props.dispatch({type: 'GET_ACTIVE_SESSIONS'});
+        // }).catch((error) => {
+        //     console.log('/sessions POST error: ', error);
+        //     alert('there was a problem starting the session!');
+        // })
+        let action = {
+            type: 'POST_NEW_SESSION',
+            payload: dataToSend
+        }
+        this.props.dispatch(action);
+        this.handleClose();
     }
-    
+
     render() {
         return (
             <div>

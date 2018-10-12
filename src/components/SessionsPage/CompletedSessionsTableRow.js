@@ -5,9 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { Button, TextField } from '@material-ui/core';
 // component imports
-import SelectSchool from './SelectSchool';
-import SelectGrade from './SelectGrade';
-import SelectSubject from './SelectSubject';
+import EditSessionDialog from './EditSessionDialog';
 
 class CompletedSessionsTableRow extends Component {
     constructor(props) {
@@ -128,7 +126,8 @@ class CompletedSessionsTableRow extends Component {
                     <TableCell>{this.props.n.topics}</TableCell>
                     <TableCell>{time} minutes</TableCell>
                     <TableCell>
-                        <Button onClick={this.toggleEdit}>Edit</Button>
+                        {/* <Button onClick={this.toggleEdit}>Edit</Button> */}
+                        <EditSessionDialog session={this.props.n} />
                     </TableCell>
                 </TableRow>
             )
