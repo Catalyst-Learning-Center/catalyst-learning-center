@@ -7,38 +7,23 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
- class EditLocationsDialog extends Component {
-   constructor (props) {
-     super(props);
 
-     this.state = {
-       open: this.props.open,
-       locationToEdit: {
-        location_name: this.props.location.location_name,
-        location_address: this.props.location.location_address,
-        location_city: this.props.location.location_city,
-        location_state: this.props.location.location_state,
-        location_zipcode: this.props.location.location_zipcode,
-        location_phone: this.props.location.location_phone,
-      }//end locationToEdit
-     }//end state
-   }//end constructor
+class AddLocations extends Component {
+  constructor(props) {
+    super(props);
 
-   handleClose = () => {
-     //sets dialog box to close initially
-     this.setState({
-       open: false,
-     });//end setState
-   }//end handleClose
+  }//end constructor
 
-   handleChange = (event) => {
-     console.log('in handleChange', event);
-     this.props.handleEditChange(event);
-   }//end handleChange
+  handleLocationClose = () => {
+    //sets dialog box to close initially
+    this.setState({
+      open: false,
+    });//end setState
+  }//end handleClose
 
   render() {
     return (
-        <Dialog
+      <Dialog
         open={this.props.open}
         onClose={this.handleClose}
         aria-labelledby="form-dialog-title"
@@ -46,7 +31,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
         <DialogTitle id="form-dialog-title">Edit Location Information</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Please enter changes here:
+            Add Location
           </DialogContentText>
           <TextField
               autoFocus
@@ -55,8 +40,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="Location Name"
               type="text"
               fullWidth
-              value={this.state.locationToEdit.location_name}
-              onChange={this.props.handleEditChange}
+              value={this.state.locationToAdd.location_name}              
             />
             <TextField
               autoFocus
@@ -65,8 +49,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="Address"
               type="text"
               fullWidth
-              value={this.state.locationToEdit.location_address}
-              onChange={this.props.handleEditChange}
+              value={this.state.locationToAdd.location_address}
+             
             />
             <TextField
               autoFocus
@@ -75,8 +59,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="City"
               type="text"
               fullWidth
-              value={this.state.locationToEdit.location_city}
-              onChange={this.props.handleEditChange}
+              value={this.state.locationToAdd.location_city}              
             />
             <TextField
               autoFocus
@@ -85,8 +68,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="State"
               type="text"
               fullWidth
-              value={this.state.locationToEdit.location_state}
-              onChange={this.props.handleEditChange}
+              value={this.state.locationToAdd.location_state}              
             />
             <TextField
               autoFocus
@@ -95,8 +77,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="Zipcode"
               type="text"
               fullWidth
-              value={this.state.locationToEdit.location_zipcode}
-              onChange={this.props.handleEditChange}
+              value={this.state.locationToAdd.location_zipcode}              
             />
             <TextField
               autoFocus
@@ -105,20 +86,19 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="Phone"
               type="text"
               fullWidth
-              value={this.state.locationToEdit.location_phone}
-              onChange={this.props.handleEditChange}
+              value={this.state.locationToAdd.location_phone}              
             />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.props.handleEditDialogClose} color="secondary">
+          <Button onClick={this.props.handleAddLocationCancel} color="secondary">
             Cancel
           </Button>
           <Button onClick={this.handleSubmit} color="primary">
-            Submit
+            Ok
           </Button>
         </DialogActions>
       </Dialog>
     )
   }//end render
 }//end Component
-export default EditLocationsDialog;
+export default AddLocations;
