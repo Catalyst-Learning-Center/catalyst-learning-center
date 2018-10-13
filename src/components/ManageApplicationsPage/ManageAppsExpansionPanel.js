@@ -13,14 +13,14 @@ import moment from 'moment';
 import './ManageApplications.css';
 import { withStyles } from '@material-ui/core/styles';
 
-// this is an inline-style variable for the expansion panel summary date applied. 
+// this is an inline-style object variable for the expansion panel summary date applied. 
 const style = {
-    background: 'white',
+    background: '#E56567',
     borderRadius: 3,
     border: 0,
-    marginLeft: '70%',
+    marginLeft: '60%',
     position: 'absolute',
-    color: 'rgb(244, 38, 33)',
+    color: 'white',
     height: 28,
     padding: '0 30px',
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
@@ -96,7 +96,7 @@ class ManageAppsExpansionPanel extends Component {
                         <Typography >
                            <Button variant="contained" color="primary">Accept</Button>&nbsp; 
                            {/* on click of remove, send confirmation prompt. if okay, remove app.   */}
-                           <Button onClick={() => { if (window.confirm(`Are you sure you want to delete ${this.props.item.applicant_first_name}'s application?`)) this.removeApplication(this.props.getPendingApplications) } }  variant="contained" color="secondary">Remove</Button> 
+                           <Button onClick={() => { if (window.confirm(`Are you sure you want to remove ${this.props.item.applicant_first_name}'s application?`)) this.removeApplication(this.props.getPendingApplications) } }  variant="contained" color="secondary">Remove</Button> 
                         </Typography>  
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
