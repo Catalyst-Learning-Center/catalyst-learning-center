@@ -21,6 +21,7 @@ class ManageAppsExpansionPanel extends Component {
             url: `/applications/${this.props.item.id}`
         }).then((response)=> {
             console.log(response.data);
+            alert(`Application successfully removed!`)
             this.props.getPendingApplications();
         }).catch((error)=> {
             console.log(`error removing application from the database: ${error}`);
@@ -31,7 +32,7 @@ class ManageAppsExpansionPanel extends Component {
         console.log(this.props.item.id)
         return (
             <div >
-                <ExpansionPanel>
+                <ExpansionPanel CollapseProps={{mountOnEnter: true}}>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                         <Typography >{this.props.item.applicant_first_name} {this.props.item.applicant_last_name} <br/>
                        </Typography> 
@@ -77,8 +78,11 @@ class ManageAppsExpansionPanel extends Component {
                     </ExpansionPanelDetails>
                     <ExpansionPanelDetails>
                         <Typography>
-                           <Button className="accept_button" variant="contained" color="primary">Accept</Button> <Button className="apps_button" onClick={this.removeApplication} variant="contained" color="secondary">Remove</Button> 
-                        </Typography>
+                           <Button className="accept_button" variant="contained" color="primary">Accept</Button>&nbsp; 
+                           {/* on click of remove, send confirmation prompt. if okay, remove app.   */}
+                           <Button className="apps_button" onClick={() => { if (window.confirm(`Are you sure you want to delete ${this.props.item.applicant_first_name}'s application?`)) this.removeApplication(this.props.getPendingApplications) } }  variant="contained" color="secondary">Remove</Button> 
+                        </Typography>  
+
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </div>
@@ -87,3 +91,4 @@ class ManageAppsExpansionPanel extends Component {
 }
 
 export default ManageAppsExpansionPanel;
+
