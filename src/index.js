@@ -6,6 +6,7 @@ import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
 
 import reducer from './redux/reducers'; // imports ./redux/reducers/index.js
+import 'typeface-roboto';
 
 import App from './App';
 import rootSaga from './redux/sagas'; // imports ./redux/sagas/index.js

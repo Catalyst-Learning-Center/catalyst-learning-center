@@ -21,6 +21,7 @@ form {
     padding: 25px;
     border-radius: 2px;
     box-shadow: 1px 1px 7px 5px darkred; 
+    text-align: center;
 }
 
 input {

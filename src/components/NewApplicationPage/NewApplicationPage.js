@@ -4,6 +4,7 @@ import axios from 'axios';
 import StateSelect from './StateSelect';
 import SubmitDialog from './SubmitDialog';
 
+import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -207,13 +208,12 @@ class NewApplicationPage extends Component {
 
     render() {
         return (
-            <div>
+            <Paper>
                 <form onSubmit={this.postApplication} className="application-container">
                     <FormControl>
                         <h1>New Tutor Application</h1>
                         <Grid container>
                             <Grid item xs={4}>
-                                <FormControl>
                                     <TextField
                                         required
                                         name="applicant_first_name"
@@ -221,7 +221,9 @@ class NewApplicationPage extends Component {
                                         margin="normal"
                                         value={this.state.application.applicant_first_name}
                                         onChange={this.handleApplicationChange}
+                                        fullWidth
                                     />
+                                    <br />
                                     <TextField
                                         required
                                         name="applicant_last_name"
@@ -229,7 +231,9 @@ class NewApplicationPage extends Component {
                                         margin="normal"
                                         value={this.state.application.applicant_last_name}
                                         onChange={this.handleApplicationChange}
+                                        fullWidth
                                     />
+                                    <br />
                                     <TextField
                                         required
                                         name="applicant_address"
@@ -237,7 +241,9 @@ class NewApplicationPage extends Component {
                                         margin="normal"
                                         value={this.state.application.applicant_address}
                                         onChange={this.handleApplicationChange}
+                                        fullWidth
                                     />
+                                    <br />
                                     <TextField
                                         required
                                         name="applicant_city"
@@ -245,11 +251,13 @@ class NewApplicationPage extends Component {
                                         margin="normal"
                                         value={this.state.application.applicant_city}
                                         onChange={this.handleApplicationChange}
+                                        fullWidth
                                     />
+                                    <br />
                                     <StateSelect
                                         handleApplicantStateChange={this.handleApplicantStateChange}
                                     />
-
+                                    <br />
                                     <TextField
                                         required
                                         name="applicant_zipcode"
@@ -257,7 +265,9 @@ class NewApplicationPage extends Component {
                                         margin="normal"
                                         value={this.state.application.applicant_zipcode}
                                         onChange={this.handleApplicationChange}
+                                        fullWidth
                                     />
+                                    <br />
                                     <TextField
                                         required
                                         name="applicant_cell_phone"
@@ -265,7 +275,9 @@ class NewApplicationPage extends Component {
                                         margin="normal"
                                         value={this.state.application.applicant_cell_phone}
                                         onChange={this.handleApplicationChange}
+                                        fullWidth
                                     />
+                                    <br />
                                     <TextField
                                         required
                                         name="applicant_email"
@@ -273,9 +285,9 @@ class NewApplicationPage extends Component {
                                         margin="normal"
                                         value={this.state.application.applicant_email}
                                         onChange={this.handleApplicationChange}
+                                        fullWidth
                                     />
                                     <br />
-                                </FormControl>
                             </Grid>
                             <Grid item xs={4}>
                                 <TextField
@@ -346,7 +358,7 @@ class NewApplicationPage extends Component {
                                 </FormGroup>
 
 
-                                <Button onClick={this.openCloudinary}>Upload Resume (PDF)</Button>
+                                <Button variant="contained" onClick={this.openCloudinary}>Upload Resume (PDF)</Button>
 
                                 <ReCaptcha
                                     ref={(el) => { this.captcha = el; }}
@@ -356,17 +368,17 @@ class NewApplicationPage extends Component {
                                     onloadCallback={this.onLoadRecaptcha}
                                     verifyCallback={this.verifyCallback}
                                 />
-                                <Button onClick={this.easyFunction}>Easy</Button>
-                                <Button type="submit">
+                                <Button variant="contained" onClick={this.easyFunction}>Easy</Button>
+                                <Button variant="contained" color="primary" type="submit">
                                     Submit
-                        </Button>
+                                </Button>
                             </Grid>
                         </Grid>
                     </FormControl>
                 </form>
                 <SubmitDialog open={this.state.submitDialogOpen} handleDialogClose={this.handleSubmitDialogClose} />
                 {JSON.stringify(this.state)}
-            </div>
+            </Paper>
         )
     }
 }
