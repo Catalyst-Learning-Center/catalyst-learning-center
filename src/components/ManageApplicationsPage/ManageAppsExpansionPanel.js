@@ -11,6 +11,22 @@ import axios from '../../../node_modules/axios';
 import { ListItemIcon } from '../../../node_modules/@material-ui/core';
 import moment from 'moment';
 import './ManageApplications.css';
+import { withStyles } from '@material-ui/core/styles';
+
+// this is an inline-style variable for the expansion panel summary date applied. 
+const style = {
+    background: 'white',
+    borderRadius: 3,
+    border: 0,
+    marginLeft: '70%',
+    position: 'absolute',
+    color: 'rgb(244, 38, 33)',
+    height: 28,
+    padding: '0 30px',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+  };
+
+
 
 
 class ManageAppsExpansionPanel extends Component {
@@ -37,7 +53,7 @@ class ManageAppsExpansionPanel extends Component {
                         <Typography >{this.props.item.applicant_first_name} {this.props.item.applicant_last_name} <br/>
                        </Typography> 
                        {/* formatting the date using Moment.js */}
-                       <Typography> &nbsp;Applied: {moment(this.props.item.date).format('MMMM Do YYYY')}</Typography>
+                       <Typography style={style}> &nbsp;Applied: {moment(this.props.item.date).format('MMMM Do YYYY')}</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                         <Typography>
@@ -77,12 +93,11 @@ class ManageAppsExpansionPanel extends Component {
                         </Typography>
                     </ExpansionPanelDetails>
                     <ExpansionPanelDetails>
-                        <Typography>
-                           <Button className="accept_button" variant="contained" color="primary">Accept</Button>&nbsp; 
+                        <Typography >
+                           <Button variant="contained" color="primary">Accept</Button>&nbsp; 
                            {/* on click of remove, send confirmation prompt. if okay, remove app.   */}
-                           <Button className="apps_button" onClick={() => { if (window.confirm(`Are you sure you want to delete ${this.props.item.applicant_first_name}'s application?`)) this.removeApplication(this.props.getPendingApplications) } }  variant="contained" color="secondary">Remove</Button> 
+                           <Button onClick={() => { if (window.confirm(`Are you sure you want to delete ${this.props.item.applicant_first_name}'s application?`)) this.removeApplication(this.props.getPendingApplications) } }  variant="contained" color="secondary">Remove</Button> 
                         </Typography>  
-
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </div>
