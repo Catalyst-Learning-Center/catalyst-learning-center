@@ -26,22 +26,20 @@ class SelectSchool extends Component {
         //     console.log('/schools GET error: ', error);
         //     alert('there was an error getting the schools');
         // })
-        this.props.dispatch({type: 'GET_SCHOOLS'});
+        this.props.dispatch({ type: 'GET_SCHOOLS' });
     }
 
     handleChange = (value) => {
-        this.setState({
-            selectedSchool: value,
-        });
         let action = {
             type: 'SET_SESSION_SCHOOL',
-            payload: value.value 
+            payload: value
         }
         this.props.dispatch(action);
     };
 
     render() {
         return (
+            <div>
                 <Select
                     options={this.props.schools.map((school) => ({
                         value: school.id,
@@ -51,6 +49,8 @@ class SelectSchool extends Component {
                     onChange={this.handleChange}
                     placeholder="select a school"
                 />
+                {JSON.stringify(this.props.selectedSchool)}
+            </div>
         )
     }
 }

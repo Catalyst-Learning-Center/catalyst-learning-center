@@ -46,14 +46,20 @@ router.get('/active', (req, res) => {
 router.get('/completed', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/sessions/active GET hit');
-        const queryText = `SELECT "sessions"."student_name", "sessions"."id", "sessions"."session_date", 
-        "sessions"."topics", "sessions"."end_time" - "sessions"."start_time" AS "time", "subjects"."subjects", 
-        "schools"."school_name", "grade"."grade_level"
+        // const queryText = `SELECT "sessions"."student_name", "sessions"."id", "sessions"."session_date", 
+        // "sessions"."topics", "sessions"."end_time" - "sessions"."start_time" AS "time", "subjects"."subjects", 
+        // "schools"."school_name", "grade"."grade_level"
+        // FROM "sessions" JOIN "schools" ON "schools"."id" = "sessions"."school_id"
+        // JOIN "grade" ON "grade"."id" = "sessions"."grade_id"
+        // JOIN "subjects" ON "subjects"."id" = "sessions"."subjects_id"
+        // WHERE "user_id" = $1 AND "end_time" is not NULL
+        // ORDER BY "session_date" DESC;`;
+        const queryText = `SELECT "sessions".*, "sessions"."end_time" - "sessions"."start_time" AS "time", 
+        "subjects"."subjects", "schools"."school_name", "grade"."grade_level"
         FROM "sessions" JOIN "schools" ON "schools"."id" = "sessions"."school_id"
         JOIN "grade" ON "grade"."id" = "sessions"."grade_id"
         JOIN "subjects" ON "subjects"."id" = "sessions"."subjects_id"
-        WHERE "user_id" = $1 AND "end_time" is not NULL
-        ORDER BY "session_date" DESC;`;
+        WHERE "user_id" = $1 AND "end_time" is not NULL;`;
         pool.query(queryText, [req.user.id]).then((results) => {
             console.log('back from /sessions/completed GET with: ', results.rows);
             res.send(results.rows);

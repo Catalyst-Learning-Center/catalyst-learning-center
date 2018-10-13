@@ -3,7 +3,7 @@ import moment from 'moment';
 // Material UI imports
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Tab } from '@material-ui/core';
 // component imports
 import EditSessionDialog from './EditSessionDialog';
 
@@ -127,8 +127,11 @@ class CompletedSessionsTableRow extends Component {
                     <TableCell>{time} minutes</TableCell>
                     <TableCell>
                         {/* <Button onClick={this.toggleEdit}>Edit</Button> */}
-                        <EditSessionDialog session={this.props.n} />
+                        <EditSessionDialog 
+                        session={this.props.n} 
+                        />
                     </TableCell>
+                    {/* <TableCell>{JSON.stringify(this.props.n)}</TableCell> */}
                 </TableRow>
             )
         }
