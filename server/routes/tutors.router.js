@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/tutors GET route hit');
         const queryText = `SELECT "user_info".*, "users"."permissions" FROM "user_info"
-        JOIN "users" ON "users"."id" = "user_info"."user_id" ORDER BY "id";`;
+        JOIN "users" ON "users"."id" = "user_info"."user_id" WHERE "users"."active" = true ORDER BY "id";`;
         pool.query(queryText).then((results) => {
             console.log('back form /tutors GET route with: ', results.rows);
             res.send(results.rows);
@@ -30,7 +30,7 @@ router.post('/', (req, res) => {
 });
 
 /**
- * POST route template
+ * PUT route template
  */
 router.put('/admin', (req, res) => {
     if (req.isAuthenticated()) {
@@ -47,6 +47,22 @@ router.put('/admin', (req, res) => {
             res.sendStatus(201);
         }).catch((error) => {
             console.log('/tutors/admin PUT error: ', error);
+            res.sendStatus(500);
+        })
+    } else {
+        res.sendStatus(401);
+    }
+})
+
+router.put('/delete', (req, res) => {
+    if (req.isAuthenticated()) {
+        console.log('/tutors/delete PUT route hit with: ', req.body);
+        const queryText = `UPDATE "users" SET "active" = false WHERE "id" = $1;`;
+        pool.query(queryText, [req.body.id]).then((results) => {
+            console.log('back from /tutors/delete PUT with: ', results.rows);
+            res.sendStatus(201);
+        }).catch((error) => {
+            console.log('/tutors/delete PUT error: ', error);
             res.sendStatus(500);
         })
     } else {

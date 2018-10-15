@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 // Material UI imports
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
 class RemoveTutorDialog extends Component {
     constructor(props) {
         super(props);
         this.state = {
             open: false,
-            confirmOpen: false,
+            confirmationOpen: false,
         }
     }
 
@@ -24,35 +24,59 @@ class RemoveTutorDialog extends Component {
         this.setState({ open: false });
     };
 
-    handleConfirmOpen = () => {
-        this.setState({ confirmOpen: true });
+    handleConfirmationOpen = () => {
+        this.setState({ confirmationOpen: true });
     };
 
-    handleConfirmClose = () => {
-        this.setState({ confirmOpen: false });
+    handleConfirmationClose = () => {
+        this.setState({ confirmationOpen: false });
+        this.props.dispatch({type: 'GET_TUTORS'});
     };
+
+    handleTutorDelete = () => {
+        let action = {
+            type: 'DELETE_TUTOR',
+            payload: {id: this.props.id}
+        };
+        this.props.dispatch(action);
+        this.handleClose();
+        this.handleConfirmationOpen();
+    }
 
     render() {
         return (
             <div>
-                <Button onClick={this.handleClickOpen}>Open alert dialog</Button>
+                <Button onClick={this.handleOpen}>Remove</Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
                 >
-                    <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
                     <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            Let Google help apps determine location. This means sending anonymous location data to
-                            Google, even when no apps are running.
+                        <DialogContentText>
+                            Are you sure you would like to remove this tutor?
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
-                            Disagree
+                        <Button onClick={this.handleClose} color="secondary">
+                            Cancel
                         </Button>
-                        <Button onClick={this.handleClose} color="primary" autoFocus>
-                            Agree
+                        <Button onClick={this.handleTutorDelete} color="primary" autoFocus>
+                            Yes
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                <Dialog
+                    open={this.state.confirmationOpen}
+                    onClose={this.handleConfirmationClose}
+                >
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            This tutor has been successfully deleted.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleConfirmationClose} color="primary" autoFocus>
+                            Okay
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -61,4 +85,4 @@ class RemoveTutorDialog extends Component {
     }
 }
 
-export default RemoveTutorDialog;
+export default connect()(RemoveTutorDialog);

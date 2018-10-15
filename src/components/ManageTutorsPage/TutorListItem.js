@@ -7,6 +7,9 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Button } from '@material-ui/core';
+// component imports
+import RemoveTutorDialog from './RemoveTutorDialog';
+import EditTutorDialog from './EditTutorDialog';
 
 class TutorListItem extends Component {
     toggleAdminStatus = () => {
@@ -48,8 +51,8 @@ class TutorListItem extends Component {
                         <br />Qualifications: {this.props.tutor.user_qualifications}
                         <br />Experience: {this.props.tutor.user_experience}
                         <br />Age group: {this.props.tutor.user_age_group}
-                        <br /><Button>Edit</Button>
-                        <Button>Remove</Button>
+                        <EditTutorDialog tutor={this.props.tutor} />
+                        <RemoveTutorDialog id={this.props.tutor.id} />
                         {button}
                     </Typography>
                 </ExpansionPanelDetails>

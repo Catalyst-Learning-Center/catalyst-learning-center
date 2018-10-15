@@ -23,9 +23,19 @@ function* toggleAdmin(action) {
     }
 }
 
+function* deleteTutor(action) {
+    try {
+        yield call(Axios.put, '/tutors/delete', action.payload);
+        // yield put({type: 'GET_TUTORS'});
+    } catch (error) {
+        console.log('delete tutor error: ', error);
+    }
+}
+
 function* tutorsSaga() {
     yield takeEvery('GET_TUTORS', getTutors);
     yield takeEvery('TOGGLE_ADMIN', toggleAdmin);
+    yield takeEvery('DELETE_TUTOR', deleteTutor);
 }
 
 export default tutorsSaga;
