@@ -8,6 +8,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import InputLabel from '@material-ui/core/InputLabel';
 // component imports
 import SelectSchool from './SelectSchool';
 import SelectGrade from './SelectGrade';
@@ -24,6 +25,7 @@ class EditSessionDialog extends Component {
             session_date: this.props.session.session_date,
             student_name: this.props.session.student_name,
             topics: this.props.session.topics,
+            time: this.props.time
         }
     };
 
@@ -60,6 +62,13 @@ class EditSessionDialog extends Component {
         })
     }
 
+    calculateNewTime = () => {
+        let time = this.state.editedSession.time;
+        let end_time = moment(this.props.session.start_time, 'HH:mm:ss').add(time, 'm')._d;
+        end_time = moment(end_time).format('HH:mm:ss');
+        return end_time;
+    }
+
     handleConfirm = () => {
         let dataToSend = {
             session_date: this.state.editedSession.session_date,
@@ -67,9 +76,17 @@ class EditSessionDialog extends Component {
             school_id: this.props.sessions.school.value,
             grade_id: this.props.sessions.grade,
             subjects_id: this.props.sessions.subject,
-            topics: this.state.editedSession.topics
+            topics: this.state.editedSession.topics,
+            end_time: this.calculateNewTime(),
+            id: this.props.session.id,
         }
         console.log(dataToSend);
+        let action = {
+            type: 'EDIT_SESSION',
+            payload: dataToSend,
+        }
+        this.props.dispatch(action);
+        this.handleClose();
     }
 
     render() {
@@ -104,6 +121,13 @@ class EditSessionDialog extends Component {
                             onChange={this.changeSession}
                             fullWidth
                         />
+                        <TextField
+                            value={this.state.editedSession.time}
+                            name="time"
+                            onChange={this.changeSession}
+                            fullWidth
+                        />
+                        <InputLabel htmlFor="time">minutes</InputLabel>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">

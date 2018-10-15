@@ -59,7 +59,7 @@ router.get('/completed', (req, res) => {
         FROM "sessions" JOIN "schools" ON "schools"."id" = "sessions"."school_id"
         JOIN "grade" ON "grade"."id" = "sessions"."grade_id"
         JOIN "subjects" ON "subjects"."id" = "sessions"."subjects_id"
-        WHERE "user_id" = $1 AND "end_time" is not NULL;`;
+        WHERE "user_id" = $1 AND "end_time" is not NULL ORDER BY "session_date" DESC;`;
         pool.query(queryText, [req.user.id]).then((results) => {
             console.log('back from /sessions/completed GET with: ', results.rows);
             res.send(results.rows);
@@ -102,12 +102,32 @@ router.put('/', (req, res) => {
         console.log('in /sessions PUT with: ', req.body);
         let edit = req.body;
         const queryText = `UPDATE "sessions" SET "subjects_id" = $1, "topics" = $2, "end_time" = CURRENT_TIME
-    WHERE "id" = $3;`;
+        WHERE "id" = $3;`;
         pool.query(queryText, [edit.subject, edit.topic, edit.id]).then((results) => {
             console.log('back from /sessions PUT with: ', results.rows);
-            res.send(results.rows);
+            res.sendStatus(201);
         }).catch((error) => {
-            console.log('/sessions POST error: ', error);
+            console.log('/sessions PUT error: ', error);
+            res.sendStatus(500);
+        })
+    } else {
+        res.sendStatus(401);
+    }
+})
+
+router.put('/edit', (req, res) => {
+    if (req.isAuthenticated()) {
+        console.log('in /sessions/edit PUT with: ', req.body);
+        let edit = req.body;
+        const queryText = `UPDATE "sessions" SET "session_date" = $1, "student_name" = $2, "school_id" = $3, 
+        "grade_id" = $4, "subjects_id" = $5, "topics" = $6, "end_time" = $7
+        WHERE "id" = $8;`;
+        pool.query(queryText, [edit.session_date, edit.student_name, edit.school_id,
+        edit.grade_id, edit.subjects_id, edit.topics, edit.end_time, edit.id]).then((results) => {
+            console.log('back from /sessions PUT with: ', results.rows);
+            res.sendStatus(201);
+        }).catch((error) => {
+            console.log('/sessions/edit PUT error: ', error);
             res.sendStatus(500);
         })
     } else {
