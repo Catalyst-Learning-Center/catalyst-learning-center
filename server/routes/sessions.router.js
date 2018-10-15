@@ -22,7 +22,25 @@ router.get('/', (req, res) => {
     } else {
         res.sendStatus(403);
 
-    }});
+    }
+});
+
+router.get('/school-reach', (req, res) => {
+    if (req.isAuthenticated()) {
+        const query = `SELECT "schools"."school_name", COUNT("sessions"."school_id") FROM "sessions"
+        JOIN "schools" ON "schools"."id" = "sessions"."school_id" 
+        GROUP BY "schools"."school_name"
+        ORDER BY "count" DESC;`;
+        pool.query(query).then((results) => {
+            res.send(results.rows);
+        }).catch((error) => {
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(403);
+
+    }
+});
 
 router.get('/active', (req, res) => {
     if (req.isAuthenticated()) {

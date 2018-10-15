@@ -13,6 +13,10 @@ body {
     color: #ece7e7;
 }
 
+.bar-graph {
+    /* background-color: rgb(244, 38, 33) */
+}
+
 form {
     background-color: #fff;
     width: 80%;
