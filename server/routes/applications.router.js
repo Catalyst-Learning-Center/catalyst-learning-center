@@ -3,46 +3,30 @@ const pool = require('../modules/pool');
 const router = express.Router();
 const axios = require('axios');
 
+const nodemailer = require("nodemailer");
 
-// const nodemailer = require("nodemailer");
-
-// const transporter = nodemailer.createTransport({
-//     host: 'smtp.gmail.com',
-//     port: 465,
-//     secure: true,
-//     auth: {
-//         type: 'OAuth2',
-//         user: local_settings.my_gmail_username,
-//         clientId: local_settings.my_oauth_client_id,
-//         clientSecret: local_settings.my_oauth_client_secret,
-//         refreshToken: local_settings.my_oauth_refresh_token,
-//         accessToken: local_settings.my_oauth_access_token
-//     }
-// });
+const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+        type: 'OAuth2',
+        user: 'clcnodemailer',
+        clientId: '177276941234-u8strks47vgitvua0i92hg6moeptt471.apps.googleusercontent.com',
+        clientSecret: 'd8H6BOYcrUn14C8zJC8fB41x',
+        refreshToken: '1/aHQhrYrtgr3VGDShYasauxGeilOA86PBqbq21q98s7bOcnCRY_VWaFLGSd-GAZMD',
+        accessToken: 'ya29.Gls3BmjvYVBrOLzsgeZhay52J3ZkVTrktGhlzJshchRParApKNAxmTrFeoY6cuH5UHp0MQzOYBHGVhgN5XmVCItVwec82zNc0DDqDh4a5VtSkeUvq9lytMFqnAdd'
+    }
+});
 
 
-// const mail = {
-//     from: "John Smith <me@mydomain.com>",
-//     to: "user@userdomain.com",
-//     subject: "Registration successful",
-//     text: "You successfully registered an account at www.mydomain.com",
-//     html: "<p>You successfully registered an account at www.mydomain.com</p>"
-// }
-
-// transporter.sendMail(mail, function (err, info) {
-//     if (err) {
-//         console.log(err);
-//     } else {
-//         // see https://nodemailer.com/usage
-//         console.log("info.messageId: " + info.messageId);
-//         console.log("info.envelope: " + info.envelope);
-//         console.log("info.accepted: " + info.accepted);
-//         console.log("info.rejected: " + info.rejected);
-//         console.log("info.pending: " + info.pending);
-//         console.log("info.response: " + info.response);
-//     }
-//     transporter.close();
-// });
+const mail = {
+    from: "Catalyst Learning Center <clcnodemailer@gmail.com>",
+    to: "trav.dunn@outlook.com",
+    subject: "Application Submitted",
+    text: "An application has been submitted to Catalyst Learning Center",
+    html: "<p>An application has been submitted to Catalyst Learning Center</p>"
+}
 
 
 
@@ -52,12 +36,12 @@ const axios = require('axios');
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
         const query = `SELECT * FROM "applications" WHERE "active" = true;`;
-        pool.query(query).then((results)=> {
+        pool.query(query).then((results) => {
             res.send(results.rows);
         }).catch((error) => {
             res.sendStatus(500);
         });
-    }else {
+    } else {
         res.sendStatus(403);
     }
 }); // end applications GET route
@@ -66,15 +50,15 @@ router.get('/', (req, res) => {
  * "Delete" (Update) an application from the database
  */
 router.put('/:id', (req, res) => {
-    if (req.isAuthenticated()){
+    if (req.isAuthenticated()) {
         console.log(req.params.id)
-        const query =  `UPDATE "applications" SET "active" = false WHERE "id" = $1;`;
+        const query = `UPDATE "applications" SET "active" = false WHERE "id" = $1;`;
         pool.query(query, [req.params.id]).then((results) => {
             res.sendStatus(201);
-        }).catch((error)=> {
+        }).catch((error) => {
             res.sendStatus(500);
         })
-    }else {
+    } else {
         res.sendStatus(403);
     }
 }); // end delete
@@ -139,6 +123,20 @@ router.post('/', (req, res) => {
                 await client.query('ROLLBACK');
                 throw e;
             } finally {
+                transporter.sendMail(mail, function (err, info) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        // see https://nodemailer.com/usage
+                        console.log("info.messageId: " + info.messageId);
+                        console.log("info.envelope: " + info.envelope);
+                        console.log("info.accepted: " + info.accepted);
+                        console.log("info.rejected: " + info.rejected);
+                        console.log("info.pending: " + info.pending);
+                        console.log("info.response: " + info.response);
+                    }
+                    transporter.close();
+                });
                 client.release();
             }
         })().catch((error) => {
