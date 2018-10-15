@@ -71,9 +71,6 @@ class ManageApplicationsPage extends Component {
                         {/* we are mapping over each application in the database */}
                         {this.props.pendingApplications.map((item, i) => {
                             return(
-                                // <li key={i}>
-                                // {item.applicant_first_name}
-                                // </li>
                                 <ManageAppsExpansionPanel getPendingApplications={this.getPendingApplications} item={item}/>
                             )
                         })}
