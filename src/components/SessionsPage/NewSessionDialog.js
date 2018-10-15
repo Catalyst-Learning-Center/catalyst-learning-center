@@ -47,7 +47,7 @@ class NewSessionDialog extends Component {
         let dataToSend = {
             location: this.props.sessions.location,
             name: this.state.name,
-            school: this.props.sessions.school,
+            school: this.props.sessions.school.value,
             grade: this.props.sessions.grade
         }
         // Axios({

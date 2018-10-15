@@ -3,7 +3,7 @@ import moment from 'moment';
 // Material UI imports
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Tab } from '@material-ui/core';
 // component imports
 import EditSessionDialog from './EditSessionDialog';
 
@@ -52,10 +52,12 @@ class CompletedSessionsTableRow extends Component {
     render() {
         let content = null;
         let time = null;
-        if (this.props.n.time.hours > 0) {
-            time = (this.props.n.time.hours * 60) + this.props.n.time.minutes
+        if (this.props.n.time.hours > 0 && this.props.n.time.minutes == null) {
+            time = (this.props.n.time.hours * 60);
+        } else if (this.props.n.time.hours > 0) {
+            time = (this.props.n.time.hours * 60) + this.props.n.time.minutes;
         } else {
-            time = this.props.n.time.minutes
+            time = this.props.n.time.minutes;
         }
         
 
@@ -127,8 +129,12 @@ class CompletedSessionsTableRow extends Component {
                     <TableCell>{time} minutes</TableCell>
                     <TableCell>
                         {/* <Button onClick={this.toggleEdit}>Edit</Button> */}
-                        <EditSessionDialog session={this.props.n} />
+                        <EditSessionDialog 
+                        session={this.props.n} 
+                        time={time}
+                        />
                     </TableCell>
+                    {/* <TableCell>{JSON.stringify(this.props.n)}</TableCell> */}
                 </TableRow>
             )
         }
