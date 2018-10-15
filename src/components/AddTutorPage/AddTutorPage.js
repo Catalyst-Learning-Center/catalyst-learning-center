@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import TextField from '@material-ui/core/TextField';
+
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
@@ -26,7 +28,43 @@ class AddTutorPage extends Component {
         if (this.props.user.userName) {
             content = (
                 <div>
-                Add New Tutor
+                <h1>Add New Tutor</h1>
+                <form> 
+                    <TextField 
+                        label="First Name"
+                    />
+                     <TextField 
+                        label="Last Name"
+                    />
+                    <br />
+                     <TextField 
+                        label="Address"
+                    />
+                     <TextField 
+                        label="City"
+                    />
+                     <TextField 
+                        label="State"
+                    />
+                     <TextField 
+                        label="Zip Code"
+                    />
+                     <TextField 
+                        label="Cell Phone"
+                    />
+                     <TextField 
+                        label="Email Address"
+                    />
+                     <TextField 
+                        label="Applicable Qualifications"
+                    />
+                     <TextField 
+                        label="Preferred Age Group"
+                    />
+                     <TextField 
+                        label="Subject Area of Interest"
+                    />
+                </form>
                 </div>
             )
         }
