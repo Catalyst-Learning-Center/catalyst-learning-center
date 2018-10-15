@@ -26,7 +26,7 @@ class AddTutorPage extends Component {
         if (this.props.user.userName) {
             content = (
                 <div>
-
+                Add New Tutor
                 </div>
             )
         }

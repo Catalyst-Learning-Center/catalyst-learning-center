@@ -64,7 +64,7 @@ class ManageApplicationsPage extends Component {
             content = (
                 <div>
                     <br />
-                    Pending Applications 
+                    <h1>Pending Applications</h1>
                     <br />
                     <ul>
                         {/* pendingApplications is held in the ApplicationsReducer */}
