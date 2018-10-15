@@ -6,6 +6,7 @@ import locationsSaga from './locationsSaga';
 import gradesSaga from './gradesSaga';
 import schoolsSaga from './schoolsSaga';
 import subjectsSaga from './subjectsSaga';
+import tutorsSaga from './tutorsSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -16,6 +17,7 @@ export default function* rootSaga() {
     gradesSaga(),
     schoolsSaga(),
     subjectsSaga(),
+    tutorsSaga(),
     // watchIncrementAsync()
   ]);
 }
