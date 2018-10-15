@@ -11,11 +11,11 @@ const transporter = nodemailer.createTransport({
     secure: true,
     auth: {
         type: 'OAuth2',
-        user: 'clcnodemailer',
-        clientId: '177276941234-u8strks47vgitvua0i92hg6moeptt471.apps.googleusercontent.com',
-        clientSecret: 'd8H6BOYcrUn14C8zJC8fB41x',
-        refreshToken: '1/aHQhrYrtgr3VGDShYasauxGeilOA86PBqbq21q98s7bOcnCRY_VWaFLGSd-GAZMD',
-        accessToken: 'ya29.Gls3BmjvYVBrOLzsgeZhay52J3ZkVTrktGhlzJshchRParApKNAxmTrFeoY6cuH5UHp0MQzOYBHGVhgN5XmVCItVwec82zNc0DDqDh4a5VtSkeUvq9lytMFqnAdd'
+        user: 'clcnodemailer@gmail.com',
+        clientId: process.env.OAUTH_CLIENT_ID,
+        clientSecret: process.env.OAUTH_CLIENT_SECRET,
+        refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+        accessToken: process.env.OAUTH_ACCESS_TOKEN
     }
 });
 

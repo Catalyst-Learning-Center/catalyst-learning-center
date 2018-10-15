@@ -6,7 +6,8 @@ class ResetPasswordDialog extends Component {
     constructor(props){
         super(props);
         this.state = {
-            userInfoEmail: ''
+            userInfoEmail: '',
+            emailError: null,
         }
     }
 
@@ -26,11 +27,22 @@ class ResetPasswordDialog extends Component {
             this.props.handlePasswordResetClose();
         }).catch((error)=>{
             console.log('error', error);
+            if (error) {
+                this.setState({
+                    emailError: true
+                })
+            }
         });
     }
 
 
+
+
     render() {
+        let errorText = null
+        if (this.state.emailError){
+            errorText = <p style={{ color: 'red' }}>We could not find user information for that email address</p>
+        }
         return (
             <Dialog
                 open={this.props.openResetDialog}
@@ -40,6 +52,7 @@ class ResetPasswordDialog extends Component {
                 <DialogContent>
                     <DialogContentText>
                         Please enter your email address and you will receive an email with your user information
+                        
                 </DialogContentText>
                     <TextField
                         autoFocus
@@ -51,12 +64,13 @@ class ResetPasswordDialog extends Component {
                         onChange={this.handleChange}
                         fullWidth
                     />
+                    {errorText}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.props.handlePasswordResetClose} color="primary">
                         Cancel
                      </Button>
-                    <Button color="primary" onClick={this.handleUserInfoRequest} color="primary">
+                    <Button variant="contained" onClick={this.handleUserInfoRequest} color="primary">
                         Request Password Reset
                     </Button>
                 </DialogActions>

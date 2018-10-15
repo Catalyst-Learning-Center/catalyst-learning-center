@@ -28,6 +28,7 @@
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-chartjs-2": "^2.7.4",
+    "react-csv": "^1.0.15-RC2",
     "react-dom": "^16.2.0",
     "react-google-recaptcha": "^1.0.4",
     "react-list": "^0.8.10",
