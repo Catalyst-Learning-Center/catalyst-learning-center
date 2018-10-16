@@ -48,9 +48,9 @@ class ManageLocationsPage extends Component {
 
     handleEditDialogOpen = (location) => {
         //this handles openining the edit dialog
+        console.log('handleEditDialogOpen');
         this.setState({
             editDialogOpen: true,
-            locationToEdit: location,
         });//end setState
     }//end handleEditDialogOpen
 
@@ -109,11 +109,7 @@ class ManageLocationsPage extends Component {
                         
                         return (
                             <React.Fragment key={location.id}> 
-                            <LocationExpansionPanel key={i} location={location} handleEditDialogOpen={this.handleEditDialogOpen}/>
-                            <EditLocationsDialog location = {location}
-                                open={this.state.editDialogOpen}
-                                handleEditDialogClose={this.handleEditDialogClose}
-                                handleEditChange={this.handleEditChange}/>
+                            <LocationExpansionPanel key={i} location={location}/>
                             </React.Fragment>
                         )
                     })} 
