@@ -25,6 +25,38 @@ router.get('/', (req, res) => {
     }
 }); // end applications GET route
 
+
+router.get('/locations/:id', (req, res) => {
+    if (req.isAuthenticated()) {
+        const query = 
+        `SELECT "applications_location"."id", "location"."location_name"
+        FROM "applications_location"
+        JOIN "location" ON "applications_location"."location_id" = "location"."id"
+        WHERE "applications_location"."applications_id" = $1;`;
+        pool.query(query, [req.params.id]).then((results) => {
+            res.send(results.rows);
+        }).catch((error) => {
+            console.log(error)
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(403);
+    }
+}); // end applications-locations GET route
+
+router.get('/subjects', (req, res) => {
+    if (req.isAuthenticated()) {
+        const query = `SELECT * FROM "applications" WHERE "active" = true ORDER BY "date" DESC;`;
+        pool.query(query).then((results)=> {
+            res.send(results.rows);
+        }).catch((error) => {
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(403);
+    }
+}); // end applications-subjects GET route
+
 /**
  * "Delete" (Update) an application from the database
  */
