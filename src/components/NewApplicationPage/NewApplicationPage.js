@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import './NewApplicationPage.css';
 
 import StateSelect from './StateSelect';
 import SubmitDialog from './SubmitDialog';
@@ -55,8 +56,8 @@ class NewApplicationPage extends Component {
 
         this.config = {
             cloud_name: "catalyst-learning-center",
-            api_key: "255835282191515",
-            api_secret: "yH9YfkH09vTW1-snCMMPjiHkF-Q",
+            api_key: process.env.RECAPTCHA_API_KEY,
+            api_secret: process.env.RECAPTCHA_API_SECRET,
             upload_preset: "c7bvn7bu"
         }
     }
@@ -208,12 +209,14 @@ class NewApplicationPage extends Component {
 
     render() {
         return (
-            <Paper>
-                <form onSubmit={this.postApplication} className="application-container">
-                    <FormControl>
-                        <h1>New Tutor Application</h1>
-                        <Grid container>
-                            <Grid item xs={4}>
+            <div className="view-container">
+                <img className="application-logo" src="/images/catalyst2.png" />
+                <h1>Tutor Application</h1>
+                <div className="application-container">
+                    <form onSubmit={this.postApplication}>
+                        <FormControl>
+                            <Grid container>
+                                <Grid item xs={4}>
                                     <TextField
                                         required
                                         name="applicant_first_name"
@@ -288,99 +291,100 @@ class NewApplicationPage extends Component {
                                         fullWidth
                                     />
                                     <br />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <TextField
-                                    required
-                                    name="applicant_qualifications"
-                                    label="Applicable Qualifications"
-                                    margin="normal"
-                                    value={this.state.application.applicant_qualifications}
-                                    onChange={this.handleApplicationChange}
-                                    fullWidth
-                                />
-                                <TextField
-                                    required
-                                    name="applicant_experience"
-                                    label="Past Tutoring Experience"
-                                    margin="normal"
-                                    value={this.state.application.applicant_experience}
-                                    onChange={this.handleApplicationChange}
-                                    fullWidth
-                                />
-                                <TextField
-                                    required
-                                    name="applicant_age_group"
-                                    label="Which age group do you prefer to teach?"
-                                    margin="normal"
-                                    value={this.state.application.applicant_age_group}
-                                    onChange={this.handleApplicationChange}
-                                    fullWidth
-                                />
-                                <br />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <TextField
+                                        required
+                                        name="applicant_qualifications"
+                                        label="Applicable Qualifications"
+                                        margin="normal"
+                                        value={this.state.application.applicant_qualifications}
+                                        onChange={this.handleApplicationChange}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        required
+                                        name="applicant_experience"
+                                        label="Past Tutoring Experience"
+                                        margin="normal"
+                                        value={this.state.application.applicant_experience}
+                                        onChange={this.handleApplicationChange}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        required
+                                        name="applicant_age_group"
+                                        label="Which age group do you prefer to teach?"
+                                        margin="normal"
+                                        value={this.state.application.applicant_age_group}
+                                        onChange={this.handleApplicationChange}
+                                        fullWidth
+                                    />
+                                    <br />
 
 
-                                <h3>Subject Areas of Interest</h3>
-                                <FormGroup>
-                                    {this.state.subjects.map((subject, index) => (
-                                        <FormControlLabel
-                                            key={subject.id}
-                                            control={<Checkbox
-                                                name="applicant_subjects"
+                                    <h3>Subject Areas of Interest</h3>
+                                    <FormGroup>
+                                        {this.state.subjects.map((subject, index) => (
+                                            <FormControlLabel
                                                 key={subject.id}
-                                                label={subject.subjects}
-                                                value={`${subject.id}`}
-                                                onChange={this.handleSubjectCheckbox}
-                                                color="primary"
-                                            />}
-                                            label={subject.subjects}>
-                                        </FormControlLabel>
-                                    ))}
-                                </FormGroup>
-                                <br />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <h3>Requested Locations</h3>
-                                <FormGroup>
-                                    {this.state.locations.map((location, index) => (
-                                        <FormControlLabel
-                                            key={location.id}
-                                            control={<Checkbox
-                                                name="applicant_subjects"
+                                                control={<Checkbox
+                                                    name="applicant_subjects"
+                                                    key={subject.id}
+                                                    label={subject.subjects}
+                                                    value={`${subject.id}`}
+                                                    onChange={this.handleSubjectCheckbox}
+                                                    color="primary"
+                                                />}
+                                                label={subject.subjects}>
+                                            </FormControlLabel>
+                                        ))}
+                                    </FormGroup>
+                                    <br />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <h3>Requested Locations</h3>
+                                    <FormGroup>
+                                        {this.state.locations.map((location, index) => (
+                                            <FormControlLabel
                                                 key={location.id}
-                                                value={`${location.id}`}
-                                                onChange={this.handleLocationsCheckbox}
-                                                color="primary"
-                                            />}
-                                            label={location.location_name}>
-                                        </FormControlLabel>
-                                    ))}
-                                </FormGroup>
+                                                control={<Checkbox
+                                                    name="applicant_subjects"
+                                                    key={location.id}
+                                                    value={`${location.id}`}
+                                                    onChange={this.handleLocationsCheckbox}
+                                                    color="primary"
+                                                />}
+                                                label={location.location_name}>
+                                            </FormControlLabel>
+                                        ))}
+                                    </FormGroup>
 
 
-                                <Button variant="contained" onClick={this.openCloudinary}>Upload Resume (PDF)</Button>
-
-                                <ReCaptcha
-                                    ref={(el) => { this.captcha = el; }}
-                                    size="normal"
-                                    render="explicit"
-                                    sitekey="6Ld9BHQUAAAAANG2ZTJ-tsZGsw9uaE1_1PTUKXlM"
-                                    onloadCallback={this.onLoadRecaptcha}
-                                    verifyCallback={this.verifyCallback}
-                                />
-                                <Button variant="contained" onClick={this.easyFunction}>Easy</Button>
-                                <Button variant="contained" color="primary" type="submit">
-                                    Submit
-                                </Button>
+                                    <Button variant="contained" onClick={this.openCloudinary}>Upload Resume (PDF)</Button>
+                                    <div>
+                                        <ReCaptcha
+                                            ref={(el) => { this.captcha = el; }}
+                                            size="normal"
+                                            render="explicit"
+                                            sitekey="6Ld9BHQUAAAAANG2ZTJ-tsZGsw9uaE1_1PTUKXlM"
+                                            onloadCallback={this.onLoadRecaptcha}
+                                            verifyCallback={this.verifyCallback}
+                                        />
+                                        <Button variant="contained" onClick={this.easyFunction}>Easy</Button>
+                                        <Button variant="contained" color="primary" type="submit">
+                                            Submit
+                                    </Button>
+                                    </div>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </FormControl>
-                </form>
-                <SubmitDialog open={this.state.submitDialogOpen} handleDialogClose={this.handleSubmitDialogClose} />
-                {JSON.stringify(this.state)}
-            </Paper>
-        )
-    }
-}
-
+                        </FormControl>
+                    </form>
+                    <SubmitDialog open={this.state.submitDialogOpen} handleDialogClose={this.handleSubmitDialogClose} />
+                </div>
+            </div>
+                )
+            }
+        }
+        
 export default NewApplicationPage;

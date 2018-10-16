@@ -8,19 +8,7 @@ const router = express.Router();
 
 const nodemailer = require("nodemailer");
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
-  auth: {
-    type: 'OAuth2',
-    user: 'clcnodemailer@gmail.com',
-    clientId: process.env.OAUTH_CLIENT_ID,
-    clientSecret: process.env.OAUTH_CLIENT_SECRET,
-    refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-    accessToken: process.env.OAUTH_ACCESS_TOKEN
-  }
-});
+
 
 // Handles Ajax request for user information if user is authenticated
 router.get('/', rejectUnauthenticated, (req, res) => {
@@ -66,8 +54,22 @@ router.post('/forgot', (req,res)=>{
   let queryText = `SELECT "username" FROM "users" WHERE "username" LIKE $1;`
   pool.query(queryText, [req.body.userInfoEmail]).then((results)=>{
     if (results.rows.length){
+      const auth = {
+        type: 'OAuth2',
+        user: 'catalystcenter.mail@gmail.com',
+        clientId: process.env.OAUTH_CLIENT_ID,
+        clientSecret: process.env.OAUTH_CLIENT_SECRET,
+        refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+      };
+      console.log(auth);
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: auth
+      });
       const mail = {
-        from: "Catalyst Learning Center <clcnodemailer@gmail.com>",
+        from: "Catalyst Learning Center <catalystcenter.mail@gmail.com>",
         to: `${req.body.userInfoEmail}`,
         subject: "Log in Information",
         text: "Your password is the last four digits of your phone number",
@@ -75,7 +77,7 @@ router.post('/forgot', (req,res)=>{
       }
       transporter.sendMail(mail, function (err, info) {
         if (err) {
-          console.log(err);
+          console.log('ERROR', err);
         } else {
           // see https://nodemailer.com/usage
           console.log("info.messageId: " + info.messageId);

@@ -5,28 +5,7 @@ const axios = require('axios');
 
 const nodemailer = require("nodemailer");
 
-const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-        type: 'OAuth2',
-        user: 'clcnodemailer@gmail.com',
-        clientId: process.env.OAUTH_CLIENT_ID,
-        clientSecret: process.env.OAUTH_CLIENT_SECRET,
-        refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-        accessToken: process.env.OAUTH_ACCESS_TOKEN
-    }
-});
 
-
-const mail = {
-    from: "Catalyst Learning Center <clcnodemailer@gmail.com>",
-    to: "trav.dunn@outlook.com",
-    subject: "Application Submitted",
-    text: "An application has been submitted to Catalyst Learning Center",
-    html: "<p>An application has been submitted to Catalyst Learning Center</p>"
-}
 
 
 
@@ -75,11 +54,8 @@ router.post('/', (req, res) => {
     const applicantSubjects = req.body.applicant_subjects
     const applicantLocations = req.body.applicant_locations
 
-    // Secret Key
-    const secretKey = '6Ld9BHQUAAAAADgfahozNvUGW9a0Cohaz7RkAdHI';
-
     //verify URL
-    const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}&remoteip=${req.connection.remoteAddress}`;
+    const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_API_SECRET_KEY}&response=${req.body.captcha}&remoteip=${req.connection.remoteAddress}`;
 
     // make request to verifyUrl
     axios({
@@ -123,6 +99,30 @@ router.post('/', (req, res) => {
                 await client.query('ROLLBACK');
                 throw e;
             } finally {
+
+                const auth = {
+                    type: 'OAuth2',
+                    user: 'catalystcenter.mail@gmail.com',
+                    clientId: process.env.OAUTH_CLIENT_ID,
+                    clientSecret: process.env.OAUTH_CLIENT_SECRET,
+                    refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+                };
+                console.log(auth);
+                const transporter = nodemailer.createTransport({
+                    host: 'smtp.gmail.com',
+                    port: 465,
+                    secure: true,
+                    auth: auth
+                });
+
+
+                const mail = {
+                    from: "Catalyst Learning Center <catalystcenter.mail@gmail.com>",
+                    to: "trav.dunn@outlook.com",
+                    subject: "Application Submitted",
+                    text: "An application has been submitted to Catalyst Learning Center",
+                    html: "<p>An application has been submitted to Catalyst Learning Center</p>"
+                }
                 transporter.sendMail(mail, function (err, info) {
                     if (err) {
                         console.log(err);

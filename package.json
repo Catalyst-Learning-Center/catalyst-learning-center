@@ -19,6 +19,7 @@
     "match-sorter": "^2.3.0",
     "material-ui-filter": "^2.1.2",
     "material-ui-pickers": "^1.0.0-rc.17",
+    "mdbreact": "^4.8.1",
     "moment": "^2.22.2",
     "muishift": "^1.0.8",
     "nodemailer": "^4.6.8",

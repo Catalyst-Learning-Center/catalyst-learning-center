@@ -8,6 +8,11 @@ import logger from 'redux-logger';
 import reducer from './redux/reducers'; // imports ./redux/reducers/index.js
 import 'typeface-roboto';
 
+import 'font-awesome/css/font-awesome.min.css';
+import 'bootstrap-css-only/css/bootstrap.min.css';
+import 'mdbreact/dist/css/mdb.css';
+
+
 import App from './App';
 import rootSaga from './redux/sagas'; // imports ./redux/sagas/index.js
 
