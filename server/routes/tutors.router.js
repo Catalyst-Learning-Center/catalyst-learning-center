@@ -26,7 +26,10 @@ router.get('/', (req, res) => {
  * POST route template
  */
 router.post('/', (req, res) => {
-
+console.log('in tutors router')
+if (req.isAuthenticated()) {
+    
+}
 });
 
 /**
