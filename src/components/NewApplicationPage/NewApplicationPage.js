@@ -5,7 +5,6 @@ import './NewApplicationPage.css';
 import StateSelect from './StateSelect';
 import SubmitDialog from './SubmitDialog';
 
-import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -81,7 +80,6 @@ class NewApplicationPage extends Component {
             if (result) {
                 let cloudinaryUrl = result[0].url
                 this.setState({
-                    // store url to local state BEFORE dispatching an action
                     application: { ...this.state.application, resume: cloudinaryUrl }
                 });
             }

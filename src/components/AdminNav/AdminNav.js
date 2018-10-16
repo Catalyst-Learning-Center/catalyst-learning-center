@@ -10,6 +10,10 @@ import { triggerLogout } from '../../redux/actions/loginActions';
 
 import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, Collapse, NavItem, NavLink, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact';
 
+const style = {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+}
+
 class AdminNav extends React.Component {
     constructor(props) {
         super(props);
@@ -36,24 +40,24 @@ class AdminNav extends React.Component {
 
     render() {
         return (
-                <Navbar className="adminNav" dark expand="md" scrolling>
-                    <NavbarBrand>
-                        <strong className="navBrand">Catalyst Learning Center Admin</strong>
+                <Navbar className="admin-nav" dark expand="md" scrolling>
+                    <NavbarBrand tag="span">
+                        <strong className="admin-nav-brand">Catalyst Learning Center Admin</strong>
                     </NavbarBrand>
                     {!this.state.isWideEnough && <NavbarToggler onClick={this.onClick} />}
                     <Collapse isOpen={this.state.collapse} navbar>
                         <NavbarNav left>
                             <NavItem>
-                                <NavLink to="/admin-data">Admin Data</NavLink>
+                                <NavLink to="/admin-data" activeStyle={style}>View Data</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink to="/manage-tutors">Manage Tutors</NavLink>
+                            <NavLink to="/manage-tutors" activeStyle={style}>Manage Tutors</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink to="/manage-applications">Manage Applications</NavLink>
+                                <NavLink to="/manage-applications" activeStyle={style}>Manage Applications</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink to="/manage-locations">Manage Locations</NavLink>
+                                <NavLink to="/manage-locations" activeStyle={style}>Manage Locations</NavLink>
                             </NavItem>
                         </NavbarNav>
                         <NavbarNav right>
