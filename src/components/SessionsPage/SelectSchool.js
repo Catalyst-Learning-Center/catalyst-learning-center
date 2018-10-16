@@ -1,62 +1,56 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Axios from 'axios';
 // Material UI imports
 import Select from 'react-select';
 
 const mapStateToProps = state => ({
-    school: state.sessions.school
+    schools: state.schools,
+    selectedSchool: state.sessions.school
 });
 
 class SelectSchool extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            schools: [],
-            selectedSchool: null,
-        }
-    }
     componentDidMount = () => {
         this.getSchools();
     }
 
     getSchools = () => {
-        Axios({
-            method: 'GET',
-            url: '/schools'
-        }).then((response) => {
-            console.log('back from /schools GET with: ', response.data);
-            this.setState({
-                schools: response.data,
-            })
-        }).catch((error) => {
-            console.log('/schools GET error: ', error);
-            alert('there was an error getting the schools');
-        })
+        // Axios({
+        //     method: 'GET',
+        //     url: '/schools'
+        // }).then((response) => {
+        //     console.log('back from /schools GET with: ', response.data);
+        //     this.setState({
+        //         schools: response.data,
+        //     })
+        // }).catch((error) => {
+        //     console.log('/schools GET error: ', error);
+        //     alert('there was an error getting the schools');
+        // })
+        this.props.dispatch({ type: 'GET_SCHOOLS' });
     }
 
     handleChange = (value) => {
-        this.setState({
-            selectedSchool: value,
-        });
         let action = {
             type: 'SET_SESSION_SCHOOL',
-            payload: value.value 
+            payload: value
         }
         this.props.dispatch(action);
     };
 
     render() {
         return (
+            <div>
                 <Select
-                    options={this.state.schools.map((school) => ({
+                    options={this.props.schools.map((school) => ({
                         value: school.id,
                         label: school.school_name,
                     }))}
-                    value={this.state.selectedSchool}
+                    value={this.props.selectedSchool}
                     onChange={this.handleChange}
                     placeholder="select a school"
                 />
+                {JSON.stringify(this.props.selectedSchool)}
+            </div>
         )
     }
 }

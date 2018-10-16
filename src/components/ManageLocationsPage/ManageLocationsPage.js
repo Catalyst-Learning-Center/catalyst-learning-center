@@ -7,6 +7,7 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 import AdminNav from '../AdminNav/AdminNav';
 import LocationExpansionPanel from './LocationExpansionPanel/LocationExpansionPanel';
 import EditLocationsDialog from './EditLocationsDialog/EditLocationsDialog';
+import locationsDataMap from './LocationsDataMap/LocationsDataMap';
 import Button from '@material-ui/core/Button';
 
 const mapStateToProps = state => ({
@@ -104,14 +105,18 @@ class ManageLocationsPage extends Component {
                         <Button variant="contained" color="secondary">Add Location</Button>
                     </div>
                     {this.state.locations.map((location, i)=>{
+                        console.log(location);
+                        
                         return (
+                            <React.Fragment key={location.id}> 
                             <LocationExpansionPanel key={i} location={location} handleEditDialogOpen={this.handleEditDialogOpen}/>
+                            <EditLocationsDialog location = {location}
+                                open={this.state.editDialogOpen}
+                                handleEditDialogClose={this.handleEditDialogClose}
+                                handleEditChange={this.handleEditChange}/>
+                            </React.Fragment>
                         )
-                    })}
-                    <EditLocationsDialog location = {this.state.locationToEdit}
-                    open={this.state.editDialogOpen}
-                     handleEditDialogClose={this.handleEditDialogClose}
-                     handleEditChange={this.handleEditChange}/>
+                    })} 
                 </div>
             )
         }
@@ -121,7 +126,7 @@ class ManageLocationsPage extends Component {
                 {content}
             </div>
         )
-    }
-}
+    }//end render
+}//end Component
 
 export default connect(mapStateToProps)(ManageLocationsPage);

@@ -34,10 +34,45 @@ class ManageAppsExpansionPanel extends Component {
             isOpen: false,
             confirmRemoveDialogue: false,
             removeDialogue: false,
+            locations: [],
+            subjects: '',
 
 
         };
     };
+
+    componentDidMount = () => {
+        this.getApplicationsLocations();
+    } 
+
+    getApplicationsLocations = () => {
+        axios({
+            method: 'GET',
+            url: '/applications/locations/' + this.props.item.id,
+        }).then((response) => {
+            console.log('HERE:', response.data)
+            this.setState({
+                locations: response.data
+            })
+        }).catch((error) => {
+            console.log('Error GETTING application locations from the database: ', error)
+        })
+    } // end getApplicationsLocations
+
+    getApplicationsSubjects = () => {
+        axios({
+            method: 'GET',
+            url: '/applications/subjects',
+        }).then((response) => {
+            console.log(response.data)
+            this.setState({
+                subjects: response.data
+            })
+        }).catch((error) => {
+            console.log('Error GETTING application subjects from the database: ', error)
+        })
+    } // end getApplicationsSubjects
+
 
     // tracks whether each expansion panel is open or closed
     handleExpansion = (event) => {
@@ -74,6 +109,7 @@ class ManageAppsExpansionPanel extends Component {
             removeDialogue: false,
         });
     };
+
 
     // removes an application from the DOM and updates the active status is the database from 'true' to 'false'
     removeApplication = (event) => {
@@ -131,6 +167,18 @@ class ManageAppsExpansionPanel extends Component {
                         <Typography>
                             Age Group: <br />
                             {this.props.item.applicant_age_group}
+                        </Typography>
+                    </ExpansionPanelDetails>
+                    <ExpansionPanelDetails>
+                        <Typography>
+                            Preferred Location: <br />
+                            <ul>
+                            {this.state.locations.map((location) => {
+                                return(
+                                    <li>{location.location_name}</li>
+                                )
+                            })}
+                            </ul>
                         </Typography>
                     </ExpansionPanelDetails>
                     <ExpansionPanelDetails>

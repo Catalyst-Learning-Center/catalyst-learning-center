@@ -2,40 +2,33 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Axios from 'axios';
 // Material UI imports
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
 const mapStateToProps = state => ({
-    subject: state.sessions.subject
+    subjects: state.subjects,
+    selectedSubject: state.sessions.subject
 });
 
 class SelectSubject extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            subjects: [],
-            selectedSubject: 0,
-        };
-    }
-
     componentDidMount = () => {
         this.getSubjects();
     }
 
     getSubjects = () => {
-        Axios({
-            method: 'GET',
-            url: '/subjects'
-        }).then((response) => {
-            console.log('back from /subjects GET with: ', response.data);
-            this.setState({
-                subjects: response.data,
-            });
-        }).catch((error) => {
-            console.log('/subjects GET error: ', error);
-            alert('there was a problem getting the subjects');
-        })
+        // Axios({
+        //     method: 'GET',
+        //     url: '/subjects'
+        // }).then((response) => {
+        //     console.log('back from /subjects GET with: ', response.data);
+        //     this.setState({
+        //         subjects: response.data,
+        //     });
+        // }).catch((error) => {
+        //     console.log('/subjects GET error: ', error);
+        //     alert('there was a problem getting the subjects');
+        // })
+        this.props.dispatch({type: 'GET_SUBJECTS'})
     }
 
     handleChange = (event) => {
@@ -50,9 +43,9 @@ class SelectSubject extends Component {
     render() {
         return (
             <div>
-                <InputLabel htmlFor="subject">Subject</InputLabel>
                 <Select
-                    value={this.props.subject}
+                    defaultValue="3"
+                    value={this.props.selectedSubject}
                     onChange={this.handleChange}
                     inputProps={{
                         name: 'subject',
@@ -62,7 +55,7 @@ class SelectSubject extends Component {
                     <MenuItem value="">
                         <em>None</em>
                     </MenuItem>
-                    {this.state.subjects.map((subject) => {
+                    {this.props.subjects.map((subject) => {
                         return(
                             <MenuItem key={subject.id} value={subject.id}>{subject.subjects}</MenuItem>
                         )

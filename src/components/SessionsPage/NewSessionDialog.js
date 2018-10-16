@@ -10,7 +10,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 // component imports
 import SelectSchool from './SelectSchool';
 import SelectGrade from './SelectGrade';
-import Axios from 'axios';
 
 const mapStateToProps = state => ({
     sessions: state.sessions
@@ -48,20 +47,27 @@ class NewSessionDialog extends Component {
         let dataToSend = {
             location: this.props.sessions.location,
             name: this.state.name,
-            school: this.props.sessions.school,
+            school: this.props.sessions.school.value,
             grade: this.props.sessions.grade
         }
-        Axios({
-            method: 'POST',
-            url: '/sessions',
-            data: dataToSend
-        }).then((response) => {
-            console.log('back from /sessions POST with: ', response.data);
-            this.handleClose();
-        }).catch((error) => {
-            console.log('/sessions POST error: ', error);
-            alert('there was a problem starting the session!');
-        })
+        // Axios({
+        //     method: 'POST',
+        //     url: '/sessions',
+        //     data: dataToSend
+        // }).then((response) => {
+        //     console.log('back from /sessions POST with: ', response.data);
+        //     this.handleClose();
+        //     this.props.dispatch({type: 'GET_ACTIVE_SESSIONS'});
+        // }).catch((error) => {
+        //     console.log('/sessions POST error: ', error);
+        //     alert('there was a problem starting the session!');
+        // })
+        let action = {
+            type: 'POST_NEW_SESSION',
+            payload: dataToSend
+        }
+        this.props.dispatch(action);
+        this.handleClose();
     }
 
     render() {
@@ -75,10 +81,6 @@ class NewSessionDialog extends Component {
                 >
                     <DialogTitle id="form-dialog-title">New Tutoring Session</DialogTitle>
                     <DialogContent>
-                        {/* <DialogContentText>
-                            To subscribe to this website, please enter your email address here. We will send
-                            updates occasionally.
-            </DialogContentText> */}
                         <TextField
                             autoFocus
                             margin="dense"

@@ -34,7 +34,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
    handleChange = (event) => {
      console.log('in handleChange', event);
      this.props.handleEditChange(event);
-   }
+   }//end handleChange
 
   render() {
     return (
@@ -42,7 +42,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
         open={this.props.open}
         onClose={this.handleClose}
         aria-labelledby="form-dialog-title"
-      >
+        >
         <DialogTitle id="form-dialog-title">Edit Location Information</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -55,7 +55,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="Location Name"
               type="text"
               fullWidth
-              value = {this.state.locationToEdit.location_name}
+              value={this.state.locationToEdit.location_name}
               onChange={this.props.handleEditChange}
             />
             <TextField
@@ -65,7 +65,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="Address"
               type="text"
               fullWidth
-              value = {this.state.locationToEdit.location_address}
+              value={this.state.locationToEdit.location_address}
               onChange={this.props.handleEditChange}
             />
             <TextField
@@ -75,7 +75,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="City"
               type="text"
               fullWidth
-              value = {this.state.locationToEdit.location_city}
+              value={this.state.locationToEdit.location_city}
               onChange={this.props.handleEditChange}
             />
             <TextField
@@ -85,7 +85,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="State"
               type="text"
               fullWidth
-              value = {this.state.locationToEdit.location_state}
+              value={this.state.locationToEdit.location_state}
               onChange={this.props.handleEditChange}
             />
             <TextField
@@ -95,7 +95,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="Zipcode"
               type="text"
               fullWidth
-              value = {this.state.locationToEdit.location_zipcode}
+              value={this.state.locationToEdit.location_zipcode}
               onChange={this.props.handleEditChange}
             />
             <TextField
@@ -105,7 +105,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               label="Phone"
               type="text"
               fullWidth
-              value = {this.state.locationToEdit.location_phone}
+              value={this.state.locationToEdit.location_phone}
               onChange={this.props.handleEditChange}
             />
         </DialogContent>
@@ -119,6 +119,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
         </DialogActions>
       </Dialog>
     )
-  }
-}
+  }//end render
+}//end Component
 export default EditLocationsDialog;
