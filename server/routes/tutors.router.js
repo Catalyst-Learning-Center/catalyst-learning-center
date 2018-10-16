@@ -70,4 +70,26 @@ router.put('/delete', (req, res) => {
     }
 })
 
+router.put('/edit', (req, res) => {
+    if (req.isAuthenticated()) {
+        console.log('/tutors/edit PUT route hit with: ', req.body);
+        let edit = req.body;
+        const queryText = `UPDATE "user_info" SET "user_first_name" = $1, "user_last_name" = $2,
+        "user_address" = $3, "user_city" = $4, "user_state" = $5, "user_zipcode" = $6, "user_cell_phone" = $7,
+        "user_email" = $8, "user_qualifications" = $9, "user_experience" = $10, "user_age_group" = $11
+        WHERE "id" = $12;`;
+        pool.query(queryText, [edit.user_first_name, edit.user_last_name, edit.user_address, edit.user_city,
+        edit.user_state, edit.user_zipcode, edit.user_cell_phone, edit.user_email, edit.user_qualifications,
+        edit.user_experience, edit.user_age_group, edit.id]).then((results) => {
+            console.log('back from /tutors/edit PUT with: ', results.rows);
+            res.sendStatus(201);
+        }).catch((error) => {
+            console.log('/tutors/edit PUT error: ', error);
+            res.sendStatus(500);
+        })
+    } else {
+        res.sendStatus(401);
+    }
+})
+
 module.exports = router;

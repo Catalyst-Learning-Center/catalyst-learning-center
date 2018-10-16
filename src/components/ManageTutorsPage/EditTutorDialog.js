@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 // Material UI imports
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -26,6 +27,7 @@ class EditTutorDialog extends Component {
                 user_qualifications: this.props.tutor.user_qualifications,
                 user_experience: this.props.tutor.user_experience,
                 user_age_group: this.props.tutor.user_age_group,
+                id: this.props.tutor.id
             }
         };
     }
@@ -58,6 +60,12 @@ class EditTutorDialog extends Component {
 
     handleSave = () => {
         console.log(this.state.editedTutor);
+        let action = {
+            type: 'EDIT_TUTOR',
+            payload: this.state.editedTutor
+        }
+        this.props.dispatch(action);
+        this.handleClose();
     }
 
     render() {
@@ -157,4 +165,4 @@ class EditTutorDialog extends Component {
     }
 }
 
-export default EditTutorDialog;
+export default connect()(EditTutorDialog);
