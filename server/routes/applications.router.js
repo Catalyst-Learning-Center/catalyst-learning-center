@@ -51,7 +51,7 @@ const axios = require('axios');
  */
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
-        const query = `SELECT * FROM "applications" WHERE "active" = true;`;
+        const query = `SELECT * FROM "applications" WHERE "active" = true ORDER BY "date" DESC;`;
         pool.query(query).then((results)=> {
             res.send(results.rows);
         }).catch((error) => {

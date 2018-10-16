@@ -7,7 +7,7 @@ import axios from 'axios';
 
 import Checkbox from '@material-ui/core/Checkbox';
 
-import { ReCaptcha } from 'react-recaptcha-google';
+import ReCaptcha from '../../ReCaptcha/ReCaptcha';
 
 
 class NewApplicationPage extends Component {
