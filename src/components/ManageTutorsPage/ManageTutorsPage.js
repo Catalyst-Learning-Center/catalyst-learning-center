@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
 import AdminNav from '../AdminNav/AdminNav';
+import TutorsList from './TutorsList';
+// Material UI imports
+import { Button } from '@material-ui/core';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -24,6 +27,10 @@ class ManageTutorsPage extends Component {
         }
     }
 
+    newTutor = () => {
+        this.props.history.push('/add-tutor');
+    }
+
     render() {
         let content = null;
         let nav = null;
@@ -37,7 +44,9 @@ class ManageTutorsPage extends Component {
         if (this.props.user.userName) {
             content = (
                 <div>
-
+                    <h1>Manage Tutors</h1>
+                    <Button onClick={this.newTutor}>Add New Tutor</Button>
+                    <TutorsList />
                 </div>
             )
         }

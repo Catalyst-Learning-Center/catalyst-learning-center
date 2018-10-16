@@ -14,7 +14,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Grid from '@material-ui/core/Grid';
 
-import { ReCaptcha } from 'react-recaptcha-google';
+import ReCaptcha from '../../ReCaptcha/ReCaptcha';
 
 
 class NewApplicationPage extends Component {

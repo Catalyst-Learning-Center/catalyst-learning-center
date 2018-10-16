@@ -14,8 +14,8 @@ const nodemailer = require("nodemailer");
  */
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
-        const query = `SELECT * FROM "applications" WHERE "active" = true;`;
-        pool.query(query).then((results) => {
+        const query = `SELECT * FROM "applications" WHERE "active" = true ORDER BY "date" DESC;`;
+        pool.query(query).then((results)=> {
             res.send(results.rows);
         }).catch((error) => {
             res.sendStatus(500);
