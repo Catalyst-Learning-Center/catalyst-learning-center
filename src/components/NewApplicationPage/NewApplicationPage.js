@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import StateSelect from './StateSelect';
+import axios from 'axios';
+import './NewApplicationPage.css';
 
+import StateSelect from './StateSelect';
+import SubmitDialog from './SubmitDialog';
+
+import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import axios from 'axios';
-
 import Checkbox from '@material-ui/core/Checkbox';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import Grid from '@material-ui/core/Grid';
 
 import ReCaptcha from '../../ReCaptcha/ReCaptcha';
 
@@ -35,6 +42,7 @@ class NewApplicationPage extends Component {
             subjects: [],
             locations: [],
             recaptchaToken: '',
+            submitDialogOpen: false
         }
     }
 
@@ -48,8 +56,8 @@ class NewApplicationPage extends Component {
 
         this.config = {
             cloud_name: "catalyst-learning-center",
-            api_key: "255835282191515",
-            api_secret: "yH9YfkH09vTW1-snCMMPjiHkF-Q",
+            api_key: process.env.RECAPTCHA_API_KEY,
+            api_secret: process.env.RECAPTCHA_API_SECRET,
             upload_preset: "c7bvn7bu"
         }
     }
@@ -74,7 +82,7 @@ class NewApplicationPage extends Component {
                 let cloudinaryUrl = result[0].url
                 this.setState({
                     // store url to local state BEFORE dispatching an action
-                    application: {...this.state.application, resume: cloudinaryUrl}
+                    application: { ...this.state.application, resume: cloudinaryUrl }
                 });
             }
         })
@@ -87,7 +95,6 @@ class NewApplicationPage extends Component {
                 applicant_last_name: 'Dunn',
                 applicant_address: '1234 Main St',
                 applicant_city: 'Minneapolis',
-                applicant_state: 'MN',
                 applicant_zipcode: '55415',
                 applicant_cell_phone: '612-555-5555',
                 applicant_email: 'guy@stuff.com',
@@ -96,8 +103,6 @@ class NewApplicationPage extends Component {
                 applicant_age_group: 'Turtles',
                 resume: 'http://res.cloudinary.com/catalyst-learning-center/image/upload/v1539368056/a886mxbmrz2bdpq1a9qg.png',
             },
-            applicant_subjects: ['1','4'],
-            applicant_locations: ['1','2'],
         })
     }
 
@@ -110,6 +115,7 @@ class NewApplicationPage extends Component {
             data: { captcha: this.state.recaptchaToken, application: this.state.application, applicant_subjects: this.state.applicant_subjects, applicant_locations: this.state.applicant_locations }
         }).then((response) => {
             console.log(response.data);
+            this.handleSubmitDialogOpen();
         }).catch((error) => {
             console.log('Error in Application POST', error);
         })
@@ -143,6 +149,21 @@ class NewApplicationPage extends Component {
         }).catch((error) => {
             console.log('Error getting locations from server', error)
         });
+    }
+
+    // open submit dialog
+    handleSubmitDialogOpen = () => {
+        this.setState({
+            submitDialogOpen: true
+        })
+    }
+
+    // close submit dialog and push to login
+    handleSubmitDialogClose = () => {
+        this.setState({
+            submitDialogOpen: false
+        })
+        this.props.history.push('/login')
     }
 
     // update application to send
@@ -188,149 +209,182 @@ class NewApplicationPage extends Component {
 
     render() {
         return (
-            <div>
-                <form onSubmit={this.postApplication} className="application-container">
-                    <h1>New Tutor Application</h1>
-                    <TextField
-                        required
-                        name="applicant_first_name"
-                        label="First Name"
-                        margin="normal"
-                        value={this.state.application.applicant_first_name}
-                        onChange={this.handleApplicationChange}
-                    />
-                    <TextField
-                        required
-                        name="applicant_last_name"
-                        label="Last Name"
-                        margin="normal"
-                        value={this.state.application.applicant_last_name}
-                        onChange={this.handleApplicationChange}
-                    />
-                    <br />
-                    <TextField
-                        required
-                        name="applicant_address"
-                        label="Address"
-                        margin="normal"
-                        value={this.state.application.applicant_address}
-                        onChange={this.handleApplicationChange}
-                    />
-                    <TextField
-                        required
-                        name="applicant_city"
-                        label="City"
-                        margin="normal"
-                        value={this.state.application.applicant_city}
-                        onChange={this.handleApplicationChange}
-                    />
-                    <StateSelect
-                        handleApplicantStateChange={this.handleApplicantStateChange}
-                    />
+            <div className="view-container">
+                <img className="application-logo" src="/images/catalyst2.png" />
+                <h1>Tutor Application</h1>
+                <div className="application-container">
+                    <form onSubmit={this.postApplication}>
+                        <FormControl>
+                            <Grid container>
+                                <Grid item xs={4}>
+                                    <TextField
+                                        required
+                                        name="applicant_first_name"
+                                        label="First Name"
+                                        margin="normal"
+                                        value={this.state.application.applicant_first_name}
+                                        onChange={this.handleApplicationChange}
+                                        fullWidth
+                                    />
+                                    <br />
+                                    <TextField
+                                        required
+                                        name="applicant_last_name"
+                                        label="Last Name"
+                                        margin="normal"
+                                        value={this.state.application.applicant_last_name}
+                                        onChange={this.handleApplicationChange}
+                                        fullWidth
+                                    />
+                                    <br />
+                                    <TextField
+                                        required
+                                        name="applicant_address"
+                                        label="Address"
+                                        margin="normal"
+                                        value={this.state.application.applicant_address}
+                                        onChange={this.handleApplicationChange}
+                                        fullWidth
+                                    />
+                                    <br />
+                                    <TextField
+                                        required
+                                        name="applicant_city"
+                                        label="City"
+                                        margin="normal"
+                                        value={this.state.application.applicant_city}
+                                        onChange={this.handleApplicationChange}
+                                        fullWidth
+                                    />
+                                    <br />
+                                    <StateSelect
+                                        handleApplicantStateChange={this.handleApplicantStateChange}
+                                    />
+                                    <br />
+                                    <TextField
+                                        required
+                                        name="applicant_zipcode"
+                                        label="Zip Code"
+                                        margin="normal"
+                                        value={this.state.application.applicant_zipcode}
+                                        onChange={this.handleApplicationChange}
+                                        fullWidth
+                                    />
+                                    <br />
+                                    <TextField
+                                        required
+                                        name="applicant_cell_phone"
+                                        label="Cell Phone"
+                                        margin="normal"
+                                        value={this.state.application.applicant_cell_phone}
+                                        onChange={this.handleApplicationChange}
+                                        fullWidth
+                                    />
+                                    <br />
+                                    <TextField
+                                        required
+                                        name="applicant_email"
+                                        label="Email Address"
+                                        margin="normal"
+                                        value={this.state.application.applicant_email}
+                                        onChange={this.handleApplicationChange}
+                                        fullWidth
+                                    />
+                                    <br />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <TextField
+                                        required
+                                        name="applicant_qualifications"
+                                        label="Applicable Qualifications"
+                                        margin="normal"
+                                        value={this.state.application.applicant_qualifications}
+                                        onChange={this.handleApplicationChange}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        required
+                                        name="applicant_experience"
+                                        label="Past Tutoring Experience"
+                                        margin="normal"
+                                        value={this.state.application.applicant_experience}
+                                        onChange={this.handleApplicationChange}
+                                        fullWidth
+                                    />
+                                    <TextField
+                                        required
+                                        name="applicant_age_group"
+                                        label="Which age group do you prefer to teach?"
+                                        margin="normal"
+                                        value={this.state.application.applicant_age_group}
+                                        onChange={this.handleApplicationChange}
+                                        fullWidth
+                                    />
+                                    <br />
 
-                    <TextField
-                        required
-                        name="applicant_zipcode"
-                        label="Zip Code"
-                        margin="normal"
-                        value={this.state.application.applicant_zipcode}
-                        onChange={this.handleApplicationChange}
-                    />
-                    <TextField
-                        required
-                        name="applicant_cell_phone"
-                        label="Cell Phone"
-                        margin="normal"
-                        value={this.state.application.applicant_cell_phone}
-                        onChange={this.handleApplicationChange}
-                    />
-                    <TextField
-                        required
-                        name="applicant_email"
-                        label="Email Address"
-                        margin="normal"
-                        value={this.state.application.applicant_email}
-                        onChange={this.handleApplicationChange}
-                    />
-                    <br />
-                    <TextField
-                        required
-                        name="applicant_qualifications"
-                        label="Applicable Qualifications"
-                        margin="normal"
-                        value={this.state.application.applicant_qualifications}
-                        onChange={this.handleApplicationChange}
-                        fullWidth
-                    />
-                    <TextField
-                        required
-                        name="applicant_experience"
-                        label="Past Tutoring Experience"
-                        margin="normal"
-                        value={this.state.application.applicant_experience}
-                        onChange={this.handleApplicationChange}
-                        fullWidth
-                    />
-                    <TextField
-                        required
-                        name="applicant_age_group"
-                        label="Which age group do you prefer to teach?"
-                        margin="normal"
-                        value={this.state.application.applicant_age_group}
-                        onChange={this.handleApplicationChange}
-                        fullWidth
 
-                    />
-                    <br />
-                    <h3>Subject Areas of Interest</h3>
-                    {this.state.subjects.map((subject, index) => (
-                        <label key={index}> {subject.subjects}
-                            <Checkbox
-                                name="applicant_subjects"
-                                key={subject.id}
-                                label={subject.subjects}
-                                value={`${subject.id}`}
-                                onChange={this.handleSubjectCheckbox}
-                                color="primary"
-                            />
-                            <br />
-                        </label>
-                    ))}
+                                    <h3>Subject Areas of Interest</h3>
+                                    <FormGroup>
+                                        {this.state.subjects.map((subject, index) => (
+                                            <FormControlLabel
+                                                key={subject.id}
+                                                control={<Checkbox
+                                                    name="applicant_subjects"
+                                                    key={subject.id}
+                                                    label={subject.subjects}
+                                                    value={`${subject.id}`}
+                                                    onChange={this.handleSubjectCheckbox}
+                                                    color="primary"
+                                                />}
+                                                label={subject.subjects}>
+                                            </FormControlLabel>
+                                        ))}
+                                    </FormGroup>
+                                    <br />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <h3>Requested Locations</h3>
+                                    <FormGroup>
+                                        {this.state.locations.map((location, index) => (
+                                            <FormControlLabel
+                                                key={location.id}
+                                                control={<Checkbox
+                                                    name="applicant_subjects"
+                                                    key={location.id}
+                                                    value={`${location.id}`}
+                                                    onChange={this.handleLocationsCheckbox}
+                                                    color="primary"
+                                                />}
+                                                label={location.location_name}>
+                                            </FormControlLabel>
+                                        ))}
+                                    </FormGroup>
 
-                    <br />
-                    <h3>Requested Locations</h3>
-                    {this.state.locations.map((location, index) => (
-                        <label key={index}> {location.location_name}
-                            <Checkbox
-                                name="applicant_subjects"
-                                key={location.id}
-                                label={location.location_name}
-                                value={`${location.id}`}
-                                onChange={this.handleLocationsCheckbox}
-                                color="primary"
-                            />
-                        </label>
-                    ))}
 
-    
-                    <Button onClick={this.openCloudinary}>Upload Resume (PDF)</Button>
-
-                    <ReCaptcha
-                        ref={(el) => { this.captcha = el; }}
-                        size="normal"
-                        render="explicit"
-                        sitekey="6Ld9BHQUAAAAANG2ZTJ-tsZGsw9uaE1_1PTUKXlM"
-                        onloadCallback={this.onLoadRecaptcha}
-                        verifyCallback={this.verifyCallback}
-                    />
-                    <Button onClick={this.easyFunction}>Easy</Button>
-                    <Button type="submit">
-                        Submit
-                    </Button>
-                </form>
+                                    <Button variant="contained" onClick={this.openCloudinary}>Upload Resume (PDF)</Button>
+                                    <div>
+                                        <ReCaptcha
+                                            ref={(el) => { this.captcha = el; }}
+                                            size="normal"
+                                            render="explicit"
+                                            sitekey="6Ld9BHQUAAAAANG2ZTJ-tsZGsw9uaE1_1PTUKXlM"
+                                            onloadCallback={this.onLoadRecaptcha}
+                                            verifyCallback={this.verifyCallback}
+                                        />
+                                        <Button variant="contained" onClick={this.easyFunction}>Easy</Button>
+                                        <Button variant="contained" color="primary" type="submit">
+                                            Submit
+                                    </Button>
+                                    </div>
+                                </Grid>
+                            </Grid>
+                        </FormControl>
+                    </form>
+                    <SubmitDialog open={this.state.submitDialogOpen} handleDialogClose={this.handleSubmitDialogClose} />
+                </div>
             </div>
-        )
-    }
-}
-
+                )
+            }
+        }
+        
 export default NewApplicationPage;

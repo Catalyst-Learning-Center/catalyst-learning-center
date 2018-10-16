@@ -26,6 +26,11 @@ const theme = createMuiTheme({
   typography: {
     useNextVariants: true,
   },
+  palette: {
+    primary: {
+      main:'#ad0400'
+    },
+  }
 });
 
 class App extends Component {
