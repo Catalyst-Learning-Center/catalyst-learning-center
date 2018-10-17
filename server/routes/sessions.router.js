@@ -25,6 +25,23 @@ router.get('/', (req, res) => {
     }
 });
 
+router.get('/library-summary', (req, res) => {
+    if (req.isAuthenticated()) {
+        const query = `SELECT "sessions"."session_date", "location"."location_name", COUNT("sessions"."location_id") FROM "sessions"
+        JOIN "location" ON "location"."id" = "sessions"."location_id" 
+        GROUP BY "location"."location_name", 
+        ORDER BY "count" DESC;`;
+        pool.query(query).then((results) => {
+            res.send(results.rows);
+        }).catch((error) => {
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(403);
+
+    }
+});
+
 router.get('/school-reach', (req, res) => {
     if (req.isAuthenticated()) {
         const query = `SELECT "schools"."school_name", COUNT("sessions"."school_id") FROM "sessions"
