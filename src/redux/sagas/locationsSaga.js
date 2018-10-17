@@ -29,7 +29,7 @@ function* saveLocations(action) {
 
 function* locationsSaga() {
     yield takeEvery('GET_LOCATIONS', getLocations);
-    yield takeEvery('S')
+    // yield takeEvery('SAVE_LOCATIONS', )
 }
 
 export default locationsSaga;

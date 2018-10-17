@@ -5,6 +5,7 @@ import axios from 'axios';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
 import AdminNav from '../AdminNav/AdminNav';
+import AddLocationsDialog from './AddLocationsDialog/AddLocationsDialog';
 import LocationExpansionPanel from './LocationExpansionPanel/LocationExpansionPanel';
 import EditLocationsDialog from './EditLocationsDialog/EditLocationsDialog';
 import Button from '@material-ui/core/Button';
@@ -18,6 +19,7 @@ class ManageLocationsPage extends Component {
         super(props);
         this.state = {
             locations: [],
+            addDialogOpen: false,
             editDialogOpen: false,
             locationToEdit: {
                 location_name: '',
@@ -44,6 +46,20 @@ class ManageLocationsPage extends Component {
             this.props.history.push('/select-location');
         }//end if else
     }//end componentDidUpdate
+
+    addLocationOpen = () => {
+        console.log('addLocationOpen');
+        this.setState({
+            addDialogOpen: true,
+        });//end setState
+    }//end addLocationOpen
+
+    addLocationClose = () => {
+        //sets dialog box to close initially
+        this.setState({
+          addDialogOpen: false,
+        });//end setState
+      }//end handleClose
 
     handleEditDialogOpen = (location) => {
         //this handles openining the edit dialog
@@ -101,7 +117,10 @@ class ManageLocationsPage extends Component {
                         <p>Manage Tutoring Locations</p>
                     </div>
                     <div>
-                        <Button variant="contained" color="secondary">Add Location</Button>
+                        <Button variant="contained" color="primary" onClick={this.addLocationOpen}>Add Location</Button>
+                        <AddLocationsDialog 
+                        open = {this.state.addDialogOpen}
+                        addLocationClose = {this.addLocationClose} />
                     </div>
                     {this.state.locations.map((location, i)=>{
                         console.log(location);

@@ -17,7 +17,7 @@ const mapStateToProps = state => ({
      super(props);
 
      this.state = {
-       open: this.props.open,
+       open: false,
        locationToEdit: {
         location_name: this.props.location.location_name,
         location_address: this.props.location.location_address,
