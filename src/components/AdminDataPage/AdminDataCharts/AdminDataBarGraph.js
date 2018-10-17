@@ -8,21 +8,12 @@ class AdminDataBarGraph extends Component {
         super(props);
         this.state = {
             chartData: {
-                labels: ['2012-2013', '2013-2014', '2014-2015', '2015-2016', '2016-2017', '2017-2018', ],
+                labels: [],
                 datasets: [
                     {
                         label: 'Number of Students Tutored',
-                        data: [
-                            301, 260, 296, 328, 356, 490,
-                        ],
-                        backgroundColor: [
-                            'rgba(127, 0, 0, 0.6)',
-                            'rgba(245, 0, 0, 0.6)',
-                            'rgba(321, 0, 0, 0.6)',
-                            'rgba(127, 0, 0, 0.6)',
-                            'rgba(127, 0, 0, 0.6)',
-                            'rgba(127, 0, 0, 0.6)',
-                        ]
+                        data: [236],
+                        backgroundColor: [],
                     }
                 ],
             }
@@ -50,10 +41,13 @@ class AdminDataBarGraph extends Component {
 
     render() {
         let content = null;
+        let chartData = {
+            
+        };
 
 
         content = (
-            <div className="chart">
+            <div className="bar-graph">
                 <Bar
                     data={this.state.chartData}
                     options={{

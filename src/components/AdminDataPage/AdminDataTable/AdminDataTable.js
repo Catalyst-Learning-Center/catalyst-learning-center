@@ -236,7 +236,9 @@ class AdminDataTable extends Component {
             method: 'GET',
             url: '/sessions'
         }).then((response) => {
-            this.setState({ data: response.data });
+            this.setState({
+                data: response.data
+            });
             console.log('back from server with: ', response.data);
         }).catch((error) => {
             console.log('error: ', error);
@@ -343,7 +345,7 @@ class AdminDataTable extends Component {
                                                 <TableCell>{session.school_name}</TableCell>
                                                 <TableCell numeric>{session.grade_level}</TableCell>
                                                 <TableCell>{session.subjects}</TableCell>
-                                                <TableCell numeric>{moment(session.time).format('h:mm:ss')}</TableCell>
+                                                <TableCell numeric>{moment(session.time).format('h:mm')}</TableCell>
                                             </TableRow>
                                         );
                                     })}
