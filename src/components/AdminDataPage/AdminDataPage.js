@@ -19,6 +19,7 @@ class AdminDataPage extends Component {
         this.state = {
             chartData: {
                 labels: [],
+                // backgroundColor: [],
                 datasets: [],
             },
         }
@@ -67,6 +68,7 @@ class AdminDataPage extends Component {
         this.setState({
             chartData: {
                 labels: dataLabels,
+                // backgroundColor: [this.getRandomColor()],
                 datasets: [{
                     backgroundColor: this.getRandomColor(),
                     data: dataset,
