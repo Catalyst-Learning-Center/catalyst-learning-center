@@ -64,16 +64,13 @@ class ManageApplicationsPage extends Component {
             content = (
                 <div>
                     <br />
-                    Pending Applications 
+                    <h1>Pending Applications</h1>
                     <br />
                     <ul>
                         {/* pendingApplications is held in the ApplicationsReducer */}
                         {/* we are mapping over each application in the database */}
                         {this.props.pendingApplications.map((item, i) => {
                             return(
-                                // <li key={i}>
-                                // {item.applicant_first_name}
-                                // </li>
                                 <ManageAppsExpansionPanel getPendingApplications={this.getPendingApplications} item={item}/>
                             )
                         })}

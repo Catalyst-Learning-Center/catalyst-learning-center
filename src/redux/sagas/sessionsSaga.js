@@ -1,5 +1,6 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 import Axios from 'axios';
+import EditSessionDialog from '../../components/SessionsPage/EditSessionDialog';
 
 function* getActiveSessions(action) {
     try {
@@ -48,11 +49,21 @@ function* endSession(action) {
     }
 }
 
+function* editSession(action) {
+    try {
+        yield call(Axios.put, '/sessions/edit', action.payload);
+        yield put({type: 'GET_COMPLETED_SESSIONS'});
+    } catch(error) {
+        console.log('edit session error: ', error);
+    }
+}
+
 function* sessionsSaga() {
     yield takeEvery('GET_ACTIVE_SESSIONS', getActiveSessions);
     yield takeEvery('GET_COMPLETED_SESSIONS', getCompletedSessions);
     yield takeEvery('POST_NEW_SESSION', postNewSession);
     yield takeEvery('END_SESSION', endSession);
+    yield takeEvery('EDIT_SESSION', editSession);
 }
 
 export default sessionsSaga;

@@ -8,22 +8,24 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import InputLabel from '@material-ui/core/InputLabel';
 // component imports
 import SelectSchool from './SelectSchool';
 import SelectGrade from './SelectGrade';
 import SelectSubject from './SelectSubject';
 
 const mapStateToProps = state => ({
-    session: state.sessions
+    sessions: state.sessions
 });
 
 class EditSessionDialog extends Component {
     state = {
         open: false,
         editedSession: {
-            session_date: '',
-            student_name: '',
-            topics: '',
+            session_date: this.props.session.session_date,
+            student_name: this.props.session.student_name,
+            topics: this.props.session.topics,
+            time: this.props.time
         }
     };
 
@@ -32,15 +34,18 @@ class EditSessionDialog extends Component {
         this.setState({ open: true });
         this.props.dispatch({
             type: 'SET_SESSION_SCHOOL',
-            payload: this.props.session.school_name
+            payload: {
+                value: this.props.session.school_id,
+                label: this.props.session.school_name
+            }
         });
         this.props.dispatch({
             type: 'SET_SESSION_GRADE',
-            payload: this.props.session.grade_level
+            payload: this.props.session.grade_id
         });
         this.props.dispatch({
             type: 'SET_SESSION_SUBJECT',
-            payload: this.props.session.subjects
+            payload: this.props.session.subjects_id
         });
     };
 
@@ -55,6 +60,33 @@ class EditSessionDialog extends Component {
                 [event.target.name]: event.target.value
             }
         })
+    }
+
+    calculateNewTime = () => {
+        let time = this.state.editedSession.time;
+        let end_time = moment(this.props.session.start_time, 'HH:mm:ss').add(time, 'm')._d;
+        end_time = moment(end_time).format('HH:mm:ss');
+        return end_time;
+    }
+
+    handleConfirm = () => {
+        let dataToSend = {
+            session_date: this.state.editedSession.session_date,
+            student_name: this.state.editedSession.student_name,
+            school_id: this.props.sessions.school.value,
+            grade_id: this.props.sessions.grade,
+            subjects_id: this.props.sessions.subject,
+            topics: this.state.editedSession.topics,
+            end_time: this.calculateNewTime(),
+            id: this.props.session.id,
+        }
+        console.log(dataToSend);
+        let action = {
+            type: 'EDIT_SESSION',
+            payload: dataToSend,
+        }
+        this.props.dispatch(action);
+        this.handleClose();
     }
 
     render() {
@@ -72,10 +104,10 @@ class EditSessionDialog extends Component {
                             type="date"
                             name="session_date"
                             onChange={this.changeSession}
-                            defaultValue={moment(this.props.session.session_date).format('YYYY-MM-DD')}
+                            defaultValue={moment(this.state.editedSession.session_date).format('YYYY-MM-DD')}
                         />
                         <TextField
-                            value={this.props.session.student_name}
+                            value={this.state.editedSession.student_name}
                             name="student_name"
                             onChange={this.changeSession}
                             fullWidth
@@ -84,21 +116,24 @@ class EditSessionDialog extends Component {
                         <SelectGrade />
                         <SelectSubject />
                         <TextField
-                            value={this.props.session.topics}
+                            value={this.state.editedSession.topics}
                             name="topics"
                             onChange={this.changeSession}
                             fullWidth
                         />
-                        {JSON.stringify(this.state.editedSession)}
-                        {JSON.stringify(this.props.session.school)}
-                        {JSON.stringify(this.props.session.grade)}
-                        {JSON.stringify(this.props.session.subject)}
+                        <TextField
+                            value={this.state.editedSession.time}
+                            name="time"
+                            onChange={this.changeSession}
+                            fullWidth
+                        />
+                        <InputLabel htmlFor="time">minutes</InputLabel>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
                             Cancel
             </Button>
-                        <Button onClick={this.handleClose} color="primary">
+                        <Button onClick={this.handleConfirm} color="primary">
                             Confirm Changes
             </Button>
                     </DialogActions>
