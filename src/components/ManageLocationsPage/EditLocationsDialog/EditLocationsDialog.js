@@ -33,12 +33,18 @@ const mapStateToProps = state => ({
     let action = {
       type: 'EDIT_LOCATION',
       payload: this.props.location,
-  }
+  }//end action
   this.props.dispatch(action);
     this.setState({
       open: true,
-    });
-  }
+    });//end setState
+  }//end openDialog
+
+  // saveDialog = () => {
+  //   let action = {
+  //     type: 
+  //   }
+  // }
 
    handleClose = () => {
      //sets dialog box to close initially
@@ -52,8 +58,8 @@ const mapStateToProps = state => ({
       locationToEdit: {
         ...this.state.locationToEdit,
         [event.target.name]: event.target.value
-      }
-    })
+      }//end locationToEdit
+    });//end setState
    }//end handleChange
 
   render() {
@@ -69,8 +75,6 @@ const mapStateToProps = state => ({
         <DialogContent>
           <DialogContentText>
             Please enter changes here:
-            {JSON.stringify(this.state)}
-            {JSON.stringify(this.props.locations)}
           </DialogContentText>
           <TextField
               autoFocus

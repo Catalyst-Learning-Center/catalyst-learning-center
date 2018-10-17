@@ -18,6 +18,7 @@ const editedLocation = (state = {}, action) => {
     }
 };
 
+
 export default combineReducers({
     locations,
     editedLocation
