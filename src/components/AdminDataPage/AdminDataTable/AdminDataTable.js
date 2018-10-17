@@ -54,6 +54,7 @@ function getSorting(order, orderBy) {
 
 const rows = [
     { id: 'session_date', numeric: false, disablePadding: true, label: 'Date' },
+    { id: 'location_name', numeric: false, disablePadding: true, label: 'Location' },
     { id: 'student_name', numeric: false, disablePadding: true, label: 'Student Name' },
     { id: 'school_name', numeric: false, disablePadding: true, label: 'School' },
     { id: 'grade_level', numeric: true, disablePadding: false, label: 'Grade Level' },
@@ -236,7 +237,9 @@ class AdminDataTable extends Component {
             method: 'GET',
             url: '/sessions'
         }).then((response) => {
-            this.setState({ data: response.data });
+            this.setState({
+                data: response.data
+            });
             console.log('back from server with: ', response.data);
         }).catch((error) => {
             console.log('error: ', error);
@@ -339,11 +342,12 @@ class AdminDataTable extends Component {
                                                 <TableCell component="th" scope="row" padding="none">
                                                     {moment(session.session_date.toString()).format('MM/DD/YY')}
                                                 </TableCell>
+                                                <TableCell>{session.location_name}</TableCell>
                                                 <TableCell>{session.student_name}</TableCell>
                                                 <TableCell>{session.school_name}</TableCell>
                                                 <TableCell numeric>{session.grade_level}</TableCell>
                                                 <TableCell>{session.subjects}</TableCell>
-                                                <TableCell numeric>{moment(session.time).format('h:mm:ss')}</TableCell>
+                                                <TableCell numeric>{moment(session.time).format('h:mm')}</TableCell>
                                             </TableRow>
                                         );
                                     })}
