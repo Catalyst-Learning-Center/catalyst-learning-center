@@ -7,12 +7,11 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 import AdminNav from '../AdminNav/AdminNav';
 import LocationExpansionPanel from './LocationExpansionPanel/LocationExpansionPanel';
 import EditLocationsDialog from './EditLocationsDialog/EditLocationsDialog';
-import locationsDataMap from './LocationsDataMap/LocationsDataMap';
 import Button from '@material-ui/core/Button';
 
 const mapStateToProps = state => ({
     user: state.user,
-});
+});//end mapStateToProps
 
 class ManageLocationsPage extends Component {
     constructor (props) {
@@ -27,7 +26,7 @@ class ManageLocationsPage extends Component {
                 location_state: '',
                 location_zipcode: '',
                 location_phone: ''
-            },
+            },//end locationsToEdit
         }//end this.state
     }//end constructor
 
@@ -48,9 +47,9 @@ class ManageLocationsPage extends Component {
 
     handleEditDialogOpen = (location) => {
         //this handles openining the edit dialog
+        console.log('handleEditDialogOpen');
         this.setState({
             editDialogOpen: true,
-            locationToEdit: location,
         });//end setState
     }//end handleEditDialogOpen
 
@@ -66,7 +65,7 @@ class ManageLocationsPage extends Component {
         console.log('in handleEditChange', event);
         this.setState({
             [event.target.name]: event.target.value
-        });
+        });//end setState
     }//end handleEditChange
 
     getLocations() {
@@ -109,11 +108,7 @@ class ManageLocationsPage extends Component {
                         
                         return (
                             <React.Fragment key={location.id}> 
-                            <LocationExpansionPanel key={i} location={location} handleEditDialogOpen={this.handleEditDialogOpen}/>
-                            <EditLocationsDialog location = {location}
-                                open={this.state.editDialogOpen}
-                                handleEditDialogClose={this.handleEditDialogClose}
-                                handleEditChange={this.handleEditChange}/>
+                            <LocationExpansionPanel key={i} location={location}/>
                             </React.Fragment>
                         )
                     })} 

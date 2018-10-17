@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -6,6 +7,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+
+const mapStateToProps = state => ({
+  locations: state.locations,
+});
 
  class EditLocationsDialog extends Component {
    constructor (props) {
@@ -24,6 +29,23 @@ import DialogTitle from '@material-ui/core/DialogTitle';
      }//end state
    }//end constructor
 
+  openDialog = () => {
+    let action = {
+      type: 'EDIT_LOCATION',
+      payload: this.props.location,
+  }//end action
+  this.props.dispatch(action);
+    this.setState({
+      open: true,
+    });//end setState
+  }//end openDialog
+
+  // saveDialog = () => {
+  //   let action = {
+  //     type: 
+  //   }
+  // }
+
    handleClose = () => {
      //sets dialog box to close initially
      this.setState({
@@ -32,14 +54,20 @@ import DialogTitle from '@material-ui/core/DialogTitle';
    }//end handleClose
 
    handleChange = (event) => {
-     console.log('in handleChange', event);
-     this.props.handleEditChange(event);
+    this.setState({
+      locationToEdit: {
+        ...this.state.locationToEdit,
+        [event.target.name]: event.target.value
+      }//end locationToEdit
+    });//end setState
    }//end handleChange
 
   render() {
     return (
+      <div>
+        <Button onClick={this.openDialog} variant="contained" color="primary">Edit</Button>
         <Dialog
-        open={this.props.open}
+        open={this.state.open}
         onClose={this.handleClose}
         aria-labelledby="form-dialog-title"
         >
@@ -56,7 +84,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               type="text"
               fullWidth
               value={this.state.locationToEdit.location_name}
-              onChange={this.props.handleEditChange}
+              onChange={this.handleChange}
             />
             <TextField
               autoFocus
@@ -76,7 +104,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
               type="text"
               fullWidth
               value={this.state.locationToEdit.location_city}
-              onChange={this.props.handleEditChange}
+              onChange={this.handleChange}
             />
             <TextField
               autoFocus
@@ -110,7 +138,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
             />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.props.handleEditDialogClose} color="secondary">
+          <Button onClick={this.handleClose} color="secondary">
             Cancel
           </Button>
           <Button onClick={this.handleSubmit} color="primary">
@@ -118,7 +146,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
           </Button>
         </DialogActions>
       </Dialog>
+      </div>
     )
   }//end render
 }//end Component
-export default EditLocationsDialog;
+export default connect(mapStateToProps)(EditLocationsDialog);

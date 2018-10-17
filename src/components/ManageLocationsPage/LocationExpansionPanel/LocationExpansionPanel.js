@@ -1,16 +1,23 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import EditLocationsDialog from '../EditLocationsDialog/EditLocationsDialog';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { ListItemText, ListItem } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 
 class LocationExpansionPanel extends Component {
 
     handleEditClick = () => {
-        this.props.handleEditDialogOpen(this.props.location)
+        //this handles the edit buttons in the expansion panels
+        this.props.handleEditDialogOpen();
+        let action = {
+            type: 'EDIT_LOCATION',
+            payload: this.props.location,
+        }//end action
+        this.props.dispatch(action);
     }//end handleEditClick
 
   render() {
@@ -33,10 +40,7 @@ class LocationExpansionPanel extends Component {
                    </ListItem>
                </div>
             <div>
-                <Button onClick={this.handleEditClick} variant="contained" color="primary">Edit</Button>
-            </div>
-            <div>
-                <Button onClick={this.handleRemoveClick} variant="contained" color="secondary">Remove</Button>
+                <EditLocationsDialog location={this.props.location} />
             </div>
             </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -46,4 +50,4 @@ class LocationExpansionPanel extends Component {
 }//end Component
 
 
-export default LocationExpansionPanel;
+export default connect()(LocationExpansionPanel);
