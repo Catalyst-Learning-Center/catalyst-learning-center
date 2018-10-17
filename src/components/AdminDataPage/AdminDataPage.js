@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
@@ -13,8 +14,20 @@ const mapStateToProps = state => ({
 });
 
 class AdminDataPage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            chartData: {
+                labels: [],
+                // backgroundColor: [],
+                datasets: [],
+            },
+        }
+    }
+
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
+        this.getSessionData();
     }
 
     // componentDidUpdate runs after props and state have changed.
@@ -26,6 +39,54 @@ class AdminDataPage extends Component {
             this.props.history.push('/select-location');
         }
     }
+
+    getSessionData = () => {
+        console.log('in getSessionData');
+        axios({
+            method: 'GET',
+            url: '/sessions/school-reach'
+        }).then((response) => {
+            this.setState({
+                datasets: response.data,
+            });
+            console.log('back from server with: ', response.data);
+            this.setData();
+        }).catch((error) => {
+            console.log('error: ', error);
+            alert('There was an error getting sessions data.')
+        })
+    }
+
+    setData = () => {
+        console.log('setData');
+        let dataLabels = [];
+        let dataset = [];
+        let backgroundColor = [];
+        for (let school of this.state.datasets) {
+            dataLabels.push(school.school_name);
+            dataset.push(school.count);
+            let color = this.getRandomColor();
+            backgroundColor.push(color);
+        }
+        this.setState({
+            chartData: {
+                labels: dataLabels,
+                datasets: [{
+                    backgroundColor: backgroundColor,
+                    data: dataset,
+                }]
+            }
+        });
+    }
+
+    getRandomColor = () => {
+        let letters = '0123456789ABCDEF';
+        let color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
 
     render() {
         let content = null;
@@ -40,7 +101,7 @@ class AdminDataPage extends Component {
         if (this.props.user.userName) {
             content = (
                 <div>
-                    <AdminDataPieChart />
+                    <AdminDataPieChart data={this.state.chartData} />
                     <AdminDataBarGraph />
                     <AdminDataTable />
                 </div>

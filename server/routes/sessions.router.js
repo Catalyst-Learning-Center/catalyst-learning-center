@@ -7,7 +7,7 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
-        const query = `SELECT "sessions"."id", "sessions"."location_id", "sessions"."session_date", "sessions"."student_name", "sessions"."school_id", 
+        const query = `SELECT "location"."location_name", "sessions"."id", "sessions"."location_id", "sessions"."session_date", "sessions"."student_name", "sessions"."school_id", 
         "sessions"."grade_id", "sessions"."subjects_id", "sessions"."end_time" - "sessions"."start_time" AS "time", 
         "schools"."school_name", "grade"."grade_level", "subjects"."subjects" FROM "sessions"
         JOIN "schools" ON "schools"."id" = "sessions"."school_id" 
@@ -22,7 +22,42 @@ router.get('/', (req, res) => {
     } else {
         res.sendStatus(403);
 
-    }});
+    }
+});
+
+router.get('/library-summary', (req, res) => {
+    if (req.isAuthenticated()) {
+        const query = `SELECT "sessions"."session_date", "location"."location_name", COUNT("sessions"."location_id") FROM "sessions"
+        JOIN "location" ON "location"."id" = "sessions"."location_id" 
+        GROUP BY "location"."location_name", 
+        ORDER BY "count" DESC;`;
+        pool.query(query).then((results) => {
+            res.send(results.rows);
+        }).catch((error) => {
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(403);
+
+    }
+});
+
+router.get('/school-reach', (req, res) => {
+    if (req.isAuthenticated()) {
+        const query = `SELECT "schools"."school_name", COUNT("sessions"."school_id") FROM "sessions"
+        JOIN "schools" ON "schools"."id" = "sessions"."school_id" 
+        GROUP BY "schools"."school_name"
+        ORDER BY "count" DESC;`;
+        pool.query(query).then((results) => {
+            res.send(results.rows);
+        }).catch((error) => {
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(403);
+
+    }
+});
 
 router.get('/active', (req, res) => {
     if (req.isAuthenticated()) {
