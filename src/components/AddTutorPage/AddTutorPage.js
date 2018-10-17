@@ -12,32 +12,35 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
     user: state.user,
+    newTutorToAdd: state.newTutorToAdd,
+    subjects: state.subjects,
+    locations: state.locations,
 });
 
 class AddTutorPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            newTutorForm: {
-                applicant_first_name: '',
-                applicant_last_name: '',
-                applicant_address: '',
-                applicant_city: '',
-                applicant_state: '',
-                applicant_zipcode: '',
-                applicant_cell_phone: '',
-                applicant_email: '',
-                applicant_qualifications: '',
-                applicant_experience: '',
-                applicant_age_group: '',
-                resume: '',
-            },
-            applicant_subjects: [],
-            applicant_locations: [],
-            subjects: [],
-            locations: [],
-        }
-    }
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         newTutorForm: {
+    //             applicant_first_name: '',
+    //             applicant_last_name: '',
+    //             applicant_address: '',
+    //             applicant_city: '',
+    //             applicant_state: '',
+    //             applicant_zipcode: '',
+    //             applicant_cell_phone: '',
+    //             applicant_email: '',
+    //             applicant_qualifications: '',
+    //             applicant_experience: '',
+    //             applicant_age_group: '',
+    //             resume: '',
+    //         },
+    //         applicant_subjects: [],
+    //         applicant_locations: [],
+    //         subjects: [],
+    //         locations: [],
+    //     }
+    // }
     componentDidMount() {
         this.getSubjects();
         this.getLocations();
@@ -52,41 +55,30 @@ class AddTutorPage extends Component {
         }
     }
 
-    // get list of subjects from database
+    // get list of subjects from subjectsSaga
     getSubjects = () => {
-        axios({
-            method: 'GET',
-            url: '/subjects'
-        }).then((response) => {
-            console.log(response.data);
-            this.setState({
-                subjects: response.data
-            })
-        }).catch((error) => {
-            console.log('Error getting subjects from server', error)
+        this.props.dispatch({
+            type: 'GET_SUBJECTS'
         });
     }
 
-    // get list of current tutoring locations
+    // get list of current tutoring locations from locationsSaga
     getLocations = () => {
-        axios({
-            method: 'GET',
-            url: '/locations'
-        }).then((response) => {
-            console.log(response.data);
-            this.setState({
-                locations: response.data
-            })
-        }).catch((error) => {
-            console.log('Error getting locations from server', error)
+        this.props.dispatch({
+            type: 'GET_LOCATIONS'
         });
     }
 
     // handles the change of application input values
     handleApplicationChange = (event) => {
-        this.setState({
-            newTutorForm: { ...this.state.newTutorForm, [event.target.name]: event.target.value }
-        })
+        let action = {
+            type: 'EDIT_TUTOR',
+            payload: {
+                name: event.target.name,
+                value: event.target.value
+            }
+        }
+        this.props.dispatch(action);
     }
 
     // handles selecting the state
@@ -113,11 +105,11 @@ class AddTutorPage extends Component {
     handleLocationsCheckbox = (event, isChecked) => {
         if (isChecked) {
             this.setState({
-                applicant_locations: [...this.state.applicant_locations, event.target.value]
+                applicant_locations: [...this.props.applicant_locations, event.target.value]
             });
         } else if (isChecked === false) {
             this.setState({
-                applicant_locations: this.state.applicant_locations.filter((id) => id !== event.target.value)
+                applicant_locations: this.props.applicant_locations.filter((id) => id !== event.target.value)
             });
         }
     }
@@ -148,7 +140,7 @@ class AddTutorPage extends Component {
                             name="applicant_first_name"
                             label="First Name"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_first_name}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_first_name}
                             onChange={this.handleApplicationChange}
                         />
                         <TextField
@@ -156,7 +148,7 @@ class AddTutorPage extends Component {
                             name="applicant_last_name"
                             label="Last Name"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_last_name}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_last_name}
                             onChange={this.handleApplicationChange}
                         />
                         <br />
@@ -165,7 +157,7 @@ class AddTutorPage extends Component {
                             name="applicant_address"
                             label="Address"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_address}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_address}
                             onChange={this.handleApplicationChange}
                         />
                         <TextField
@@ -173,7 +165,7 @@ class AddTutorPage extends Component {
                             name="applicant_city"
                             label="City"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_city}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_city}
                             onChange={this.handleApplicationChange}
                         />
                         <StateSelect
@@ -184,7 +176,7 @@ class AddTutorPage extends Component {
                             name="applicant_zipcode"
                             label="Zipcode"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_zipcode}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_zipcode}
                             onChange={this.handleApplicationChange}
                         />
                         <br />
@@ -193,7 +185,7 @@ class AddTutorPage extends Component {
                             name="applicant_cell_phone"
                             label="Cell Phone"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_cell_phone}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_cell_phone}
                             onChange={this.handleApplicationChange}
                         />
                         <TextField
@@ -201,7 +193,7 @@ class AddTutorPage extends Component {
                             name="applicant_email"
                             label="Email"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_email}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_email}
                             onChange={this.handleApplicationChange}
                         />
                         <br />
@@ -210,7 +202,7 @@ class AddTutorPage extends Component {
                             name="applicant_qualifications"
                             label="Qualifications"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_qualifications}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_qualifications}
                             onChange={this.handleApplicationChange}
                         />
                         <TextField
@@ -218,7 +210,7 @@ class AddTutorPage extends Component {
                             name="applicant_experience"
                             label="Previous Experience"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_experience}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_experience}
                             onChange={this.handleApplicationChange}
                         />
 
@@ -227,11 +219,11 @@ class AddTutorPage extends Component {
                             name="applicant_age_group"
                             label="Preferred Age Group"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_age_group}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_age_group}
                             onChange={this.handleApplicationChange}
                         />
                         <h3>Subject Area(s) of Interest</h3>
-                        {this.state.subjects.map((subject, index) => (
+                        {this.props.subjects.map((subject, index) => (
                             <label key={index}> {subject.subjects}
                                 <Checkbox
                                     name="applicant_subjects"
@@ -246,7 +238,7 @@ class AddTutorPage extends Component {
                         ))}
 
                         <h3>Requested Locations</h3>
-                        {this.state.locations.map((location, index) => (
+                        {this.props.locations.map((location, index) => (
                             <label key={index}> {location.location_name}
                                 <Checkbox
                                     name="applicant_locations"
@@ -260,7 +252,7 @@ class AddTutorPage extends Component {
                         ))}
                         <Button type="submit">
                             Submit
-                        </Button>
+                        </Button>  
                     </form>
                 </div>
             )

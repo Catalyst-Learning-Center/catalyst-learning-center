@@ -8,52 +8,46 @@ class AdminDataBarGraph extends Component {
         super(props);
         this.state = {
             chartData: {
-                labels: ['2012-2013', '2013-2014', '2014-2015', '2015-2016', '2016-2017', '2017-2018', ],
+                labels: [],
                 datasets: [
                     {
                         label: 'Number of Students Tutored',
-                        data: [
-                            301, 260, 296, 328, 356, 490,
-                        ],
-                        backgroundColor: [
-                            'rgba(127, 0, 0, 0.6)',
-                            'rgba(245, 0, 0, 0.6)',
-                            'rgba(321, 0, 0, 0.6)',
-                            'rgba(127, 0, 0, 0.6)',
-                            'rgba(127, 0, 0, 0.6)',
-                            'rgba(127, 0, 0, 0.6)',
-                        ]
+                        data: [236],
+                        backgroundColor: [],
                     }
                 ],
             }
         }
     }
 
-    componentDidMount() {
-        this.getSessionData();
-    }
+    // componentDidMount() {
+    //     this.getSessionData();
+    // }
 
-    getSessionData = () => {
-        console.log('in getSessionData');
-        axios({
-            method: 'GET',
-            url: '/sessions'
-        }).then((response) => {
-            this.setState({ data: response.data });
-            console.log('back from server with: ', response.data);
-        }).catch((error) => {
-            console.log('error: ', error);
-            alert('There was an error getting sessions data.')
-        })
+    // getSessionData = () => {
+    //     console.log('in getSessionData');
+    //     axios({
+    //         method: 'GET',
+    //         url: '/sessions/library-summary'
+    //     }).then((response) => {
+    //         this.setState({ data: response.data });
+    //         console.log('back from server with: ', response.data);
+    //     }).catch((error) => {
+    //         console.log('error: ', error);
+    //         alert('There was an error getting sessions data.')
+    //     })
 
-    }
+    // }
 
     render() {
         let content = null;
+        let chartData = {
+            
+        };
 
 
         content = (
-            <div className="chart">
+            <div className="bar-graph">
                 <Bar
                     data={this.state.chartData}
                     options={{

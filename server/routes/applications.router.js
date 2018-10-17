@@ -3,46 +3,9 @@ const pool = require('../modules/pool');
 const router = express.Router();
 const axios = require('axios');
 
-
-// const nodemailer = require("nodemailer");
-
-// const transporter = nodemailer.createTransport({
-//     host: 'smtp.gmail.com',
-//     port: 465,
-//     secure: true,
-//     auth: {
-//         type: 'OAuth2',
-//         user: local_settings.my_gmail_username,
-//         clientId: local_settings.my_oauth_client_id,
-//         clientSecret: local_settings.my_oauth_client_secret,
-//         refreshToken: local_settings.my_oauth_refresh_token,
-//         accessToken: local_settings.my_oauth_access_token
-//     }
-// });
+const nodemailer = require("nodemailer");
 
 
-// const mail = {
-//     from: "John Smith <me@mydomain.com>",
-//     to: "user@userdomain.com",
-//     subject: "Registration successful",
-//     text: "You successfully registered an account at www.mydomain.com",
-//     html: "<p>You successfully registered an account at www.mydomain.com</p>"
-// }
-
-// transporter.sendMail(mail, function (err, info) {
-//     if (err) {
-//         console.log(err);
-//     } else {
-//         // see https://nodemailer.com/usage
-//         console.log("info.messageId: " + info.messageId);
-//         console.log("info.envelope: " + info.envelope);
-//         console.log("info.accepted: " + info.accepted);
-//         console.log("info.rejected: " + info.rejected);
-//         console.log("info.pending: " + info.pending);
-//         console.log("info.response: " + info.response);
-//     }
-//     transporter.close();
-// });
 
 
 
@@ -57,24 +20,56 @@ router.get('/', (req, res) => {
         }).catch((error) => {
             res.sendStatus(500);
         });
-    }else {
+    } else {
         res.sendStatus(403);
     }
 }); // end applications GET route
+
+
+router.get('/locations/:id', (req, res) => {
+    if (req.isAuthenticated()) {
+        const query = 
+        `SELECT "applications_location"."id", "location"."location_name"
+        FROM "applications_location"
+        JOIN "location" ON "applications_location"."location_id" = "location"."id"
+        WHERE "applications_location"."applications_id" = $1;`;
+        pool.query(query, [req.params.id]).then((results) => {
+            res.send(results.rows);
+        }).catch((error) => {
+            console.log(error)
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(403);
+    }
+}); // end applications-locations GET route
+
+router.get('/subjects', (req, res) => {
+    if (req.isAuthenticated()) {
+        const query = `SELECT * FROM "applications" WHERE "active" = true ORDER BY "date" DESC;`;
+        pool.query(query).then((results)=> {
+            res.send(results.rows);
+        }).catch((error) => {
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(403);
+    }
+}); // end applications-subjects GET route
 
 /**
  * "Delete" (Update) an application from the database
  */
 router.put('/:id', (req, res) => {
-    if (req.isAuthenticated()){
+    if (req.isAuthenticated()) {
         console.log(req.params.id)
-        const query =  `UPDATE "applications" SET "active" = false WHERE "id" = $1;`;
+        const query = `UPDATE "applications" SET "active" = false WHERE "id" = $1;`;
         pool.query(query, [req.params.id]).then((results) => {
             res.sendStatus(201);
-        }).catch((error)=> {
+        }).catch((error) => {
             res.sendStatus(500);
         })
-    }else {
+    } else {
         res.sendStatus(403);
     }
 }); // end delete
@@ -91,11 +86,8 @@ router.post('/', (req, res) => {
     const applicantSubjects = req.body.applicant_subjects
     const applicantLocations = req.body.applicant_locations
 
-    // Secret Key
-    const secretKey = '6Ld9BHQUAAAAADgfahozNvUGW9a0Cohaz7RkAdHI';
-
     //verify URL
-    const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}&remoteip=${req.connection.remoteAddress}`;
+    const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_API_SECRET_KEY}&response=${req.body.captcha}&remoteip=${req.connection.remoteAddress}`;
 
     // make request to verifyUrl
     axios({
@@ -139,6 +131,44 @@ router.post('/', (req, res) => {
                 await client.query('ROLLBACK');
                 throw e;
             } finally {
+
+                const auth = {
+                    type: 'OAuth2',
+                    user: 'catalystcenter.mail@gmail.com',
+                    clientId: process.env.OAUTH_CLIENT_ID,
+                    clientSecret: process.env.OAUTH_CLIENT_SECRET,
+                    refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+                };
+                console.log(auth);
+                const transporter = nodemailer.createTransport({
+                    host: 'smtp.gmail.com',
+                    port: 465,
+                    secure: true,
+                    auth: auth
+                });
+
+
+                const mail = {
+                    from: "Catalyst Learning Center <catalystcenter.mail@gmail.com>",
+                    to: "trav.dunn@outlook.com",
+                    subject: "Application Submitted",
+                    text: "An application has been submitted to Catalyst Learning Center",
+                    html: "<p>An application has been submitted to Catalyst Learning Center</p>"
+                }
+                transporter.sendMail(mail, function (err, info) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        // see https://nodemailer.com/usage
+                        console.log("info.messageId: " + info.messageId);
+                        console.log("info.envelope: " + info.envelope);
+                        console.log("info.accepted: " + info.accepted);
+                        console.log("info.rejected: " + info.rejected);
+                        console.log("info.pending: " + info.pending);
+                        console.log("info.response: " + info.response);
+                    }
+                    transporter.close();
+                });
                 client.release();
             }
         })().catch((error) => {
