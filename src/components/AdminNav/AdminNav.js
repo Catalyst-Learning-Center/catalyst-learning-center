@@ -62,10 +62,10 @@ class AdminNav extends React.Component {
                         </NavbarNav>
                         <NavbarNav right>
                             <NavItem>
-                                <Button variant="outline" onClick={this.startTutoring}>Start Tutoring</Button>
+                                <Button variant="contained" onClick={this.startTutoring}>Start Tutoring</Button>
                             </NavItem>
                             <NavItem>
-                                <Button onClick={this.logout}>Logout</Button>
+                                <Button variant="contained" onClick={this.logout}>Logout</Button>
                             </NavItem>
                         </NavbarNav>
                     </Collapse>
@@ -73,32 +73,6 @@ class AdminNav extends React.Component {
         );
     }
 }
-
-// class AdminNav extends Component {
-    // logout = () => {
-    //     this.props.dispatch(triggerLogout());
-    // }
-
-    // startTutoring = () => {
-    //     this.props.history.push('/select-location');
-    // }
-
-//     render() {
-//         return (
-//             <div>
-//                 <h3>Catalyst Learning Center Admin</h3>
-//                 <ul>
-//                     <li><Link to="/admin-data">View Data</Link></li>
-//                     <li><Link to="/manage-tutors">Manage Tutors</Link></li>
-//                     <li><Link to="/manage-applications">Manage Applications</Link></li>
-//                     <li><Link to="/manage-locations">Manage Locations</Link></li>
-//                 </ul>
-//                 <Button onClick={this.startTutoring}>Start Tutoring</Button>
-//                 <Button onClick={this.logout}>Logout</Button>
-//             </div>
-//         )
-//     }
-// }
 
 export default connect()(AdminNav);
 
