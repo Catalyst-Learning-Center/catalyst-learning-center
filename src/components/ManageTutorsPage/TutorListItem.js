@@ -1,17 +1,62 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Axios from 'axios';
 // Material UI imports
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+// Material UI imports
 import { Button } from '@material-ui/core';
 // component imports
 import RemoveTutorDialog from './RemoveTutorDialog';
 import EditTutorDialog from './EditTutorDialog';
 
+const mapStateToProps = state => ({
+    tutors: state.tutors,
+});
+
 class TutorListItem extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            locations: [],
+            subjects: []
+        }
+    }
+
+    componentDidMount = () => {
+        this.getTutorLocations();
+        this.getTutorSubjects();
+    }
+
+    getTutorLocations = () => {
+        Axios({
+            method: 'GET',
+            url: `/tutors/locations/${this.props.tutor.id}`
+        }).then((response) => {
+            this.setState({
+                locations: response.data,
+            });
+        }).catch((error) => {
+            console.log('get locations error: ', error);
+        })
+    }
+
+    getTutorSubjects = () => {
+        Axios({
+            method: 'GET',
+            url: `/tutors/subjects/${this.props.tutor.id}`
+        }).then((response) => {
+            this.setState({
+                subjects: response.data,
+            });
+        }).catch((error) => {
+            console.log('get subjects error: ', error);
+        })
+    }
+
     toggleAdminStatus = () => {
         let action = {
             type: 'TOGGLE_ADMIN',
@@ -51,7 +96,27 @@ class TutorListItem extends Component {
                         <br />Qualifications: {this.props.tutor.user_qualifications}
                         <br />Experience: {this.props.tutor.user_experience}
                         <br />Age group: {this.props.tutor.user_age_group}
-                        <EditTutorDialog tutor={this.props.tutor} />
+                        <br />Subjects:
+                        <ul>
+                            {this.state.subjects.map((subject) => {
+                                return(
+                                    <li key={subject.id}>{subject.subjects}</li>
+                                )
+                            })}
+                        </ul>
+                        <br />Locations:
+                        <ul>
+                            {this.state.locations.map((location) => {
+                                return(
+                                    <li key={location.id}>{location.location_name}</li>
+                                )
+                            })}
+                        </ul>
+                        <EditTutorDialog 
+                            tutor={this.props.tutor}
+                            subjects={this.state.subjects}
+                            locations={this.state.locations} 
+                        />
                         <RemoveTutorDialog id={this.props.tutor.id} />
                         {button}
                     </Typography>
@@ -61,4 +126,4 @@ class TutorListItem extends Component {
     }
 }
 
-export default connect()(TutorListItem);
+export default connect(mapStateToProps)(TutorListItem);

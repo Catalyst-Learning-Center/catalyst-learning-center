@@ -28,7 +28,9 @@ class EditTutorDialog extends Component {
                 user_experience: this.props.tutor.user_experience,
                 user_age_group: this.props.tutor.user_age_group,
                 id: this.props.tutor.id
-            }
+            },
+            locations: this.props.locations,
+            subjects: this.props.subjects
         };
     }
 
