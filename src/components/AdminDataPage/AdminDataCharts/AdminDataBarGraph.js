@@ -9,35 +9,58 @@ class AdminDataBarGraph extends Component {
         this.state = {
             chartData: {
                 labels: [],
-                datasets: [
-                    {
-                        label: 'Number of Students Tutored',
-                        data: [236],
-                        backgroundColor: [],
-                    }
-                ],
+                datasets: [],
+                    // {
+                    //     label: 'Number of Students Tutored',
+                    //     data: [],
+                    //     backgroundColor: [],
+                    // }
+                // ],
             }
         }
     }
 
-    // componentDidMount() {
-    //     this.getSessionData();
-    // }
+    componentDidMount() {
+        this.getSessionData();
+    }
 
-    // getSessionData = () => {
-    //     console.log('in getSessionData');
-    //     axios({
-    //         method: 'GET',
-    //         url: '/sessions/library-summary'
-    //     }).then((response) => {
-    //         this.setState({ data: response.data });
-    //         console.log('back from server with: ', response.data);
-    //     }).catch((error) => {
-    //         console.log('error: ', error);
-    //         alert('There was an error getting sessions data.')
-    //     })
+    getSessionData = () => {
+        console.log('in getSessionData');
+        axios({
+            method: 'GET',
+            url: '/sessions/library-summary'
+        }).then((response) => {
+            this.setState({ 
+                datasets: response.data,
+             });
+            console.log('back from server with: ', response.data);
+            this.setData();
+        }).catch((error) => {
+            console.log('error: ', error);
+            alert('There was an error getting sessions data.')
+        })
+    }
 
-    // }
+    setData = () => {
+        console.log('setData');
+        let dataLabels = [];
+        let dataset = [];
+        for (let location of this.state.datasets) {
+            dataLabels.push(location.location_name);
+            dataset.push(location.count);
+            // let color = this.getRandomColor();
+            // backgroundColor.push(color);
+        }
+        this.setState({
+            chartData: {
+                labels: dataLabels,
+                datasets: [{
+                    label: 'Total Number of Students',
+                    data: dataset,
+                }]
+            }
+        });
+    }
 
     render() {
         let content = null;
@@ -53,7 +76,7 @@ class AdminDataBarGraph extends Component {
                     options={{
                         title: {
                             display: true,
-                            text: 'Library Site Tutor Summary: ',
+                            text: 'Library Site Tutor Summary',
                             fontsize: 25,
                         },
                         legend: {

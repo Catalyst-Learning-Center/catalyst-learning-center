@@ -27,9 +27,9 @@ router.get('/', (req, res) => {
 
 router.get('/library-summary', (req, res) => {
     if (req.isAuthenticated()) {
-        const query = `SELECT "sessions"."session_date", "location"."location_name", COUNT("sessions"."location_id") FROM "sessions"
+        const query = `SELECT  "location"."location_name", COUNT("sessions"."location_id") FROM "sessions"
         JOIN "location" ON "location"."id" = "sessions"."location_id" 
-        GROUP BY "location"."location_name", 
+        GROUP BY "location"."location_name"
         ORDER BY "count" DESC;`;
         pool.query(query).then((results) => {
             res.send(results.rows);
