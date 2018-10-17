@@ -12,6 +12,7 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
     user: state.user,
+    newTutorToAdd: state.newTutorToAdd,
 });
 
 class AddTutorPage extends Component {
@@ -148,7 +149,7 @@ class AddTutorPage extends Component {
                             name="applicant_first_name"
                             label="First Name"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_first_name}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_first_name}
                             onChange={this.handleApplicationChange}
                         />
                         <TextField
@@ -156,7 +157,7 @@ class AddTutorPage extends Component {
                             name="applicant_last_name"
                             label="Last Name"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_last_name}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_last_name}
                             onChange={this.handleApplicationChange}
                         />
                         <br />
@@ -165,7 +166,7 @@ class AddTutorPage extends Component {
                             name="applicant_address"
                             label="Address"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_address}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_address}
                             onChange={this.handleApplicationChange}
                         />
                         <TextField
@@ -173,7 +174,7 @@ class AddTutorPage extends Component {
                             name="applicant_city"
                             label="City"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_city}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_city}
                             onChange={this.handleApplicationChange}
                         />
                         <StateSelect
@@ -184,7 +185,7 @@ class AddTutorPage extends Component {
                             name="applicant_zipcode"
                             label="Zipcode"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_zipcode}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_zipcode}
                             onChange={this.handleApplicationChange}
                         />
                         <br />
@@ -193,7 +194,7 @@ class AddTutorPage extends Component {
                             name="applicant_cell_phone"
                             label="Cell Phone"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_cell_phone}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_cell_phone}
                             onChange={this.handleApplicationChange}
                         />
                         <TextField
@@ -201,7 +202,7 @@ class AddTutorPage extends Component {
                             name="applicant_email"
                             label="Email"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_email}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_email}
                             onChange={this.handleApplicationChange}
                         />
                         <br />
@@ -210,7 +211,7 @@ class AddTutorPage extends Component {
                             name="applicant_qualifications"
                             label="Qualifications"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_qualifications}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_qualifications}
                             onChange={this.handleApplicationChange}
                         />
                         <TextField
@@ -218,7 +219,7 @@ class AddTutorPage extends Component {
                             name="applicant_experience"
                             label="Previous Experience"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_experience}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_experience}
                             onChange={this.handleApplicationChange}
                         />
 
@@ -227,7 +228,7 @@ class AddTutorPage extends Component {
                             name="applicant_age_group"
                             label="Preferred Age Group"
                             margin="normal"
-                            value={this.state.newTutorForm.applicant_age_group}
+                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_age_group}
                             onChange={this.handleApplicationChange}
                         />
                         <h3>Subject Area(s) of Interest</h3>
@@ -260,7 +261,7 @@ class AddTutorPage extends Component {
                         ))}
                         <Button type="submit">
                             Submit
-                        </Button>
+                        </Button>  
                     </form>
                 </div>
             )
