@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import './LoginPage.css';
+
 // action imports
 import { triggerLogin, formError, clearError } from '../../redux/actions/loginActions';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
@@ -97,60 +99,64 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <div>
-        {this.renderAlert()}
-        <form onSubmit={this.login}>
-          <h1>Login</h1>
-          <div>
-            <Input
-              name="username"
-              value={this.state.username}
-              onChange={this.handleInputChangeFor('username')}
-              placeholder="Email"
-              inputProps={{
-                'aria-label': 'Email',
-              }}
-            />
-          </div>
-          <div>
-            <Input
-              id="password"
-              placeholder="Password"
-              type={this.state.showPassword ? 'text' : 'password'}
-              value={this.state.password}
-              onChange={this.handleInputChangeFor('password')}
-              inputProps={{
-                'aria-label': 'Password',
-              }}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="Toggle password visibility"
-                    onClick={this.handleClickShowPassword}
-                  >
-                    {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </div>
-          <div>
-            <Button
-              size="small"
-              onClick={this.handlePasswordResetOpen}>
-              Forgot Password?
-            </Button>
-            <Button
-              size="small"
-              variant="contained"
-              type="submit"
-              name="submit">
-              Log In
-            </Button>
-            <p>Interested in tutoring? <Link to="/new-application">Apply here</Link></p>
-          </div>
-        </form>
-        <ResetPasswordDialog openResetDialog={this.state.openResetDialog} handlePasswordResetClose={this.handlePasswordResetClose} />
+      <div className="login-view-container">
+        <img className="main-logo" src="/images/catalyst2.png" />
+        <div className="login-container">
+          {this.renderAlert()}
+          <form onSubmit={this.login}>
+            <h1>Login</h1>
+            <div>
+              <Input
+                name="username"
+                value={this.state.username}
+                onChange={this.handleInputChangeFor('username')}
+                placeholder="Email"
+                inputProps={{
+                  'aria-label': 'Email',
+                }}
+              />
+            </div>
+            <div>
+              <Input
+                id="password"
+                placeholder="Password"
+                type={this.state.showPassword ? 'text' : 'password'}
+                value={this.state.password}
+                onChange={this.handleInputChangeFor('password')}
+                inputProps={{
+                  'aria-label': 'Password',
+                }}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="Toggle password visibility"
+                      onClick={this.handleClickShowPassword}
+                    >
+                      {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </div>
+            <div>
+              <Button
+                size="small"
+                onClick={this.handlePasswordResetOpen}>
+                Forgot Password?
+              </Button>
+              <Button
+                size="small"
+                variant="contained"
+                type="submit"
+                name="submit"
+                color="primary">
+                Log In
+              </Button>
+              <p>Interested in tutoring? <Link to="/new-application">Apply here</Link></p>
+            </div>
+          </form>
+          <ResetPasswordDialog openResetDialog={this.state.openResetDialog} handlePasswordResetClose={this.handlePasswordResetClose} />
+        </div>
       </div>
     );
   }

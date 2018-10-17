@@ -41,7 +41,7 @@ const pool = new pg.Pool(config);
 
 // the pool will log when it connects to the database
 pool.on('connect', () => {
-  console.log('Postgesql connected');
+  console.log('PostgreSQL connected');
 });
 
 // the pool with emit an error on behalf of any idle clients
