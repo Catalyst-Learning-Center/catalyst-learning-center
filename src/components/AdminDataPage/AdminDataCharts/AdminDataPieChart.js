@@ -4,15 +4,6 @@ import React, { Component } from 'react';
 import { Pie } from 'react-chartjs-2';
 
 class AdminDataPieChart extends Component {
-    
-    // getRandomColor = () => {
-    //     let letters = '0123456789ABCDEF';
-    //     let color = '#';
-    //     for (var i = 0; i < 6; i++) {
-    //       color += letters[Math.floor(Math.random() * 16)];
-    //     }
-    //     return color;
-    //   }
 
     render() {
         let content = null;
@@ -31,9 +22,6 @@ class AdminDataPieChart extends Component {
                                 display: true,
                                 position: 'right',
                             },
-                            // backgroundColor: {
-                            //     backgroundColor: this.getRandomColor(),
-                            // }
                         }}
                     />
                 </div>
