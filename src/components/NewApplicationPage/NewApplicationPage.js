@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './NewApplicationPage.css';
 
+import NewApplicationHeader from './NewApplicationHeader';
 import StateSelect from './StateSelect';
 import SubmitDialog from './SubmitDialog';
 
@@ -208,11 +209,9 @@ class NewApplicationPage extends Component {
     render() {
         return (
             <div className="view-container">
-                <img className="application-logo" src="/images/catalyst2.png" />
-                <h1>Tutor Application</h1>
+            <NewApplicationHeader history={this.props.history} />
                 <div className="application-container">
                     <form onSubmit={this.postApplication}>
-                        <FormControl>
                             <Grid container>
                                 <Grid item xs={4}>
                                     <TextField
@@ -341,6 +340,7 @@ class NewApplicationPage extends Component {
                                     <br />
                                 </Grid>
                                 <Grid item xs={4}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', height: '50%' }}>
                                     <h3>Requested Locations</h3>
                                     <FormGroup>
                                         {this.state.locations.map((location, index) => (
@@ -357,10 +357,9 @@ class NewApplicationPage extends Component {
                                             </FormControlLabel>
                                         ))}
                                     </FormGroup>
-
-
                                     <Button variant="contained" onClick={this.openCloudinary}>Upload Resume (PDF)</Button>
-                                    <div>
+                                    </div>
+                                    <div style={{display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', height: '50%', alignContent: 'center'}}>
                                         <ReCaptcha
                                             ref={(el) => { this.captcha = el; }}
                                             size="normal"
@@ -372,11 +371,10 @@ class NewApplicationPage extends Component {
                                         <Button variant="contained" onClick={this.easyFunction}>Easy</Button>
                                         <Button variant="contained" color="primary" type="submit">
                                             Submit
-                                    </Button>
+                                        </Button>
                                     </div>
                                 </Grid>
                             </Grid>
-                        </FormControl>
                     </form>
                     <SubmitDialog open={this.state.submitDialogOpen} handleDialogClose={this.handleSubmitDialogClose} />
                 </div>
