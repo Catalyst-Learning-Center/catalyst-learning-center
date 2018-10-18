@@ -55,7 +55,7 @@ class AdminDataBarGraph extends Component {
             chartData: {
                 labels: dataLabels,
                 datasets: [{
-                    label: 'Total Number of Students',
+                    label: 'Total Number of Students Tutored by School Year',
                     data: dataset,
                 }]
             }
