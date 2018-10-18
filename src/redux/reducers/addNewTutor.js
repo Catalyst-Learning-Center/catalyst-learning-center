@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
 
-const newTutorToAdd = (state={}, action) => {
+const newTutorToAdd = (state={user_state: 'MN'}, action) => {
     if (action.type === 'EDIT_TUTOR') {
         return {...state, [action.payload.name]: action.payload.value}
-   
+    } else if (action.type === 'ADD_TUTOR') {
+        return action.payload
     } else if (action.type === 'RESET_STATE') {
         return (state = {
             user_first_name: '',

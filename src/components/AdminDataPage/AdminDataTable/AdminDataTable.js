@@ -303,6 +303,7 @@ class AdminDataTable extends Component {
 
     render() {
         let content = null;
+
         const { classes } = this.props;
         const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
@@ -326,6 +327,14 @@ class AdminDataTable extends Component {
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .map((session, i) => {
                                         const isSelected = this.isSelected(session.id);
+                                        let time = null;
+                                        if (session.time.hours > 0 && session.time.minutes == null) {
+                                            time = (session.time.hours * 60);
+                                        } else if (session.time.hours > 0) {
+                                            time = (session.time.hours * 60) + session.time.minutes;
+                                        } else {
+                                            time = session.time.minutes;
+                                        }
                                         return (
                                             <TableRow
                                                 hover
@@ -347,7 +356,8 @@ class AdminDataTable extends Component {
                                                 <TableCell>{session.school_name}</TableCell>
                                                 <TableCell numeric>{session.grade_level}</TableCell>
                                                 <TableCell>{session.subjects}</TableCell>
-                                                <TableCell numeric>{moment(session.time).format('h:mm')}</TableCell>
+                                                <TableCell numeric>{time}</TableCell>
+                                                {/* {moment(session.time).format('h:mm')} */}
                                             </TableRow>
                                         );
                                     })}
