@@ -73,8 +73,7 @@ class AdminNav extends React.Component {
     render() {
         // regular manage applications nav link without pending applications
         let pendingItem = 
-        (<NavLink to="/manage-applications" activeStyle={style} >Manage Applications
-        &nbsp;
+        (<NavLink to="/manage-applications" activeStyle={style}>Manage Applications
         </NavLink>);
 
         // if pending applications are more than 0, count and display them
@@ -83,7 +82,6 @@ class AdminNav extends React.Component {
                 <Badge badgeContent={this.state.pendingApplications} color="secondary">
                     <NavLink to="/manage-applications" activeStyle={style}>
                     Manage Applications
-                    &nbsp;
                     </NavLink>
                 </Badge>
             )
