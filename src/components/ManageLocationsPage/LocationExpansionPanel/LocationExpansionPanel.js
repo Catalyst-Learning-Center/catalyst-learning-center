@@ -49,5 +49,4 @@ class LocationExpansionPanel extends Component {
   }//end render
 }//end Component
 
-
 export default connect()(LocationExpansionPanel);

@@ -7,11 +7,11 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 import AdminNav from '../AdminNav/AdminNav';
 import AddLocationsDialog from './AddLocationsDialog/AddLocationsDialog';
 import LocationExpansionPanel from './LocationExpansionPanel/LocationExpansionPanel';
-import EditLocationsDialog from './EditLocationsDialog/EditLocationsDialog';
 import Button from '@material-ui/core/Button';
 
 const mapStateToProps = state => ({
     user: state.user,
+    locations: state.locations.locations
 });//end mapStateToProps
 
 class ManageLocationsPage extends Component {
@@ -29,7 +29,7 @@ class ManageLocationsPage extends Component {
                 location_zipcode: '',
                 location_phone: ''
             },//end locationsToEdit
-        }//end this.state
+        }//end state
     }//end constructor
 
     componentDidMount() {
@@ -48,6 +48,7 @@ class ManageLocationsPage extends Component {
     }//end componentDidUpdate
 
     addLocationOpen = () => {
+        //handles opening dialog for add locations button
         console.log('addLocationOpen');
         this.setState({
             addDialogOpen: true,
@@ -86,18 +87,7 @@ class ManageLocationsPage extends Component {
 
     getLocations() {
         //Get location data from server
-        axios({
-            method: 'get',
-            url: '/locations',
-        })//response handling
-        .then( (response) => {
-            this.setState({
-                locations: response.data
-            });//end setState
-        })//error handling
-        .catch(function (error) {
-            console.log(error);
-        });
+        this.props.dispatch({type: 'GET_LOCATIONS'})
     }//end getLocations
 
     render() {
@@ -122,7 +112,7 @@ class ManageLocationsPage extends Component {
                         open = {this.state.addDialogOpen}
                         addLocationClose = {this.addLocationClose} />
                     </div>
-                    {this.state.locations.map((location, i)=>{
+                    {this.props.locations.map((location, i)=>{
                         console.log(location);
                         
                         return (

@@ -53,7 +53,6 @@ class AddLocationsDialog extends Component {
               type="text"
               fullWidth
               value={this.state.locationToAdd.location_address}
-             
             />
             <TextField
               autoFocus
@@ -96,7 +95,7 @@ class AddLocationsDialog extends Component {
           <Button onClick={this.props.addLocationClose} color="secondary">
             Cancel
           </Button>
-          <Button onClick={this.handleSubmit} color="primary">
+          <Button onClick={this.saveLocation} color="primary">
             Ok
           </Button>
         </DialogActions>
@@ -104,4 +103,5 @@ class AddLocationsDialog extends Component {
     )
   }//end render
 }//end Component
+
 export default AddLocationsDialog;

@@ -19,6 +19,7 @@ const mapStateToProps = state => ({
      this.state = {
        open: false,
        locationToEdit: {
+        id: this.props.location.id,
         location_name: this.props.location.location_name,
         location_address: this.props.location.location_address,
         location_city: this.props.location.location_city,
@@ -40,11 +41,14 @@ const mapStateToProps = state => ({
     });//end setState
   }//end openDialog
 
-  // saveDialog = () => {
-  //   let action = {
-  //     type: 
-  //   }
-  // }
+  handleSaveChange = () => {
+    let action = {
+      type: 'MODIFY_LOCATIONS',
+      payload: {...this.state.locationToEdit},
+    }//end action
+    this.props.dispatch(action);
+    this.handleClose();
+  }//end saveLocationsDialog
 
    handleClose = () => {
      //sets dialog box to close initially
@@ -94,7 +98,7 @@ const mapStateToProps = state => ({
               type="text"
               fullWidth
               value={this.state.locationToEdit.location_address}
-              onChange={this.props.handleEditChange}
+              onChange={this.handleChange}
             />
             <TextField
               autoFocus
@@ -114,7 +118,7 @@ const mapStateToProps = state => ({
               type="text"
               fullWidth
               value={this.state.locationToEdit.location_state}
-              onChange={this.props.handleEditChange}
+              onChange={this.handleChange}
             />
             <TextField
               autoFocus
@@ -124,7 +128,7 @@ const mapStateToProps = state => ({
               type="text"
               fullWidth
               value={this.state.locationToEdit.location_zipcode}
-              onChange={this.props.handleEditChange}
+              onChange={this.handleChange}
             />
             <TextField
               autoFocus
@@ -134,15 +138,15 @@ const mapStateToProps = state => ({
               type="text"
               fullWidth
               value={this.state.locationToEdit.location_phone}
-              onChange={this.props.handleEditChange}
+              onChange={this.handleChange}
             />
         </DialogContent>
         <DialogActions>
           <Button onClick={this.handleClose} color="secondary">
             Cancel
           </Button>
-          <Button onClick={this.handleSubmit} color="primary">
-            Submit
+          <Button onClick={this.handleSaveChange} color="primary">
+            Save
           </Button>
         </DialogActions>
       </Dialog>
