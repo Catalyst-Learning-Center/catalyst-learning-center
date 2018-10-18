@@ -83,9 +83,14 @@ class AddTutorPage extends Component {
 
     // handles selecting the state
     handleApplicantStateChange = (value) => {
-        this.setState({
-            newTutorForm: { ...this.state.newTutorForm, applicant_state: value }
-        });
+        let action = {
+            type: 'EDIT_TUTOR',
+            payload: {
+                name: 'user_state',
+                value: value
+            }
+        }
+        this.props.dispatch(action);
     }
 
     // update applicant_subjects in local state

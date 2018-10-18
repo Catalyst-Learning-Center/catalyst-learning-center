@@ -48,7 +48,7 @@ router.put('/:id', (req, res) => {
         console.log('/locations PUT route hit');
         const id = req.params.id;
         const location = req.body;
-        console.log('location to update:', location);
+        console.log('location to update:', location, id);
         const queryText = `UPDATE "location" 
         SET "location_name"=$1,"location_address"=$2,"location_city"=$3,"location_state"=$4,"location_zipcode"=$5,"location_phone"=$6 
         WHERE id =$7;`;
