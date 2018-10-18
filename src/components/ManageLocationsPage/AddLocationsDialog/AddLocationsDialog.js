@@ -8,18 +8,21 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 
-class AddLocations extends Component {
+class AddLocationsDialog extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      locationToAdd : {
+        location_name: '',
+        location_address: '',
+        location_city: '',
+        location_state: '',
+        location_zipcode: '',
+        location_phone: '',
+      }//end locationToAdd
+    }//end state
   }//end constructor
-
-  handleLocationClose = () => {
-    //sets dialog box to close initially
-    this.setState({
-      open: false,
-    });//end setState
-  }//end handleClose
 
   render() {
     return (
@@ -50,7 +53,6 @@ class AddLocations extends Component {
               type="text"
               fullWidth
               value={this.state.locationToAdd.location_address}
-             
             />
             <TextField
               autoFocus
@@ -90,10 +92,10 @@ class AddLocations extends Component {
             />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.props.handleAddLocationCancel} color="secondary">
+          <Button onClick={this.props.addLocationClose} color="secondary">
             Cancel
           </Button>
-          <Button onClick={this.handleSubmit} color="primary">
+          <Button onClick={this.saveLocation} color="primary">
             Ok
           </Button>
         </DialogActions>
@@ -101,4 +103,5 @@ class AddLocations extends Component {
     )
   }//end render
 }//end Component
-export default AddLocations;
+
+export default AddLocationsDialog;
