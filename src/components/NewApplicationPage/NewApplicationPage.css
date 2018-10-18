@@ -1,8 +1,24 @@
 .application-logo {
-    width: 100px;
+    width: 150px;
+    float: left;
+}
+
+.application-header {
+    width: 100%;
+    text-align: center;
+}
+
+.application-header h1{
+    display: inline;
+    
 }
 
 .application-container {
     margin: 0 auto;
     box-shadow: 0px 0px 11px 2px rgba(255,0,0,0.78);
+    text-align: center;
+    padding: 10px;
+    margin: 50px;
+    overflow-y: scroll;
+    height: 85vh;
 }

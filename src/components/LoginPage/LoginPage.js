@@ -141,7 +141,8 @@ class LoginPage extends Component {
             <div>
               <Button
                 size="small"
-                onClick={this.handlePasswordResetOpen}>
+                onClick={this.handlePasswordResetOpen}
+                >
                 Forgot Password?
               </Button>
               <Button
@@ -149,7 +150,9 @@ class LoginPage extends Component {
                 variant="contained"
                 type="submit"
                 name="submit"
-                color="primary">
+                color="primary"
+                >
+                
                 Log In
               </Button>
               <p>Interested in tutoring? <Link to="/new-application">Apply here</Link></p>

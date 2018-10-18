@@ -1,10 +1,9 @@
-.adminNav {
+.admin-nav {
      background-color: #ad0400;
 }
-.navBrand {
+.admin-nav-brand {
     color: white;
 }
-
-.pending_notice {
-    margin-bottom: 10px;
+.selected {
+    background-color: #ccc;
 }
