@@ -2,6 +2,16 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './AdminNav.css';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Badge from '@material-ui/core/Badge';
+import IconButton from '@material-ui/core/IconButton';
+import MailIcon from '@material-ui/icons/Mail';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+
 
 // Material UI imports
 import Button from '@material-ui/core/Button';
@@ -10,9 +20,11 @@ import { triggerLogout } from '../../redux/actions/loginActions';
 
 import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, Collapse, NavItem, NavLink, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact';
 
+
 const style = {
     backgroundColor: 'rgba(0,0,0,0.5)',
 }
+
 
 class AdminNav extends React.Component {
     constructor(props) {
@@ -54,7 +66,9 @@ class AdminNav extends React.Component {
                             <NavLink to="/manage-tutors" activeStyle={style}>Manage Tutors</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink to="/manage-applications" activeStyle={style}>Manage Applications</NavLink>
+                                <NavLink to="/manage-applications" activeStyle={style} >Manage Applications &nbsp;
+                                <Badge style={styles} badgeContent={4} color="secondary"></Badge>
+                                </NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink to="/manage-locations" activeStyle={style}>Manage Locations</NavLink>
