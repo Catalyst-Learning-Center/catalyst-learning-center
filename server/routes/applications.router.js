@@ -10,7 +10,7 @@ const nodemailer = require("nodemailer");
 
 
 /**
- * GET route template
+ * GET route for Manage Applications View
  */
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
@@ -25,6 +25,21 @@ router.get('/', (req, res) => {
     }
 }); // end applications GET route
 
+/**
+ * GET route for Pending Applications Nav Indicator
+ */
+router.get('/pending', (req, res) => {
+    if (req.isAuthenticated()) {
+        const query = `SELECT COUNT(*) FROM "applications" WHERE "active" = true;`;
+        pool.query(query).then((results)=> {
+            res.send(results.rows);
+        }).catch((error) => {
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(403);
+    }
+}); // end pending applications GET route
 
 router.get('/locations/:id', (req, res) => {
     if (req.isAuthenticated()) {
