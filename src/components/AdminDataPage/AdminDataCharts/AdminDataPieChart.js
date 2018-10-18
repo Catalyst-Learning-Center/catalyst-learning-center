@@ -15,7 +15,7 @@ class AdminDataPieChart extends Component {
                         options={{
                             title: {
                                 display: true,
-                                text: 'Catalyst School Reach: 2017-2018',
+                                text: 'Catalyst School Reach',
                                 fontsize: 25,
                             },
                             legend: {
@@ -31,7 +31,7 @@ class AdminDataPieChart extends Component {
                 <div>{JSON.stringify(this.props.data)}</div>
             )
         }
-        console.log(this.props.data);
+        // console.log(this.props.data);
         return (
             <div>
                 {content}

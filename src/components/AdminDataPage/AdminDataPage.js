@@ -19,7 +19,6 @@ class AdminDataPage extends Component {
         this.state = {
             chartData: {
                 labels: [],
-                // backgroundColor: [],
                 datasets: [],
             },
         }
