@@ -31,6 +31,7 @@ const mapStateToProps = state => ({
    }//end constructor
 
   openDialog = () => {
+    //this when edit button is clicked will open dialog to make changes to input fields
     let action = {
       type: 'EDIT_LOCATION',
       payload: this.props.location,
@@ -42,6 +43,8 @@ const mapStateToProps = state => ({
   }//end openDialog
 
   handleSaveChange = () => {
+    //this when the save button is clicked will save changed made
+    //and update the DOM and server
     let action = {
       type: 'MODIFY_LOCATIONS',
       payload: {...this.state.locationToEdit},
@@ -51,13 +54,14 @@ const mapStateToProps = state => ({
   }//end saveLocationsDialog
 
    handleClose = () => {
-     //sets dialog box to close initially
+     //sets edit dialog box to close initially
      this.setState({
        open: false,
      });//end setState
    }//end handleClose
 
    handleChange = (event) => {
+     //this will allow changes to be added to edit input fields
     this.setState({
       locationToEdit: {
         ...this.state.locationToEdit,
