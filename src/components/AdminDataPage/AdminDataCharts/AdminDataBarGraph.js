@@ -20,9 +20,10 @@ class AdminDataBarGraph extends Component {
         }
     }
 
-    componentDidMount() {
-        this.getSessionData();
-    }
+    // componentDidMount() {
+    //     this.getSessionData();
+    // }
+
 
     getSessionData = () => {
         console.log('in getSessionData');
