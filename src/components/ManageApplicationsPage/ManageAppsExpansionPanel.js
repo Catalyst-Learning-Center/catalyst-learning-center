@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -110,6 +111,15 @@ class ManageAppsExpansionPanel extends Component {
         });
     };
 
+    acceptApplication = (event) => { 
+        // history is available to us because it is passed into the parent component
+        console.log(this.props.item)
+        this.props.history.push('add-tutor')
+        this.props.dispatch({
+            type: 'ADD_TUTOR',
+            payload: this.props.item,
+        })
+    }
 
     // removes an application from the DOM and updates the active status is the database from 'true' to 'false'
     removeApplication = (event) => {
@@ -189,7 +199,7 @@ class ManageAppsExpansionPanel extends Component {
                     </ExpansionPanelDetails>
                     <ExpansionPanelDetails>
                         <Typography >
-                            <Button variant="contained" color="primary">Accept</Button>&nbsp;
+                            <Button variant="contained" color="primary" onClick={this.acceptApplication}>Accept</Button>&nbsp;
                            {/* on click of remove, send confirmation prompt. if okay, remove app.   */}
                             <Button onClick={this.handleConfirmRemoveDialogueOpen} variant="contained" color="secondary">Remove</Button>
 
@@ -242,5 +252,5 @@ class ManageAppsExpansionPanel extends Component {
     };
 };
 
-export default ManageAppsExpansionPanel;
+export default connect() (ManageAppsExpansionPanel);
 
