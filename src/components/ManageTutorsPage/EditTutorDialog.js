@@ -15,7 +15,7 @@ import StateSelect from '../NewApplicationPage/StateSelect';
 const mapStateToProps = state => ({
     tutors: state.tutors,
     subjects: state.subjects,
-    locations: state.locations
+    locations: state.locations.locations,
 });
 
 class EditTutorDialog extends Component {
