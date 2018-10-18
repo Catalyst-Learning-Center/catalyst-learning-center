@@ -90,7 +90,7 @@ class AdminNav extends React.Component {
         return (
             <Navbar className="admin-nav" dark expand="md" scrolling>
                 <NavbarBrand tag="span">
-                    <strong className="admin-nav-brand">Catalyst Learning Center Admin</strong>
+                <img className="tutor-nav-brand" src="./images/catalystwhite.png" />
                 </NavbarBrand>
                 {!this.state.isWideEnough && <NavbarToggler onClick={this.onClick} />}
                 <Collapse isOpen={this.state.collapse} navbar>
