@@ -100,7 +100,7 @@ class TutorListItem extends Component {
                         <ul>
                             {this.state.subjects.map((subject) => {
                                 return(
-                                    <li key={subject.id}>{subject.subjects}</li>
+                                    <li key={subject.join_id}>{subject.subjects}</li>
                                 )
                             })}
                         </ul>
@@ -108,14 +108,15 @@ class TutorListItem extends Component {
                         <ul>
                             {this.state.locations.map((location) => {
                                 return(
-                                    <li key={location.id}>{location.location_name}</li>
+                                    <li key={location.join_id}>{location.location_name}</li>
                                 )
                             })}
                         </ul>
+                        {JSON.stringify(this.state.locations)}
                         <EditTutorDialog 
                             tutor={this.props.tutor}
-                            subjects={this.state.subjects}
-                            locations={this.state.locations} 
+                            selectedSubjects={this.state.subjects}
+                            selectedLocations={this.state.locations} 
                         />
                         <RemoveTutorDialog id={this.props.tutor.id} />
                         {button}

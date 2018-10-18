@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
 router.get('/subjects/:id', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/tutors/subjects GET route hit with: ', req.params);
-        const queryText = `SELECT "user_info_subjects"."id", "subjects"."subjects" FROM "user_info_subjects"
+        const queryText = `SELECT "user_info_subjects"."id" AS "join_id", "subjects".* FROM "user_info_subjects"
         JOIN "subjects" ON "subjects"."id" = "user_info_subjects"."subjects_id"
         WHERE "user_info_id" = $1;`;
         pool.query(queryText, [req.params.id]).then((results) => {
@@ -43,7 +43,7 @@ router.get('/subjects/:id', (req, res) => {
 router.get('/locations/:id', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/tutors/locations GET route hit with: ', req.params);
-        const queryText = `SELECT "user_info_location"."id", "location"."location_name" FROM "user_info_location"
+        const queryText = `SELECT "user_info_location"."id" AS "join_id", "location"."location_name", "location"."id" FROM "user_info_location"
         JOIN "location" ON "location"."id" = "user_info_location"."location_id"
         WHERE "user_info_id" = $1;`;
         pool.query(queryText, [req.params.id]).then((results) => {
