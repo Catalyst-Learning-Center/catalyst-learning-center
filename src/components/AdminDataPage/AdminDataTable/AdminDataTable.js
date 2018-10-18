@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import axios from 'axios';
 
 import classNames from 'classnames';
@@ -22,11 +22,22 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import moment from 'moment';
-// import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter';
 
-// const MapStateToProps = state => ({
-//     state,
-// });
+
+//filter imports
+import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+
+import Button from '@material-ui/core/Button';
+import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter';
+
+const MapStateToProps = state => ({
+    state,
+    grades: state.grades
+});
 
 function desc(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -148,14 +159,6 @@ let AdminTableToolbar = props => {
     const { numSelected, classes } = props;
 
 
-    // const filterFields = [
-    //     { name: 'date', label: 'Date', type: 'date' },
-    //     { name: 'student', label: 'Student' },
-    //     { name: 'school', label: 'School' },
-    //     { name: 'grade', label: 'Grade' },
-    //     { name: 'subject', label: 'Total Time' },
-    // ]
-
 
     return (
         <div>
@@ -220,7 +223,10 @@ class AdminDataTable extends Component {
 
     componentDidMount() {
         this.getSessionData();
+        this.props.dispatch({type: 'GET_GRADES'});
     }
+
+    
 
     state = {
         order: 'asc',
@@ -229,7 +235,11 @@ class AdminDataTable extends Component {
         data: [],
         page: 0,
         rowsPerPage: 5,
-    };
+        locationFilter: '',
+        subjectFilter: '',
+        schoolFilter: '',
+        gradeFilter: ''
+    }
 
     getSessionData = () => {
         console.log('in getSessionData');
@@ -300,6 +310,46 @@ class AdminDataTable extends Component {
         return this.state.selected.indexOf(id) !== -1;
     }
 
+    handleFilterChange = (e) => {
+        console.log(e.target)
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    }
+
+    filterLocation = (data) => {
+        let filteredData = data;
+        if (this.state.locationFilter.length) {
+            filteredData = filteredData.filter(session => {
+                if (session.location_name.toLowerCase().includes(this.state.locationFilter.toLowerCase())) {
+                    return session;
+                }
+            });
+        }
+        if (this.state.subjectFilter.length) {
+            filteredData = filteredData.filter(session => {
+                if (session.subjects.toLowerCase().includes(this.state.subjectFilter.toLowerCase())) {
+                    return session;
+                }
+            });
+        }
+         if (this.state.schoolFilter.length) {
+            filteredData = filteredData.filter(session => {
+                if (session.school_name.toLowerCase().includes(this.state.schoolFilter.toLowerCase())) {
+                    return session;
+                }
+            });
+        }
+        if (this.state.gradeFilter.length) {
+            filteredData = filteredData.filter(session => {
+                if (session.grade_level.toLowerCase() === this.state.gradeFilter.toLowerCase()) {
+                    return session;
+                }
+            });
+        }
+
+        return filteredData;
+    }
 
     render() {
         let content = null;
@@ -308,8 +358,57 @@ class AdminDataTable extends Component {
         const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
+        let filteredData = this.filterLocation(data);
+
+
         content = (
             <div>
+                <div style={{ backgroundColor: '#f4f4f4', width: '500px', height: '200px' }}>
+                    <TextField
+                        name="locationFilter"
+                        label="location"
+                        margin="normal"
+                        value={this.state.locationFilter}
+                        onChange={this.handleFilterChange}
+                    />
+                    <TextField
+                        name="subjectFilter"
+                        label="subject"
+                        margin="normal"
+                        value={this.state.subjectFilter}
+                        onChange={this.handleFilterChange}
+                    />
+                    <TextField
+                        name="schoolFilter"
+                        label="school"
+                        margin="normal"
+                        value={this.state.schoolFilter}
+                        onChange={this.handleFilterChange}
+                    />
+                    <FormControl >
+                    <InputLabel htmlFor="gradegradeFilter">Grade:</InputLabel>
+                    <Select
+                        value={this.state.gradeFilter}
+                        onChange={this.handleFilterChange}
+                        inputProps={{
+                            name: 'gradeFilter',
+                            id: 'gradeFilter',
+                        }}
+                    >
+                        <MenuItem value="">
+                            <em>None</em>
+                        </MenuItem>
+                         {this.props.grades.map(grade => {
+                            return (
+                                <MenuItem value={grade.grade_level}>{grade.grade_level}</MenuItem>
+                            )
+                        })}
+                        
+                    </Select>
+                    </FormControl>
+                </div>
+
+
                 <Paper className={classes.root}>
                     <AdminTableToolbar numSelected={selected.length} />
                     <div className={classes.tableWrapper}>
@@ -320,10 +419,10 @@ class AdminDataTable extends Component {
                                 orderBy={orderBy}
                                 onSelectAllClick={this.handleSelectAllClick}
                                 onRequestSort={this.handleRequestSort}
-                                rowCount={data.length}
+                                rowCount={filteredData.length}
                             />
                             <TableBody>
-                                {stableSort(data, getSorting(order, orderBy))
+                                {stableSort(filteredData, getSorting(order, orderBy))
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .map((session, i) => {
                                         const isSelected = this.isSelected(session.id);
@@ -371,7 +470,7 @@ class AdminDataTable extends Component {
                     </div>
                     <TablePagination
                         component="div"
-                        count={data.length}
+                        count={filteredData.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         backiconbuttonprop={{
@@ -399,6 +498,7 @@ AdminDataTable.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AdminDataTable);
+let AdminExport = withStyles(styles)(AdminDataTable)
 
-// connect(MapStateToProps)
+export default connect(MapStateToProps)(AdminExport);
+

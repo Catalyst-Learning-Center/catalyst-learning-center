@@ -7,7 +7,7 @@ import { triggerLogout } from '../../redux/actions/loginActions';
 
 
 
-import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, Collapse, NavItem, NavLink, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact';
+import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, Collapse, NavItem } from 'mdbreact';
 
 
 class NewApplicationHeader extends Component {
