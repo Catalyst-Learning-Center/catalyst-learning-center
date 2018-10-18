@@ -67,7 +67,7 @@ class AdminNav extends React.Component {
                             </NavItem>
                             <NavItem>
                                 <NavLink to="/manage-applications" activeStyle={style} >Manage Applications &nbsp;
-                                <Badge style={styles} badgeContent={4} color="secondary"></Badge>
+                                <Badge badgeContent={4} color="secondary"></Badge>
                                 </NavLink>
                             </NavItem>
                             <NavItem>
