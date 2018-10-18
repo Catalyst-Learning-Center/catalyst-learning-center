@@ -125,13 +125,7 @@ router.post('/', (req, res) => {
                     const result = await client.query(queryText, [applicationId, location]);
                 }
                 await client.query('COMMIT');
-                res.sendStatus(201);
-            } catch (e) {
-                console.log('ROLLBACK', e);
-                await client.query('ROLLBACK');
-                throw e;
-            } finally {
-
+                
                 const auth = {
                     type: 'OAuth2',
                     user: 'catalystcenter.mail@gmail.com',
@@ -139,14 +133,13 @@ router.post('/', (req, res) => {
                     clientSecret: process.env.OAUTH_CLIENT_SECRET,
                     refreshToken: process.env.OAUTH_REFRESH_TOKEN,
                 };
-                console.log(auth);
+
                 const transporter = nodemailer.createTransport({
                     host: 'smtp.gmail.com',
                     port: 465,
                     secure: true,
                     auth: auth
                 });
-
 
                 const mail = {
                     from: "Catalyst Learning Center <catalystcenter.mail@gmail.com>",
@@ -155,6 +148,7 @@ router.post('/', (req, res) => {
                     text: "An application has been submitted to Catalyst Learning Center",
                     html: "<p>An application has been submitted to Catalyst Learning Center</p>"
                 }
+
                 transporter.sendMail(mail, function (err, info) {
                     if (err) {
                         console.log(err);
@@ -169,6 +163,12 @@ router.post('/', (req, res) => {
                     }
                     transporter.close();
                 });
+                res.sendStatus(201);
+            } catch (e) {
+                console.log('ROLLBACK', e);
+                await client.query('ROLLBACK');
+                throw e;
+            } finally {
                 client.release();
             }
         })().catch((error) => {
