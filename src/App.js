@@ -34,8 +34,12 @@ const theme = createMuiTheme({
 });
 
 class App extends Component {
-  componentDidMount() {
+  constructor(props){
+    super(props);
     loadReCaptcha();
+
+  }
+  componentDidMount() {
   }
 
   render() {
