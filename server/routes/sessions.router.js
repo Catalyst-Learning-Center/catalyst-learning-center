@@ -7,13 +7,30 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
-        const query = `SELECT "sessions"."id", "sessions"."location_id", "sessions"."session_date", "sessions"."student_name", "sessions"."school_id", 
+        const query = `SELECT "location"."location_name", "sessions"."id", "sessions"."location_id", "sessions"."session_date", "sessions"."student_name", "sessions"."school_id", 
         "sessions"."grade_id", "sessions"."subjects_id", "sessions"."end_time" - "sessions"."start_time" AS "time", 
         "schools"."school_name", "grade"."grade_level", "subjects"."subjects" FROM "sessions"
         JOIN "schools" ON "schools"."id" = "sessions"."school_id" 
         JOIN "subjects" ON "subjects"."id" = "sessions"."subjects_id"
         JOIN "grade" ON "grade"."id" = "sessions"."grade_id"
         JOIN "location" ON "location"."id" = "sessions"."location_id";`;
+        pool.query(query).then((results) => {
+            res.send(results.rows);
+        }).catch((error) => {
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(403);
+
+    }
+});
+
+router.get('/library-summary', (req, res) => {
+    if (req.isAuthenticated()) {
+        const query = `SELECT "sessions"."session_date", "location"."location_name", COUNT("sessions"."location_id") FROM "sessions"
+        JOIN "location" ON "location"."id" = "sessions"."location_id" 
+        GROUP BY "location"."location_name", 
+        ORDER BY "count" DESC;`;
         pool.query(query).then((results) => {
             res.send(results.rows);
         }).catch((error) => {

@@ -71,7 +71,9 @@ class ManageApplicationsPage extends Component {
                         {/* we are mapping over each application in the database */}
                         {this.props.pendingApplications.map((item, i) => {
                             return(
-                                <ManageAppsExpansionPanel getPendingApplications={this.getPendingApplications} item={item}/>
+                                // history must be passed through the main component before the subcomponent
+                                // can access it
+                                <ManageAppsExpansionPanel history={this.props.history} getPendingApplications={this.getPendingApplications} item={item}/>
                             )
                         })}
                     </ul>

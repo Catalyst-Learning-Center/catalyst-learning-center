@@ -1,6 +1,9 @@
-.adminNav {
+.admin-nav {
      background-color: #ad0400;
 }
-.navBrand {
+.admin-nav-brand {
     color: white;
+}
+.selected {
+    background-color: #ccc;
 }

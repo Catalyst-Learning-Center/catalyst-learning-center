@@ -20,24 +20,24 @@ class AdminDataBarGraph extends Component {
         }
     }
 
-    componentDidMount() {
-        this.getSessionData();
-    }
+    // componentDidMount() {
+    //     this.getSessionData();
+    // }
 
-    getSessionData = () => {
-        console.log('in getSessionData');
-        axios({
-            method: 'GET',
-            url: '/sessions'
-        }).then((response) => {
-            this.setState({ data: response.data });
-            console.log('back from server with: ', response.data);
-        }).catch((error) => {
-            console.log('error: ', error);
-            alert('There was an error getting sessions data.')
-        })
+    // getSessionData = () => {
+    //     console.log('in getSessionData');
+    //     axios({
+    //         method: 'GET',
+    //         url: '/sessions/library-summary'
+    //     }).then((response) => {
+    //         this.setState({ data: response.data });
+    //         console.log('back from server with: ', response.data);
+    //     }).catch((error) => {
+    //         console.log('error: ', error);
+    //         alert('There was an error getting sessions data.')
+    //     })
 
-    }
+    // }
 
     render() {
         let content = null;

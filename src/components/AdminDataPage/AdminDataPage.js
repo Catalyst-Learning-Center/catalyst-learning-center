@@ -61,16 +61,18 @@ class AdminDataPage extends Component {
         console.log('setData');
         let dataLabels = [];
         let dataset = [];
+        let backgroundColor = [];
         for (let school of this.state.datasets) {
             dataLabels.push(school.school_name);
             dataset.push(school.count);
+            let color = this.getRandomColor();
+            backgroundColor.push(color);
         }
         this.setState({
             chartData: {
                 labels: dataLabels,
-                // backgroundColor: [this.getRandomColor()],
                 datasets: [{
-                    backgroundColor: this.getRandomColor(),
+                    backgroundColor: backgroundColor,
                     data: dataset,
                 }]
             }
