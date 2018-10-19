@@ -90,8 +90,8 @@ class NewApplicationPage extends Component {
     easyFunction = () => {
         this.setState({
             application: {
-                applicant_first_name: 'John',
-                applicant_last_name: 'Doe',
+                applicant_first_name: 'Julia',
+                applicant_last_name: 'Balliet',
                 applicant_address: '1234 Main St',
                 applicant_city: 'Minneapolis',
                 applicant_state: 'MN',
