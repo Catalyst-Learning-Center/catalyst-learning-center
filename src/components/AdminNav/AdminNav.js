@@ -5,6 +5,8 @@ import './AdminNav.css';
 import PropTypes from 'prop-types';
 import Badge from '@material-ui/core/Badge';
 import axios from 'axios';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 
 // Material UI imports
@@ -88,9 +90,12 @@ class AdminNav extends React.Component {
         }
 
         return (
+            
             <Navbar className="admin-nav" dark expand="md" scrolling>
                 <NavbarBrand tag="span">
-                <img className="tutor-nav-brand" src="./images/catalystwhite.png" />
+                <NavItem>
+                <NavLink to="/admin-data"><img className="tutor-nav-brand" src="./images/catalystwhite.png" /></NavLink>
+                    </NavItem>
                 </NavbarBrand>
                 {!this.state.isWideEnough && <NavbarToggler onClick={this.onClick} />}
                 <Collapse isOpen={this.state.collapse} navbar>
