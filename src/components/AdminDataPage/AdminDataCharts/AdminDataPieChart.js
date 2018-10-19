@@ -19,7 +19,7 @@ class AdminDataPieChart extends Component {
                                 fontsize: 25,
                             },
                             legend: {
-                                display: true,
+                                display: false,
                                 position: 'right',
                             },
                         }}

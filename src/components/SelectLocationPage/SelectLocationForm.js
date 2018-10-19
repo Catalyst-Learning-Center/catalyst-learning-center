@@ -14,7 +14,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
 const mapStateToProps = state => ({
-    locations: state.locations.locations,
+    locations: state.locations.locations
 });
 
 class SelectLocationDropdown extends Component {
