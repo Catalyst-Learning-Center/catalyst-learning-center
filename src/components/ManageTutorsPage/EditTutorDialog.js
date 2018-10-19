@@ -232,7 +232,7 @@ class EditTutorDialog extends Component {
                         <h3>Subject Area(s) of Interest</h3>
                         {this.props.subjects.map((subject, index) => {
                             let content = null;
-                                if (this.state.selectedSubjects.includes(subject.id)) {
+                                if (this.state.selectedSubjects.includes(String(subject.id))) {
                                     content = (
                                         <label key={index}> {subject.subjects}
                                             <Checkbox
