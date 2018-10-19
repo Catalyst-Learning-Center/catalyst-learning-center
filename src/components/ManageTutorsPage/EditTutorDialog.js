@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Axios from 'axios';
 // Material UI imports
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -7,8 +8,15 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Checkbox from '@material-ui/core/Checkbox';
 // component imports
 import StateSelect from '../NewApplicationPage/StateSelect';
+
+const mapStateToProps = state => ({
+    tutors: state.tutors,
+    subjects: state.subjects,
+    locations: state.locations.locations
+});
 
 class EditTutorDialog extends Component {
     constructor(props) {
@@ -28,8 +36,52 @@ class EditTutorDialog extends Component {
                 user_experience: this.props.tutor.user_experience,
                 user_age_group: this.props.tutor.user_age_group,
                 id: this.props.tutor.id
-            }
+            },
+            selectedLocations: this.props.selectedLocations,
+            selectedSubjects: this.props.selectedSubjects,
         };
+    }
+
+    componentDidMount = () => {
+        this.props.dispatch({ type: 'GET_LOCATIONS' });
+        this.props.dispatch({ type: 'GET_SUBJECTS' });
+        this.getTutorLocations();
+        this.getTutorSubjects();
+    }
+
+    getTutorLocations = () => {
+        Axios({
+            method: 'GET',
+            url: `/tutors/locations/${this.props.tutor.id}`
+        }).then((response) => {
+            let selectedLocations = [];
+            for (let location of response.data) {
+                selectedLocations.push(String(location.id));
+            }
+            this.setState({
+                selectedLocations: selectedLocations,
+            });
+        }).catch((error) => {
+            console.log('get locations error: ', error);
+        })
+    }
+
+    getTutorSubjects = () => {
+        Axios({
+            method: 'GET',
+            url: `/tutors/subjects/${this.props.tutor.id}`
+        }).then((response) => {
+            let selectedSubjects = [];
+            for (let subject of response.data) {
+                selectedSubjects.push(String(subject.id));
+            }
+            console.log(selectedSubjects);
+            this.setState({
+                selectedSubjects: selectedSubjects,
+            });
+        }).catch((error) => {
+            console.log('get subjects error: ', error);
+        })
     }
 
     handleClickOpen = () => {
@@ -37,6 +89,8 @@ class EditTutorDialog extends Component {
     };
 
     handleClose = () => {
+        this.props.getTutorLocations();
+        this.props.getTutorSubjects();
         this.setState({ open: false });
     };
 
@@ -60,12 +114,52 @@ class EditTutorDialog extends Component {
 
     handleSave = () => {
         console.log(this.state.editedTutor);
-        let action = {
+        let subjects = {
+            subjects: this.state.selectedSubjects,
+            id: this.state.editedTutor.id
+        }
+        let locations = {
+            locations: this.state.selectedLocations,
+            id: this.state.editedTutor.id
+        }
+        this.props.dispatch({
             type: 'EDIT_TUTOR',
             payload: this.state.editedTutor
-        }
-        this.props.dispatch(action);
+        })
+        this.props.dispatch({
+            type: 'EDIT_TUTOR_SUBJECTS',
+            payload: subjects
+        });
+        this.props.dispatch({
+            type: 'EDIT_TUTOR_LOCATIONS',
+            payload: locations
+        });
         this.handleClose();
+    }
+
+    handleSubjectCheckbox = (event, isChecked) => {
+        console.log('clicked: ', event.target);
+        if (isChecked) {
+            this.setState({
+                selectedSubjects: [...this.state.selectedSubjects, event.target.value]
+            });
+        } else if (isChecked === false) {
+            this.setState({
+                selectedSubjects: this.state.selectedSubjects.filter((id) => id !== event.target.value)
+            });
+        }
+    }
+
+    handleLocationsCheckbox = (event, isChecked) => {
+        if (isChecked) {
+            this.setState({
+                selectedLocations: [...this.state.selectedLocations, event.target.value]
+            });
+        } else if (isChecked === false) {
+            this.setState({
+                selectedLocations: this.state.selectedLocations.filter((id) => id !== event.target.value)
+            });
+        }
     }
 
     render() {
@@ -150,6 +244,83 @@ class EditTutorDialog extends Component {
                             value={this.state.editedTutor.user_age_group}
                             fullWidth
                         />
+                        <h3>Subject Area(s) of Interest</h3>
+                        {this.props.subjects.map((subject, index) => {
+                            let content = null;
+                            if (this.state.selectedSubjects.includes(String(subject.id))) {
+                                content = (
+                                    <label key={index}> {subject.subjects}
+                                        <Checkbox
+                                            checked="true"
+                                            name="applicant_subjects"
+                                            key={subject.id}
+                                            label={subject.subjects}
+                                            value={subject.id}
+                                            onChange={this.handleSubjectCheckbox}
+                                            color="primary"
+                                        />
+                                        <br />
+                                    </label>
+                                )
+                            } else {
+                                content = (
+                                    <label key={index}> {subject.subjects}
+                                        <Checkbox
+                                            name="applicant_subjects"
+                                            key={subject.id}
+                                            label={subject.subjects}
+                                            value={subject.id}
+                                            onChange={this.handleSubjectCheckbox}
+                                            color="primary"
+                                        />
+                                        <br />
+                                    </label>
+                                )
+                            }
+                            return (
+                                <React.Fragment>
+                                    {content}
+                                </React.Fragment>
+                            )
+                        })}
+
+                        <h3>Requested Locations</h3>
+                        {this.props.locations.map((location, index) => {
+                            let content = null;
+                            if (this.state.selectedLocations.includes(String(location.id))) {
+                                content = (
+                                    <label key={index}> {location.location_name}
+                                        <Checkbox
+                                            checked="true"
+                                            name="applicant_locations"
+                                            key={location.id}
+                                            label={location.location_name}
+                                            value={`${location.id}`}
+                                            onChange={this.handleLocationsCheckbox}
+                                            color="primary"
+                                        />
+                                    </label>
+                                )
+                            } else {
+                                content = (
+                                    <label key={index}> {location.location_name}
+                                        <Checkbox
+                                            name="applicant_locations"
+                                            key={location.id}
+                                            label={location.location_name}
+                                            value={`${location.id}`}
+                                            onChange={this.handleLocationsCheckbox}
+                                            color="primary"
+                                        />
+                                    </label>
+                                )
+                            }
+                            return (
+                                <React.Fragment>
+                                    {content}
+                                </React.Fragment>
+                            )
+                        })}
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="secondary">
@@ -165,4 +336,4 @@ class EditTutorDialog extends Component {
     }
 }
 
-export default connect()(EditTutorDialog);
+export default connect(mapStateToProps)(EditTutorDialog);

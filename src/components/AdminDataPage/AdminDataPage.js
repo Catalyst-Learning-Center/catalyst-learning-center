@@ -9,6 +9,8 @@ import AdminDataTable from './AdminDataTable/AdminDataTable.js'
 import AdminDataBarGraph from './AdminDataCharts/AdminDataBarGraph';
 import AdminDataPieChart from './AdminDataCharts/AdminDataPieChart';
 
+import Grid from '@material-ui/core/Grid';
+
 const mapStateToProps = state => ({
     user: state.user,
 });
@@ -19,7 +21,6 @@ class AdminDataPage extends Component {
         this.state = {
             chartData: {
                 labels: [],
-                // backgroundColor: [],
                 datasets: [],
             },
         }
@@ -101,9 +102,17 @@ class AdminDataPage extends Component {
         if (this.props.user.userName) {
             content = (
                 <div>
-                    <AdminDataPieChart data={this.state.chartData} />
-                    <AdminDataBarGraph />
-                    <AdminDataTable />
+                    <Grid container>
+                        <Grid item xs={6}>
+                            <AdminDataPieChart data={this.state.chartData} />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <AdminDataBarGraph />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <AdminDataTable />
+                        </Grid>
+                    </Grid>
                 </div>
             )
         }

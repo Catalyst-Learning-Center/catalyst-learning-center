@@ -90,17 +90,16 @@ class NewApplicationPage extends Component {
     easyFunction = () => {
         this.setState({
             application: {
-                applicant_first_name: 'Trav',
-                applicant_last_name: 'Dunn',
+                applicant_first_name: 'Julia',
+                applicant_last_name: 'Balliet',
                 applicant_address: '1234 Main St',
                 applicant_city: 'Minneapolis',
                 applicant_zipcode: '55415',
                 applicant_cell_phone: '612-555-5555',
-                applicant_email: 'guy@stuff.com',
-                applicant_qualifications: 'I like turtles',
-                applicant_experience: 'No I really like turtles',
-                applicant_age_group: 'Turtles',
-                resume: 'http://res.cloudinary.com/catalyst-learning-center/image/upload/v1539368056/a886mxbmrz2bdpq1a9qg.png',
+                applicant_email: 'John.Doe@gmail.com.com',
+                applicant_qualifications: 'Licensed Math Teacher',
+                applicant_experience: '4 years teaching at Montessori',
+                applicant_age_group: 'K-12',
             },
         })
     }

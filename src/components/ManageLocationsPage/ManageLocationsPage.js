@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
 import AdminNav from '../AdminNav/AdminNav';
+import AddLocationsDialog from './AddLocationsDialog/AddLocationsDialog';
 import LocationExpansionPanel from './LocationExpansionPanel/LocationExpansionPanel';
-import EditLocationsDialog from './EditLocationsDialog/EditLocationsDialog';
-import locationsDataMap from './LocationsDataMap/LocationsDataMap';
 import Button from '@material-ui/core/Button';
 
 const mapStateToProps = state => ({
     user: state.user,
-});
+    locations: state.locations.locations
+});//end mapStateToProps
 
 class ManageLocationsPage extends Component {
     constructor (props) {
         super(props);
         this.state = {
             locations: [],
+            addDialogOpen: false,
             editDialogOpen: false,
             locationToEdit: {
                 location_name: '',
@@ -27,8 +27,8 @@ class ManageLocationsPage extends Component {
                 location_state: '',
                 location_zipcode: '',
                 location_phone: ''
-            },
-        }//end this.state
+            },//end locationsToEdit
+        }//end state
     }//end constructor
 
     componentDidMount() {
@@ -46,11 +46,26 @@ class ManageLocationsPage extends Component {
         }//end if else
     }//end componentDidUpdate
 
+    addLocationOpen = () => {
+        //this handles opening dialog for add locations button
+        console.log('addLocationOpen');
+        this.setState({
+            addDialogOpen: true,
+        });//end setState
+    }//end addLocationOpen
+
+    addLocationClose = () => {
+        //this will manage closing the dialog in add location
+        this.setState({
+          addDialogOpen: false,
+        });//end setState
+      }//end handleClose
+
     handleEditDialogOpen = (location) => {
         //this handles openining the edit dialog
+        console.log('handleEditDialogOpen');
         this.setState({
             editDialogOpen: true,
-            locationToEdit: location,
         });//end setState
     }//end handleEditDialogOpen
 
@@ -66,23 +81,12 @@ class ManageLocationsPage extends Component {
         console.log('in handleEditChange', event);
         this.setState({
             [event.target.name]: event.target.value
-        });
+        });//end setState
     }//end handleEditChange
 
     getLocations() {
         //Get location data from server
-        axios({
-            method: 'get',
-            url: '/locations',
-        })//response handling
-        .then( (response) => {
-            this.setState({
-                locations: response.data
-            });//end setState
-        })//error handling
-        .catch(function (error) {
-            console.log(error);
-        });
+        this.props.dispatch({type: 'GET_LOCATIONS'})
     }//end getLocations
 
     render() {
@@ -102,18 +106,17 @@ class ManageLocationsPage extends Component {
                         <p>Manage Tutoring Locations</p>
                     </div>
                     <div>
-                        <Button variant="contained" color="secondary">Add Location</Button>
+                        <Button variant="contained" color="primary" onClick={this.addLocationOpen}>Add Location</Button>
+                        <AddLocationsDialog 
+                        open = {this.state.addDialogOpen}
+                        addLocationClose = {this.addLocationClose} />
                     </div>
-                    {this.state.locations.map((location, i)=>{
+                    {this.props.locations.map((location, i)=>{
                         console.log(location);
                         
                         return (
                             <React.Fragment key={location.id}> 
-                            <LocationExpansionPanel key={i} location={location} handleEditDialogOpen={this.handleEditDialogOpen}/>
-                            <EditLocationsDialog location = {location}
-                                open={this.state.editDialogOpen}
-                                handleEditDialogClose={this.handleEditDialogClose}
-                                handleEditChange={this.handleEditChange}/>
+                            <LocationExpansionPanel key={i} location={location}/>
                             </React.Fragment>
                         )
                     })} 

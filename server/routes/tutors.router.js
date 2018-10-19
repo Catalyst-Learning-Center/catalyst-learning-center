@@ -23,6 +23,42 @@ router.get('/', (req, res) => {
     }
 });
 
+router.get('/subjects/:id', (req, res) => {
+    if (req.isAuthenticated()) {
+        console.log('/tutors/subjects GET route hit with: ', req.params);
+        const queryText = `SELECT "user_info_subjects"."id" AS "join_id", "subjects".* FROM "user_info_subjects"
+        JOIN "subjects" ON "subjects"."id" = "user_info_subjects"."subjects_id"
+        WHERE "user_info_id" = $1;`;
+        pool.query(queryText, [req.params.id]).then((results) => {
+            console.log('back from /tutors/subjects GET route with: ', results.rows);
+            res.send(results.rows);
+        }).catch((error) => {
+            console.log('/tutors/subjects GET error: ', error);
+            res.sendStatus(500);
+        })
+    } else {
+        res.sendStatus(401);
+    }
+})
+
+router.get('/locations/:id', (req, res) => {
+    if (req.isAuthenticated()) {
+        console.log('/tutors/locations GET route hit with: ', req.params);
+        const queryText = `SELECT "user_info_location"."id" AS "join_id", "location"."location_name", "location"."id" FROM "user_info_location"
+        JOIN "location" ON "location"."id" = "user_info_location"."location_id"
+        WHERE "user_info_id" = $1;`;
+        pool.query(queryText, [req.params.id]).then((results) => {
+            console.log('back from /tutors/locations GET route with: ', results.rows);
+            res.send(results.rows);
+        }).catch((error) => {
+            console.log('/tutors/locations GET error: ', error);
+            res.sendStatus(500);
+        })
+    } else {
+        res.sendStatus(401);
+    }
+})
+
 /**
  * POST route template
  */
@@ -130,6 +166,54 @@ router.put('/edit', (req, res) => {
         edit.user_experience, edit.user_age_group, edit.id]).then((results) => {
             console.log('back from /tutors/edit PUT with: ', results.rows);
             res.sendStatus(201);
+        }).catch((error) => {
+            console.log('/tutors/edit PUT error: ', error);
+            res.sendStatus(500);
+        })
+    } else {
+        res.sendStatus(401);
+    }
+})
+
+router.put('/edit/subjects', (req, res) => {
+    if (req.isAuthenticated()) {
+        console.log('/tutors/edit/subjects PUT route hit with: ', req.body);
+        const queryText = `DELETE FROM "user_info_subjects" WHERE "user_info_id" = $1;`;
+        pool.query(queryText, [req.body.id]).then((results) => {
+            for (let subject of req.body.subjects) {
+                let queryText = `INSERT INTO "user_info_subjects" ("user_info_id", "subjects_id")
+                VALUES ($1, $2);`;
+                pool.query(queryText, [req.body.id, subject]).then((results) => {
+                    res.sendStatus(201);
+                }).catch((error) => {
+                    console.log('/tutors/edit PUT error: ', error);
+                    res.sendStatus(500);
+                })
+            }
+        }).catch((error) => {
+            console.log('/tutors/edit PUT error: ', error);
+            res.sendStatus(500);
+        })
+    } else {
+        res.sendStatus(401);
+    }
+})
+
+router.put('/edit/locations', (req, res) => {
+    if (req.isAuthenticated()) {
+        console.log('/tutors/edit/locations PUT route hit with: ', req.body);
+        const queryText = `DELETE FROM "user_info_location" WHERE "user_info_id" = $1;`;
+        pool.query(queryText, [req.body.id]).then((results) => {
+            for (let location of req.body.locations) {
+                let queryText = `INSERT INTO "user_info_location" ("user_info_id", "location_id")
+                VALUES ($1, $2);`;
+                pool.query(queryText, [req.body.id, location]).then((results) => {
+                    res.sendStatus(201);
+                }).catch((error) => {
+                    console.log('/tutors/edit PUT error: ', error);
+                    res.sendStatus(500);
+                })
+            }
         }).catch((error) => {
             console.log('/tutors/edit PUT error: ', error);
             res.sendStatus(500);
