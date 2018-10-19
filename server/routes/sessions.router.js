@@ -75,7 +75,7 @@ router.get('/school-reach/:id', (req, res) => {
 router.get('/active', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/sessions/active GET hit');
-        const queryText = `SELECT "sessions"."student_name", "sessions"."id", "sessions"."start_time", "schools"."school_name", "grade"."grade_level"
+        const queryText = `SELECT "sessions"."student_name", "sessions"."session_date", "sessions"."id", "sessions"."start_time", "schools"."school_name", "grade"."grade_level"
         FROM "sessions" JOIN "schools" ON "schools"."id" = "sessions"."school_id"
         JOIN "grade" ON "grade"."id" = "sessions"."grade_id"
         WHERE "user_id" = $1 AND "end_time" is NULL;`;
