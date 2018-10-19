@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Axios from 'axios';
 // Material UI imports
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -16,18 +15,6 @@ class SelectSubject extends Component {
     }
 
     getSubjects = () => {
-        // Axios({
-        //     method: 'GET',
-        //     url: '/subjects'
-        // }).then((response) => {
-        //     console.log('back from /subjects GET with: ', response.data);
-        //     this.setState({
-        //         subjects: response.data,
-        //     });
-        // }).catch((error) => {
-        //     console.log('/subjects GET error: ', error);
-        //     alert('there was a problem getting the subjects');
-        // })
         this.props.dispatch({type: 'GET_SUBJECTS'})
     }
 
