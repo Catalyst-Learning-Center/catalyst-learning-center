@@ -17,7 +17,7 @@ import ManageTutorsPage from './components/ManageTutorsPage/ManageTutorsPage';
 import AddTutorPage from './components/AddTutorPage/AddTutorPage';
 import NewApplicationPage from './components/NewApplicationPage/NewApplicationPage';
 
-import { loadReCaptcha } from 'react-recaptcha-google'
+import loadReCaptcha from './ReCaptcha/loadReCaptcha';
 
 import './styles/main.css';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -26,11 +26,20 @@ const theme = createMuiTheme({
   typography: {
     useNextVariants: true,
   },
+  palette: {
+    primary: {
+      main:'#ad0400'
+    },
+  }
 });
 
 class App extends Component {
-  componentDidMount() {
+  constructor(props){
+    super(props);
     loadReCaptcha();
+
+  }
+  componentDidMount() {
   }
 
   render() {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import axios from 'axios';
 
 import classNames from 'classnames';
@@ -19,14 +19,28 @@ import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import DownloadCsv from '@material-ui/icons/GetApp';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import moment from 'moment';
-// import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter';
 
-// const MapStateToProps = state => ({
-//     state,
-// });
+//CSV export
+import { CSVDownload } from "react-csv";
+import { CSVLink } from "react-csv";
+
+//filter imports
+import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+
+import Button from '@material-ui/core/Button';
+import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter';
+
+const MapStateToProps = state => ({
+    state,
+    grades: state.grades
+});
 
 function desc(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -54,6 +68,7 @@ function getSorting(order, orderBy) {
 
 const rows = [
     { id: 'session_date', numeric: false, disablePadding: true, label: 'Date' },
+    { id: 'location_name', numeric: false, disablePadding: true, label: 'Location' },
     { id: 'student_name', numeric: false, disablePadding: true, label: 'Student Name' },
     { id: 'school_name', numeric: false, disablePadding: true, label: 'School' },
     { id: 'grade_level', numeric: true, disablePadding: false, label: 'Grade Level' },
@@ -68,18 +83,10 @@ class AdminDataHeader extends Component {
     };
 
     render() {
-        const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
-
+        const { order, orderBy, } = this.props;
         return (
             <TableHead>
                 <TableRow>
-                    <TableCell padding="checkbox">
-                        <Checkbox
-                            indeterminate={numSelected > 0 && numSelected < rowCount}
-                            checked={numSelected === rowCount}
-                            onChange={onSelectAllClick}
-                        />
-                    </TableCell>
                     {rows.map(row => {
                         return (
                             <TableCell
@@ -111,9 +118,7 @@ class AdminDataHeader extends Component {
 }
 
 AdminDataHeader.propTypes = {
-    numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
     order: PropTypes.string.isRequired,
     orderBy: PropTypes.string.isRequired,
     rowCount: PropTypes.number.isRequired,
@@ -136,7 +141,7 @@ const toolbarStyles = theme => ({
         flex: ' 1 1 100%',
     },
     actions: {
-        color: theme.palette.text.secondary,
+        color: theme.palette.text.secondary
     },
     title: {
         flex: '0 0 auto',
@@ -144,17 +149,20 @@ const toolbarStyles = theme => ({
 });
 
 let AdminTableToolbar = props => {
-    const { numSelected, classes } = props;
+    const { numSelected, classes, filteredData } = props;
 
+    const headers = [
+        { label: "Location", key: "location_name" },
+        { label: "Session Date", key: "session_date" },
+        { label: "Student Name", key: "student_name" },
+        { label: "School Name", key: "school_name"},
+        { label: "Grade Level", key: "grade_level"},
+        { label: "Subject", key: "subjects"}
+    ];
 
-    // const filterFields = [
-    //     { name: 'date', label: 'Date', type: 'date' },
-    //     { name: 'student', label: 'Student' },
-    //     { name: 'school', label: 'School' },
-    //     { name: 'grade', label: 'Grade' },
-    //     { name: 'subject', label: 'Total Time' },
-    // ]
-
+    const handleCSV = ( ) =>{
+        console.log('hello', filteredData);
+    }
 
     return (
         <div>
@@ -164,31 +172,22 @@ let AdminTableToolbar = props => {
                 })}
             >
                 <div className={classes.title}>
-                    {numSelected > 0 ? (
-                        <Typography color="inherit" variant="subtitle1">
-                            {numSelected} Selected
-            </Typography>
-                    ) : (
-                            <Typography variant="h6" id="tableTitle">
-                                Tutoring Data
-            </Typography>
-                        )}
+                    <Typography variant="h6" id="tableTitle">
+                        Tutoring Data
+                    </Typography>
                 </div>
                 <div className={classes.spacer} />
                 <div className={classes.actions} >
-                    {numSelected > 0 ? (
-                        <Tooltip title="Delete">
-                            <IconButton aria-label="Delete">
-                                <DeleteIcon />
-                            </IconButton>
-                        </Tooltip>
-                    ) : (
-                            <Tooltip title="Filter List">
-                                <IconButton aria-label="Filter List">
-                                    <FilterListIcon />
-                                </IconButton>
-                            </Tooltip>
-                        )}
+                    <Tooltip title="Download CSV">
+                        <IconButton aria-label="Download CSV">
+                            <CSVLink
+                                data={filteredData}
+                                headers={headers}
+                            >
+                                <DownloadCsv />
+                            </CSVLink>
+                        </IconButton>
+                    </Tooltip>   
                 </div>
             </Toolbar>
         </div>
@@ -219,7 +218,10 @@ class AdminDataTable extends Component {
 
     componentDidMount() {
         this.getSessionData();
+        this.props.dispatch({type: 'GET_GRADES'});
     }
+
+    
 
     state = {
         order: 'asc',
@@ -228,7 +230,11 @@ class AdminDataTable extends Component {
         data: [],
         page: 0,
         rowsPerPage: 5,
-    };
+        locationFilter: '',
+        subjectFilter: '',
+        schoolFilter: '',
+        gradeFilter: ''
+    }
 
     getSessionData = () => {
         console.log('in getSessionData');
@@ -236,7 +242,9 @@ class AdminDataTable extends Component {
             method: 'GET',
             url: '/sessions'
         }).then((response) => {
-            this.setState({ data: response.data });
+            this.setState({
+                data: response.data
+            });
             console.log('back from server with: ', response.data);
         }).catch((error) => {
             console.log('error: ', error);
@@ -256,35 +264,6 @@ class AdminDataTable extends Component {
         this.setState({ order, orderBy });
     };
 
-    handleSelectAllClick = event => {
-        if (event.target.checked) {
-            this.setState(state => ({ selected: state.data.map(session => session.id) }));
-            return;
-        }
-        this.setState({ selected: [] });
-    };
-
-    handleClick = (event, id) => {
-        const { selected } = this.state;
-        const selectedIndex = selected.indexOf(id);
-        let newSelected = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
-
-        this.setState({ selected: newSelected });
-    };
-
     handleChangePage = (event, page) => {
         this.setState({ page });
     };
@@ -297,53 +276,143 @@ class AdminDataTable extends Component {
         return this.state.selected.indexOf(id) !== -1;
     }
 
+    handleFilterChange = (e) => {
+        console.log(e.target)
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    }
+
+    filterLocation = (data) => {
+        let filteredData = data;
+        if (this.state.locationFilter.length) {
+            filteredData = filteredData.filter(session => {
+                if (session.location_name.toLowerCase().includes(this.state.locationFilter.toLowerCase())) {
+                    return session;
+                }
+            });
+        }
+        if (this.state.subjectFilter.length) {
+            filteredData = filteredData.filter(session => {
+                if (session.subjects.toLowerCase().includes(this.state.subjectFilter.toLowerCase())) {
+                    return session;
+                }
+            });
+        }
+         if (this.state.schoolFilter.length) {
+            filteredData = filteredData.filter(session => {
+                if (session.school_name.toLowerCase().includes(this.state.schoolFilter.toLowerCase())) {
+                    return session;
+                }
+            });
+        }
+        if (this.state.gradeFilter.length) {
+            filteredData = filteredData.filter(session => {
+                if (session.grade_level.toLowerCase() === this.state.gradeFilter.toLowerCase()) {
+                    return session;
+                }
+            });
+        }
+
+        return filteredData;
+    }
 
     render() {
         let content = null;
+
         const { classes } = this.props;
         const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
+        let filteredData = this.filterLocation(data);
+
+
         content = (
             <div>
+                <div style={{ backgroundColor: '#f4f4f4', width: '80%', height: '100px', textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}>
+                    <TextField
+                        name="locationFilter"
+                        label="location"
+                        margin="normal"
+                        value={this.state.locationFilter}
+                        onChange={this.handleFilterChange}
+                    />
+                    <TextField
+                        name="subjectFilter"
+                        label="subject"
+                        margin="normal"
+                        value={this.state.subjectFilter}
+                        onChange={this.handleFilterChange}
+                    />
+                    <TextField
+                        name="schoolFilter"
+                        label="school"
+                        margin="normal"
+                        value={this.state.schoolFilter}
+                        onChange={this.handleFilterChange}
+                    />
+                    <FormControl >
+                    <InputLabel htmlFor="gradegradeFilter">Grade:</InputLabel>
+                    <Select
+                        value={this.state.gradeFilter}
+                        onChange={this.handleFilterChange}
+                        inputProps={{
+                            name: 'gradeFilter',
+                            id: 'gradeFilter',
+                        }}
+                    >
+                        <MenuItem value="">
+                            <p>Any</p>
+                        </MenuItem>
+                         {this.props.grades.map(grade => {
+                            return (
+                                <MenuItem value={grade.grade_level}>{grade.grade_level}</MenuItem>
+                            )
+                        })}
+                        
+                    </Select>
+                    </FormControl>
+                </div>
+
+
                 <Paper className={classes.root}>
-                    <AdminTableToolbar numSelected={selected.length} />
+                    <AdminTableToolbar numSelected={selected.length} filteredData = {filteredData}/>
                     <div className={classes.tableWrapper}>
                         <Table className={classes.table} aria-labelledby="tableTitle">
                             <AdminDataHeader
-                                numSelected={selected.length}
                                 order={order}
                                 orderBy={orderBy}
-                                onSelectAllClick={this.handleSelectAllClick}
                                 onRequestSort={this.handleRequestSort}
-                                rowCount={data.length}
+                                rowCount={filteredData.length}
                             />
                             <TableBody>
-                                {stableSort(data, getSorting(order, orderBy))
+                                {stableSort(filteredData, getSorting(order, orderBy))
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .map((session, i) => {
                                         const isSelected = this.isSelected(session.id);
+                                        let time = null;
+                                        if (session.time.hours > 0 && session.time.minutes == null) {
+                                            time = (session.time.hours * 60);
+                                        } else if (session.time.hours > 0) {
+                                            time = (session.time.hours * 60) + session.time.minutes;
+                                        } else {
+                                            time = session.time.minutes;
+                                        }
                                         return (
                                             <TableRow
                                                 hover
-                                                onClick={event => this.handleClick(event, session.id)}
-                                                role="checkbox"
-                                                aria-checked={isSelected}
                                                 tabIndex={-1}
                                                 key={i}
-                                                selected={isSelected}
                                             >
-                                                <TableCell padding="checkbox">
-                                                    <Checkbox checked={isSelected} />
-                                                </TableCell>
                                                 <TableCell component="th" scope="row" padding="none">
                                                     {moment(session.session_date.toString()).format('MM/DD/YY')}
                                                 </TableCell>
-                                                <TableCell>{session.student_name}</TableCell>
-                                                <TableCell>{session.school_name}</TableCell>
+                                                <TableCell padding="none">{session.location_name}</TableCell>
+                                                <TableCell padding="none">{session.student_name}</TableCell>
+                                                <TableCell padding="none">{session.school_name}</TableCell>
                                                 <TableCell numeric>{session.grade_level}</TableCell>
-                                                <TableCell>{session.subjects}</TableCell>
-                                                <TableCell numeric>{moment(session.time).format('h:mm:ss')}</TableCell>
+                                                <TableCell padding="none">{session.subjects}</TableCell>
+                                                <TableCell numeric>{time} minutes</TableCell>
                                             </TableRow>
                                         );
                                     })}
@@ -357,7 +426,7 @@ class AdminDataTable extends Component {
                     </div>
                     <TablePagination
                         component="div"
-                        count={data.length}
+                        count={filteredData.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         backiconbuttonprop={{
@@ -385,6 +454,7 @@ AdminDataTable.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AdminDataTable);
+let AdminExport = withStyles(styles)(AdminDataTable)
 
-// connect(MapStateToProps)
+export default connect(MapStateToProps)(AdminExport);
+
