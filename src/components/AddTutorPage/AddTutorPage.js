@@ -14,7 +14,7 @@ const mapStateToProps = state => ({
     user: state.user,
     newTutorToAdd: state.newTutorToAdd,
     subjects: state.subjects,
-    locations: state.locations,
+    locations: state.locations.locations,
 });
 
 class AddTutorPage extends Component {

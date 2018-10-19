@@ -15,7 +15,7 @@ import StateSelect from '../NewApplicationPage/StateSelect';
 const mapStateToProps = state => ({
     tutors: state.tutors,
     subjects: state.subjects,
-    locations: state.locations
+    locations: state.locations.locations
 });
 
 class EditTutorDialog extends Component {
@@ -73,7 +73,7 @@ class EditTutorDialog extends Component {
         }).then((response) => {
             let selectedSubjects = [];
             for (let subject of response.data) {
-                selectedSubjects.push(subject.id);
+                selectedSubjects.push(String(subject.id));
             }
             console.log(selectedSubjects);
             this.setState({
@@ -240,7 +240,7 @@ class EditTutorDialog extends Component {
                                                 name="applicant_subjects"
                                                 key={subject.id}
                                                 label={subject.subjects}
-                                                value={`${subject.id}`}
+                                                value={subject.id}
                                                 onChange={this.handleSubjectCheckbox}
                                                 color="primary"
                                             />
