@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 // // import { connect } from 'react-redux';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 class AdminDataBarGraph extends Component {
     constructor(props) {
@@ -10,19 +16,19 @@ class AdminDataBarGraph extends Component {
             chartData: {
                 labels: [],
                 datasets: [],
-                    // {
-                    //     label: 'Number of Students Tutored',
-                    //     data: [],
-                    //     backgroundColor: [],
-                    // }
+                // {
+                //     label: 'Number of Students Tutored',
+                //     data: [],
+                //     backgroundColor: [],
+                // }
                 // ],
             }
         }
     }
 
-    // componentDidMount() {
-    //     this.getSessionData();
-    // }
+    componentDidMount() {
+        this.getSessionData();
+    }
 
 
     getSessionData = () => {
@@ -31,9 +37,9 @@ class AdminDataBarGraph extends Component {
             method: 'GET',
             url: '/sessions/library-summary'
         }).then((response) => {
-            this.setState({ 
+            this.setState({
                 datasets: response.data,
-             });
+            });
             console.log('back from server with: ', response.data);
             this.setData();
         }).catch((error) => {
@@ -66,26 +72,52 @@ class AdminDataBarGraph extends Component {
     render() {
         let content = null;
         let chartData = {
-            
+
         };
 
 
         content = (
-            <div className="bar-graph">
-                <Bar
-                    data={this.state.chartData}
-                    options={{
-                        title: {
-                            display: true,
-                            text: 'Library Site Tutor Summary',
-                            fontsize: 25,
-                        },
-                        legend: {
-                            display: true,
-                            position: 'bottom',
-                        }
-                    }}
-                />
+            <div>
+                <div className="bar-graph">
+                    <Bar
+                        data={this.state.chartData}
+                        options={{
+                            title: {
+                                display: true,
+                                text: 'Library Site Tutor Summary',
+                                fontsize: 25,
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                            }
+                        }}
+                    />
+                </div>
+                <div>
+                    <FormControl>
+                        <InputLabel>Location</InputLabel>
+                        <Select
+                        // value={this.state.selectedLocation}
+                        // onChange={this.handleChange}
+                        // input={<Input name="location" id="location" />}
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            {/* {this.props.locations.map((location) => {
+                            return (
+                                <MenuItem
+                                    key={location.id}
+                                    value={location}>
+                                    {location.location_name}
+                                </MenuItem>
+                            )
+                        })} */}
+                        </Select>
+                        <FormHelperText>Select Location</FormHelperText>
+                    </FormControl>
+                </div>
             </div>
         )
 
