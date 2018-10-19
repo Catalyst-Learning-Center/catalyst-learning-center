@@ -40,11 +40,31 @@ function* editTutor(action) {
     }
 }
 
+function* editTutorSubjects(action) {
+    try {
+        yield call(Axios.put, '/tutors/edit/subjects', action.payload);
+        yield put({type: 'GET_TUTORS'});
+    } catch (error) {
+        console.log('edit tutor subjects error: ', error);
+    }
+}
+
+function* editTutorLocations(action) {
+    try {
+        yield call(Axios.put, '/tutors/edit/locations', action.payload);
+        yield put({type: 'GET_TUTORS'});
+    } catch (error) {
+        console.log('edit tutor locations error: ', error);
+    }
+}
+
 function* tutorsSaga() {
     yield takeEvery('GET_TUTORS', getTutors);
     yield takeEvery('TOGGLE_ADMIN', toggleAdmin);
     yield takeEvery('DELETE_TUTOR', deleteTutor);
     yield takeEvery('EDIT_TUTOR', editTutor);
+    yield takeEvery('EDIT_TUTOR_SUBJECTS', editTutorSubjects);
+    yield takeEvery('EDIT_TUTOR_LOCATIONS', editTutorLocations);
 }
 
 export default tutorsSaga;
