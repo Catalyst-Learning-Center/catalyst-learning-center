@@ -157,7 +157,8 @@ let AdminTableToolbar = props => {
         { label: "Student Name", key: "student_name" },
         { label: "School Name", key: "school_name"},
         { label: "Grade Level", key: "grade_level"},
-        { label: "Subject", key: "subjects"}
+        { label: "Subject", key: "subjects"},
+        { label: "Time", key: "time" }
     ];
 
     const handleCSV = ( ) =>{
@@ -179,14 +180,14 @@ let AdminTableToolbar = props => {
                 <div className={classes.spacer} />
                 <div className={classes.actions} >
                     <Tooltip title="Download CSV">
-                        <IconButton aria-label="Download CSV">
-                            <CSVLink
-                                data={filteredData}
-                                headers={headers}
-                            >
+                        <CSVLink
+                            data={filteredData}
+                            headers={headers}
+                        >
+                            <IconButton aria-label="Download CSV">               
                                 <DownloadCsv />
-                            </CSVLink>
-                        </IconButton>
+                            </IconButton>
+                        </CSVLink>
                     </Tooltip>   
                 </div>
             </Toolbar>
@@ -242,6 +243,17 @@ class AdminDataTable extends Component {
             method: 'GET',
             url: '/sessions'
         }).then((response) => {
+            for (let session of response.data) {
+                let time = null;
+                if (session.time.hours > 0 && session.time.minutes == null) {
+                    time = (session.time.hours * 60);
+                } else if (session.time.hours > 0) {
+                    time = (session.time.hours * 60) + session.time.minutes;
+                } else {
+                    time = session.time.minutes;
+                }
+                session.time = time;
+            }
             this.setState({
                 data: response.data
             });
@@ -390,14 +402,6 @@ class AdminDataTable extends Component {
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .map((session, i) => {
                                         const isSelected = this.isSelected(session.id);
-                                        let time = null;
-                                        if (session.time.hours > 0 && session.time.minutes == null) {
-                                            time = (session.time.hours * 60);
-                                        } else if (session.time.hours > 0) {
-                                            time = (session.time.hours * 60) + session.time.minutes;
-                                        } else {
-                                            time = session.time.minutes;
-                                        }
                                         return (
                                             <TableRow
                                                 hover
@@ -412,7 +416,7 @@ class AdminDataTable extends Component {
                                                 <TableCell padding="none">{session.school_name}</TableCell>
                                                 <TableCell numeric>{session.grade_level}</TableCell>
                                                 <TableCell padding="none">{session.subjects}</TableCell>
-                                                <TableCell numeric>{time} minutes</TableCell>
+                                                <TableCell numeric>{session.time} minutes</TableCell>
                                             </TableRow>
                                         );
                                     })}
