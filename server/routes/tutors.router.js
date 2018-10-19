@@ -59,9 +59,7 @@ router.get('/locations/:id', (req, res) => {
     }
 })
 
-/**
- * POST route template
- */
+//  async await POST route to add a new tutor to the database and register them as a user
 router.post('/', (req, res) => {
     console.log('in tutors router', req.body)
     if (req.isAuthenticated()) {
@@ -77,19 +75,19 @@ router.post('/', (req, res) => {
                 const queryText = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id';
               
                 const values = [contact.city, contact.state, contact.zip, contact.street];
-                const addressResult = await client.query(queryText, values);
+                const userResult = await client.query(queryText, values);
                 // id of the newly inserted tutor
-                const addressId = addressResult.rows[0].id;
+                const userId = userResult.rows[0].id;
 
                 // INSERT INTO ... user_info
 
                 // INSERT INTO ... user_info_location (in a for loop)
                 // for each location {
                 queryText = 'INSERT INTO "people" ("first_name", "address_id") VALUES ($1, $2) RETURNING "id";';
-                await client.query(queryText, [contact.first_name, addressId]);
+                await client.query(queryText, [contact.first_name, userId]);
                 // }
 
-                // INSERT INTO ... user_info_subjects
+                // INSERT INTO ... user_info_subjects (in a for loop)
 
 
                 // ABOVE HERE
