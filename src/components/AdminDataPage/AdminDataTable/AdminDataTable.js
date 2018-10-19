@@ -19,10 +19,13 @@ import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import DownloadCsv from '@material-ui/icons/GetApp';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import moment from 'moment';
 
+//CSV export
+import { CSVDownload } from "react-csv";
+import { CSVLink } from "react-csv";
 
 //filter imports
 import TextField from '@material-ui/core/TextField';
@@ -80,18 +83,10 @@ class AdminDataHeader extends Component {
     };
 
     render() {
-        const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
-
+        const { order, orderBy, } = this.props;
         return (
             <TableHead>
                 <TableRow>
-                    <TableCell padding="checkbox">
-                        <Checkbox
-                            indeterminate={numSelected > 0 && numSelected < rowCount}
-                            checked={numSelected === rowCount}
-                            onChange={onSelectAllClick}
-                        />
-                    </TableCell>
                     {rows.map(row => {
                         return (
                             <TableCell
@@ -123,9 +118,7 @@ class AdminDataHeader extends Component {
 }
 
 AdminDataHeader.propTypes = {
-    numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
     order: PropTypes.string.isRequired,
     orderBy: PropTypes.string.isRequired,
     rowCount: PropTypes.number.isRequired,
@@ -148,7 +141,7 @@ const toolbarStyles = theme => ({
         flex: ' 1 1 100%',
     },
     actions: {
-        color: theme.palette.text.secondary,
+        color: theme.palette.text.secondary
     },
     title: {
         flex: '0 0 auto',
@@ -156,9 +149,20 @@ const toolbarStyles = theme => ({
 });
 
 let AdminTableToolbar = props => {
-    const { numSelected, classes } = props;
+    const { numSelected, classes, filteredData } = props;
 
+    const headers = [
+        { label: "Location", key: "location_name" },
+        { label: "Session Date", key: "session_date" },
+        { label: "Student Name", key: "student_name" },
+        { label: "School Name", key: "school_name"},
+        { label: "Grade Level", key: "grade_level"},
+        { label: "Subject", key: "subjects"}
+    ];
 
+    const handleCSV = ( ) =>{
+        console.log('hello', filteredData);
+    }
 
     return (
         <div>
@@ -168,31 +172,22 @@ let AdminTableToolbar = props => {
                 })}
             >
                 <div className={classes.title}>
-                    {numSelected > 0 ? (
-                        <Typography color="inherit" variant="subtitle1">
-                            {numSelected} Selected
-            </Typography>
-                    ) : (
-                            <Typography variant="h6" id="tableTitle">
-                                Tutoring Data
-            </Typography>
-                        )}
+                    <Typography variant="h6" id="tableTitle">
+                        Tutoring Data
+                    </Typography>
                 </div>
                 <div className={classes.spacer} />
                 <div className={classes.actions} >
-                    {numSelected > 0 ? (
-                        <Tooltip title="Delete">
-                            <IconButton aria-label="Delete">
-                                <DeleteIcon />
-                            </IconButton>
-                        </Tooltip>
-                    ) : (
-                            <Tooltip title="Filter List">
-                                <IconButton aria-label="Filter List">
-                                    <FilterListIcon />
-                                </IconButton>
-                            </Tooltip>
-                        )}
+                    <Tooltip title="Download CSV">
+                        <IconButton aria-label="Download CSV">
+                            <CSVLink
+                                data={filteredData}
+                                headers={headers}
+                            >
+                                <DownloadCsv />
+                            </CSVLink>
+                        </IconButton>
+                    </Tooltip>   
                 </div>
             </Toolbar>
         </div>
@@ -269,35 +264,6 @@ class AdminDataTable extends Component {
         this.setState({ order, orderBy });
     };
 
-    handleSelectAllClick = event => {
-        if (event.target.checked) {
-            this.setState(state => ({ selected: state.data.map(session => session.id) }));
-            return;
-        }
-        this.setState({ selected: [] });
-    };
-
-    handleClick = (event, id) => {
-        const { selected } = this.state;
-        const selectedIndex = selected.indexOf(id);
-        let newSelected = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
-
-        this.setState({ selected: newSelected });
-    };
-
     handleChangePage = (event, page) => {
         this.setState({ page });
     };
@@ -363,7 +329,7 @@ class AdminDataTable extends Component {
 
         content = (
             <div>
-                <div style={{ backgroundColor: '#f4f4f4', width: '500px', height: '200px' }}>
+                <div style={{ backgroundColor: '#f4f4f4', width: '80%', height: '100px', textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}>
                     <TextField
                         name="locationFilter"
                         label="location"
@@ -396,7 +362,7 @@ class AdminDataTable extends Component {
                         }}
                     >
                         <MenuItem value="">
-                            <em>None</em>
+                            <p>Any</p>
                         </MenuItem>
                          {this.props.grades.map(grade => {
                             return (
@@ -410,14 +376,12 @@ class AdminDataTable extends Component {
 
 
                 <Paper className={classes.root}>
-                    <AdminTableToolbar numSelected={selected.length} />
+                    <AdminTableToolbar numSelected={selected.length} filteredData = {filteredData}/>
                     <div className={classes.tableWrapper}>
                         <Table className={classes.table} aria-labelledby="tableTitle">
                             <AdminDataHeader
-                                numSelected={selected.length}
                                 order={order}
                                 orderBy={orderBy}
-                                onSelectAllClick={this.handleSelectAllClick}
                                 onRequestSort={this.handleRequestSort}
                                 rowCount={filteredData.length}
                             />
@@ -437,26 +401,18 @@ class AdminDataTable extends Component {
                                         return (
                                             <TableRow
                                                 hover
-                                                onClick={event => this.handleClick(event, session.id)}
-                                                role="checkbox"
-                                                aria-checked={isSelected}
                                                 tabIndex={-1}
                                                 key={i}
-                                                selected={isSelected}
                                             >
-                                                <TableCell padding="checkbox">
-                                                    <Checkbox checked={isSelected} />
-                                                </TableCell>
                                                 <TableCell component="th" scope="row" padding="none">
                                                     {moment(session.session_date.toString()).format('MM/DD/YY')}
                                                 </TableCell>
-                                                <TableCell>{session.location_name}</TableCell>
-                                                <TableCell>{session.student_name}</TableCell>
-                                                <TableCell>{session.school_name}</TableCell>
+                                                <TableCell padding="none">{session.location_name}</TableCell>
+                                                <TableCell padding="none">{session.student_name}</TableCell>
+                                                <TableCell padding="none">{session.school_name}</TableCell>
                                                 <TableCell numeric>{session.grade_level}</TableCell>
-                                                <TableCell>{session.subjects}</TableCell>
-                                                <TableCell numeric>{time}</TableCell>
-                                                {/* {moment(session.time).format('h:mm')} */}
+                                                <TableCell padding="none">{session.subjects}</TableCell>
+                                                <TableCell numeric>{time} minutes</TableCell>
                                             </TableRow>
                                         );
                                     })}
