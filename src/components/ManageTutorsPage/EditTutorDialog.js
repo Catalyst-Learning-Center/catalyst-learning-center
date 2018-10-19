@@ -165,7 +165,7 @@ class EditTutorDialog extends Component {
     render() {
         return (
             <div>
-                <Button onClick={this.handleClickOpen}>Edit</Button>
+                <Button style={{marginRight: '5px'}}color="default" variant="contained" onClick={this.handleClickOpen}>Edit</Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
