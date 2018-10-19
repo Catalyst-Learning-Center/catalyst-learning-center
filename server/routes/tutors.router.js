@@ -1,6 +1,7 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
+const encryptLib = require('../modules/encryption');
 
 /**
  * GET route template
@@ -62,10 +63,53 @@ router.get('/locations/:id', (req, res) => {
  * POST route template
  */
 router.post('/', (req, res) => {
-console.log('in tutors router')
-if (req.isAuthenticated()) {
+    console.log('in tutors router', req.body)
+    if (req.isAuthenticated()) {
+        (async () => {
+            const client = await pool.connect();
     
-}
+            try {
+                await client.query('BEGIN');
+
+                // BELOW HERE
+                const password = encryptLib.encryptPassword(req.body.newTutor.password);
+                // INSERT INTO users... from req.body.newTutor
+                const queryText = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id';
+              
+                const values = [contact.city, contact.state, contact.zip, contact.street];
+                const addressResult = await client.query(queryText, values);
+                // id of the newly inserted tutor
+                const addressId = addressResult.rows[0].id;
+
+                // INSERT INTO ... user_info
+
+                // INSERT INTO ... user_info_location (in a for loop)
+                // for each location {
+                queryText = 'INSERT INTO "people" ("first_name", "address_id") VALUES ($1, $2) RETURNING "id";';
+                await client.query(queryText, [contact.first_name, addressId]);
+                // }
+
+                // INSERT INTO ... user_info_subjects
+
+
+                // ABOVE HERE
+                
+                await client.query('COMMIT');
+                res.sendStatus(201);
+            } catch (e) {
+                console.log('ROLLBACK', e);
+                await client.query('ROLLBACK');
+                throw e;
+            } finally {
+                client.release();
+            }
+        })().catch( (error) => {
+            console.log('CATCH', error);
+            res.sendStatus(500);
+        });
+    } else {
+        res.sendStatus(401);
+    }
 });
 
 /**
