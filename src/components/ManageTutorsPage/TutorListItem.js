@@ -13,6 +13,7 @@ import { Button } from '@material-ui/core';
 import RemoveTutorDialog from './RemoveTutorDialog';
 import EditTutorDialog from './EditTutorDialog';
 
+
 const mapStateToProps = state => ({
     tutors: state.tutors,
 });
@@ -74,11 +75,11 @@ class TutorListItem extends Component {
         let button = null;
         if (this.props.tutor.permissions === 1) {
             button = (
-                <Button onClick={this.toggleAdminStatus}>Make Admin</Button>
+                <Button style={{marginRight: '5px'}} color="default" variant="contained" onClick={this.toggleAdminStatus}>Make Admin</Button>
             )
         } else {
             button = (
-                <Button onClick={this.toggleAdminStatus}>Remove as Admin</Button>
+                <Button style={{marginRight: '5px'}} color="primary" variant="contained" onClick={this.toggleAdminStatus}>Remove as Admin</Button>
             )
         }
 
@@ -92,7 +93,7 @@ class TutorListItem extends Component {
                 <ExpansionPanelDetails>
                     <Typography>
                         {this.props.tutor.user_address}
-                        <br />{this.props.tutor.user_city}, {this.props.tutor.user_state} {this.props.tutor.user_zipcode}
+                        {this.props.tutor.user_city}, {this.props.tutor.user_state} {this.props.tutor.user_zipcode}
                         <br />{this.props.tutor.user_cell_phone}
                         <br />{this.props.tutor.user_email}
                         <br />Qualifications: {this.props.tutor.user_qualifications}
@@ -114,6 +115,8 @@ class TutorListItem extends Component {
                                 )
                             })}
                         </ul>
+                        {/* {JSON.stringify(this.state.locations)} */}
+                        <div style={{display: 'flex', justifyContent: 'flex-end', width: '95vw',}}>
                         <EditTutorDialog 
                             tutor={this.props.tutor}
                             selectedSubjects={this.state.subjects}
@@ -123,6 +126,7 @@ class TutorListItem extends Component {
                         />
                         <RemoveTutorDialog id={this.props.tutor.id} />
                         {button}
+                       </div>
                     </Typography>
                 </ExpansionPanelDetails>
             </ExpansionPanel>

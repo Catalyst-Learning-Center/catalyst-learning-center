@@ -49,7 +49,6 @@ class AdminNav extends React.Component {
             method: 'GET',
             url: '/applications/pending'
         }).then((response) => {
-            // console.log(response.data)
             this.setState({
                 pendingApplications: response.data[0].count
             })
