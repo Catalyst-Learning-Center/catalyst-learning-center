@@ -25,6 +25,22 @@ const newTutorToAdd = (state={user_state: 'MN'}, action) => {
     return state
 }
 
+const newTutorSubjects = (state=[], action) => {
+    if (action.type === 'ADD_TUTOR_SUBJECTS') {
+        return action.payload;
+    }
+    return state;
+}
+
+const newTutorLocations = (state=[], action) => {
+    if (action.type === 'ADD_TUTOR_SUBJECTS') {
+        return action.payload;
+    }
+    return state;
+}
+
 export default combineReducers({
     newTutorToAdd,
+    newTutorLocations,
+    newTutorSubjects
 })

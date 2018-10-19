@@ -41,7 +41,7 @@ class ManageAppsExpansionPanel extends Component {
             confirmRemoveDialogue: false,
             removeDialogue: false,
             locations: [],
-            subjects: '',
+            subjects: [],
 
 
         };
@@ -119,11 +119,19 @@ class ManageAppsExpansionPanel extends Component {
     acceptApplication = (event) => { 
         // history is available to us because it is passed into the parent component
         console.log(this.props.item)
-        this.props.history.push('add-tutor')
         this.props.dispatch({
             type: 'ADD_TUTOR',
             payload: this.props.item,
         })
+        this.props.dispatch({
+            type: 'ADD_TUTOR_SUBJECTS',
+            payload: this.state.subjects,
+        })
+        this.props.dispatch({
+            type: 'ADD_TUTOR_LOCATIONS',
+            payload: this.state.locations,
+        })
+        this.props.history.push('add-tutor')
     }
 
     // removes an application from the DOM and updates the active status is the database from 'true' to 'false'
