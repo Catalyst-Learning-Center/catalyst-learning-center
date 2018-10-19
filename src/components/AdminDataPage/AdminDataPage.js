@@ -109,7 +109,7 @@ class AdminDataPage extends Component {
 
         if (this.props.user.userName) {
             content = (
-                <div>
+                <div style={{margin: '20px'}}>
                     <Grid container>
                         <Grid item xs={6}>
                             <AdminDataPieChart 

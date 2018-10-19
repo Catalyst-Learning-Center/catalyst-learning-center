@@ -67,7 +67,7 @@ function getSorting(order, orderBy) {
 }
 
 const rows = [
-    { id: 'session_date', numeric: false, disablePadding: true, label: 'Date' },
+    { id: 'session_date', numeric: false, disablePadding: false, label: 'Date' },
     { id: 'location_name', numeric: false, disablePadding: true, label: 'Location' },
     { id: 'student_name', numeric: false, disablePadding: true, label: 'Student Name' },
     { id: 'school_name', numeric: false, disablePadding: true, label: 'School' },
@@ -157,7 +157,8 @@ let AdminTableToolbar = props => {
         { label: "Student Name", key: "student_name" },
         { label: "School Name", key: "school_name"},
         { label: "Grade Level", key: "grade_level"},
-        { label: "Subject", key: "subjects"}
+        { label: "Subject", key: "subjects"},
+        { label: "Time (Minutes)", key: "time" }
     ];
 
     const handleCSV = ( ) =>{
@@ -179,14 +180,14 @@ let AdminTableToolbar = props => {
                 <div className={classes.spacer} />
                 <div className={classes.actions} >
                     <Tooltip title="Download CSV">
-                        <IconButton aria-label="Download CSV">
-                            <CSVLink
-                                data={filteredData}
-                                headers={headers}
-                            >
+                        <CSVLink
+                            data={filteredData}
+                            headers={headers}
+                        >
+                            <IconButton aria-label="Download CSV">               
                                 <DownloadCsv />
-                            </CSVLink>
-                        </IconButton>
+                            </IconButton>
+                        </CSVLink>
                     </Tooltip>   
                 </div>
             </Toolbar>
@@ -242,6 +243,18 @@ class AdminDataTable extends Component {
             method: 'GET',
             url: '/sessions'
         }).then((response) => {
+            for (let session of response.data) {
+                let time = null;
+                if (session.time.hours > 0 && session.time.minutes == null) {
+                    time = (session.time.hours * 60);
+                } else if (session.time.hours > 0) {
+                    time = (session.time.hours * 60) + session.time.minutes;
+                } else {
+                    time = session.time.minutes;
+                }
+                session.time = time;
+                session.session_date = moment(session.session_date.toString()).format('MM/DD/YY');
+            }
             this.setState({
                 data: response.data
             });
@@ -329,54 +342,53 @@ class AdminDataTable extends Component {
 
         content = (
             <div>
-                <div style={{ backgroundColor: '#f4f4f4', width: '80%', height: '100px', textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}>
-                    <TextField
-                        name="locationFilter"
-                        label="location"
-                        margin="normal"
-                        value={this.state.locationFilter}
-                        onChange={this.handleFilterChange}
-                    />
-                    <TextField
-                        name="subjectFilter"
-                        label="subject"
-                        margin="normal"
-                        value={this.state.subjectFilter}
-                        onChange={this.handleFilterChange}
-                    />
-                    <TextField
-                        name="schoolFilter"
-                        label="school"
-                        margin="normal"
-                        value={this.state.schoolFilter}
-                        onChange={this.handleFilterChange}
-                    />
-                    <FormControl >
-                    <InputLabel htmlFor="gradegradeFilter">Grade:</InputLabel>
-                    <Select
-                        value={this.state.gradeFilter}
-                        onChange={this.handleFilterChange}
-                        inputProps={{
-                            name: 'gradeFilter',
-                            id: 'gradeFilter',
-                        }}
-                    >
-                        <MenuItem value="">
-                            <p>Any</p>
-                        </MenuItem>
-                         {this.props.grades.map(grade => {
-                            return (
-                                <MenuItem value={grade.grade_level}>{grade.grade_level}</MenuItem>
-                            )
-                        })}
-                        
-                    </Select>
-                    </FormControl>
-                </div>
-
-
                 <Paper className={classes.root}>
                     <AdminTableToolbar numSelected={selected.length} filteredData = {filteredData}/>
+                    <div style={{ width: '100%', height: '100px', textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}>
+                        <TextField
+                            name="locationFilter"
+                            label="location"
+                            margin="normal"
+                            value={this.state.locationFilter}
+                            onChange={this.handleFilterChange}
+                        />
+                        <TextField
+                            name="schoolFilter"
+                            label="school"
+                            margin="normal"
+                            value={this.state.schoolFilter}
+                            onChange={this.handleFilterChange}
+                        />
+                           <FormControl >
+                            <InputLabel htmlFor="gradeFilter">Grade Level:</InputLabel>
+                            <Select
+                                value={this.state.gradeFilter}
+                                onChange={this.handleFilterChange}
+                                inputProps={{
+                                    name: 'gradeFilter',
+                                    id: 'gradeFilter',
+                                }}
+                            >
+                                <MenuItem value="">
+                                    <p>Any</p>
+                                </MenuItem>
+                                {this.props.grades.map(grade => {
+                                    return (
+                                        <MenuItem value={grade.grade_level}>{grade.grade_level}</MenuItem>
+                                    )
+                                })}
+
+                            </Select>
+                        </FormControl>
+                         <TextField
+                            name="subjectFilter"
+                            label="subject"
+                            margin="normal"
+                            value={this.state.subjectFilter}
+                            onChange={this.handleFilterChange}
+                        />
+                     
+                    </div>
                     <div className={classes.tableWrapper}>
                         <Table className={classes.table} aria-labelledby="tableTitle">
                             <AdminDataHeader
@@ -390,29 +402,21 @@ class AdminDataTable extends Component {
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .map((session, i) => {
                                         const isSelected = this.isSelected(session.id);
-                                        let time = null;
-                                        if (session.time.hours > 0 && session.time.minutes == null) {
-                                            time = (session.time.hours * 60);
-                                        } else if (session.time.hours > 0) {
-                                            time = (session.time.hours * 60) + session.time.minutes;
-                                        } else {
-                                            time = session.time.minutes;
-                                        }
                                         return (
                                             <TableRow
                                                 hover
                                                 tabIndex={-1}
                                                 key={i}
                                             >
-                                                <TableCell component="th" scope="row" padding="none">
-                                                    {moment(session.session_date.toString()).format('MM/DD/YY')}
+                                                <TableCell component="th" scope="row" >
+                                                    {session.session_date}
                                                 </TableCell>
                                                 <TableCell padding="none">{session.location_name}</TableCell>
                                                 <TableCell padding="none">{session.student_name}</TableCell>
                                                 <TableCell padding="none">{session.school_name}</TableCell>
                                                 <TableCell numeric>{session.grade_level}</TableCell>
                                                 <TableCell padding="none">{session.subjects}</TableCell>
-                                                <TableCell numeric>{time} minutes</TableCell>
+                                                <TableCell numeric>{session.time} minutes</TableCell>
                                             </TableRow>
                                         );
                                     })}
