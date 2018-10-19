@@ -158,7 +158,7 @@ let AdminTableToolbar = props => {
         { label: "School Name", key: "school_name"},
         { label: "Grade Level", key: "grade_level"},
         { label: "Subject", key: "subjects"},
-        { label: "Time", key: "time" }
+        { label: "Time (Minutes)", key: "time" }
     ];
 
     const handleCSV = ( ) =>{
@@ -253,6 +253,7 @@ class AdminDataTable extends Component {
                     time = session.time.minutes;
                 }
                 session.time = time;
+                session.session_date = moment(session.session_date.toString()).format('MM/DD/YY');
             }
             this.setState({
                 data: response.data
@@ -341,54 +342,54 @@ class AdminDataTable extends Component {
 
         content = (
             <div>
-                <div style={{ backgroundColor: '#f4f4f4', width: '80%', height: '100px', textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}>
-                    <TextField
-                        name="locationFilter"
-                        label="location"
-                        margin="normal"
-                        value={this.state.locationFilter}
-                        onChange={this.handleFilterChange}
-                    />
-                    <TextField
-                        name="subjectFilter"
-                        label="subject"
-                        margin="normal"
-                        value={this.state.subjectFilter}
-                        onChange={this.handleFilterChange}
-                    />
-                    <TextField
-                        name="schoolFilter"
-                        label="school"
-                        margin="normal"
-                        value={this.state.schoolFilter}
-                        onChange={this.handleFilterChange}
-                    />
-                    <FormControl >
-                    <InputLabel htmlFor="gradegradeFilter">Grade:</InputLabel>
-                    <Select
-                        value={this.state.gradeFilter}
-                        onChange={this.handleFilterChange}
-                        inputProps={{
-                            name: 'gradeFilter',
-                            id: 'gradeFilter',
-                        }}
-                    >
-                        <MenuItem value="">
-                            <p>Any</p>
-                        </MenuItem>
-                         {this.props.grades.map(grade => {
-                            return (
-                                <MenuItem value={grade.grade_level}>{grade.grade_level}</MenuItem>
-                            )
-                        })}
-                        
-                    </Select>
-                    </FormControl>
-                </div>
-
-
                 <Paper className={classes.root}>
                     <AdminTableToolbar numSelected={selected.length} filteredData = {filteredData}/>
+                    <div style={{ width: '100%', height: '100px', textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}>
+                    <span>Filter Table:</span>
+                        <TextField
+                            name="locationFilter"
+                            label="location"
+                            margin="normal"
+                            value={this.state.locationFilter}
+                            onChange={this.handleFilterChange}
+                        />
+                        <TextField
+                            name="schoolFilter"
+                            label="school"
+                            margin="normal"
+                            value={this.state.schoolFilter}
+                            onChange={this.handleFilterChange}
+                        />
+                           <FormControl >
+                            <InputLabel htmlFor="gradegradeFilter">Grade Level:</InputLabel>
+                            <Select
+                                value={this.state.gradeFilter}
+                                onChange={this.handleFilterChange}
+                                inputProps={{
+                                    name: 'gradeFilter',
+                                    id: 'gradeFilter',
+                                }}
+                            >
+                                <MenuItem value="">
+                                    <p>Any</p>
+                                </MenuItem>
+                                {this.props.grades.map(grade => {
+                                    return (
+                                        <MenuItem value={grade.grade_level}>{grade.grade_level}</MenuItem>
+                                    )
+                                })}
+
+                            </Select>
+                        </FormControl>
+                         <TextField
+                            name="subjectFilter"
+                            label="subject"
+                            margin="normal"
+                            value={this.state.subjectFilter}
+                            onChange={this.handleFilterChange}
+                        />
+                     
+                    </div>
                     <div className={classes.tableWrapper}>
                         <Table className={classes.table} aria-labelledby="tableTitle">
                             <AdminDataHeader
@@ -409,7 +410,7 @@ class AdminDataTable extends Component {
                                                 key={i}
                                             >
                                                 <TableCell component="th" scope="row" padding="none">
-                                                    {moment(session.session_date.toString()).format('MM/DD/YY')}
+                                                    {session.session_date}
                                                 </TableCell>
                                                 <TableCell padding="none">{session.location_name}</TableCell>
                                                 <TableCell padding="none">{session.student_name}</TableCell>
