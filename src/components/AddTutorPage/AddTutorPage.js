@@ -18,29 +18,13 @@ const mapStateToProps = state => ({
 });
 
 class AddTutorPage extends Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         newTutorForm: {
-    //             applicant_first_name: '',
-    //             applicant_last_name: '',
-    //             applicant_address: '',
-    //             applicant_city: '',
-    //             applicant_state: '',
-    //             applicant_zipcode: '',
-    //             applicant_cell_phone: '',
-    //             applicant_email: '',
-    //             applicant_qualifications: '',
-    //             applicant_experience: '',
-    //             applicant_age_group: '',
-    //             resume: '',
-    //         },
-    //         applicant_subjects: [],
-    //         applicant_locations: [],
-    //         subjects: [],
-    //         locations: [],
-    //     }
-    // }
+    constructor(props) {
+        super(props);
+        this.state = {
+            applicant_subjects: [],
+            applicant_locations: [],
+        }
+    }
     componentDidMount() {
         this.getSubjects();
         this.getLocations();
@@ -110,11 +94,11 @@ class AddTutorPage extends Component {
     handleLocationsCheckbox = (event, isChecked) => {
         if (isChecked) {
             this.setState({
-                applicant_locations: [...this.props.applicant_locations, event.target.value]
+                applicant_locations: [...this.state.applicant_locations, event.target.value]
             });
         } else if (isChecked === false) {
             this.setState({
-                applicant_locations: this.props.applicant_locations.filter((id) => id !== event.target.value)
+                applicant_locations: this.state.applicant_locations.filter((id) => id !== event.target.value)
             });
         }
     }
@@ -122,9 +106,15 @@ class AddTutorPage extends Component {
     // post new tutor form to the server
     handleNewTutorForm = (event) => {
         event.preventDefault();
+        const tutor = {
+            newTutor: this.props.newTutorToAdd,
+            subjects: this.state.applicant_subjects,
+            locations: this.state.applicant_locations,
+        }
         axios({
             method: 'POST',
-            url: '/add-new-tutor'
+            url: '/tutors',
+            data: tutor
         }).then((response) => {
             console.log(response.data);
         }).catch((error) => {
