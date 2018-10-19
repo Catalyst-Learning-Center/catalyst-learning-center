@@ -50,17 +50,30 @@ router.get('/library-summary', (req, res) => {
     }
 });
 
-router.get('/school-reach', (req, res) => {
+router.get('/school-reach/:id', (req, res) => {
     if (req.isAuthenticated()) {
-        const query = `SELECT "schools"."school_name", COUNT("sessions"."school_id") FROM "sessions"
-        JOIN "schools" ON "schools"."id" = "sessions"."school_id" 
-        GROUP BY "schools"."school_name"
-        ORDER BY "count" DESC;`;
-        pool.query(query).then((results) => {
-            res.send(results.rows);
-        }).catch((error) => {
-            res.sendStatus(500);
-        });
+        if (req.params.id == 0) {
+            const query = `SELECT "schools"."school_name", COUNT("sessions"."school_id") FROM "sessions"
+            JOIN "schools" ON "schools"."id" = "sessions"."school_id" 
+            GROUP BY "schools"."school_name"
+            ORDER BY "count" DESC;`;
+            pool.query(query).then((results) => {
+                res.send(results.rows);
+            }).catch((error) => {
+                res.sendStatus(500);
+            });
+        } else {
+            const query = `SELECT "schools"."school_name", COUNT("sessions"."school_id") FROM "sessions"
+            JOIN "schools" ON "schools"."id" = "sessions"."school_id"
+            WHERE "location_id" = $1
+            GROUP BY "schools"."school_name"
+            ORDER BY "count" DESC;`;
+            pool.query(query, [req.params.id]).then((results) => {
+                res.send(results.rows);
+            }).catch((error) => {
+                res.sendStatus(500);
+            });
+        }
     } else {
         res.sendStatus(403);
 

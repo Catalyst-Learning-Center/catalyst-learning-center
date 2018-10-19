@@ -36,6 +36,7 @@ class TutorListItem extends Component {
             method: 'GET',
             url: `/tutors/locations/${this.props.tutor.id}`
         }).then((response) => {
+            console.log('getTutorLocations: ', response.data);
             this.setState({
                 locations: response.data,
             });
@@ -49,6 +50,7 @@ class TutorListItem extends Component {
             method: 'GET',
             url: `/tutors/subjects/${this.props.tutor.id}`
         }).then((response) => {
+            console.log('getTutorSubjects: ', response.data);
             this.setState({
                 subjects: response.data,
             });
@@ -112,11 +114,12 @@ class TutorListItem extends Component {
                                 )
                             })}
                         </ul>
-                        {JSON.stringify(this.state.locations)}
                         <EditTutorDialog 
                             tutor={this.props.tutor}
                             selectedSubjects={this.state.subjects}
                             selectedLocations={this.state.locations} 
+                            getTutorLocations={this.getTutorLocations}
+                            getTutorSubjects={this.getTutorSubjects}
                         />
                         <RemoveTutorDialog id={this.props.tutor.id} />
                         {button}
