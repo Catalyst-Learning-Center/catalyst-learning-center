@@ -1,6 +1,19 @@
 .admin-nav {
      background-color: #ad0400;
+     list-style-type: none;
 }
+
+.admin-nav li {
+    margin-right: 14px;
+}
+
 .admin-nav-brand {
     color: white;
 }
+
+.tutor-nav-brand {
+    width: 150px;
+    height: 50px;
+}
+
+
