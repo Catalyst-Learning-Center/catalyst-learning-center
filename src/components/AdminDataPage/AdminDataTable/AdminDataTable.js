@@ -67,7 +67,7 @@ function getSorting(order, orderBy) {
 }
 
 const rows = [
-    { id: 'session_date', numeric: false, disablePadding: true, label: 'Date' },
+    { id: 'session_date', numeric: false, disablePadding: false, label: 'Date' },
     { id: 'location_name', numeric: false, disablePadding: true, label: 'Location' },
     { id: 'student_name', numeric: false, disablePadding: true, label: 'Student Name' },
     { id: 'school_name', numeric: false, disablePadding: true, label: 'School' },
@@ -345,7 +345,6 @@ class AdminDataTable extends Component {
                 <Paper className={classes.root}>
                     <AdminTableToolbar numSelected={selected.length} filteredData = {filteredData}/>
                     <div style={{ width: '100%', height: '100px', textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}>
-                    <span>Filter Table:</span>
                         <TextField
                             name="locationFilter"
                             label="location"
@@ -361,7 +360,7 @@ class AdminDataTable extends Component {
                             onChange={this.handleFilterChange}
                         />
                            <FormControl >
-                            <InputLabel htmlFor="gradegradeFilter">Grade Level:</InputLabel>
+                            <InputLabel htmlFor="gradeFilter">Grade Level:</InputLabel>
                             <Select
                                 value={this.state.gradeFilter}
                                 onChange={this.handleFilterChange}
@@ -409,7 +408,7 @@ class AdminDataTable extends Component {
                                                 tabIndex={-1}
                                                 key={i}
                                             >
-                                                <TableCell component="th" scope="row" padding="none">
+                                                <TableCell component="th" scope="row" >
                                                     {session.session_date}
                                                 </TableCell>
                                                 <TableCell padding="none">{session.location_name}</TableCell>
