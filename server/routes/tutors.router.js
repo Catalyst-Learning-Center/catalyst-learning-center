@@ -131,4 +131,52 @@ router.put('/edit', (req, res) => {
     }
 })
 
+router.put('/edit/subjects', (req, res) => {
+    if (req.isAuthenticated()) {
+        console.log('/tutors/edit/subjects PUT route hit with: ', req.body);
+        const queryText = `DELETE FROM "user_info_subjects" WHERE "user_info_id" = $1;`;
+        pool.query(queryText, [req.body.id]).then((results) => {
+            for (let subject of req.body.subjects) {
+                let queryText = `INSERT INTO "user_info_subjects" ("user_info_id", "subjects_id")
+                VALUES ($1, $2);`;
+                pool.query(queryText, [req.body.id, subject]).then((results) => {
+                    res.sendStatus(201);
+                }).catch((error) => {
+                    console.log('/tutors/edit PUT error: ', error);
+                    res.sendStatus(500);
+                })
+            }
+        }).catch((error) => {
+            console.log('/tutors/edit PUT error: ', error);
+            res.sendStatus(500);
+        })
+    } else {
+        res.sendStatus(401);
+    }
+})
+
+router.put('/edit/locations', (req, res) => {
+    if (req.isAuthenticated()) {
+        console.log('/tutors/edit/locations PUT route hit with: ', req.body);
+        const queryText = `DELETE FROM "user_info_location" WHERE "user_info_id" = $1;`;
+        pool.query(queryText, [req.body.id]).then((results) => {
+            for (let location of req.body.locations) {
+                let queryText = `INSERT INTO "user_info_location" ("user_info_id", "location_id")
+                VALUES ($1, $2);`;
+                pool.query(queryText, [req.body.id, location]).then((results) => {
+                    res.sendStatus(201);
+                }).catch((error) => {
+                    console.log('/tutors/edit PUT error: ', error);
+                    res.sendStatus(500);
+                })
+            }
+        }).catch((error) => {
+            console.log('/tutors/edit PUT error: ', error);
+            res.sendStatus(500);
+        })
+    } else {
+        res.sendStatus(401);
+    }
+})
+
 module.exports = router;

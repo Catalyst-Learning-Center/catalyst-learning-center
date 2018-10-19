@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
@@ -48,7 +47,7 @@ class ManageLocationsPage extends Component {
     }//end componentDidUpdate
 
     addLocationOpen = () => {
-        //handles opening dialog for add locations button
+        //this handles opening dialog for add locations button
         console.log('addLocationOpen');
         this.setState({
             addDialogOpen: true,
@@ -56,7 +55,7 @@ class ManageLocationsPage extends Component {
     }//end addLocationOpen
 
     addLocationClose = () => {
-        //sets dialog box to close initially
+        //this will manage closing the dialog in add location
         this.setState({
           addDialogOpen: false,
         });//end setState
