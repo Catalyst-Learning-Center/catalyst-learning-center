@@ -16,13 +16,9 @@ class AdminDataBarGraph extends Component {
             chartData: {
                 labels: [],
                 datasets: [],
-                // {
-                //     label: 'Number of Students Tutored',
-                //     data: [],
-                //     backgroundColor: [],
-                // }
-                // ],
-            }
+            },
+            locations: '',
+            selectedLocation: null,
         }
     }
 
@@ -53,7 +49,7 @@ class AdminDataBarGraph extends Component {
         let dataLabels = [];
         let dataset = [];
         for (let location of this.state.datasets) {
-            dataLabels.push(location.location_name);
+            dataLabels.push(location.date);
             dataset.push(location.count);
             // let color = this.getRandomColor();
             // backgroundColor.push(color);
@@ -64,17 +60,20 @@ class AdminDataBarGraph extends Component {
                 datasets: [{
                     label: 'Total Number of Students Tutored by School Year',
                     data: dataset,
+
                 }]
             }
         });
     }
 
+    handleChange = (event) => {
+        this.setState({
+            selectedLocation: event.target.value,
+        });
+    }
+
     render() {
         let content = null;
-        let chartData = {
-
-        };
-
 
         content = (
             <div>
@@ -98,14 +97,14 @@ class AdminDataBarGraph extends Component {
                     <FormControl>
                         <InputLabel>Location</InputLabel>
                         <Select
-                        // value={this.state.selectedLocation}
-                        // onChange={this.handleChange}
-                        // input={<Input name="location" id="location" />}
+                            value={this.state.selectedLocation}
+                            onChange={this.handleChange}
+                            input={<Input name="location" id="location" />}
                         >
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            {/* {this.props.locations.map((location) => {
+                            {/* {location.map((location) => {
                             return (
                                 <MenuItem
                                     key={location.id}
