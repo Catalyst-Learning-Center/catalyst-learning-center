@@ -120,11 +120,27 @@ class ManageAppsExpansionPanel extends Component {
     acceptApplication = (event) => { 
         // history is available to us because it is passed into the parent component
         console.log(this.props.item)
-        this.props.history.push('add-tutor')
+        let locations = [];
+        let subjects = [];
+        for (let location of this.state.locations) {
+            locations.push(String(location.id));
+        }
+        for (let subject of this.state.subjects) {
+            subjects.push(String(subject.id));
+        }
         this.props.dispatch({
             type: 'ADD_TUTOR',
             payload: this.props.item,
         })
+        this.props.dispatch({
+            type: 'ADD_TUTOR_SUBJECTS',
+            payload: subjects,
+        })
+        this.props.dispatch({
+            type: 'ADD_TUTOR_LOCATIONS',
+            payload: locations,
+        })
+        this.props.history.push('add-tutor')
     }
 
     // removes an application from the DOM and updates the active status is the database from 'true' to 'false'
