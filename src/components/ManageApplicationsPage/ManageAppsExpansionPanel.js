@@ -27,6 +27,11 @@ const style = {
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
 };
 
+// centering the expansion panel IN PROGRESS.
+const panelStyle = {
+    margin: '0 auto 0 auto'
+}
+
 class ManageAppsExpansionPanel extends Component {
     constructor(props) {
         super(props);
@@ -36,7 +41,7 @@ class ManageAppsExpansionPanel extends Component {
             confirmRemoveDialogue: false,
             removeDialogue: false,
             locations: [],
-            subjects: '',
+            subjects: [],
 
 
         };
@@ -44,6 +49,7 @@ class ManageAppsExpansionPanel extends Component {
 
     componentDidMount = () => {
         this.getApplicationsLocations();
+        this.getApplicationsSubjects();
     } 
 
     getApplicationsLocations = () => {
@@ -51,7 +57,7 @@ class ManageAppsExpansionPanel extends Component {
             method: 'GET',
             url: '/applications/locations/' + this.props.item.id,
         }).then((response) => {
-            console.log('HERE:', response.data)
+            console.log('in getApplicationsLocations GET route: ', response.data)
             this.setState({
                 locations: response.data
             })
@@ -63,9 +69,9 @@ class ManageAppsExpansionPanel extends Component {
     getApplicationsSubjects = () => {
         axios({
             method: 'GET',
-            url: '/applications/subjects',
+            url: '/applications/subjects/' + this.props.item.id,
         }).then((response) => {
-            console.log(response.data)
+            console.log('in getApplicationsSubjects GET route: ', response.data)
             this.setState({
                 subjects: response.data
             })
@@ -140,8 +146,8 @@ class ManageAppsExpansionPanel extends Component {
     render() {
         console.log(this.props.item.id)
         return (
-            <div>
-                <ExpansionPanel expanded={this.state.isOpen} onChange={this.handleExpansion}>
+            <div style={panelStyle}>
+                <ExpansionPanel  expanded={this.state.isOpen} onChange={this.handleExpansion}>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                         <Typography >{this.props.item.applicant_first_name} {this.props.item.applicant_last_name} <br />
                         </Typography>
@@ -186,6 +192,18 @@ class ManageAppsExpansionPanel extends Component {
                             {this.state.locations.map((location) => {
                                 return(
                                     <li>{location.location_name}</li>
+                                )
+                            })}
+                            </ul>
+                        </Typography>
+                    </ExpansionPanelDetails>
+                    <ExpansionPanelDetails>
+                        <Typography>
+                            Subjects: <br />
+                            <ul>
+                            {this.state.subjects.map((subjects) => {
+                                return(
+                                    <li>{subjects.subjects}</li>
                                 )
                             })}
                             </ul>

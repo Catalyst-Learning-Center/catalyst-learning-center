@@ -28,7 +28,7 @@ class NewApplicationPage extends Component {
                 applicant_last_name: '',
                 applicant_address: '',
                 applicant_city: '',
-                applicant_state: '',
+                applicant_state: 'MN',
                 applicant_zipcode: '',
                 applicant_cell_phone: '',
                 applicant_email: '',
@@ -94,6 +94,7 @@ class NewApplicationPage extends Component {
                 applicant_last_name: 'Balliet',
                 applicant_address: '1234 Main St',
                 applicant_city: 'Minneapolis',
+                applicant_state: 'MN',
                 applicant_zipcode: '55415',
                 applicant_cell_phone: '612-555-5555',
                 applicant_email: 'John.Doe@gmail.com.com',
@@ -254,7 +255,7 @@ class NewApplicationPage extends Component {
                                     />
                                     <br />
                                     <StateSelect
-                                        handleApplicantStateChange={this.handleApplicantStateChange}
+                                        handleApplicantStateChange={this.handleApplicantStateChange} defaultState={this.state.application.applicant_state}
                                     />
                                     <br />
                                     <TextField
@@ -319,7 +320,7 @@ class NewApplicationPage extends Component {
                                     <br />
 
 
-                                    <h3>Subject Areas of Interest</h3>
+                                    <h3 onClick={this.easyFunction}>Subject Areas of Interest</h3>
                                     <FormGroup>
                                         {this.state.subjects.map((subject, index) => (
                                             <FormControlLabel
@@ -367,7 +368,6 @@ class NewApplicationPage extends Component {
                                             onloadCallback={this.onLoadRecaptcha}
                                             verifyCallback={this.verifyCallback}
                                         />
-                                        <Button variant="contained" onClick={this.easyFunction}>Easy</Button>
                                         <Button variant="contained" color="primary" type="submit">
                                             Submit
                                         </Button>
