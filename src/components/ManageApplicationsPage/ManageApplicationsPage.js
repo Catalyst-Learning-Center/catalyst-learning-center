@@ -52,6 +52,17 @@ class ManageApplicationsPage extends Component {
     render() {
         let content = null;
         let nav = null;
+        let title = null;
+
+        console.log(this.props.pendingApplications)
+
+        if (this.props.pendingApplications.length > 1) {
+            title = <h1>{this.props.pendingApplications.length} Pending Applications</h1>
+        } else if (this.props.pendingApplications.length > 0){
+            title = <h1>{this.props.pendingApplications.length} Pending Application</h1>
+        } else {
+            title = <h1>There are no pending applications at this time</h1>
+        }
 
 
         if (this.props.user.permissions === 2) {
@@ -62,9 +73,9 @@ class ManageApplicationsPage extends Component {
 
         if (this.props.user.userName) {
             content = (
-                <div>
+                <div className="applications-view-container">
                     <br />
-                    <h1>Pending Applications</h1>
+                    {title}
                     <br />
                     <ul>
                         {/* pendingApplications is held in the ApplicationsReducer */}
