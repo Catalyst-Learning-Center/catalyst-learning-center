@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-const newTutorToAdd = (state={user_state: 'MN'}, action) => {
+const newTutorToAdd = (state={}, action) => {
     if (action.type === 'EDIT_TUTOR') {
         return {...state, [action.payload.name]: action.payload.value}
     } else if (action.type === 'ADD_TUTOR') {
@@ -33,7 +33,7 @@ const newTutorSubjects = (state=[], action) => {
 }
 
 const newTutorLocations = (state=[], action) => {
-    if (action.type === 'ADD_TUTOR_SUBJECTS') {
+    if (action.type === 'ADD_TUTOR_LOCATIONS') {
         return action.payload;
     }
     return state;
