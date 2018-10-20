@@ -25,9 +25,10 @@ router.get('/', (req, res) => {
     }
 });
 
-router.get('/library-summary', (req, res) => {
+router.get('/library-summary/:id', (req, res) => {
     if (req.isAuthenticated()) {
-        const query = `WITH dates AS (
+        if (req.params.id == 0) {
+            const query = `WITH dates AS (
             SELECT
               DATE(date) AS date
               FROM GENERATE_SERIES((
@@ -39,14 +40,35 @@ router.get('/library-summary', (req, res) => {
         LEFT OUTER JOIN sessions ON sessions.session_date BETWEEN dates.date - interval '5 months' AND dates.date + interval '7 months'
         JOIN "location" ON "location"."id" = "sessions"."location_id"
         GROUP BY dates.date, "location"."location_name";`;
-        pool.query(query).then((results) => {
-            res.send(results.rows);
-        }).catch((error) => {
-            res.sendStatus(500);
-        });
+            pool.query(query).then((results) => {
+                res.send(results.rows);
+            }).catch((error) => {
+                res.sendStatus(500);
+                console.log(error);
+            });
+        } else {
+            const query = `WITH dates AS (
+                SELECT
+                  DATE(date) AS date
+                  FROM GENERATE_SERIES((
+                    SELECT DATE(DATE_TRUNC('YEAR', MIN(session_date))) FROM sessions)
+                  , (DATE(date_trunc('year', now()  + interval '1 year'))), '1 YEAR'::INTERVAL) date
+            )
+            SELECT dates.date, count(sessions.*), "location"."location_name"
+            FROM dates
+            LEFT OUTER JOIN sessions ON sessions.session_date BETWEEN dates.date - interval '5 months' AND dates.date + interval '7 months'
+            JOIN "location" ON "location"."id" = "sessions"."location_id"
+            WHERE "location_id" = $1
+            GROUP BY dates.date, "location"."location_name";`;
+            pool.query(query, [req.params.id]).then((results) => {
+                res.send(results.rows);
+            }).catch((error) => {
+                res.sendStatus(500);
+                console.log(error);
+            });
+        }
     } else {
         res.sendStatus(403);
-
     }
 });
 
