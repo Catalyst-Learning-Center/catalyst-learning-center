@@ -50,18 +50,6 @@ class NewSessionDialog extends Component {
             school: this.props.sessions.school.value,
             grade: this.props.sessions.grade
         }
-        // Axios({
-        //     method: 'POST',
-        //     url: '/sessions',
-        //     data: dataToSend
-        // }).then((response) => {
-        //     console.log('back from /sessions POST with: ', response.data);
-        //     this.handleClose();
-        //     this.props.dispatch({type: 'GET_ACTIVE_SESSIONS'});
-        // }).catch((error) => {
-        //     console.log('/sessions POST error: ', error);
-        //     alert('there was a problem starting the session!');
-        // })
         let action = {
             type: 'POST_NEW_SESSION',
             payload: dataToSend

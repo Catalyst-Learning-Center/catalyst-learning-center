@@ -157,7 +157,7 @@ router.post('/', (req, res) => {
 
                 const mail = {
                     from: "Catalyst Learning Center <catalystcenter.mail@gmail.com>",
-                    to: "trav.dunn@outlook.com",
+                    to: "catalystcenter.mail@gmail.com",
                     subject: "Application Submitted",
                     text: "An application has been submitted to Catalyst Learning Center",
                     html: "<p>An application has been submitted to Catalyst Learning Center</p>"

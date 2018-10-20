@@ -23,6 +23,7 @@ class AdminDataPage extends Component {
                 labels: [],
                 datasets: [],
             },
+            location: 0
         }
     }
 
@@ -41,11 +42,18 @@ class AdminDataPage extends Component {
         }
     }
 
+    handleLocationChange = (event) => {
+        this.setState({
+            location: event.target.value
+        });
+        this.getSessionData();
+    }
+
     getSessionData = () => {
         console.log('in getSessionData');
         axios({
             method: 'GET',
-            url: '/sessions/school-reach'
+            url: '/sessions/school-reach/' + this.state.location
         }).then((response) => {
             this.setState({
                 datasets: response.data,
@@ -101,10 +109,13 @@ class AdminDataPage extends Component {
 
         if (this.props.user.userName) {
             content = (
-                <div>
+                <div style={{margin: '20px'}}>
                     <Grid container>
                         <Grid item xs={6}>
-                            <AdminDataPieChart data={this.state.chartData} />
+                            <AdminDataPieChart 
+                            data={this.state.chartData} 
+                            handleLocationChange={this.handleLocationChange}
+                            />
                         </Grid>
                         <Grid item xs={6}>
                             <AdminDataBarGraph />

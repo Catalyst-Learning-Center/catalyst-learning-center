@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,6 +14,7 @@ class AddLocationsDialog extends Component {
     super(props);
 
     this.state = {
+      open: false,
       locationToAdd : {
         location_name: '',
         location_address: '',
@@ -24,6 +26,26 @@ class AddLocationsDialog extends Component {
     }//end state
   }//end constructor
 
+  saveLocation = () => {
+    //when ok is clicked this will POST data to server and save new location
+    let action = {
+      type: 'SAVE_LOCATIONS',
+      payload: this.state.locationToAdd,
+    }//end action
+    this.props.dispatch(action)
+    this.props.addLocationClose()
+  }//end handleAddLocation
+
+
+  handleAddLocationChange = (event) => {
+    this.setState({
+      locationToAdd: {
+        ...this.state.locationToAdd,
+        [event.target.name]: event.target.value
+      }
+    })
+  }
+
   render() {
     return (
       <Dialog
@@ -31,10 +53,10 @@ class AddLocationsDialog extends Component {
         onClose={this.handleClose}
         aria-labelledby="form-dialog-title"
         >
-        <DialogTitle id="form-dialog-title">Edit Location Information</DialogTitle>
+        <DialogTitle id="form-dialog-title">Add Location</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Add Location
+            Add Location Information
           </DialogContentText>
           <TextField
               autoFocus
@@ -43,7 +65,8 @@ class AddLocationsDialog extends Component {
               label="Location Name"
               type="text"
               fullWidth
-              value={this.state.locationToAdd.location_name}              
+              value={this.state.locationToAdd.location_name}
+              onChange={this.handleAddLocationChange}              
             />
             <TextField
               autoFocus
@@ -53,6 +76,7 @@ class AddLocationsDialog extends Component {
               type="text"
               fullWidth
               value={this.state.locationToAdd.location_address}
+              onChange={this.handleAddLocationChange}
             />
             <TextField
               autoFocus
@@ -61,7 +85,8 @@ class AddLocationsDialog extends Component {
               label="City"
               type="text"
               fullWidth
-              value={this.state.locationToAdd.location_city}              
+              value={this.state.locationToAdd.location_city}
+              onChange={this.handleAddLocationChange}              
             />
             <TextField
               autoFocus
@@ -70,7 +95,8 @@ class AddLocationsDialog extends Component {
               label="State"
               type="text"
               fullWidth
-              value={this.state.locationToAdd.location_state}              
+              value={this.state.locationToAdd.location_state}
+              onChange={this.handleAddLocationChange}              
             />
             <TextField
               autoFocus
@@ -79,7 +105,8 @@ class AddLocationsDialog extends Component {
               label="Zipcode"
               type="text"
               fullWidth
-              value={this.state.locationToAdd.location_zipcode}              
+              value={this.state.locationToAdd.location_zipcode}
+              onChange={this.handleAddLocationChange}              
             />
             <TextField
               autoFocus
@@ -88,7 +115,8 @@ class AddLocationsDialog extends Component {
               label="Phone"
               type="text"
               fullWidth
-              value={this.state.locationToAdd.location_phone}              
+              value={this.state.locationToAdd.location_phone}
+              onChange={this.handleAddLocationChange}              
             />
         </DialogContent>
         <DialogActions>
@@ -96,7 +124,7 @@ class AddLocationsDialog extends Component {
             Cancel
           </Button>
           <Button onClick={this.saveLocation} color="primary">
-            Ok
+            Save
           </Button>
         </DialogActions>
       </Dialog>
@@ -104,4 +132,4 @@ class AddLocationsDialog extends Component {
   }//end render
 }//end Component
 
-export default AddLocationsDialog;
+export default connect()(AddLocationsDialog);
