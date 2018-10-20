@@ -18,6 +18,7 @@ router.get('/', (req, res) => {
         pool.query(query).then((results)=> {
             res.send(results.rows);
         }).catch((error) => {
+            console.log('get applications error: ', error);
             res.sendStatus(500);
         });
     } else {
