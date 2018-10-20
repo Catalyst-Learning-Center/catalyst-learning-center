@@ -39,7 +39,7 @@ class AdminDataPieChart extends Component {
                             },
                             legend: {
                                 display: false,
-                                position: 'right',
+                                position: 'bottom',
                             },
                         }}
                     /> 
