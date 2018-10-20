@@ -65,6 +65,7 @@ const mapStateToProps = state => ({
 
   handleChange = (event) => {
     //this will allow changes to be added to edit input fields
+
     this.setState({
       locationToEdit: {
         ...this.state.locationToEdit,
