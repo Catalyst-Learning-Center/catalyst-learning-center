@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import EditLocationsAlert from './EditLocationsAlert';
 import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -17,6 +18,7 @@ const mapStateToProps = state => ({
      super(props);
 
      this.state = {
+       alert: false,
        open: false,
        locationToEdit: {
         id: this.props.location.id,
@@ -51,28 +53,42 @@ const mapStateToProps = state => ({
     }//end action
     this.props.dispatch(action);
     this.handleClose();
+    this.handleEditAlertOpen();
   }//end saveLocationsDialog
 
-   handleClose = () => {
-     //sets edit dialog box to close initially
-     this.setState({
-       open: false,
-     });//end setState
-   }//end handleClose
+  handleClose = () => {
+    //sets edit dialog box to close initially
+    this.setState({
+      open: false,
+    });//end setState
+  }//end handleClose
 
-   handleChange = (event) => {
-     //this will allow changes to be added to edit input fields
+  handleChange = (event) => {
+    //this will allow changes to be added to edit input fields
+
     this.setState({
       locationToEdit: {
         ...this.state.locationToEdit,
         [event.target.name]: event.target.value
       }//end locationToEdit
     });//end setState
-   }//end handleChange
+  }//end handleChange
+
+  handleEditAlertOpen = () => {
+    //when user Edits a location and presses save a alert dialog will appear
+    this.setState({ alert: true});
+  }//end handleEditAlertOpen
+
+  handleEditAlertClose = () => {
+    //after pressing okay alert dialog will close
+    this.setState({ alert: false});
+    this.props.dispatch({type: 'GET_LOCATIONS'})
+  }//end handleEditAlertClose
 
   render() {
     return (
       <div>
+        <React.Fragment>
         <Button onClick={this.openDialog} variant="contained" color="primary">Edit</Button>
         <Dialog
         open={this.state.open}
@@ -154,6 +170,9 @@ const mapStateToProps = state => ({
           </Button>
         </DialogActions>
       </Dialog>
+      <EditLocationsAlert open={this.state.alert}
+      handleEditAlertClose={this.handleEditAlertClose}/>
+      </React.Fragment>
       </div>
     )
   }//end render

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Axios from 'axios';
 // Material UI imports
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -17,18 +16,6 @@ class SelectGrade extends Component {
     }
 
     getGrades = () => {
-        // Axios({
-        //     method: 'GET',
-        //     url: '/grades'
-        // }).then((response) => {
-        //     console.log('back from /grades GET with: ', response.data);
-        //     this.setState({
-        //         grades: response.data,
-        //     });
-        // }).catch((error) => {
-        //     console.log('/grades GET error: ', error);
-        //     alert('there was a problem getting the grades');
-        // })
         this.props.dispatch({type: 'GET_GRADES'});
     }
 
