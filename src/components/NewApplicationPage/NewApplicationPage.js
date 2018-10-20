@@ -217,6 +217,7 @@ class NewApplicationPage extends Component {
                     <form onSubmit={this.postApplication}>
                             <Grid container>
                                 <Grid item xs={4}>
+                                    <h3>Contact Information</h3>
                                     <TextField
                                         required
                                         name="applicant_first_name"
@@ -293,6 +294,43 @@ class NewApplicationPage extends Component {
                                     <br />
                                 </Grid>
                                 <Grid item xs={4}>
+                                    <h3 onClick={this.easyFunction}>Subject Areas of Interest</h3>
+                                    <FormGroup>
+                                        {this.props.subjects.map((subject, index) => (
+                                            <FormControlLabel
+                                                key={subject.id}
+                                                control={<Checkbox
+                                                    name="applicant_subjects"
+                                                    key={subject.id}
+                                                    label={subject.subjects}
+                                                    value={`${subject.id}`}
+                                                    onChange={this.handleSubjectCheckbox}
+                                                    color="primary"
+                                                />}
+                                                label={subject.subjects}>
+                                            </FormControlLabel>
+                                        ))}
+                                    </FormGroup>
+                                    <br />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start'}}>
+                                    <h3>Requested Locations</h3>
+                                    <FormGroup>
+                                        {this.props.locations.map((location, index) => (
+                                            <FormControlLabel
+                                                key={location.id}
+                                                control={<Checkbox
+                                                    name="applicant_subjects"
+                                                    key={location.id}
+                                                    value={`${location.id}`}
+                                                    onChange={this.handleLocationsCheckbox}
+                                                    color="primary"
+                                                />}
+                                                label={location.location_name}>
+                                            </FormControlLabel>
+                                        ))}
+                                    </FormGroup>
                                     <TextField
                                         required
                                         name="applicant_qualifications"
@@ -320,50 +358,10 @@ class NewApplicationPage extends Component {
                                         onChange={this.handleApplicationChange}
                                         fullWidth
                                     />
-                                    <br />
-
-
-                                    <h3 onClick={this.easyFunction}>Subject Areas of Interest</h3>
-                                    <FormGroup>
-                                        {this.props.subjects.map((subject, index) => (
-                                            <FormControlLabel
-                                                key={subject.id}
-                                                control={<Checkbox
-                                                    name="applicant_subjects"
-                                                    key={subject.id}
-                                                    label={subject.subjects}
-                                                    value={`${subject.id}`}
-                                                    onChange={this.handleSubjectCheckbox}
-                                                    color="primary"
-                                                />}
-                                                label={subject.subjects}>
-                                            </FormControlLabel>
-                                        ))}
-                                    </FormGroup>
-                                    <br />
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', height: '50%' }}>
-                                    <h3>Requested Locations</h3>
-                                    <FormGroup>
-                                        {this.props.locations.map((location, index) => (
-                                            <FormControlLabel
-                                                key={location.id}
-                                                control={<Checkbox
-                                                    name="applicant_subjects"
-                                                    key={location.id}
-                                                    value={`${location.id}`}
-                                                    onChange={this.handleLocationsCheckbox}
-                                                    color="primary"
-                                                />}
-                                                label={location.location_name}>
-                                            </FormControlLabel>
-                                        ))}
-                                    </FormGroup>
                                     {resumePdf}
                                     <Button variant="contained" onClick={this.openCloudinary}>Upload Resume (PDF)</Button>
                                     </div>
-                                    <div style={{display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', height: '50%', alignContent: 'center'}}>
+                                    <div style={{display: 'flex', alignItems: 'flex-end', justifyContent: 'space-around', alignContent: 'center', height: '200px'}}>
                                         <ReCaptcha
                                             ref={(el) => { this.captcha = el; }}
                                             size="normal"

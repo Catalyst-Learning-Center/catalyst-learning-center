@@ -75,11 +75,11 @@ class TutorListItem extends Component {
         let button = null;
         if (this.props.tutor.permissions === 1) {
             button = (
-                <Button style={{marginRight: '5px'}} color="default" variant="contained" onClick={this.toggleAdminStatus}>Make Admin</Button>
+                <Button style={{ marginRight: '5px' }} color="default" variant="contained" onClick={this.toggleAdminStatus}>Make Admin</Button>
             )
         } else {
             button = (
-                <Button style={{marginRight: '5px'}} color="primary" variant="contained" onClick={this.toggleAdminStatus}>Remove as Admin</Button>
+                <Button style={{ marginRight: '5px' }} color="primary" variant="contained" onClick={this.toggleAdminStatus}>Remove as Admin</Button>
             )
         }
 
@@ -102,7 +102,7 @@ class TutorListItem extends Component {
                         <br />Subjects:
                         <ul>
                             {this.state.subjects.map((subject) => {
-                                return(
+                                return (
                                     <li key={subject.join_id}>{subject.subjects}</li>
                                 )
                             })}
@@ -110,23 +110,23 @@ class TutorListItem extends Component {
                         <br />Locations:
                         <ul>
                             {this.state.locations.map((location) => {
-                                return(
+                                return (
                                     <li key={location.join_id}>{location.location_name}</li>
                                 )
                             })}
                         </ul>
                         {/* {JSON.stringify(this.state.locations)} */}
-                        <div style={{display: 'flex', justifyContent: 'flex-end', width: '95vw',}}>
-                        <EditTutorDialog 
-                            tutor={this.props.tutor}
-                            selectedSubjects={this.state.subjects}
-                            selectedLocations={this.state.locations} 
-                            getTutorLocations={this.getTutorLocations}
-                            getTutorSubjects={this.getTutorSubjects}
-                        />
-                        <RemoveTutorDialog id={this.props.tutor.id} />
-                        {button}
-                       </div>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', width: '95vw', }}>
+                            <EditTutorDialog
+                                tutor={this.props.tutor}
+                                selectedSubjects={this.state.subjects}
+                                selectedLocations={this.state.locations}
+                                getTutorLocations={this.getTutorLocations}
+                                getTutorSubjects={this.getTutorSubjects}
+                            />
+                            <RemoveTutorDialog id={this.props.tutor.id} />
+                            {button}
+                        </div>
                     </Typography>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
