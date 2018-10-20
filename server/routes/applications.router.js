@@ -6,18 +6,14 @@ const axios = require('axios');
 const nodemailer = require("nodemailer");
 
 
-
-
-
-/**
- * GET route for Manage Applications View
- */
+// GET route for Manage Applications View
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
         const query = `SELECT * FROM "applications" WHERE "active" = true ORDER BY "date" DESC;`;
         pool.query(query).then((results)=> {
             res.send(results.rows);
         }).catch((error) => {
+            console.log('get applications error: ', error);
             res.sendStatus(500);
         });
     } else {
@@ -25,9 +21,8 @@ router.get('/', (req, res) => {
     }
 }); // end applications GET route
 
-/**
- * GET route for Pending Applications Nav Indicator
- */
+
+// GET route for Pending Applications Nav Indicator
 router.get('/pending', (req, res) => {
     if (req.isAuthenticated()) {
         const query = `SELECT COUNT(*) FROM "applications" WHERE "active" = true;`;
@@ -41,6 +36,7 @@ router.get('/pending', (req, res) => {
     }
 }); // end pending applications GET route
 
+// get locations for each applicant/application
 router.get('/locations/:id', (req, res) => {
     if (req.isAuthenticated()) {
         const query = 
@@ -59,10 +55,15 @@ router.get('/locations/:id', (req, res) => {
     }
 }); // end applications-locations GET route
 
-router.get('/subjects', (req, res) => {
+// get subjects for each applicant/application
+router.get('/subjects/:id', (req, res) => {
     if (req.isAuthenticated()) {
-        const query = `SELECT * FROM "applications" WHERE "active" = true ORDER BY "date" DESC;`;
-        pool.query(query).then((results)=> {
+        const query = 
+        `SELECT "applications_subjects"."id", "subjects"."subjects"
+        FROM "applications_subjects"
+        JOIN "subjects" ON "applications_subjects"."subjects_id" = "subjects"."id"
+        WHERE "applications_subjects"."subjects_id" = $1;`;
+        pool.query(query, [req.params.id]).then((results)=> {
             res.send(results.rows);
         }).catch((error) => {
             res.sendStatus(500);
@@ -72,9 +73,8 @@ router.get('/subjects', (req, res) => {
     }
 }); // end applications-subjects GET route
 
-/**
- * "Delete" (Update) an application from the database
- */
+
+ // "Delete" (Update) an application from the database
 router.put('/:id', (req, res) => {
     if (req.isAuthenticated()) {
         console.log(req.params.id)

@@ -41,7 +41,7 @@ class ManageAppsExpansionPanel extends Component {
             confirmRemoveDialogue: false,
             removeDialogue: false,
             locations: [],
-            subjects: '',
+            subjects: [],
 
 
         };
@@ -49,6 +49,7 @@ class ManageAppsExpansionPanel extends Component {
 
     componentDidMount = () => {
         this.getApplicationsLocations();
+        this.getApplicationsSubjects();
     } 
 
     getApplicationsLocations = () => {
@@ -56,7 +57,7 @@ class ManageAppsExpansionPanel extends Component {
             method: 'GET',
             url: '/applications/locations/' + this.props.item.id,
         }).then((response) => {
-            console.log('HERE:', response.data)
+            console.log('in getApplicationsLocations GET route: ', response.data)
             this.setState({
                 locations: response.data
             })
@@ -68,9 +69,9 @@ class ManageAppsExpansionPanel extends Component {
     getApplicationsSubjects = () => {
         axios({
             method: 'GET',
-            url: '/applications/subjects',
+            url: '/applications/subjects/' + this.props.item.id,
         }).then((response) => {
-            console.log(response.data)
+            console.log('in getApplicationsSubjects GET route: ', response.data)
             this.setState({
                 subjects: response.data
             })
@@ -119,11 +120,27 @@ class ManageAppsExpansionPanel extends Component {
     acceptApplication = (event) => { 
         // history is available to us because it is passed into the parent component
         console.log(this.props.item)
-        this.props.history.push('add-tutor')
+        let locations = [];
+        let subjects = [];
+        for (let location of this.state.locations) {
+            locations.push(String(location.id));
+        }
+        for (let subject of this.state.subjects) {
+            subjects.push(String(subject.id));
+        }
         this.props.dispatch({
             type: 'ADD_TUTOR',
             payload: this.props.item,
         })
+        this.props.dispatch({
+            type: 'ADD_TUTOR_SUBJECTS',
+            payload: subjects,
+        })
+        this.props.dispatch({
+            type: 'ADD_TUTOR_LOCATIONS',
+            payload: locations,
+        })
+        this.props.history.push('add-tutor')
     }
 
     // removes an application from the DOM and updates the active status is the database from 'true' to 'false'
@@ -191,6 +208,18 @@ class ManageAppsExpansionPanel extends Component {
                             {this.state.locations.map((location) => {
                                 return(
                                     <li>{location.location_name}</li>
+                                )
+                            })}
+                            </ul>
+                        </Typography>
+                    </ExpansionPanelDetails>
+                    <ExpansionPanelDetails>
+                        <Typography>
+                            Subjects: <br />
+                            <ul>
+                            {this.state.subjects.map((subjects) => {
+                                return(
+                                    <li>{subjects.subjects}</li>
                                 )
                             })}
                             </ul>
