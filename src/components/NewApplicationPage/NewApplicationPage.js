@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import './NewApplicationPage.css';
 
 import NewApplicationHeader from './NewApplicationHeader';
 import StateSelect from './StateSelect';
 import SubmitDialog from './SubmitDialog';
+import SubmitFailedDialog from './SubmitFailedDialog';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -14,7 +16,14 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Grid from '@material-ui/core/Grid';
 
+import PictureAsPdf from '@material-ui/icons/PictureAsPdf';
+
 import ReCaptcha from '../../ReCaptcha/ReCaptcha';
+
+const mapStateToProps = state => ({
+    locations: state.locations.locations,
+    subjects: state.subjects
+});
 
 
 class NewApplicationPage extends Component {
@@ -39,10 +48,9 @@ class NewApplicationPage extends Component {
             },
             applicant_subjects: [],
             applicant_locations: [],
-            subjects: [],
-            locations: [],
             recaptchaToken: '',
-            submitDialogOpen: false
+            submitDialogOpen: false,
+            submitFailedDialogOpen: false
         }
     }
 
@@ -117,37 +125,20 @@ class NewApplicationPage extends Component {
             this.handleSubmitDialogOpen();
         }).catch((error) => {
             console.log('Error in Application POST', error);
+            this.setState({
+                submitFailedDialogOpen: true
+            });
         })
     }
 
     // get list of subjects from database
     getSubjects = () => {
-        axios({
-            method: 'GET',
-            url: '/subjects'
-        }).then((response) => {
-            console.log(response.data);
-            this.setState({
-                subjects: response.data
-            })
-        }).catch((error) => {
-            console.log('Error getting subjects from server', error)
-        });
+        this.props.dispatch({ type: 'GET_SUBJECTS' })
     }
 
     // get list of locations
     getLocations = () => {
-        axios({
-            method: 'GET',
-            url: '/locations'
-        }).then((response) => {
-            console.log(response.data);
-            this.setState({
-                locations: response.data
-            })
-        }).catch((error) => {
-            console.log('Error getting locations from server', error)
-        });
+        this.props.dispatch({type: 'GET_LOCATIONS'})
     }
 
     // open submit dialog
@@ -163,6 +154,12 @@ class NewApplicationPage extends Component {
             submitDialogOpen: false
         })
         this.props.history.push('/login')
+    }
+
+    submitFailedDialogClose = () => {
+        this.setState({
+            submitFailedDialogOpen: false
+        })
     }
 
     // update application to send
@@ -207,6 +204,11 @@ class NewApplicationPage extends Component {
 
 
     render() {
+        let resumePdf = null
+        if (this.state.application.resume) {
+            resumePdf = <p>Resume Upload Successful <PictureAsPdf /></p>
+        }
+
         return (
             <div className="view-container">
             <NewApplicationHeader history={this.props.history} />
@@ -322,7 +324,7 @@ class NewApplicationPage extends Component {
 
                                     <h3 onClick={this.easyFunction}>Subject Areas of Interest</h3>
                                     <FormGroup>
-                                        {this.state.subjects.map((subject, index) => (
+                                        {this.props.subjects.map((subject, index) => (
                                             <FormControlLabel
                                                 key={subject.id}
                                                 control={<Checkbox
@@ -343,7 +345,7 @@ class NewApplicationPage extends Component {
                                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', height: '50%' }}>
                                     <h3>Requested Locations</h3>
                                     <FormGroup>
-                                        {this.state.locations.map((location, index) => (
+                                        {this.props.locations.map((location, index) => (
                                             <FormControlLabel
                                                 key={location.id}
                                                 control={<Checkbox
@@ -357,6 +359,7 @@ class NewApplicationPage extends Component {
                                             </FormControlLabel>
                                         ))}
                                     </FormGroup>
+                                    {resumePdf}
                                     <Button variant="contained" onClick={this.openCloudinary}>Upload Resume (PDF)</Button>
                                     </div>
                                     <div style={{display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', height: '50%', alignContent: 'center'}}>
@@ -376,10 +379,11 @@ class NewApplicationPage extends Component {
                             </Grid>
                     </form>
                     <SubmitDialog open={this.state.submitDialogOpen} handleDialogClose={this.handleSubmitDialogClose} />
+                    <SubmitFailedDialog open={this.state.submitFailedDialogOpen} handleDialogClose={this.submitFailedDialogClose} />
                 </div>
             </div>
                 )
             }
         }
         
-export default NewApplicationPage;
+export default connect(mapStateToProps)(NewApplicationPage);

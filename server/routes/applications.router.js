@@ -93,8 +93,10 @@ router.put('/:id', (req, res) => {
  * POST route template
  */
 router.post('/', (req, res) => {
+    console.log('in application post', req.body.captcha);
+    
     if (req.body.captcha === undefined || req.body.captcha === '' || req.body.captcha === null) {
-        return res.json({ "success": false, "msg": "Please fill out captcha" });
+        return res.sendStatus(500);
     }
 
     const application = req.body.application;
