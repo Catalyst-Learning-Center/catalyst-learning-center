@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-class SubmitDialog extends Component {
+class SubmitFailedDialog extends Component {
 
 
     handleClose = () => {
@@ -20,14 +20,14 @@ class SubmitDialog extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{"Thank you for submitting an application!"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{"Application Submit Failed"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        A Catalyst Learning Center Administrator will be in contact with you shortly.
+                        Please make sure that you have filled out all the fields or try again later
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={this.handleClose} color="primary" variant="contained" autoFocus>
+                    <Button onClick={this.handleClose} variant="contained" color="primary" autoFocus>
                         Ok
                     </Button>
                 </DialogActions>
@@ -36,4 +36,4 @@ class SubmitDialog extends Component {
     }
 }
 
-export default SubmitDialog;
+export default SubmitFailedDialog;

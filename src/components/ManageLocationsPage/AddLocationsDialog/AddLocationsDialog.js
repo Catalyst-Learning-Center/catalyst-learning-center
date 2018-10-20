@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AddLocationsAlert from './AddLocationsAlert';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -8,13 +9,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-
 class AddLocationsDialog extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       open: false,
+      alert: false,
       locationToAdd : {
         location_name: '',
         location_address: '',
@@ -32,22 +33,35 @@ class AddLocationsDialog extends Component {
       type: 'SAVE_LOCATIONS',
       payload: this.state.locationToAdd,
     }//end action
-    this.props.dispatch(action)
-    this.props.addLocationClose()
+    this.props.dispatch(action);
+    this.handleAlertOpen();
+    this.props.addLocationClose();
   }//end handleAddLocation
 
+  handleAlertOpen = () => {
+    //when user adds a location and presses save a confirmation will appear
+    this.setState({ alert: true});
+  }//end handleAlertOpen
+
+  handleAlertClose = () => {
+    //after pressing okay alert dialog will close
+    this.setState({ alert: false});
+  }//end handleAlertClose
 
   handleAddLocationChange = (event) => {
     this.setState({
       locationToAdd: {
         ...this.state.locationToAdd,
         [event.target.name]: event.target.value
-      }
-    })
-  }
+      }//end locationToAdd
+    });//end setState
+  }//end handleAddLocationChange
+
 
   render() {
     return (
+      <div>
+      <React.Fragment>
       <Dialog
         open={this.props.open}
         onClose={this.handleClose}
@@ -128,6 +142,10 @@ class AddLocationsDialog extends Component {
           </Button>
         </DialogActions>
       </Dialog>
+      <AddLocationsAlert handleAlertClose={this.handleAlertClose}
+      open={this.state.alert}/>
+      </React.Fragment>
+      </div>
     )
   }//end render
 }//end Component
