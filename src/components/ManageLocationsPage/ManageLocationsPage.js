@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import './ManageLocationsPage.css';
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
@@ -101,7 +102,7 @@ class ManageLocationsPage extends Component {
 
         if (this.props.user.userName) {
             content = (
-                <div>
+                <div className="locations-view-container">
                     <div>
                         <p>Manage Tutoring Locations</p>
                     </div>
