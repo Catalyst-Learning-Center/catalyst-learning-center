@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import './AdminDataPage.css';
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
@@ -109,7 +110,7 @@ class AdminDataPage extends Component {
 
         if (this.props.user.userName) {
             content = (
-                <div style={{margin: '20px'}}>
+                <div className="data-view-container">
                     <Grid container>
                         <Grid item xs={6}>
                             <AdminDataPieChart 
