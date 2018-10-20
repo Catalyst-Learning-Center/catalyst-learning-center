@@ -75,19 +75,23 @@ router.post('/', (req, res) => {
                 const queryText = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id';
               
                 const values = [contact.city, contact.state, contact.zip, contact.street];
+
                 const userResult = await client.query(queryText, values);
                 // id of the newly inserted tutor
                 const userId = userResult.rows[0].id;
+
 
                 // INSERT INTO ... user_info
 
                 // INSERT INTO ... user_info_location (in a for loop)
                 // for each location {
                 queryText = 'INSERT INTO "people" ("first_name", "address_id") VALUES ($1, $2) RETURNING "id";';
+
                 await client.query(queryText, [contact.first_name, userId]);
                 // }
 
                 // INSERT INTO ... user_info_subjects (in a for loop)
+
 
 
                 // ABOVE HERE
