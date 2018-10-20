@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// // import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import Input from '@material-ui/core/Input';
@@ -9,6 +9,10 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
+const mapStateToProps = state => ({
+    locations: state.locations.locations
+});
+
 class AdminDataBarGraph extends Component {
     constructor(props) {
         super(props);
@@ -16,26 +20,31 @@ class AdminDataBarGraph extends Component {
             chartData: {
                 labels: [],
                 datasets: [],
-                // {
-                //     label: 'Number of Students Tutored',
-                //     data: [],
-                //     backgroundColor: [],
-                // }
-                // ],
-            }
+            },
+            location: 0
         }
     }
 
     componentDidMount() {
-        this.getSessionData();
+        this.getLocations();
     }
 
+    getLocations = () => {
+        this.props.dispatch({type: 'GET_LOCATIONS'});
+    }
+
+    handleLocationChange = (event) => {
+        this.setState({
+            location: event.target.value
+        });
+        this.getSessionData();
+    }
 
     getSessionData = () => {
         console.log('in getSessionData');
         axios({
             method: 'GET',
-            url: '/sessions/library-summary'
+            url: '/sessions/library-summary/' + this.state.location
         }).then((response) => {
             this.setState({
                 datasets: response.data,
@@ -53,10 +62,8 @@ class AdminDataBarGraph extends Component {
         let dataLabels = [];
         let dataset = [];
         for (let location of this.state.datasets) {
-            dataLabels.push(location.location_name);
+            dataLabels.push(location.date);
             dataset.push(location.count);
-            // let color = this.getRandomColor();
-            // backgroundColor.push(color);
         }
         this.setState({
             chartData: {
@@ -68,19 +75,21 @@ class AdminDataBarGraph extends Component {
             }
         });
     }
+    
+    // getSchoolYear = () => {
+    //     let schoolyear = {moment(location.date).format('MM-DD-YYYY')}
+    // }
 
     render() {
         let content = null;
-        let chartData = {
-
-        };
-
 
         content = (
             <div>
                 <div className="bar-graph">
                     <Bar
                         data={this.state.chartData}
+                        width={100}
+                        height={50}
                         options={{
                             title: {
                                 display: true,
@@ -90,7 +99,7 @@ class AdminDataBarGraph extends Component {
                             legend: {
                                 display: true,
                                 position: 'bottom',
-                            }
+                            },
                         }}
                     />
                 </div>
@@ -98,29 +107,27 @@ class AdminDataBarGraph extends Component {
                     <FormControl>
                         <InputLabel>Location</InputLabel>
                         <Select
-                        // value={this.state.selectedLocation}
-                        // onChange={this.handleChange}
-                        // input={<Input name="location" id="location" />}
+                            onChange={this.handleLocationChange}
+                            input={<Input name="location" id="location" />}
                         >
-                            <MenuItem value="">
+                            <MenuItem value="0">
                                 <em>None</em>
                             </MenuItem>
-                            {/* {this.props.locations.map((location) => {
+                            {this.props.locations.map((location) => {
                             return (
                                 <MenuItem
                                     key={location.id}
-                                    value={location}>
+                                    value={location.id}>
                                     {location.location_name}
                                 </MenuItem>
                             )
-                        })} */}
+                        })}
                         </Select>
                         <FormHelperText>Select Location</FormHelperText>
                     </FormControl>
                 </div>
             </div>
         )
-
         return (
             <div>
                 {content}
@@ -130,4 +137,4 @@ class AdminDataBarGraph extends Component {
     }
 }
 
-export default AdminDataBarGraph;
+export default connect(mapStateToProps)(AdminDataBarGraph);
