@@ -8,6 +8,10 @@ import TutorsList from './TutorsList';
 // Material UI imports
 import { Button } from '@material-ui/core';
 
+const style = {
+    marginLeft: '85%',
+}
+
 const mapStateToProps = state => ({
     user: state.user,
 });
@@ -45,7 +49,7 @@ class ManageTutorsPage extends Component {
             content = (
                 <div>
                     <h1>Manage Tutors</h1>
-                    <Button onClick={this.newTutor}>Add New Tutor</Button>
+                    <Button style={style} variant="contained" color="primary" onClick={this.newTutor}>+ Add New Tutor</Button>
                     <TutorsList />
                 </div>
             )
