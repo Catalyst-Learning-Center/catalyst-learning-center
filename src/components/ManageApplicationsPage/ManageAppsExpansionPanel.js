@@ -49,6 +49,7 @@ class ManageAppsExpansionPanel extends Component {
 
     componentDidMount = () => {
         this.getApplicationsLocations();
+        this.getApplicationsSubjects();
     } 
 
     getApplicationsLocations = () => {
@@ -56,7 +57,7 @@ class ManageAppsExpansionPanel extends Component {
             method: 'GET',
             url: '/applications/locations/' + this.props.item.id,
         }).then((response) => {
-            console.log('HERE:', response.data)
+            console.log('in getApplicationsLocations GET route: ', response.data)
             this.setState({
                 locations: response.data
             })
@@ -68,9 +69,9 @@ class ManageAppsExpansionPanel extends Component {
     getApplicationsSubjects = () => {
         axios({
             method: 'GET',
-            url: '/applications/subjects',
+            url: '/applications/subjects/' + this.props.item.id,
         }).then((response) => {
-            console.log(response.data)
+            console.log('in getApplicationsSubjects GET route: ', response.data)
             this.setState({
                 subjects: response.data
             })
@@ -207,6 +208,18 @@ class ManageAppsExpansionPanel extends Component {
                             {this.state.locations.map((location) => {
                                 return(
                                     <li>{location.location_name}</li>
+                                )
+                            })}
+                            </ul>
+                        </Typography>
+                    </ExpansionPanelDetails>
+                    <ExpansionPanelDetails>
+                        <Typography>
+                            Subjects: <br />
+                            <ul>
+                            {this.state.subjects.map((subjects) => {
+                                return(
+                                    <li>{subjects.subjects}</li>
                                 )
                             })}
                             </ul>
