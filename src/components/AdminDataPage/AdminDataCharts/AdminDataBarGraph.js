@@ -30,7 +30,7 @@ class AdminDataBarGraph extends Component {
     }
 
     getLocations = () => {
-        this.props.dispatch({type: 'GET_LOCATIONS'});
+        this.props.dispatch({ type: 'GET_LOCATIONS' });
     }
 
     handleLocationChange = (event) => {
@@ -61,21 +61,33 @@ class AdminDataBarGraph extends Component {
         console.log('setData');
         let dataLabels = [];
         let dataset = [];
+        // let backgroundColor = [];
         for (let location of this.state.datasets) {
             dataLabels.push(location.date);
             dataset.push(location.count);
+            // let color = this.getRandomColor();
+            // backgroundColor.push(color);
         }
         this.setState({
             chartData: {
                 labels: dataLabels,
                 datasets: [{
                     label: 'Total Number of Students Tutored by School Year',
+                    backgroundColor: '#ad0400',
                     data: dataset,
                 }]
             }
         });
     }
-    
+
+    getRandomColor = () => {
+        let letters = '0123456789ABCDEF';
+        let color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
     // getSchoolYear = () => {
     //     let schoolyear = {moment(location.date).format('MM-DD-YYYY')}
     // }
@@ -94,7 +106,7 @@ class AdminDataBarGraph extends Component {
                             title: {
                                 display: true,
                                 text: 'Library Site Tutor Summary',
-                                fontsize: 25,
+                                fontsize: 100,
                             },
                             legend: {
                                 display: true,
@@ -114,14 +126,14 @@ class AdminDataBarGraph extends Component {
                                 <em>None</em>
                             </MenuItem>
                             {this.props.locations.map((location) => {
-                            return (
-                                <MenuItem
-                                    key={location.id}
-                                    value={location.id}>
-                                    {location.location_name}
-                                </MenuItem>
-                            )
-                        })}
+                                return (
+                                    <MenuItem
+                                        key={location.id}
+                                        value={location.id}>
+                                        {location.location_name}
+                                    </MenuItem>
+                                )
+                            })}
                         </Select>
                         <FormHelperText>Select Location</FormHelperText>
                     </FormControl>
