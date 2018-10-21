@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './AdminNav.css';
-import PropTypes from 'prop-types';
 import Badge from '@material-ui/core/Badge';
 import axios from 'axios';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 
 
 // Material UI imports
@@ -49,7 +45,6 @@ class AdminNav extends React.Component {
             method: 'GET',
             url: '/applications/pending'
         }).then((response) => {
-            console.log(response.data)
             this.setState({
                 pendingApplications: response.data[0].count
             })
