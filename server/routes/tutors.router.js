@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/tutors GET route hit');
         const queryText = `SELECT "user_info".*, "users"."permissions" FROM "user_info"
-        JOIN "users" ON "users"."id" = "user_info"."user_id" WHERE "users"."active" = true ORDER BY "id";`;
+        JOIN "users" ON "users"."id" = "user_info"."user_id" WHERE "users"."active" = true ORDER BY "user_first_name";`;
         pool.query(queryText).then((results) => {
             console.log('back form /tutors GET route with: ', results.rows);
             res.send(results.rows);
