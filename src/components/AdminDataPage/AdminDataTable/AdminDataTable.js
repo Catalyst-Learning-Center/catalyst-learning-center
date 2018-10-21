@@ -343,8 +343,8 @@ class AdminDataTable extends Component {
                 <Paper className={classes.root}>
                 <AdminTableToolbar numSelected={selected.length} filteredData={filteredData} />
                 <div className="filter-container">
-                    <FormControl >
-                        <InputLabel htmlFor="locationFilter">Location:</InputLabel>
+                        <FormControl style={{ minWidth: '20%' }}>
+                            <InputLabel htmlFor="locationFilter" shrink>Filter by Location:</InputLabel>
                         <Select
                             value={this.state.locationFilter}
                             onChange={this.handleFilterChange}
@@ -364,15 +364,18 @@ class AdminDataTable extends Component {
 
                         </Select>
                     </FormControl>
+                        <FormControl style={{ minWidth: '20%' }}>
+                            <InputLabel htmlFor="schoolFilter" shrink>Filter by School:</InputLabel>
                     <TextField
                         name="schoolFilter"
-                        label="School"
+                        id="schoolFilter"
                         margin="normal"
                         value={this.state.schoolFilter}
                         onChange={this.handleFilterChange}
                     />
-                    <FormControl >
-                        <InputLabel htmlFor="gradeFilter">Grade Level:</InputLabel>
+                    </FormControl>
+                        <FormControl style={{ minWidth: '20%'}}>
+                            <InputLabel htmlFor="gradeFilter" shrink>Filter by Grade Level:</InputLabel>
                         <Select
                             value={this.state.gradeFilter}
                             onChange={this.handleFilterChange}
@@ -392,8 +395,8 @@ class AdminDataTable extends Component {
 
                         </Select>
                     </FormControl>
-                    <FormControl >
-                        <InputLabel htmlFor="gradeFilter">Subject:</InputLabel>
+                        <FormControl style={{ minWidth: '20%' }}>
+                        <InputLabel htmlFor="subjectFilter" shrink>Filter by Subject:</InputLabel>
                         <Select
                             value={this.state.subjectFilter}
                             onChange={this.handleFilterChange}
