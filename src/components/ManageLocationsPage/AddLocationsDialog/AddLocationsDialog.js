@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AddLocationsAlert from './AddLocationsAlert';
+import StateSelect from '../../NewApplicationPage/StateSelect';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -111,6 +112,10 @@ class AddLocationsDialog extends Component {
               value={this.state.locationToAdd.location_city}
               onChange={this.handleAddLocationChange}
               required              
+            />
+            <StateSelect 
+            handleApplicantStateChange={this.handleStateDropDownChange}
+            defaultState={this.state.locationToAdd.location_state}
             />
             <TextField
               autoFocus

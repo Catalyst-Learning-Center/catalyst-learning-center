@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import EditLocationsAlert from './EditLocationsAlert';
+import StateSelect from '../../NewApplicationPage/StateSelect'; 
 import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -89,6 +90,13 @@ const mapStateToProps = state => ({
     this.props.dispatch({type: 'GET_LOCATIONS'})
   }//end handleEditAlertClose
 
+  handleStateDropDownChange = (value) => {
+    //updates with location from drop down
+    this.setState({
+        locationToEdit: { ...this.state.locationToEdit, location_state: value }
+    });//end setState
+}//end handleLocationStateChange
+
   render() {
     return (
       <div>
@@ -134,15 +142,9 @@ const mapStateToProps = state => ({
               value={this.state.locationToEdit.location_city}
               onChange={this.handleChange}
             />
-            <TextField
-              autoFocus
-              margin="dense"
-              name="location_state"
-              label="State"
-              type="text"
-              fullWidth
-              value={this.state.locationToEdit.location_state}
-              onChange={this.handleChange}
+            <StateSelect 
+            handleApplicantStateChange={this.handleStateDropDownChange}
+            defaultState={this.state.locationToEdit.location_state}
             />
             <TextField
               autoFocus
