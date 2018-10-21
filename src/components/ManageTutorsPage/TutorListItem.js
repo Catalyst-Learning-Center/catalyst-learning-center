@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // Material UI imports
 import { Button } from '@material-ui/core';
+import AdminIcon from '@material-ui/icons/VerifiedUserOutlined';
 // component imports
 import RemoveTutorDialog from './RemoveTutorDialog';
 import EditTutorDialog from './EditTutorDialog';
@@ -73,24 +74,32 @@ class TutorListItem extends Component {
 
     render() {
         let button = null;
+        let admin = null;
 
         if (this.props.tutor.permissions === 1) {
             button = (
                 <Button style={{ marginRight: '25px' }} color="default" variant="contained" onClick={this.toggleAdminStatus}>Make Admin</Button>
             )
-    
         } else {
             button = (
                 <Button style={{ marginRight: '25px' }} color="primary" variant="contained" onClick={this.toggleAdminStatus}>Remove as Admin</Button>
             )
-            
-        }
 
+            admin = (
+                <div style={{ color: '#718C92' }}>
+                    <AdminIcon />
+                    <p style={{ float: 'right', fontSize: '12px' }}>Admin</p>
+                </div>
+
+            )
+
+        }
         return (
             <ExpansionPanel>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography>
-                        <b style={{fontSize: "24px", color: "#5D6874"}}>{this.props.tutor.user_first_name} {this.props.tutor.user_last_name}</b>
+                        <b style={{ fontSize: "24px", color: "#5D6874" }}>{this.props.tutor.user_first_name} {this.props.tutor.user_last_name}</b>
+                        <div style={{ float: "right", marginLeft: "10px" }}>{admin}</div>
                     </Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
@@ -105,7 +114,7 @@ class TutorListItem extends Component {
                         <br /><b>Experience:</b> {this.props.tutor.user_experience}
                         <br /><b>Age group:</b> {this.props.tutor.user_age_group}<br />
                         <br /><b>Subject(s):</b>
-                        <ul style={{listStyleType: 'none'}}>
+                        <ul style={{ listStyleType: 'none' }}>
                             {this.state.subjects.map((subject) => {
                                 return (
                                     <li key={subject.join_id}>{subject.subjects}</li>
@@ -113,7 +122,7 @@ class TutorListItem extends Component {
                             })}
                         </ul>
                         <b>Preferred Location(s):</b>
-                        <ul style={{listStyleType: 'none'}}>
+                        <ul style={{ listStyleType: 'none' }}>
                             {this.state.locations.map((location) => {
                                 return (
                                     <li key={location.join_id}>{location.location_name}</li>
