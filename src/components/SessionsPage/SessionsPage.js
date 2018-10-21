@@ -50,10 +50,14 @@ class SessionsPage extends Component {
                     <h1>Sessions</h1>
                     You are tutoring at {this.props.location.location_name}
                     <NewSessionDialog />
-                    <h3>Active Sessions</h3>
-                    <ActiveSessionsTable />
-                    <h3>Completed Sessions</h3>
-                    <CompletedSessionsTable />
+                    <div className="active-sessions-container">
+                        <h3>Active Sessions</h3>
+                        <ActiveSessionsTable />
+                    </div>  
+                    <div className="completed-sessions-container">
+                        <h3>Completed Sessions</h3>
+                        <CompletedSessionsTable />
+                    </div>
                 </div>
             )
         }

@@ -20,33 +20,31 @@ class LocationExpansionPanel extends Component {
         this.props.dispatch(action);
     }//end handleEditClick
 
-  render() {
-    return (
-        <div>
-        <ExpansionPanel>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>{this.props.location.location_name}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-               <div>
-                   <ListItem>
-                       <ListItemText primary={this.props.location.location_address} />
-                   </ListItem>
-                   <ListItem>
-                       <ListItemText primary={`${this.props.location.location_city} ${this.props.location.location_state} ${this.props.location.location_zipcode} `}/>
-                   </ListItem>
-                   <ListItem>
-                       <ListItemText primary={this.props.location.location_phone}/>
-                   </ListItem>
-               </div>
-            <div>
-                <EditLocationsDialog location={this.props.location} />
-            </div>
-            </ExpansionPanelDetails>
-        </ExpansionPanel>
-        </div>
-    )
-  }//end render
+    render() {
+        return (
+            <ExpansionPanel>
+                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography>{this.props.location.location_name}</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                    <div>
+                        <ListItem>
+                            <ListItemText primary={this.props.location.location_address} />
+                        </ListItem>
+                        <ListItem>
+                            <ListItemText primary={`${this.props.location.location_city} ${this.props.location.location_state} ${this.props.location.location_zipcode} `} />
+                        </ListItem>
+                        <ListItem>
+                            <ListItemText primary={this.props.location.location_phone} />
+                        </ListItem>
+                    </div>
+                    <div>
+                        <EditLocationsDialog location={this.props.location} />
+                    </div>
+                </ExpansionPanelDetails>
+            </ExpansionPanel>
+        )
+    }//end render
 }//end Component
 
 export default connect()(LocationExpansionPanel);
