@@ -74,7 +74,6 @@ class ManageApplicationsPage extends Component {
         if (this.props.user.userName) {
             content = (
                 <div className="applications-view-container">
-                    <br />
                     {title}
                     <br />
                     <ul>

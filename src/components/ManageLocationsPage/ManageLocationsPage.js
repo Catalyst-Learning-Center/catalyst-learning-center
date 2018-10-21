@@ -9,6 +9,11 @@ import AddLocationsDialog from './AddLocationsDialog/AddLocationsDialog';
 import LocationExpansionPanel from './LocationExpansionPanel/LocationExpansionPanel';
 import Button from '@material-ui/core/Button';
 
+const style = {
+    marginLeft: '85%',
+    marginBottom: '10px',
+}  
+
 const mapStateToProps = state => ({
     user: state.user,
     locations: state.locations.locations
@@ -104,10 +109,10 @@ class ManageLocationsPage extends Component {
             content = (
                 <div className="locations-view-container">
                     <div>
-                        <p>Manage Tutoring Locations</p>
+                        <h1>Manage Tutoring Locations</h1>
                     </div>
                     <div>
-                        <Button variant="contained" color="primary" onClick={this.addLocationOpen}>Add Location</Button>
+                        <Button style={style} variant="contained" color="primary" onClick={this.addLocationOpen}>+ Add Location</Button>
                         <AddLocationsDialog 
                         open = {this.state.addDialogOpen}
                         addLocationClose = {this.addLocationClose} />
