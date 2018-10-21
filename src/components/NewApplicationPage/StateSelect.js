@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import Select from 'react-select';
 
+
 class StateSelect extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             states: [
-                'AL', 
-                'AK', 
-                'AZ', 
+                'AL',
+                'AK',
+                'AZ',
                 'AR',
                 'CA',
                 'CO',
@@ -60,14 +61,21 @@ class StateSelect extends Component {
         }
     }
 
+    componentDidMount = () => {
+        this.handleDefaultValue();
+    }
+
+    handleDefaultValue = () => {
+
+    }
+
     handleChange = (value) => {
         this.props.handleApplicantStateChange(value.value);
     }
 
-  render() {
-    return (
+    render() {
+        return (
             <Select
-                required
                 options={
                     this.state.states.map((state) => ({
                         value: state,
@@ -77,9 +85,11 @@ class StateSelect extends Component {
                 onChange={this.handleChange}
                 placeholder="State"
                 name="applicant_state"
+                defaultInputValue={this.props.defaultState}
             />
-    )
-  }
+
+        )
+    }
 }
 
 

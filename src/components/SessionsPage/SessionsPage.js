@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import './SessionsPage.css';
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
@@ -45,14 +46,18 @@ class SessionsPage extends Component {
 
         if (this.props.user.userName) {
             content = (
-                <div>
+                <div className="sessions-view-container">
                     <h1>Sessions</h1>
                     You are tutoring at {this.props.location.location_name}
                     <NewSessionDialog />
-                    <h3>Active Sessions</h3>
-                    <ActiveSessionsTable />
-                    <h3>Completed Sessions</h3>
-                    <CompletedSessionsTable />
+                    <div className="active-sessions-container">
+                        <h3>Active Sessions</h3>
+                        <ActiveSessionsTable />
+                    </div>  
+                    <div className="completed-sessions-container">
+                        <h3>Completed Sessions</h3>
+                        <CompletedSessionsTable />
+                    </div>
                 </div>
             )
         }

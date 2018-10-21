@@ -7,6 +7,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
+const style = {
+    float: 'left',
+    marginRight: '5px',
+    
+}
 class RemoveTutorDialog extends Component {
     constructor(props) {
         super(props);
@@ -46,7 +51,7 @@ class RemoveTutorDialog extends Component {
     render() {
         return (
             <div>
-                <Button onClick={this.handleOpen}>Remove</Button>
+                <Button style={style} color="secondary" variant="contained" onClick={this.handleOpen}>Remove</Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}

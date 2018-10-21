@@ -89,6 +89,8 @@ class EditTutorDialog extends Component {
     };
 
     handleClose = () => {
+        this.props.getTutorLocations();
+        this.props.getTutorSubjects();
         this.setState({ open: false });
     };
 
@@ -112,11 +114,26 @@ class EditTutorDialog extends Component {
 
     handleSave = () => {
         console.log(this.state.editedTutor);
-        let action = {
+        let subjects = {
+            subjects: this.state.selectedSubjects,
+            id: this.state.editedTutor.id
+        }
+        let locations = {
+            locations: this.state.selectedLocations,
+            id: this.state.editedTutor.id
+        }
+        this.props.dispatch({
             type: 'EDIT_TUTOR',
             payload: this.state.editedTutor
-        }
-        this.props.dispatch(action);
+        })
+        this.props.dispatch({
+            type: 'EDIT_TUTOR_SUBJECTS',
+            payload: subjects
+        });
+        this.props.dispatch({
+            type: 'EDIT_TUTOR_LOCATIONS',
+            payload: locations
+        });
         this.handleClose();
     }
 
@@ -148,15 +165,13 @@ class EditTutorDialog extends Component {
     render() {
         return (
             <div>
-                <Button onClick={this.handleClickOpen}>Edit</Button>
+                <Button style={{marginRight: '5px'}} color="default" variant="contained" onClick={this.handleClickOpen}>Edit</Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
                 >
                     <DialogTitle id="form-dialog-title">Edit Tutor</DialogTitle>
                     <DialogContent>
-                        STATE: {JSON.stringify(this.state.selectedSubjects)}
-                        PROPS: {JSON.stringify(this.props.selectedSubjects)}
                         <TextField
                             label="First Name"
                             name="user_first_name"
@@ -232,56 +247,80 @@ class EditTutorDialog extends Component {
                         <h3>Subject Area(s) of Interest</h3>
                         {this.props.subjects.map((subject, index) => {
                             let content = null;
-                                if (this.state.selectedSubjects.includes(String(subject.id))) {
-                                    content = (
-                                        <label key={index}> {subject.subjects}
-                                            <Checkbox
-                                                checked="true"
-                                                name="applicant_subjects"
-                                                key={subject.id}
-                                                label={subject.subjects}
-                                                value={subject.id}
-                                                onChange={this.handleSubjectCheckbox}
-                                                color="primary"
-                                            />
-                                            <br />
-                                        </label>
-                                    )
-                                } else {
-                                    content = (
-                                        <label key={index}> {subject.subjects}
-                                            <Checkbox
-                                                name="applicant_subjects"
-                                                key={subject.id}
-                                                label={subject.subjects}
-                                                value={subject.id}
-                                                onChange={this.handleSubjectCheckbox}
-                                                color="primary"
-                                            />
-                                            <br />
-                                        </label>
-                                    )
-                                }
+                            if (this.state.selectedSubjects.includes(String(subject.id))) {
+                                content = (
+                                    <label key={index}> {subject.subjects}
+                                        <Checkbox
+                                            checked="true"
+                                            name="applicant_subjects"
+                                            key={subject.id}
+                                            label={subject.subjects}
+                                            value={subject.id}
+                                            onChange={this.handleSubjectCheckbox}
+                                            color="primary"
+                                        />
+                                        <br />
+                                    </label>
+                                )
+                            } else {
+                                content = (
+                                    <label key={index}> {subject.subjects}
+                                        <Checkbox
+                                            name="applicant_subjects"
+                                            key={subject.id}
+                                            label={subject.subjects}
+                                            value={subject.id}
+                                            onChange={this.handleSubjectCheckbox}
+                                            color="primary"
+                                        />
+                                        <br />
+                                    </label>
+                                )
+                            }
                             return (
                                 <React.Fragment>
-                                {content}
+                                    {content}
                                 </React.Fragment>
                             )
                         })}
 
                         <h3>Requested Locations</h3>
-                        {this.props.locations.map((location, index) => (
-                            <label key={index}> {location.location_name}
-                                <Checkbox
-                                    name="applicant_locations"
-                                    key={location.id}
-                                    label={location.location_name}
-                                    value={`${location.id}`}
-                                    onChange={this.handleLocationsCheckbox}
-                                    color="primary"
-                                />
-                            </label>
-                        ))}
+                        {this.props.locations.map((location, index) => {
+                            let content = null;
+                            if (this.state.selectedLocations.includes(String(location.id))) {
+                                content = (
+                                    <label key={index}> {location.location_name}
+                                        <Checkbox
+                                            checked="true"
+                                            name="applicant_locations"
+                                            key={location.id}
+                                            label={location.location_name}
+                                            value={`${location.id}`}
+                                            onChange={this.handleLocationsCheckbox}
+                                            color="primary"
+                                        />
+                                    </label>
+                                )
+                            } else {
+                                content = (
+                                    <label key={index}> {location.location_name}
+                                        <Checkbox
+                                            name="applicant_locations"
+                                            key={location.id}
+                                            label={location.location_name}
+                                            value={`${location.id}`}
+                                            onChange={this.handleLocationsCheckbox}
+                                            color="primary"
+                                        />
+                                    </label>
+                                )
+                            }
+                            return (
+                                <React.Fragment>
+                                    {content}
+                                </React.Fragment>
+                            )
+                        })}
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="secondary">
