@@ -78,7 +78,7 @@ class ManageApplicationsPage extends Component {
                             return(
                                 // history must be passed through the main component before the subcomponent
                                 // can access it
-                                <ManageAppsExpansionPanel history={this.props.history} getPendingApplications={this.getPendingApplications} item={item}/>
+                                <ManageAppsExpansionPanel key={i} history={this.props.history} getPendingApplications={this.getPendingApplications} item={item}/>
                             )
                         })}
                     </ul>
