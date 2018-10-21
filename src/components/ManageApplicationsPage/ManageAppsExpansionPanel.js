@@ -154,7 +154,6 @@ class ManageAppsExpansionPanel extends Component {
     render() {
         console.log(this.props.item.id)
         return (
-            <div>
                 <ExpansionPanel  expanded={this.state.isOpen} onChange={this.handleExpansion}>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                         <Typography><b style={{ fontSize: "24px", color: "#5D6874" }}>{this.props.item.applicant_first_name} {this.props.item.applicant_last_name}</b> <br />
@@ -173,7 +172,7 @@ class ManageAppsExpansionPanel extends Component {
                             <b>Qualifications:</b> {this.props.item.applicant_qualifications}<br />
                             <b>Experience:</b> {this.props.item.applicant_experience}<br />
                             <b>Age group: </b>{this.props.item.applicant_age_group}<br />
-                            <b>Resume:</b> <br />{this.props.item.resume}<br />        
+                            <b>Resume:</b> {this.props.item.resume}<br />        
                             <br /><b>Subject(s):</b> <br />
                             <ul style={{ listStyleType: 'none' }}>
                             {this.state.subjects.map((subjects) => {
@@ -240,7 +239,6 @@ class ManageAppsExpansionPanel extends Component {
                         </Typography>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
-            </div>
         );
     };
 };
