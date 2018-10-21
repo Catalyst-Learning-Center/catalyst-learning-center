@@ -138,7 +138,8 @@ const toolbarStyles = theme => ({
         flex: ' 1 1 100%',
     },
     actions: {
-        color: theme.palette.text.secondary
+        color: theme.palette.text.secondary,
+        display: 'flex'
     },
     title: {
         flex: '0 0 auto',
@@ -176,7 +177,8 @@ let AdminTableToolbar = props => {
                 </div>
                 <div className={classes.spacer} />
                 <div className={classes.actions} >
-                    <Tooltip title="Export CSV">
+                    <Typography variant="caption" align="nowrap" style={{width: '85px', marginTop: '16px', color: 'rgb(117,117,117)'}}>Export as CSV</Typography>
+                    <Tooltip title="Export CSV" >
                         <CSVLink
                             data={filteredData}
                             headers={headers}
