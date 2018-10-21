@@ -60,6 +60,7 @@ class ManageAppsExpansionPanel extends Component {
     } // end getApplicationsLocations
 
     getApplicationsSubjects = () => {
+        console.log('get application subjects');
         axios({
             method: 'GET',
             url: '/applications/subjects/' + this.props.item.id,
@@ -177,7 +178,7 @@ class ManageAppsExpansionPanel extends Component {
                             <ul style={{ listStyleType: 'none' }}>
                             {this.state.subjects.map((subjects) => {
                                 return(
-                                    <li>{subjects.subjects}</li>
+                                    <li key={subjects.id}>{subjects.subjects}</li>
                                 )
                             })}
                             </ul><br />
@@ -186,7 +187,7 @@ class ManageAppsExpansionPanel extends Component {
                             <ul style={{ listStyleType: 'none' }}>
                             {this.state.locations.map((location) => {
                                 return(
-                                    <li>{location.location_name}</li>
+                                    <li key={location.id}>{location.location_name}</li>
                                 )
                             })}
                             </ul><br />

@@ -28,6 +28,10 @@ const newTutorToAdd = (state={}, action) => {
 const newTutorSubjects = (state=[], action) => {
     if (action.type === 'ADD_TUTOR_SUBJECTS') {
         return action.payload;
+    } else if (action.type === 'CHECK_SUBJECT') {
+        return [...state, action.payload];
+    } else if (action.type === 'UNCHECK_SUBJECT') {
+        return state.filter((id) => id !== action.payload);
     }
     return state;
 }
@@ -35,6 +39,10 @@ const newTutorSubjects = (state=[], action) => {
 const newTutorLocations = (state=[], action) => {
     if (action.type === 'ADD_TUTOR_LOCATIONS') {
         return action.payload;
+    }else if (action.type === 'CHECK_LOCATION') {
+        return [...state, action.payload];
+    } else if (action.type === 'UNCHECK_LOCATION') {
+        return state.filter((id) => id !== action.payload);
     }
     return state;
 }
