@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './AdminNav.css';
-import PropTypes from 'prop-types';
 import Badge from '@material-ui/core/Badge';
 import axios from 'axios';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 
 
 // Material UI imports

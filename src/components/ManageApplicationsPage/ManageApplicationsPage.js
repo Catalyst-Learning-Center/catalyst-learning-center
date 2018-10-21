@@ -8,9 +8,6 @@ import axios from '../../../node_modules/axios';
 import ManageAppsExpansionPanel from './ManageAppsExpansionPanel';
 import './ManageApplications.css';
 
-
-
-
 const mapStateToProps = state => ({
     user: state.user,
     pendingApplications: state.pendingApplications,
@@ -48,7 +45,6 @@ class ManageApplicationsPage extends Component {
         })
     } // end getPendingApplications
 
-
     render() {
         let content = null;
         let nav = null;
@@ -63,7 +59,6 @@ class ManageApplicationsPage extends Component {
         } else {
             title = <h1>There are no pending applications at this time</h1>
         }
-
 
         if (this.props.user.permissions === 2) {
             nav = (
@@ -83,15 +78,13 @@ class ManageApplicationsPage extends Component {
                             return(
                                 // history must be passed through the main component before the subcomponent
                                 // can access it
-                                <ManageAppsExpansionPanel history={this.props.history} getPendingApplications={this.getPendingApplications} item={item}/>
+                                <ManageAppsExpansionPanel key={i} history={this.props.history} getPendingApplications={this.getPendingApplications} item={item}/>
                             )
                         })}
                     </ul>
                 </div>
-
             )
         }
-
         return (
             <div>
                 {nav}

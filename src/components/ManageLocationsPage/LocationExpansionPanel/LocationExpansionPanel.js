@@ -6,7 +6,6 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { ListItemText, ListItem } from '@material-ui/core';
 
 class LocationExpansionPanel extends Component {
 
@@ -24,20 +23,13 @@ class LocationExpansionPanel extends Component {
         return (
             <ExpansionPanel>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography>{this.props.location.location_name}</Typography>
+                    <Typography><b style={{ fontSize: "24px", color: "#5D6874" }}>{this.props.location.location_name}</b><br />
+                    {this.props.location.location_address}<br />
+                        {`${this.props.location.location_city}, ${this.props.location.location_state} ${this.props.location.location_zipcode} `}<br />
+                        {this.props.location.location_phone} 
+                    </Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                    <div>
-                        <ListItem>
-                            <ListItemText primary={this.props.location.location_address} />
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText primary={`${this.props.location.location_city} ${this.props.location.location_state} ${this.props.location.location_zipcode} `} />
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText primary={this.props.location.location_phone} />
-                        </ListItem>
-                    </div>
                     <div>
                         <EditLocationsDialog location={this.props.location} />
                     </div>
