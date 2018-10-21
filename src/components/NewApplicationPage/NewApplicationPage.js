@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import './NewApplicationPage.css';
 
 import NewApplicationHeader from './NewApplicationHeader';
 import StateSelect from './StateSelect';
 import SubmitDialog from './SubmitDialog';
+import SubmitFailedDialog from './SubmitFailedDialog';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -14,7 +16,15 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Grid from '@material-ui/core/Grid';
 
+import PictureAsPdf from '@material-ui/icons/PictureAsPdf';
+
+
 import ReCaptcha from '../../ReCaptcha/ReCaptcha';
+
+const mapStateToProps = state => ({
+    locations: state.locations.locations,
+    subjects: state.subjects
+});
 
 
 class NewApplicationPage extends Component {
@@ -39,10 +49,9 @@ class NewApplicationPage extends Component {
             },
             applicant_subjects: [],
             applicant_locations: [],
-            subjects: [],
-            locations: [],
             recaptchaToken: '',
-            submitDialogOpen: false
+            submitDialogOpen: false,
+            submitFailedDialogOpen: false
         }
     }
 
@@ -117,37 +126,20 @@ class NewApplicationPage extends Component {
             this.handleSubmitDialogOpen();
         }).catch((error) => {
             console.log('Error in Application POST', error);
+            this.setState({
+                submitFailedDialogOpen: true
+            });
         })
     }
 
     // get list of subjects from database
     getSubjects = () => {
-        axios({
-            method: 'GET',
-            url: '/subjects'
-        }).then((response) => {
-            console.log(response.data);
-            this.setState({
-                subjects: response.data
-            })
-        }).catch((error) => {
-            console.log('Error getting subjects from server', error)
-        });
+        this.props.dispatch({ type: 'GET_SUBJECTS' })
     }
 
     // get list of locations
     getLocations = () => {
-        axios({
-            method: 'GET',
-            url: '/locations'
-        }).then((response) => {
-            console.log(response.data);
-            this.setState({
-                locations: response.data
-            })
-        }).catch((error) => {
-            console.log('Error getting locations from server', error)
-        });
+        this.props.dispatch({type: 'GET_LOCATIONS'})
     }
 
     // open submit dialog
@@ -163,6 +155,12 @@ class NewApplicationPage extends Component {
             submitDialogOpen: false
         })
         this.props.history.push('/login')
+    }
+
+    submitFailedDialogClose = () => {
+        this.setState({
+            submitFailedDialogOpen: false
+        })
     }
 
     // update application to send
@@ -207,13 +205,21 @@ class NewApplicationPage extends Component {
 
 
     render() {
+        let resumePdf = null
+        if (this.state.application.resume) {
+            resumePdf = <p>Resume Upload Successful <PictureAsPdf /></p>
+        } else {
+            resumePdf = <br />
+        }
+
         return (
             <div className="view-container">
             <NewApplicationHeader history={this.props.history} />
                 <div className="application-container">
                     <form onSubmit={this.postApplication}>
-                            <Grid container>
+                            <Grid container spacing={16}>
                                 <Grid item xs={4}>
+                                    <h3>Contact Information</h3>
                                     <TextField
                                         required
                                         name="applicant_first_name"
@@ -254,10 +260,10 @@ class NewApplicationPage extends Component {
                                         fullWidth
                                     />
                                     <br />
+                                    <br />
                                     <StateSelect
                                         handleApplicantStateChange={this.handleApplicantStateChange} defaultState={this.state.application.applicant_state}
                                     />
-                                    <br />
                                     <TextField
                                         required
                                         name="applicant_zipcode"
@@ -290,39 +296,9 @@ class NewApplicationPage extends Component {
                                     <br />
                                 </Grid>
                                 <Grid item xs={4}>
-                                    <TextField
-                                        required
-                                        name="applicant_qualifications"
-                                        label="Applicable Qualifications"
-                                        margin="normal"
-                                        value={this.state.application.applicant_qualifications}
-                                        onChange={this.handleApplicationChange}
-                                        fullWidth
-                                    />
-                                    <TextField
-                                        required
-                                        name="applicant_experience"
-                                        label="Past Tutoring Experience"
-                                        margin="normal"
-                                        value={this.state.application.applicant_experience}
-                                        onChange={this.handleApplicationChange}
-                                        fullWidth
-                                    />
-                                    <TextField
-                                        required
-                                        name="applicant_age_group"
-                                        label="Which age group do you prefer to teach?"
-                                        margin="normal"
-                                        value={this.state.application.applicant_age_group}
-                                        onChange={this.handleApplicationChange}
-                                        fullWidth
-                                    />
-                                    <br />
-
-
                                     <h3 onClick={this.easyFunction}>Subject Areas of Interest</h3>
                                     <FormGroup>
-                                        {this.state.subjects.map((subject, index) => (
+                                        {this.props.subjects.map((subject, index) => (
                                             <FormControlLabel
                                                 key={subject.id}
                                                 control={<Checkbox
@@ -340,10 +316,10 @@ class NewApplicationPage extends Component {
                                     <br />
                                 </Grid>
                                 <Grid item xs={4}>
-                                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', height: '50%' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start'}}>
                                     <h3>Requested Locations</h3>
                                     <FormGroup>
-                                        {this.state.locations.map((location, index) => (
+                                        {this.props.locations.map((location) => (
                                             <FormControlLabel
                                                 key={location.id}
                                                 control={<Checkbox
@@ -357,9 +333,41 @@ class NewApplicationPage extends Component {
                                             </FormControlLabel>
                                         ))}
                                     </FormGroup>
+                                    <TextField
+                                        required
+                                        name="applicant_qualifications"
+                                        label="Applicable Qualifications"
+                                        margin="normal"
+                                        value={this.state.application.applicant_qualifications}
+                                        onChange={this.handleApplicationChange}
+                                        fullWidth
+                                        multiline
+                                        rows={3}
+                                    />
+                                    <TextField
+                                        required
+                                        name="applicant_experience"
+                                        label="Past Tutoring Experience"
+                                        margin="normal"
+                                        value={this.state.application.applicant_experience}
+                                        onChange={this.handleApplicationChange}
+                                        fullWidth
+                                        multiline
+                                        rows={3}
+                                    />
+                                    <TextField
+                                        required
+                                        name="applicant_age_group"
+                                        label="Which age group do you prefer to teach?"
+                                        margin="normal"
+                                        value={this.state.application.applicant_age_group}
+                                        onChange={this.handleApplicationChange}
+                                        fullWidth
+                                    />
+                                    {resumePdf}
                                     <Button variant="contained" onClick={this.openCloudinary}>Upload Resume (PDF)</Button>
                                     </div>
-                                    <div style={{display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', height: '50%', alignContent: 'center'}}>
+                                    <div style={{display: 'flex', alignItems: 'flex-end', justifyContent: 'space-around', alignContent: 'center', height: '100px'}}>
                                         <ReCaptcha
                                             ref={(el) => { this.captcha = el; }}
                                             size="normal"
@@ -376,10 +384,11 @@ class NewApplicationPage extends Component {
                             </Grid>
                     </form>
                     <SubmitDialog open={this.state.submitDialogOpen} handleDialogClose={this.handleSubmitDialogClose} />
+                    <SubmitFailedDialog open={this.state.submitFailedDialogOpen} handleDialogClose={this.submitFailedDialogClose} />
                 </div>
             </div>
                 )
             }
         }
         
-export default NewApplicationPage;
+export default connect(mapStateToProps)(NewApplicationPage);

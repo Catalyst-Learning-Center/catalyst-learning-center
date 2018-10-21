@@ -6,11 +6,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-class SubmitDialog extends Component {
-
+class EditLocationsAlert extends Component {
 
     handleClose = () => {
-        this.props.handleDialogClose();
+        this.props.handleEditAlertClose();
     }
 
     render() {
@@ -20,14 +19,14 @@ class SubmitDialog extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{"Thank you for submitting an application!"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{"Location Edited"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        A Catalyst Learning Center Administrator will be in contact with you shortly.
+                        You have successfully Edited a location
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={this.handleClose} color="primary" variant="contained" autoFocus>
+                    <Button onClick={this.handleClose} color="primary" autoFocus>
                         Ok
                     </Button>
                 </DialogActions>
@@ -36,4 +35,4 @@ class SubmitDialog extends Component {
     }
 }
 
-export default SubmitDialog;
+export default EditLocationsAlert;
