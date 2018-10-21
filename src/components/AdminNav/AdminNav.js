@@ -39,9 +39,9 @@ class AdminNav extends React.Component {
     }
 
     // when pending applications are updated, re-fetch, re-count, and re-render
-    componentDidUpdate() {
-        this.getPendingApplications();
-    }
+    // componentDidUpdate() {
+    //     this.getPendingApplications();
+    // }
 
     // get the count of current pending applications
     getPendingApplications = () => {
