@@ -9,6 +9,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+const style = {
+  marginRight: '80%',
+  justifyContent: 'right'
+}
 const mapStateToProps = state => ({
   locations: state.locations,
 });
@@ -89,7 +93,7 @@ const mapStateToProps = state => ({
     return (
       <div>
         <React.Fragment>
-        <Button onClick={this.openDialog} variant="contained" color="primary">Edit</Button>
+        <Button style={style} onClick={this.openDialog} variant="contained" color="default">Edit</Button>
         <Dialog
         open={this.state.open}
         onClose={this.handleClose}
