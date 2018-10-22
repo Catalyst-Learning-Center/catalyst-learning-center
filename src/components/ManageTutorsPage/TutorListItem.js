@@ -142,7 +142,7 @@ class TutorListItem extends Component {
                                 getTutorLocations={this.getTutorLocations}
                                 getTutorSubjects={this.getTutorSubjects}
                             />
-                            <RemoveTutorDialog id={this.props.tutor.id} />
+                            <RemoveTutorDialog tutor={this.props.tutor} />
                             {button}
                         </div>
                     </Typography>
