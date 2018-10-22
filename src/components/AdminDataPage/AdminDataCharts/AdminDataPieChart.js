@@ -38,8 +38,8 @@ class AdminDataPieChart extends Component {
                                 fontsize: 25,
                             },
                             legend: {
-                                display: false,
-                                position: 'bottom',
+                                display: true,
+                                position: 'right',
                             },
                         }}
                     /> 
