@@ -234,7 +234,8 @@ class AdminDataTable extends Component {
         locationFilter: '',
         subjectFilter: '',
         schoolFilter: '',
-        gradeFilter: ''
+        gradeFilter: '',
+        yearFilter: ''
     }
 
     getSessionData = () => {
@@ -296,7 +297,7 @@ class AdminDataTable extends Component {
         });
     }
 
-    filterLocation = (data) => {
+    filterData = (data) => {
         let filteredData = data;
         if (this.state.locationFilter.length) {
             filteredData = filteredData.filter(session => {
@@ -326,6 +327,17 @@ class AdminDataTable extends Component {
                 }
             });
         }
+        if (this.state.yearFilter.length) {
+            filteredData = filteredData.filter(session => {
+                let date = moment(session.session_date).format('MM/DD');
+                let year = moment(session.session_date).format('YYYY');
+                if (date < '08/01' && year === this.state.yearFilter) {
+                    return session;
+                } else if (date > '07/31' && year === (this.state.yearFilter - 1)) {
+                    return session;
+                }
+            });
+        }
 
         return filteredData;
     }
@@ -337,7 +349,7 @@ class AdminDataTable extends Component {
         const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
-        let filteredData = this.filterLocation(data);
+        let filteredData = this.filterData(data);
 
 
         content = (
@@ -345,6 +357,25 @@ class AdminDataTable extends Component {
                 <Paper className={classes.root}>
                 <AdminTableToolbar numSelected={selected.length} filteredData={filteredData} />
                 <div className="filter-container">
+                <FormControl style={{ minWidth: '20%' }}>
+                            <InputLabel htmlFor="yearFilter" shrink>Filter by School Year:</InputLabel>
+                        <Select
+                            value={this.state.yearFilter}
+                            onChange={this.handleFilterChange}
+                            inputProps={{
+                                name: 'yearFilter',
+                                id: 'yearFilter',
+                            }}
+                        >
+                            <MenuItem value="">
+                                <p>Any</p>
+                            </MenuItem>
+                                    <MenuItem value="2018">2017 - 2018</MenuItem>
+                                    <MenuItem value="2017">2016 - 2017</MenuItem>
+                                    <MenuItem value="2016">2015 - 2016</MenuItem>
+
+                        </Select>
+                    </FormControl>
                         <FormControl style={{ minWidth: '20%' }}>
                             <InputLabel htmlFor="locationFilter" shrink>Filter by Location:</InputLabel>
                         <Select
