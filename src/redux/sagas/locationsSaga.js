@@ -40,6 +40,7 @@ function* toggleLocation(action) {
     //this handles making PUT request to toggle a location to true/false in the server
     try {
         yield call(Axios.put, `/locations/status/${action.payload}`);
+        yield put({type: 'GET_LOCATIONS'});
     } catch (error) {
         console.log('toggle locations error: ', error);
     }//end error handling

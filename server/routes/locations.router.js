@@ -5,7 +5,7 @@ const router = express.Router();
 //route to retrieve data from server
 router.get('/', (req, res) => {
         console.log('/locations GET route hit');
-        const queryText = `SELECT * from "location";`;
+        const queryText = `SELECT * from "location" ORDER BY "location"."location_name";`;
         pool.query(queryText).then((results) => {
             console.log('back with: ', results.rows);
             res.send(results.rows);

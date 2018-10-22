@@ -13,7 +13,6 @@ const style = {
     justifyContent: 'right'
   }//end style
 
-
 class LocationExpansionPanel extends Component {
 
     handleEditClick = () => {
@@ -26,7 +25,6 @@ class LocationExpansionPanel extends Component {
         this.props.dispatch(action);
     }//end handleEditClick
 
-
     toggleLocationStatus = () => {
         //when activate/deactivate button is pressed will toggle
         //location to true or false
@@ -37,13 +35,10 @@ class LocationExpansionPanel extends Component {
         this.props.dispatch(action);
       }//end toggleLocationStatus
       
-
     render() {
 
         let toggleButton = null;
        
-        
-
     if (this.props.location.active === false) {
       toggleButton = (
         <Button style={style} onClick={this.toggleLocationStatus} variant="contained" color="default">Activate</Button>
