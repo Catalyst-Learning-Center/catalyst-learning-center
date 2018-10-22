@@ -90,10 +90,10 @@ class NewSessionDialog extends Component {
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
                             Cancel
-            </Button>
+                        </Button>
                         <Button variant="contained" color="primary" onClick={this.handleSessionStart} color="primary">
                             Start Session
-            </Button>
+                        </Button>
                     </DialogActions>
                 </Dialog>
             </div>

@@ -47,6 +47,13 @@ class AdminDataPieChart extends Component {
 
     render() {
         let content = null;
+        let toggleButton = null;
+
+        if (this.state.showLegend === false) {
+            toggleButton = <Button size="small" variant="contained" onClick={this.handleLegendShow}>Show Legend</Button>
+        } else if (this.state.showLegend === true) {
+            toggleButton = <Button size="small" variant="contained" onClick={this.handleLegendShow}>Hide Legend</Button>
+        }
 
 
 
@@ -100,7 +107,7 @@ class AdminDataPieChart extends Component {
                         </Grid>
                         <Grid container xs={6} direction="row" justify="flex-end" alignItems="flex-end">
                         <Grid item>
-                            <Button size="small" variant="contained" onClick={this.handleLegendShow}>Toggle Legend</Button>
+                            {toggleButton}
                         </Grid>
                         </Grid>
                     </Grid>
