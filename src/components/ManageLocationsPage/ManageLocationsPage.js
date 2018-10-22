@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 const style = {
     marginLeft: '85%',
     marginBottom: '10px',
-}  
+}//end style  
 
 const mapStateToProps = state => ({
     user: state.user,

@@ -9,8 +9,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 class EditLocationsAlert extends Component {
 
     handleClose = () => {
+        //this will close edit alert dialog when ok is pressed
         this.props.handleEditAlertClose();
-    }
+    }//end handleClose
 
     render() {
         return (
@@ -32,7 +33,7 @@ class EditLocationsAlert extends Component {
                 </DialogActions>
             </Dialog>
         )
-    }
-}
+    }//end render
+}//end EditLocations Component
 
 export default EditLocationsAlert;

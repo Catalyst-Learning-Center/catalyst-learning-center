@@ -58,6 +58,7 @@ class AddLocationsDialog extends Component {
   }//end handleAlertClose
 
   handleAddLocationChange = (event) => {
+    //handles changes to input fields
     this.setState({
       locationToAdd: {
         ...this.state.locationToAdd,

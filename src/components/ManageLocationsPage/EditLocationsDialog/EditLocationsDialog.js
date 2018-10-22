@@ -13,10 +13,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 const style = {
   marginRight: '80%',
   justifyContent: 'right'
-}
+}//end style
+
 const mapStateToProps = state => ({
   locations: state.locations,
-});
+});//end mapStateToProps
 
  class EditLocationsDialog extends Component {
    constructor (props) {
@@ -70,7 +71,6 @@ const mapStateToProps = state => ({
 
   handleChange = (event) => {
     //this will allow changes to be added to edit input fields
-
     this.setState({
       locationToEdit: {
         ...this.state.locationToEdit,

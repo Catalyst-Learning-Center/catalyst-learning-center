@@ -2,9 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-/**
- * GET route template
- */
+//route to retrieve data from server
 router.get('/', (req, res) => {
         console.log('/locations GET route hit');
         const queryText = `SELECT * from "location";`;
@@ -17,9 +15,7 @@ router.get('/', (req, res) => {
         });
 });//end GET
 
-/**
- * POST route template
- */
+//route to post data to server
 router.post('/', (req, res) => {
     if(req.isAuthenticated()) {
         console.log('locations POST route hit');
@@ -40,9 +36,7 @@ router.post('/', (req, res) => {
     }//end isAuthenticted
 });//end POST
 
-/**
- * PUT route template
- */
+//route to edit locations
 router.put('/:id', (req, res) => {
     if(req.isAuthenticated()) {
         console.log('/locations PUT route hit');
@@ -76,9 +70,7 @@ router.put('/:id', (req, res) => {
     }//end isAuthenticted
 });//end PUT request
 
-/**
- * Delete route template
- */
+
 router.delete('/:id', (req, res) => {
     if(req.isAuthenticated()) { 
             console.log('Delete locations data with id: ', req.body);
