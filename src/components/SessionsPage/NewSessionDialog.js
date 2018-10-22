@@ -11,10 +11,14 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import SelectSchool from './SelectSchool';
 import SelectGrade from './SelectGrade';
 
+const style = {
+    marginLeft: '85%',
+    marginBottom: '10px',
+}  
+
 const mapStateToProps = state => ({
     sessions: state.sessions
 });
-
 
 class NewSessionDialog extends Component {
     constructor(props) {
@@ -61,7 +65,9 @@ class NewSessionDialog extends Component {
     render() {
         return (
             <div>
-                <Button onClick={this.handleClickOpen}>New Tutoring Session</Button>
+                <div>
+                <Button style={style} variant="contained" color="primary" onClick={this.handleClickOpen}>+ New Tutoring Session</Button>
+                </div>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
