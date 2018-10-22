@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import axios from 'axios';
-
+import AddTutorConfirmation from './AddTutorConfirmation';
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
@@ -23,6 +23,7 @@ class AddTutorPage extends Component {
         this.state = {
             applicant_subjects: [],
             applicant_locations: [],
+            confirmationOpen: false,
         }
     }
     
@@ -122,9 +123,19 @@ class AddTutorPage extends Component {
             data: tutor
         }).then((response) => {
             console.log(response.data);
+            this.setState({
+                confirmationOpen: true,
+            })
         }).catch((error) => {
             console.log('Error in handleNewTutorForm POST route: ', error);
         });
+    }
+
+    handleConfirmationClose = () => {
+        this.setState({
+            confirmationOpen: false,
+        })
+        this.props.history.push('/manage-tutors');
     }
 
     render() {
@@ -311,6 +322,10 @@ class AddTutorPage extends Component {
             <div>
                 <AdminNav />
                 {content}
+                <AddTutorConfirmation 
+                    open={this.state.confirmationOpen}
+                    handleClose={this.handleConfirmationClose}
+                />
             </div>
         )
     }
