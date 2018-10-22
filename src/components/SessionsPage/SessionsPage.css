@@ -28,3 +28,10 @@
 .new-session-inputs {
     margin-top: 20px;
 }
+
+mark {
+    background-color: #FC8B94;
+    color: rgb(8, 8, 8, 0, 0);
+    box-shadow: inset 0px 0px 4px 2px white;
+}
+
