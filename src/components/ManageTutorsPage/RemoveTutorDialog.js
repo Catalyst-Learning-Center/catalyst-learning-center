@@ -6,6 +6,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import RemoveIcon from '@material-ui/icons/DeleteTwoTone';
 
 const style = {
     float: 'left',
@@ -49,9 +50,11 @@ class RemoveTutorDialog extends Component {
     }
 
     render() {
+        let remove = <RemoveIcon />
+        
         return (
             <div>
-                <Button style={style} color="secondary" variant="contained" onClick={this.handleOpen}>Remove</Button>
+                <Button style={style} color="secondary" variant="contained" onClick={this.handleOpen}>Remove{remove}</Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
