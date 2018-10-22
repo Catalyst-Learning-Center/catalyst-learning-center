@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 
 const mapStateToProps = state => ({
     subjects: state.subjects,
@@ -35,7 +34,10 @@ class SelectSubject extends Component {
         if (this.props.overtime) {
             content = (
                 // if the session runs overtime, highlight the subject dropdown
-                <mark><Select
+                <div>
+                <InputLabel htmlFor="subject">Subject: </InputLabel>
+                <mark>
+                    <Select
                     style={{minWidth: '200px'}}
                     defaultValue="3"
                     value={this.props.selectedSubject}
@@ -53,13 +55,16 @@ class SelectSubject extends Component {
                             <MenuItem key={subject.id} value={subject.id}>{subject.subjects}</MenuItem>
                         )
                     })}
-                </Select></mark>
+                </Select></mark></div>
             )
         } else {
             content = (
                 // if the session ends within the allowed timegframe, don't highlight the subject dropdown
                 // also removes the highlighted subject dropdown from edit field
+                <div>
+                <InputLabel htmlFor="subject">Subject: </InputLabel>
                 <Select
+                    style={{minWidth: '200px'}}
                     defaultValue="3"
                     value={this.props.selectedSubject}
                     onChange={this.handleChange}
@@ -77,6 +82,7 @@ class SelectSubject extends Component {
                         )
                     })}
                 </Select>
+                </div>
             )
         }
         return (
