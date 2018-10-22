@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import './ManageLocationsPage.css';
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
@@ -7,6 +8,11 @@ import AdminNav from '../AdminNav/AdminNav';
 import AddLocationsDialog from './AddLocationsDialog/AddLocationsDialog';
 import LocationExpansionPanel from './LocationExpansionPanel/LocationExpansionPanel';
 import Button from '@material-ui/core/Button';
+
+const style = {
+    marginLeft: '85%',
+    marginBottom: '10px',
+}  
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -101,12 +107,12 @@ class ManageLocationsPage extends Component {
 
         if (this.props.user.userName) {
             content = (
-                <div>
+                <div className="locations-view-container">
                     <div>
-                        <p>Manage Tutoring Locations</p>
+                        <h1>Manage Tutoring Locations</h1>
                     </div>
                     <div>
-                        <Button variant="contained" color="primary" onClick={this.addLocationOpen}>Add Location</Button>
+                        <Button style={style} variant="contained" color="primary" onClick={this.addLocationOpen}>+ Add Location</Button>
                         <AddLocationsDialog 
                         open = {this.state.addDialogOpen}
                         addLocationClose = {this.addLocationClose} />

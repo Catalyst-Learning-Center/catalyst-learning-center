@@ -29,12 +29,12 @@ class ActiveSessionsTable extends Component {
         return (
             <Paper>
                 <Table>
-                    <TableHead>
+                    <TableHead style={{backgroundColor: '#F5F5F5'}}>
                         <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell>School</TableCell>
-                            <TableCell>Grade</TableCell>
-                            <TableCell>Start Time</TableCell>
+                            <TableCell style={{color: 'black', size: '20px'}}>Name</TableCell>
+                            <TableCell style={{color: 'black', size: '20px'}}>School</TableCell>
+                            <TableCell style={{color: 'black', size: '20px'}}>Grade</TableCell>
+                            <TableCell style={{color: 'black', size: '20px'}}>Start Time</TableCell>
                             <TableCell></TableCell>
                         </TableRow>
                     </TableHead>

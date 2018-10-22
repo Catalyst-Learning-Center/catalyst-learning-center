@@ -25,6 +25,7 @@ class AddTutorPage extends Component {
             applicant_locations: [],
         }
     }
+    
     componentDidMount() {
         this.getSubjects();
         this.getLocations();
@@ -77,29 +78,33 @@ class AddTutorPage extends Component {
         this.props.dispatch(action);
     }
 
-    // update applicant_subjects in local state
+    // update array of checked subjects in redux
     handleSubjectCheckbox = (event, isChecked) => {
         if (isChecked) {
-            this.setState({
-                applicant_subjects: [...this.state.applicant_subjects, event.target.value]
-            });
+            this.props.dispatch({
+                type: 'CHECK_SUBJECT',
+                payload: event.target.value
+            })
         } else if (isChecked === false) {
-            this.setState({
-                applicant_subjects: this.state.applicant_subjects.filter((id) => id !== event.target.value)
-            });
+            this.props.dispatch({
+                type: 'UNCHECK_SUBJECT',
+                payload: event.target.value
+            })
         }
     }
 
-    // update applicant_locations in local state
+    // update array of checked locations in redux
     handleLocationsCheckbox = (event, isChecked) => {
         if (isChecked) {
-            this.setState({
-                applicant_locations: [...this.state.applicant_locations, event.target.value]
-            });
+            this.props.dispatch({
+                type: 'CHECK_LOCATION',
+                payload: event.target.value
+            })
         } else if (isChecked === false) {
-            this.setState({
-                applicant_locations: this.state.applicant_locations.filter((id) => id !== event.target.value)
-            });
+            this.props.dispatch({
+                type: 'UNCHECK_LOCATION',
+                payload: event.target.value
+            })
         }
     }
 
@@ -165,6 +170,7 @@ class AddTutorPage extends Component {
                         />
                         <StateSelect
                             handleApplicantStateChange={this.handleApplicantStateChange}
+                            defaultState={this.props.newTutorToAdd.newTutorToAdd.applicant_state}
                         />
                         <TextField
                             required
@@ -218,43 +224,92 @@ class AddTutorPage extends Component {
                             onChange={this.handleApplicationChange}
                         />
                         <h3>Subject Area(s) of Interest</h3>
-                        {this.props.subjects.map((subject, index) => (
-                            <label key={index}> {subject.subjects}
-                                <Checkbox
-                                    name="applicant_subjects"
-                                    key={subject.id}
-                                    label={subject.subjects}
-                                    value={`${subject.id}`}
-                                    onChange={this.handleSubjectCheckbox}
-                                    color="primary"
-                                />
-                                <br />
-                            </label>
-                        ))}
+                        {this.props.subjects.map((subject, index) => {
+                            let content = null;
+                            if (this.props.newTutorToAdd.newTutorSubjects.includes(String(subject.id))) {
+                                content = (
+                                    <label key={index}> {subject.subjects}
+                                        <Checkbox
+                                            checked="true"
+                                            name="applicant_subjects"
+                                            key={subject.id}
+                                            label={subject.subjects}
+                                            value={`${subject.id}`}
+                                            onChange={this.handleSubjectCheckbox}
+                                            color="primary"
+                                        />
+                                        <br />
+                                    </label>
+                                )
+                            } else {
+                                content = (
+                                    <label key={index}> {subject.subjects}
+                                        <Checkbox
+                                            name="applicant_subjects"
+                                            key={subject.id}
+                                            label={subject.subjects}
+                                            value={`${subject.id}`}
+                                            onChange={this.handleSubjectCheckbox}
+                                            color="primary"
+                                        />
+                                        <br />
+                                    </label>
+                                )
+                            }
+                            return (
+                                <React.Fragment>
+                                    {content}
+                                </React.Fragment>
+                            )
+                        })}
 
                         <h3>Requested Locations</h3>
-                        {this.props.locations.map((location, index) => (
-                            <label key={index}> {location.location_name}
-                                <Checkbox
-                                    name="applicant_locations"
-                                    key={location.id}
-                                    label={location.location_name}
-                                    value={`${location.id}`}
-                                    onChange={this.handleLocationsCheckbox}
-                                    color="primary"
-                                />
-                            </label>
-                        ))}
-                        <Button type="submit">
+                        {this.props.locations.map((location, index) => {
+                            let content = null;
+                            if (this.props.newTutorToAdd.newTutorLocations.includes(String(location.id))) {
+                                content = (
+                                    <label key={index}> {location.location_name}
+                                        <Checkbox
+                                            checked="true"
+                                            name="applicant_locations"
+                                            key={location.id}
+                                            label={location.location_name}
+                                            value={`${location.id}`}
+                                            onChange={this.handleLocationsCheckbox}
+                                            color="primary"
+                                        />
+                                    </label>
+                                )
+                            } else {
+                                content = (
+                                    <label key={index}> {location.location_name}
+                                        <Checkbox
+                                            name="applicant_locations"
+                                            key={location.id}
+                                            label={location.location_name}
+                                            value={`${location.id}`}
+                                            onChange={this.handleLocationsCheckbox}
+                                            color="primary"
+                                        />
+                                    </label>
+                                )
+                            }
+                            return (
+                                <React.Fragment>
+                                    {content}
+                                </React.Fragment>
+                            )
+                        })}
+                        <Button variant="contained" color="primary" type="submit">
                             Submit
-                        </Button>  
+                        </Button>
                     </form>
                 </div>
             )
         }
         return (
             <div>
-                <AdminNav />
+                <AdminNav history={this.props.history} />
                 {content}
             </div>
         )

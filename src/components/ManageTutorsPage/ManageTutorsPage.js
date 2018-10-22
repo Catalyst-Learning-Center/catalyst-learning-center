@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import './ManageTutorsPage.css';
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
@@ -10,6 +11,7 @@ import { Button } from '@material-ui/core';
 
 const style = {
     marginLeft: '85%',
+    marginBottom: '10px',
 }
 
 const mapStateToProps = state => ({
@@ -47,7 +49,7 @@ class ManageTutorsPage extends Component {
 
         if (this.props.user.userName) {
             content = (
-                <div>
+                <div className="tutors-view-container">
                     <h1>Manage Tutors</h1>
                     <Button style={style} variant="contained" color="primary" onClick={this.newTutor}>+ Add New Tutor</Button>
                     <TutorsList />

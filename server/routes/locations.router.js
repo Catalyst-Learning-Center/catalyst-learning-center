@@ -2,12 +2,11 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-/**
- * GET route template
- */
+
+// GET a list of library locations and display alphabetically.
 router.get('/', (req, res) => {
         console.log('/locations GET route hit');
-        const queryText = `SELECT * from "location";`;
+        const queryText = `SELECT * from "location" ORDER BY "location_name";`;
         pool.query(queryText).then((results) => {
             console.log('back with: ', results.rows);
             res.send(results.rows);
@@ -17,9 +16,7 @@ router.get('/', (req, res) => {
         });
 });//end GET
 
-/**
- * POST route template
- */
+// POST route 
 router.post('/', (req, res) => {
     if(req.isAuthenticated()) {
         console.log('locations POST route hit');
@@ -40,9 +37,7 @@ router.post('/', (req, res) => {
     }//end isAuthenticted
 });//end POST
 
-/**
- * PUT route template
- */
+// PUT route template
 router.put('/:id', (req, res) => {
     if(req.isAuthenticated()) {
         console.log('/locations PUT route hit');
@@ -76,9 +71,7 @@ router.put('/:id', (req, res) => {
     }//end isAuthenticted
 });//end PUT request
 
-/**
- * Delete route template
- */
+// Delete
 router.delete('/:id', (req, res) => {
     if(req.isAuthenticated()) { 
             console.log('Delete locations data with id: ', req.body);
