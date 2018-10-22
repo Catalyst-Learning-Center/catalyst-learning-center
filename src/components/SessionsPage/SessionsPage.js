@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './SessionsPage.css';
+import LocationIcon from '@material-ui/icons/LocalLibraryOutlined';
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
@@ -33,23 +34,32 @@ class SessionsPage extends Component {
     render() {
         let content = null;
         let nav = null;
+        let location = null;
 
         if (this.props.user.permissions === 1) {
             nav = (
                 <TutorNav />
             )
+            location = (
+                <div style={{ float: 'left', color: '#C21A31' }}>
+                    <h6 style={{ float: 'left', fontSize: '20px' }}><LocationIcon />&nbsp;You are tutoring at <u>{this.props.location.location_name}</u></h6>
+                </div>
+            )
         } else if (this.props.user.permissions === 2) {
             nav = (
                 <AdminNav history={this.props.history} />
             )
+
         }
 
         if (this.props.user.userName) {
             content = (
                 <div className="sessions-view-container">
+                    <div>
                     <h1>Sessions</h1>
-                    You are tutoring at {this.props.location.location_name}
+                   {location}
                     <NewSessionDialog />
+                    </div>
                     <div className="active-sessions-container">
                         <h3>Active Sessions</h3>
                         <ActiveSessionsTable />
