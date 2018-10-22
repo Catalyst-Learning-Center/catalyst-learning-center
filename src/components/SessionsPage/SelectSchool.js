@@ -27,8 +27,9 @@ class SelectSchool extends Component {
 
     render() {
         return (
-            <div>
+            <div class="new-session-inputs">
                 <Select
+                    class="select-school"
                     options={this.props.schools.map((school) => ({
                         value: school.id,
                         label: school.school_name,

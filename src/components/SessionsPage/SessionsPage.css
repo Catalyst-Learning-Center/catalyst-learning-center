@@ -18,6 +18,17 @@
     box-shadow: inset 0px 0px 5px 2px rgba(0,0,0,0.5);
 }
 
+.new-session-dialog {
+    padding: 30px;
+    overflow: visible;
+    width: 500px;
+    height: 300px;
+}
+
+.new-session-inputs {
+    margin-top: 20px;
+}
+
 mark {
     background-color: #FC8B94;
     color: rgb(8, 8, 8, 0, 0);
