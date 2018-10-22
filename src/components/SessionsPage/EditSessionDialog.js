@@ -95,7 +95,7 @@ class EditSessionDialog extends Component {
         let edit = <EditIcon />
         return (
             <div>
-                <Button variant="contained" onClick={this.handleClickOpen}>{edit}Edit</Button>
+                <Button style={{float: 'right'}} variant="contained" onClick={this.handleClickOpen}>{edit}Edit</Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
