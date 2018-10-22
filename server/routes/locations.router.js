@@ -2,11 +2,10 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-
-// GET a list of library locations and display alphabetically.
+//route to retrieve data from server
 router.get('/', (req, res) => {
         console.log('/locations GET route hit');
-        const queryText = `SELECT * from "location" ORDER BY "location_name";`;
+        const queryText = `SELECT * from "location" ORDER BY "location"."location_name";`;
         pool.query(queryText).then((results) => {
             console.log('back with: ', results.rows);
             res.send(results.rows);
@@ -37,8 +36,8 @@ router.post('/', (req, res) => {
     }//end isAuthenticted
 });//end POST
 
-// PUT route template
-router.put('/:id', (req, res) => {
+//route to edit locations
+router.put('/edit/:id', (req, res) => {
     if(req.isAuthenticated()) {
         console.log('/locations PUT route hit');
         const id = req.params.id;
@@ -71,21 +70,22 @@ router.put('/:id', (req, res) => {
     }//end isAuthenticted
 });//end PUT request
 
-// Delete
-router.delete('/:id', (req, res) => {
-    if(req.isAuthenticated()) { 
-            console.log('Delete locations data with id: ', req.body);
-            const queryText = ' DELETE FROM location WHERE id = $1';
-            pool.query(queryText, [req.params.id])
-        .then(() => { res.sendStatus(200);
+//route to deactivate location
+router.put('/status/:id', (req, res) => {
+    if (req.isAuthenticated()) {
+        console.log('/locations/status PUT route hit with: ', req.params.id);
+        const queryText = `UPDATE "location" SET "active" = NOT "active" WHERE "id" = $1;`;
+        pool.query(queryText, [req.params.id]).then((results) => {
+            console.log('back from /locations/status PUT with: ', results.rows);
+            res.sendStatus(201);
         })//error handling
         .catch((error) => {
-            console.log('Error making DELETE request at /location:', error);
+            console.log('/locations/status PUT error: ', error);
             res.sendStatus(500);
         });
-    }else{
-        res.sendStatus(403);
-    }//end isAuthenticted
-});//end DELETE request
+    } else {
+        res.sendStatus(401);
+    }//end isAuthenticated
+});//end PUT deactivate route
 
 module.exports = router;
