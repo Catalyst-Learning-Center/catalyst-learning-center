@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 // // import { connect } from 'react-redux';
 // import axios from 'axios';
 import { Pie } from 'react-chartjs-2';
@@ -12,6 +14,12 @@ const mapStateToProps = state => ({
 });
 
 class AdminDataPieChart extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedLocation: null,
+        }
+    }
     componentDidMount = () => {
         this.getLocations();
     }
@@ -21,6 +29,9 @@ class AdminDataPieChart extends Component {
     }
 
     handleChange = (event) => {
+        this.setState({
+            selectedLocation: event.target.value,
+        })
         this.props.handleLocationChange(event);
     }
 
@@ -43,13 +54,15 @@ class AdminDataPieChart extends Component {
                             },
                         }}
                     /> 
+                    <FormControl>
+                    <InputLabel>Location</InputLabel>
                     <Select
-                        // value={this.state.selectedLocation}
+                        value={this.state.selectedLocation}
                         onChange={this.handleChange}
                         input={<Input name="location" id="location" />}
                     >
                         <MenuItem value="0">
-                            <em>None</em>
+                            All
                         </MenuItem>
                         {this.props.locations.map((location) => {
                             return (
@@ -61,6 +74,7 @@ class AdminDataPieChart extends Component {
                             )
                         })}
                     </Select>
+                    </FormControl>
                 </div>
             )
         } else {

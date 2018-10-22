@@ -31,18 +31,6 @@ class SelectLocationDropdown extends Component {
     }
 
     getLocations = () => {
-        // Axios({
-        //     method: 'GET',
-        //     url: '/locations'
-        // }).then((response) => {
-        //     console.log('back from /locations GET with: ', response.data);
-        //     this.setState({
-        //         locations: response.data
-        //     });
-        // }).catch((error) => {
-        //     console.log('/locations GET error: ', error);
-        //     alert('there was a problem getting the locations');
-        // })
         this.props.dispatch({type: 'GET_LOCATIONS'});
     }
 
@@ -99,7 +87,7 @@ class SelectLocationDropdown extends Component {
                     </Select>
                     <FormHelperText>Select where you are tutoring</FormHelperText>
                 </FormControl>
-                <Button type="submit">Start Tutoring</Button>
+                <Button style={{marginLeft: '20px', marginTop: '20px'}} variant="contained" color="primary" type="submit">Start Tutoring</Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}

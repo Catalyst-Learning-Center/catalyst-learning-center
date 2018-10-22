@@ -8,6 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import EditIcon from '@material-ui/icons/EditOutlined';
 
 const style = {
   marginRight: '80%',
@@ -90,10 +91,11 @@ const mapStateToProps = state => ({
   }//end handleEditAlertClose
 
   render() {
+    let edit = <EditIcon />
     return (
       <div>
         <React.Fragment>
-        <Button style={style} onClick={this.openDialog} variant="contained" color="default">Edit</Button>
+        <Button style={style} onClick={this.openDialog} variant="contained" color="default">{edit}Edit</Button>
         <Dialog
         open={this.state.open}
         onClose={this.handleClose}
@@ -169,7 +171,7 @@ const mapStateToProps = state => ({
           <Button onClick={this.handleClose} color="secondary">
             Cancel
           </Button>
-          <Button onClick={this.handleSaveChange} color="primary">
+          <Button variant="contained" color="primary" onClick={this.handleSaveChange} color="primary">
             Save
           </Button>
         </DialogActions>

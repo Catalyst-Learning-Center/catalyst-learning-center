@@ -6,6 +6,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import RemoveIcon from '@material-ui/icons/DeleteTwoTone';
 
 const style = {
     float: 'left',
@@ -49,9 +50,11 @@ class RemoveTutorDialog extends Component {
     }
 
     render() {
+        let remove = <RemoveIcon />
+
         return (
             <div>
-                <Button style={style} color="secondary" variant="contained" onClick={this.handleOpen}>Remove</Button>
+                <Button style={style} color="secondary" variant="contained" onClick={this.handleOpen}>{remove}Remove</Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
@@ -65,7 +68,7 @@ class RemoveTutorDialog extends Component {
                         <Button onClick={this.handleClose} color="secondary">
                             Cancel
                         </Button>
-                        <Button onClick={this.handleTutorDelete} color="primary" autoFocus>
+                        <Button variant="contained" color="primary" onClick={this.handleTutorDelete} color="primary" autoFocus>
                             Yes
                         </Button>
                     </DialogActions>
@@ -76,14 +79,9 @@ class RemoveTutorDialog extends Component {
                 >
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            This tutor has been successfully deleted.
+                            Tutor successfully removed!
                         </DialogContentText>
                     </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.handleConfirmationClose} color="primary" autoFocus>
-                            Okay
-                        </Button>
-                    </DialogActions>
                 </Dialog>
             </div>
         )

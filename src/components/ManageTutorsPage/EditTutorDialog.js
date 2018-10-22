@@ -9,6 +9,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Checkbox from '@material-ui/core/Checkbox';
+import EditIcon from '@material-ui/icons/EditOutlined';
+
 // component imports
 import StateSelect from '../NewApplicationPage/StateSelect';
 
@@ -163,9 +165,10 @@ class EditTutorDialog extends Component {
     }
 
     render() {
+        let edit = <EditIcon />
         return (
             <div>
-                <Button style={{marginRight: '5px'}} color="default" variant="contained" onClick={this.handleClickOpen}>Edit</Button>
+                <Button style={{marginRight: '5px'}} color="default" variant="contained" onClick={this.handleClickOpen}>{edit}Edit</Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
@@ -326,7 +329,7 @@ class EditTutorDialog extends Component {
                         <Button onClick={this.handleClose} color="secondary">
                             Cancel
                         </Button>
-                        <Button onClick={this.handleSave} color="primary">
+                        <Button variant="contained" color="primary" onClick={this.handleSave} color="primary">
                             Save
                         </Button>
                     </DialogActions>

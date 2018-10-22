@@ -135,8 +135,6 @@ class AddTutorPage extends Component {
                 <div>
                     <form onSubmit={this.handleNewTutorForm}>
                         <h1>Add New Tutor</h1>
-                        {JSON.stringify(this.props.newTutorToAdd.newTutorLocations)}
-                        {JSON.stringify(this.props.newTutorToAdd.newTutorSubjects)}
                         <TextField
                             required
                             name="applicant_first_name"
@@ -302,7 +300,7 @@ class AddTutorPage extends Component {
                                 </React.Fragment>
                             )
                         })}
-                        <Button type="submit">
+                        <Button variant="contained" color="primary" type="submit">
                             Submit
                         </Button>
                     </form>
@@ -311,7 +309,7 @@ class AddTutorPage extends Component {
         }
         return (
             <div>
-                <AdminNav />
+                <AdminNav history={this.props.history} />
                 {content}
             </div>
         )
