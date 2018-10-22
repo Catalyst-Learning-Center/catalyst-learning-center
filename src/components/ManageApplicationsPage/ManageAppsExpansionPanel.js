@@ -24,6 +24,7 @@ const style = {
     color: '#BA0A19',
     height: 28,
     padding: '0 30px',
+    paddingTop: '4px',
     boxShadow: '0 3px 5px 2px grey',
 };
 
@@ -191,11 +192,7 @@ class ManageAppsExpansionPanel extends Component {
                                 )
                             })}
                             </ul><br />
-                            <div>
-                            <Button variant="contained" color="primary" onClick={this.acceptApplication}>Accept</Button>
-                           {/* on click of remove, send confirmation prompt. if okay, remove app.   */}
-                            <Button onClick={this.handleConfirmRemoveDialogueOpen} variant="contained" color="secondary">Remove</Button>
-                            </div>
+                            
                             {/* material dialogue 1 -- confirm remove*/}
                             <Dialog
                                 open={this.state.confirmRemoveDialogue}
@@ -233,6 +230,11 @@ class ManageAppsExpansionPanel extends Component {
                                 </DialogContent>
                             </Dialog>
                         </Typography>
+                    <div style={{ display: 'flex', width: '100%', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
+                        {/* on click of remove, send confirmation prompt. if okay, remove app.   */}
+                        <Button onClick={this.handleConfirmRemoveDialogueOpen} variant="contained" color="secondary" style={{ height: '37px', marginRight: '5px' }}>Remove</Button>
+                        <Button variant="contained" color="primary" onClick={this.acceptApplication} style={{ height: '37px'}}>Accept</Button>
+                    </div>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
         );

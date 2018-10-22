@@ -30,7 +30,7 @@ class SelectGrade extends Component {
 
     render() {
         return (
-            <div>
+            <div class="new-session-inputs">
                 <InputLabel htmlFor="grade">Grade</InputLabel>
                 <Select
                     value={this.props.selectedGrade}
@@ -40,7 +40,7 @@ class SelectGrade extends Component {
                         id: 'grade',
                     }}
                 >
-                    <MenuItem value="">
+                    <MenuItem value="0">
                         <em>None</em>
                     </MenuItem>
                     {this.props.grades.map((grade) => {
