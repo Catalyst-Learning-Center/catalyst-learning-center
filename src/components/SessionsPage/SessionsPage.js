@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './SessionsPage.css';
 import LocationIcon from '@material-ui/icons/LocalLibraryOutlined';
+import { Link } from 'react-router-dom';
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
@@ -42,7 +43,7 @@ class SessionsPage extends Component {
             )
             location = (
                 <div style={{ position: 'relative', color: '#7F8380' }}>
-                    <h6 style={{position: 'absolute', top: '0', right: '0', fontSize: '20px' }}><LocationIcon />&nbsp;You are tutoring at <u>{this.props.location.location_name}</u></h6>
+                   <h6 style={{position: 'absolute', top: '0', right: '0', fontSize: '20px' }}><LocationIcon />&nbsp;You are tutoring at&nbsp;<Link to="/select-location" style={{ color: '#7F8380' }}><u>{this.props.location.location_name}</u></Link></h6>
                 </div>
             )
         } else if (this.props.user.permissions === 2) {

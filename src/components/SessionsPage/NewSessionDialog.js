@@ -12,10 +12,10 @@ import SelectSchool from './SelectSchool';
 import SelectGrade from './SelectGrade';
 
 const style = {
-   
+
     marginBottom: '10px',
-    
-}  
+
+}
 
 const mapStateToProps = state => ({
     sessions: state.sessions
@@ -67,7 +67,7 @@ class NewSessionDialog extends Component {
         return (
             <div>
                 <div>
-                <Button style={style} variant="contained" color="primary" onClick={this.handleClickOpen}>+ New Session</Button>
+                    <Button style={style} variant="contained" color="primary" onClick={this.handleClickOpen}>+ New Session</Button>
                 </div>
                 <Dialog
                     open={this.state.open}
@@ -75,7 +75,7 @@ class NewSessionDialog extends Component {
                     aria-labelledby="form-dialog-title"
                 >
                     <DialogTitle id="form-dialog-title">Start New Tutoring Session</DialogTitle>
-                    <DialogContent>
+                    <DialogContent class="new-session-dialog">
                         <TextField
                             autoFocus
                             margin="dense"
