@@ -180,8 +180,11 @@ const mapStateToProps = state => ({
           </Button>
         </DialogActions>
       </Dialog>
-      <EditLocationsAlert open={this.state.alert}
-      handleEditAlertClose={this.handleEditAlertClose}/>
+      <EditLocationsAlert 
+        open={this.state.alert}
+        handleEditAlertClose={this.handleEditAlertClose}
+        successMessage="Location"
+      />
       </React.Fragment>
       </div>
     );

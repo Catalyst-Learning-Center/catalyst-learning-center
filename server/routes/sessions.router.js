@@ -13,7 +13,8 @@ router.get('/', (req, res) => {
         JOIN "schools" ON "schools"."id" = "sessions"."school_id" 
         JOIN "subjects" ON "subjects"."id" = "sessions"."subjects_id"
         JOIN "grade" ON "grade"."id" = "sessions"."grade_id"
-        JOIN "location" ON "location"."id" = "sessions"."location_id";`;
+        JOIN "location" ON "location"."id" = "sessions"."location_id"
+        ORDER BY "session_date" DESC;`;
         pool.query(query).then((results) => {
             res.send(results.rows);
         }).catch((error) => {

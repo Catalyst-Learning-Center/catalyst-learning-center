@@ -20,7 +20,7 @@ class EditLocationsAlert extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{"Location Edited"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{this.props.successMessage} Edited</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         Edit Successful!
