@@ -31,18 +31,6 @@ class SelectLocationDropdown extends Component {
     }
 
     getLocations = () => {
-        // Axios({
-        //     method: 'GET',
-        //     url: '/locations'
-        // }).then((response) => {
-        //     console.log('back from /locations GET with: ', response.data);
-        //     this.setState({
-        //         locations: response.data
-        //     });
-        // }).catch((error) => {
-        //     console.log('/locations GET error: ', error);
-        //     alert('there was a problem getting the locations');
-        // })
         this.props.dispatch({type: 'GET_LOCATIONS'});
     }
 

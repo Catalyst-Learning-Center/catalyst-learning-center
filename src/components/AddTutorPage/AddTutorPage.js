@@ -309,7 +309,7 @@ class AddTutorPage extends Component {
         }
         return (
             <div>
-                <AdminNav />
+                <AdminNav history={this.props.history} />
                 {content}
             </div>
         )
