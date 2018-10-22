@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 // Material UI imports
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 const mapStateToProps = state => ({
     subjects: state.subjects,
@@ -30,7 +32,10 @@ class SelectSubject extends Component {
     render() {
         return (
             <div>
+                <FormControl>
+                <InputLabel shrink>Subject</InputLabel>
                 <Select
+                    style={{minWidth: '200px'}}
                     defaultValue="3"
                     value={this.props.selectedSubject}
                     onChange={this.handleChange}
@@ -48,6 +53,7 @@ class SelectSubject extends Component {
                         )
                     })}
                 </Select>
+                </FormControl>
             </div>
         )
     }

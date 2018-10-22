@@ -42,6 +42,7 @@ class EndSessionDialog extends Component {
 
     handleClickOpen = () => {
         this.setState({ open: true });
+        this.props.dispatch({type: 'RESET_SESSION'})
     };
 
     handleClose = () => {

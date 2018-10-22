@@ -13,6 +13,8 @@ const grade = (state = null, action) => {
   switch (action.type) {
     case 'SET_SESSION_GRADE':
       return action.payload || state;
+    case 'RESET_SESSION':
+      return null;
     default:
       return state;
   }
@@ -22,6 +24,8 @@ const school = (state = null, action) => {
   switch (action.type) {
     case 'SET_SESSION_SCHOOL':
       return action.payload || state;
+    case 'RESET_SESSION':
+      return null;
     default:
       return state;
   }
@@ -31,6 +35,8 @@ const subject = (state = null, action) => {
   switch (action.type) {
     case 'SET_SESSION_SUBJECT':
       return action.payload || state;
+    case 'RESET_SESSION':
+      return null;
     default:
       return state;
   }
