@@ -169,7 +169,7 @@ const mapStateToProps = state => ({
           <Button onClick={this.handleClose} color="secondary">
             Cancel
           </Button>
-          <Button onClick={this.handleSaveChange} color="primary">
+          <Button variant="contained" color="primary" onClick={this.handleSaveChange} color="primary">
             Save
           </Button>
         </DialogActions>

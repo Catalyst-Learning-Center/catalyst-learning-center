@@ -92,7 +92,7 @@ class EditSessionDialog extends Component {
     render() {
         return (
             <div>
-                <Button onClick={this.handleClickOpen}>Edit</Button>
+                <Button variant="contained" onClick={this.handleClickOpen}>Edit</Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
@@ -133,7 +133,7 @@ class EditSessionDialog extends Component {
                         <Button onClick={this.handleClose} color="primary">
                             Cancel
             </Button>
-                        <Button onClick={this.handleConfirm} color="primary">
+                        <Button variant="contained" color="primary" onClick={this.handleConfirm} color="primary">
                             Confirm Changes
             </Button>
                     </DialogActions>

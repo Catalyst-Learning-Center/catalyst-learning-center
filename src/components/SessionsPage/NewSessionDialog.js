@@ -13,7 +13,7 @@ import SelectGrade from './SelectGrade';
 
 const style = {
     marginLeft: '85%',
-    marginBottom: '10px',
+    marginBottom: '20px',
 }  
 
 const mapStateToProps = state => ({

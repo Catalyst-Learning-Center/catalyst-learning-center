@@ -63,7 +63,7 @@ class SessionsPage extends Component {
                     <div className="active-sessions-container">
                         <h3>Active Sessions:</h3>
                         <ActiveSessionsTable />
-                    </div>  
+                    </div><br />
                     <div className="completed-sessions-container">
                         <h3>Completed Sessions:</h3>
                         <CompletedSessionsTable />

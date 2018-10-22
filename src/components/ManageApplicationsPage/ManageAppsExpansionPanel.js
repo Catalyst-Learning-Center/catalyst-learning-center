@@ -212,7 +212,7 @@ class ManageAppsExpansionPanel extends Component {
                                     <Button onClick={this.handleConfirmRemoveDialogueClose} color="primary">
                                         Cancel
                                     </Button>
-                                    <Button onClick={this.removeApplication} color="primary" autoFocus>
+                                    <Button variant="contained" color="primary" onClick={this.removeApplication} color="primary" autoFocus>
                                         Yes
                                     </Button>
                                 </DialogActions>
@@ -231,11 +231,6 @@ class ManageAppsExpansionPanel extends Component {
                                         Application successfully removed!
                                 </DialogContentText>
                                 </DialogContent>
-                                <DialogActions>
-                                    <Button onClick={this.handleRemoveDialogueClose} color="primary" autoFocus>
-                                        Okay
-                                </Button>
-                                </DialogActions>
                             </Dialog>
                         </Typography>
                     </ExpansionPanelDetails>
