@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AddLocationsAlert from './AddLocationsAlert';
+import StateSelect from '../../NewApplicationPage/StateSelect';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -20,12 +21,20 @@ class AddLocationsDialog extends Component {
         location_name: '',
         location_address: '',
         location_city: '',
-        location_state: '',
+        location_state: 'MN',
         location_zipcode: '',
         location_phone: '',
       }//end locationToAdd
     }//end state
   }//end constructor
+
+  
+  handleStateDropDownChange = (value) => {
+    //updates with location from drop down
+    this.setState({
+        locationToAdd: { ...this.state.locationToAdd, location_state: value }
+    });//end setState
+}//end handleLocationStateChange
 
   saveLocation = () => {
     //when ok is clicked this will POST data to server and save new location
@@ -57,7 +66,6 @@ class AddLocationsDialog extends Component {
     });//end setState
   }//end handleAddLocationChange
 
-
   render() {
     return (
       <div>
@@ -80,7 +88,8 @@ class AddLocationsDialog extends Component {
               type="text"
               fullWidth
               value={this.state.locationToAdd.location_name}
-              onChange={this.handleAddLocationChange}              
+              onChange={this.handleAddLocationChange}
+              required              
             />
             <TextField
               autoFocus
@@ -91,6 +100,7 @@ class AddLocationsDialog extends Component {
               fullWidth
               value={this.state.locationToAdd.location_address}
               onChange={this.handleAddLocationChange}
+              required
             />
             <TextField
               autoFocus
@@ -100,17 +110,12 @@ class AddLocationsDialog extends Component {
               type="text"
               fullWidth
               value={this.state.locationToAdd.location_city}
-              onChange={this.handleAddLocationChange}              
+              onChange={this.handleAddLocationChange}
+              required              
             />
-            <TextField
-              autoFocus
-              margin="dense"
-              name="location_state"
-              label="State"
-              type="text"
-              fullWidth
-              value={this.state.locationToAdd.location_state}
-              onChange={this.handleAddLocationChange}              
+            <StateSelect 
+            handleApplicantStateChange={this.handleStateDropDownChange}
+            defaultState={this.state.locationToAdd.location_state}
             />
             <TextField
               autoFocus
@@ -120,7 +125,8 @@ class AddLocationsDialog extends Component {
               type="text"
               fullWidth
               value={this.state.locationToAdd.location_zipcode}
-              onChange={this.handleAddLocationChange}              
+              onChange={this.handleAddLocationChange}
+              required              
             />
             <TextField
               autoFocus
@@ -130,7 +136,8 @@ class AddLocationsDialog extends Component {
               type="text"
               fullWidth
               value={this.state.locationToAdd.location_phone}
-              onChange={this.handleAddLocationChange}              
+              onChange={this.handleAddLocationChange}
+              required              
             />
         </DialogContent>
         <DialogActions>
