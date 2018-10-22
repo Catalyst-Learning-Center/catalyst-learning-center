@@ -3,14 +3,17 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 // Material UI imports
 import { Button } from '@material-ui/core';
+import StopIcon from '@material-ui/icons/Stop';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import ErrorIcon from '@material-ui/icons/WarningOutlined';
 // component impors
 import SelectSubject from './SelectSubject';
+import { select } from '../../../node_modules/redux-saga/effects';
 
 const mapStateToProps = state => ({
     subject: state.sessions.subject
@@ -41,6 +44,7 @@ class EndSessionDialog extends Component {
 
     handleClickOpen = () => {
         this.setState({ open: true });
+        this.props.dispatch({type: 'RESET_SESSION'})
     };
 
     handleClose = () => {
@@ -55,6 +59,9 @@ class EndSessionDialog extends Component {
 
     render() {
         let content = null;
+        let selectSubject = null;
+        let stop = <StopIcon />
+        let error = <div style={{marginBottom: '10px', float: 'left'}}><ErrorIcon /></div>;
         let today = new Date();
         let dd = today.getDate();
         let mm = today.getMonth() + 1; //January is 0!
@@ -71,35 +78,41 @@ class EndSessionDialog extends Component {
         today = mm + '/' + dd + '/' + yyyy;
         if (moment(this.props.date).format('MM/DD/YYYY') !== today) {
             content = (<DialogContentText>
-                This session was not ended on the day it took place! 
-                <br />Please specify what time it ended:
+                <h6 style={{color: 'red', float: 'left'}}>{error}&nbsp;This session was not ended on the day it took place!</h6> 
+                <br /><b>Please specify what time it ended:</b>
                 <br />Start date: {moment(this.props.date).format('MM/DD/YYYY')}
                 <br />Start time: {moment(this.props.start_time, 'HH:mm:ss.SSSSSS').format('h:mm a')}
-                <br />End time: <TextField 
+                <br />End time:&nbsp;<mark><TextField
                 type="time"
                 defaultValue="18:00"
-                />
-        </DialogContentText>
-                
+                /><br /></mark>
+        <br /></DialogContentText>     
+            )
+            selectSubject = (
+                <SelectSubject overtime={true} />
+            )
+        }
+        else {
+            selectSubject = (
+                <SelectSubject overtime={false} />
             )
         }
         console.log(today);
         console.log(moment(this.props.date).format('MM/DD/YYYY'));
             return (
                 <div>
-                    <Button onClick={this.handleClickOpen}>End Session</Button>
+                    <Button style={{float: 'right'}} variant="contained" color="secondary" onClick={this.handleClickOpen}>{stop}End</Button>
                     <Dialog
                         open={this.state.open}
                         onClose={this.handleClose}
                         aria-labelledby="form-dialog-title"
                     >
-                        <DialogTitle id="form-dialog-title">End Tutoring Session</DialogTitle>
-                        <DialogContent>
+                        <DialogTitle id="form-dialog-title">End Tutoring Session</DialogTitle>                        <DialogContent>
                         {content}
                         <DialogContentText>
-                            Please select which subjects were worked on with the student.
+                            <b>Select which subject was worked on with the student:</b>
                         </DialogContentText>
-                            <SelectSubject />
+                            {selectSubject}
                             <TextField
                                 autoFocus
                                 margin="dense"
@@ -114,7 +127,7 @@ class EndSessionDialog extends Component {
                             <Button onClick={this.handleClose} color="primary">
                                 Cancel
             </Button>
-                            <Button onClick={this.endSession} color="primary">
+                            <Button variant="contained" color="primary" onClick={this.endSession} color="primary">
                                 End Session
             </Button>
                         </DialogActions>

@@ -8,6 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import moment from 'moment';
 
 const mapStateToProps = state => ({
     locations: state.locations.locations
@@ -22,23 +23,24 @@ class AdminDataBarGraph extends Component {
                 labels: [],
                 datasets: [],
             },
-            location: 0
+            location: 0,
         }
     }
 
     componentDidMount() {
         this.getLocations();
+        this.getSessionData();
     }
 
     getLocations = () => {
-        this.props.dispatch({type: 'GET_LOCATIONS'});
+        this.props.dispatch({ type: 'GET_LOCATIONS' });
     }
 
-    handleLocationChange = (event) => {
-        this.setState({
+    handleLocationChange = async (event) => {
+        await this.setState({
             location: event.target.value
         });
-        this.getSessionData();
+        await this.getSessionData();
     }
 
     getSessionData = () => {
@@ -59,27 +61,52 @@ class AdminDataBarGraph extends Component {
     }
 
     setData = () => {
-        console.log('setData');
         let dataLabels = [];
-        let dataset = [];
-        for (let location of this.state.datasets) {
-            dataLabels.push(location.date);
-            dataset.push(location.count);
+        //TODO: Add support for any number of libraries.
+        let datasetLibraryOne = [];
+        let datasetLibraryTwo = [];
+        let sortedData = this.state.datasets.sort(function (a, b) {
+            return moment(a.date).format('YYYY') - moment(b.date).format('YYYY');
+        })
+        for (let location of sortedData) {
+            let currentYear = moment(location.date).format('YYYY');
+            let lastYear = moment(location.date).subtract(1, 'years').format('YYYY');
+            let schoolYear = lastYear + '-' + currentYear;
+            dataLabels.push(schoolYear);
+            //TODO: Add support for any number of libraries.
+            if (location.location_name == 'Franklin Library') {
+                datasetLibraryOne.push(location.count);
+            } else if (location.location_name == 'Hosmer Library') {
+                datasetLibraryTwo.push(location.count);
+            }
         }
         this.setState({
             chartData: {
                 labels: dataLabels,
+                //TODO: label: Add support for any number of libraries.
                 datasets: [{
-                    label: 'Total Number of Students Tutored by School Year',
-                    data: dataset,
-                }]
+                    label: `Franklin Library`,
+                    backgroundColor: this.getRandomColor(),
+                    data: datasetLibraryOne,
+                },
+                {
+                    label: `Hosmer Library`,
+                    backgroundColor: this.getRandomColor(),
+                    data: datasetLibraryTwo,
+                }
+                ]
             }
         });
     }
-    
-    // getSchoolYear = () => {
-    //     let schoolyear = {moment(location.date).format('MM-DD-YYYY')}
-    // }
+
+    getRandomColor = () => {
+        let letters = '0123456789ABCDEF';
+        let color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
 
     render() {
         let content = null;
@@ -89,18 +116,35 @@ class AdminDataBarGraph extends Component {
                 <div className="bar-graph">
                     <Bar
                         data={this.state.chartData}
-                        width={100}
-                        height={50}
                         options={{
                             title: {
                                 display: true,
-                                text: 'Library Site Tutor Summary',
-                                fontsize: 25,
+                                text: 'Library Site Tutoring Summary',
+                                // text: `Library Site Tutor Summary: ${this.state.location}`,
+                                fontsize: 100,
                             },
                             legend: {
                                 display: true,
                                 position: 'bottom',
                             },
+                            scales: {
+                                xAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'School Year'
+                                    },
+                                }
+                                ],
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Number of Students',
+                                    },
+                                }]
+                            }
                         }}
                     />
                 </div>
@@ -108,21 +152,20 @@ class AdminDataBarGraph extends Component {
                     <FormControl>
                         <InputLabel>Location</InputLabel>
                         <Select
+                            value={this.state.location}
                             onChange={this.handleLocationChange}
-                            input={<Input name="location" id="location" />}
+                            input={<Input name="location" id="location"/>}
                         >
-                            <MenuItem value="0">
-                                <em>None</em>
-                            </MenuItem>
+                            <MenuItem value="0">All</MenuItem>
                             {this.props.locations.map((location) => {
-                            return (
-                                <MenuItem
-                                    key={location.id}
-                                    value={location.id}>
-                                    {location.location_name}
-                                </MenuItem>
-                            )
-                        })}
+                                return (
+                                    <MenuItem
+                                        key={location.id}
+                                        value={location.id}>
+                                        {location.location_name}
+                                    </MenuItem>
+                                )
+                            })}
                         </Select>
                         <FormHelperText>Select Location</FormHelperText>
                     </FormControl>

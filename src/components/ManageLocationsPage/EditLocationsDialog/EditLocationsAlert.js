@@ -9,7 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 class EditLocationsAlert extends Component {
 
     handleClose = () => {
-        //this will close edit alert dialog when ok is pressed
+        //this handles closing of the edit alert
         this.props.handleEditAlertClose();
     }//end handleClose
 
@@ -20,20 +20,20 @@ class EditLocationsAlert extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{"Location Edited"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{this.props.successMessage} Edited</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        You have successfully Edited a location
+                        Edit Successful!
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={this.handleClose} color="primary" autoFocus>
+                    <Button variant="contained" color="primary" onClick={this.handleClose} color="primary" autoFocus>
                         Ok
                     </Button>
                 </DialogActions>
             </Dialog>
-        )
+        );
     }//end render
-}//end EditLocations Component
+}//end EditLocationsAlert Component
 
 export default EditLocationsAlert;

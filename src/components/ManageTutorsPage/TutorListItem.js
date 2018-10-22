@@ -10,6 +10,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // Material UI imports
 import { Button } from '@material-ui/core';
 import AdminIcon from '@material-ui/icons/VerifiedUserOutlined';
+import TransferIcon from '@material-ui/icons/BlockOutlined';
+
 // component imports
 import RemoveTutorDialog from './RemoveTutorDialog';
 import EditTutorDialog from './EditTutorDialog';
@@ -75,14 +77,16 @@ class TutorListItem extends Component {
     render() {
         let button = null;
         let admin = null;
+        let transfer = <TransferIcon />
+        let promote = <AdminIcon />
 
         if (this.props.tutor.permissions === 1) {
             button = (
-                <Button style={{ marginRight: '25px' }} color="default" variant="contained" onClick={this.toggleAdminStatus}>Make Admin</Button>
+                <Button style={{ marginRight: '25px' }} color="default" variant="contained" onClick={this.toggleAdminStatus}>{promote}Make Admin</Button>
             )
         } else {
             button = (
-                <Button style={{ marginRight: '25px' }} color="primary" variant="contained" onClick={this.toggleAdminStatus}>Remove as Admin</Button>
+                <Button style={{ marginRight: '25px' }} color="primary" variant="contained" onClick={this.toggleAdminStatus}>{transfer} Remove as Admin</Button>
             )
 
             admin = (
@@ -138,7 +142,7 @@ class TutorListItem extends Component {
                                 getTutorLocations={this.getTutorLocations}
                                 getTutorSubjects={this.getTutorSubjects}
                             />
-                            <RemoveTutorDialog id={this.props.tutor.id} />
+                            <RemoveTutorDialog tutor={this.props.tutor} />
                             {button}
                         </div>
                     </Typography>

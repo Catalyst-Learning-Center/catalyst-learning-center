@@ -9,6 +9,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import InputLabel from '@material-ui/core/InputLabel';
+import EditIcon from '@material-ui/icons/EditOutlined';
+
 // component imports
 import SelectSchool from './SelectSchool';
 import SelectGrade from './SelectGrade';
@@ -90,9 +92,10 @@ class EditSessionDialog extends Component {
     }
 
     render() {
+        let edit = <EditIcon />
         return (
             <div>
-                <Button onClick={this.handleClickOpen}>Edit</Button>
+                <Button style={{float: 'right'}} variant="contained" onClick={this.handleClickOpen}>{edit}Edit</Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
@@ -133,7 +136,7 @@ class EditSessionDialog extends Component {
                         <Button onClick={this.handleClose} color="primary">
                             Cancel
             </Button>
-                        <Button onClick={this.handleConfirm} color="primary">
+                        <Button variant="contained" color="primary" onClick={this.handleConfirm} color="primary">
                             Confirm Changes
             </Button>
                     </DialogActions>

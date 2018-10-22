@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
         });
 });//end GET
 
-//route to post data to server
+// POST route 
 router.post('/', (req, res) => {
     if(req.isAuthenticated()) {
         console.log('locations POST route hit');

@@ -9,11 +9,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 class AddLocationsAlert extends Component {
 
     handleClose = () => {
-        //when associated buttons are clicked will close the dialog
+        //when ok in locations alert dialog is pressed this function will trigger
         this.props.handleAlertClose();
     }//end handleClose
 
     render() {
+
         return (
             <Dialog
                 open={this.props.open}
@@ -32,8 +33,8 @@ class AddLocationsAlert extends Component {
                     </Button>
                 </DialogActions>
             </Dialog>
-        )
-    }
-}
+        );
+    }//end render
+}//end AddLocationsAlertDialog Component
 
 export default AddLocationsAlert;

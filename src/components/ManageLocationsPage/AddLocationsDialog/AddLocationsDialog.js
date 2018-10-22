@@ -27,8 +27,7 @@ class AddLocationsDialog extends Component {
       }//end locationToAdd
     }//end state
   }//end constructor
-
-  
+ 
   handleStateDropDownChange = (value) => {
     //updates with location from drop down
     this.setState({
@@ -154,7 +153,7 @@ class AddLocationsDialog extends Component {
       open={this.state.alert}/>
       </React.Fragment>
       </div>
-    )
+    );
   }//end render
 }//end Component
 

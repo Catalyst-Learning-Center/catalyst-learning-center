@@ -11,10 +11,15 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import SelectSchool from './SelectSchool';
 import SelectGrade from './SelectGrade';
 
+const style = {
+
+    marginBottom: '10px',
+
+}
+
 const mapStateToProps = state => ({
     sessions: state.sessions
 });
-
 
 class NewSessionDialog extends Component {
     constructor(props) {
@@ -29,6 +34,7 @@ class NewSessionDialog extends Component {
         this.setState({
             open: true,
         })
+        this.props.dispatch({type: 'RESET_SESSION'})
     }
 
     handleClose = () => {
@@ -61,14 +67,16 @@ class NewSessionDialog extends Component {
     render() {
         return (
             <div>
-                <Button onClick={this.handleClickOpen}>New Tutoring Session</Button>
+                <div>
+                    <Button style={style} variant="contained" color="primary" onClick={this.handleClickOpen}>+ New Session</Button>
+                </div>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
                     aria-labelledby="form-dialog-title"
                 >
-                    <DialogTitle id="form-dialog-title">New Tutoring Session</DialogTitle>
-                    <DialogContent>
+                    <DialogTitle id="form-dialog-title">Start New Tutoring Session</DialogTitle>
+                    <DialogContent class="new-session-dialog">
                         <TextField
                             autoFocus
                             margin="dense"
@@ -84,7 +92,7 @@ class NewSessionDialog extends Component {
                         <Button onClick={this.handleClose} color="primary">
                             Cancel
             </Button>
-                        <Button onClick={this.handleSessionStart} color="primary">
+                        <Button variant="contained" color="primary" onClick={this.handleSessionStart} color="primary">
                             Start Session
             </Button>
                     </DialogActions>

@@ -65,7 +65,7 @@ class LocationExpansionPanel extends Component {
                     </div>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
-        )
+        );
     }//end render
 }//end Component
 

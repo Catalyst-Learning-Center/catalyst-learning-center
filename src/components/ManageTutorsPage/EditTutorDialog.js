@@ -9,8 +9,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Checkbox from '@material-ui/core/Checkbox';
+import EditIcon from '@material-ui/icons/EditOutlined';
+
 // component imports
 import StateSelect from '../NewApplicationPage/StateSelect';
+import EditAlert from '../ManageLocationsPage/EditLocationsDialog/EditLocationsAlert';
 
 const mapStateToProps = state => ({
     tutors: state.tutors,
@@ -23,6 +26,7 @@ class EditTutorDialog extends Component {
         super(props);
         this.state = {
             open: false,
+            alert: false,
             editedTutor: {
                 user_first_name: this.props.tutor.user_first_name,
                 user_last_name: this.props.tutor.user_last_name,
@@ -135,7 +139,19 @@ class EditTutorDialog extends Component {
             payload: locations
         });
         this.handleClose();
+        this.handleEditAlertOpen();
     }
+
+    handleEditAlertOpen = () => {
+        //when user edits a tutor and presses save an alert dialog will appear
+        this.setState({ alert: true });
+    }//end handleEditAlertOpen
+
+    handleEditAlertClose = () => {
+        //after pressing okay alert dialog will close
+        this.setState({ alert: false });
+        this.props.dispatch({ type: 'GET_TUTORS' })
+    }//end handleEditAlertClose
 
     handleSubjectCheckbox = (event, isChecked) => {
         console.log('clicked: ', event.target);
@@ -163,9 +179,10 @@ class EditTutorDialog extends Component {
     }
 
     render() {
+        let edit = <EditIcon />
         return (
             <div>
-                <Button style={{marginRight: '5px'}} color="default" variant="contained" onClick={this.handleClickOpen}>Edit</Button>
+                <Button style={{ marginRight: '5px' }} color="default" variant="contained" onClick={this.handleClickOpen}>{edit}Edit</Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
@@ -326,11 +343,16 @@ class EditTutorDialog extends Component {
                         <Button onClick={this.handleClose} color="secondary">
                             Cancel
                         </Button>
-                        <Button onClick={this.handleSave} color="primary">
+                        <Button variant="contained" color="primary" onClick={this.handleSave} color="primary">
                             Save
                         </Button>
                     </DialogActions>
                 </Dialog>
+                <EditAlert
+                    open={this.state.alert}
+                    handleEditAlertClose={this.handleEditAlertClose}
+                    successMessage="Tutor"
+                />
             </div>
         )
     }
