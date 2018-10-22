@@ -86,10 +86,10 @@ class AdminDataBarGraph extends Component {
         let letters = '0123456789ABCDEF';
         let color = '#';
         for (var i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * 16)];
+            color += letters[Math.floor(Math.random() * 16)];
         }
         return color;
-      }
+    }
     // getSchoolYear = () => {
     //     let schoolyear = {moment(location.date).format('MM-DD-YYYY')}
     // }
@@ -118,7 +118,7 @@ class AdminDataBarGraph extends Component {
                                 yAxes: [{
                                     ticks: {
                                         beginAtZero: true,
-                                    scaleLabel: 'Number of Students',
+                                        scaleLabel: 'Number of Students',
                                     }
                                 }]
                             }
@@ -133,7 +133,7 @@ class AdminDataBarGraph extends Component {
                             input={<Input name="location" id="location" />}
                         >
                             <MenuItem value="0">
-                                <em>All</em>
+                                All
                             </MenuItem>
                             {this.props.locations.map((location) => {
                                 return (
