@@ -22,11 +22,11 @@ class EditLocationsAlert extends Component {
                 <DialogTitle id="alert-dialog-title">{"Location Edited"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        You have successfully Edited a location
+                        Edit Successful!
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={this.handleClose} color="primary" autoFocus>
+                    <Button variant="contained" color="primary" onClick={this.handleClose} color="primary" autoFocus>
                         Ok
                     </Button>
                 </DialogActions>

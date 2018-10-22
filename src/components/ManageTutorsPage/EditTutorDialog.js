@@ -326,7 +326,7 @@ class EditTutorDialog extends Component {
                         <Button onClick={this.handleClose} color="secondary">
                             Cancel
                         </Button>
-                        <Button onClick={this.handleSave} color="primary">
+                        <Button variant="contained" color="primary" onClick={this.handleSave} color="primary">
                             Save
                         </Button>
                     </DialogActions>

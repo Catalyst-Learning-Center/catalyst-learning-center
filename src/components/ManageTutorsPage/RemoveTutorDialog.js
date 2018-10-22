@@ -65,7 +65,7 @@ class RemoveTutorDialog extends Component {
                         <Button onClick={this.handleClose} color="secondary">
                             Cancel
                         </Button>
-                        <Button onClick={this.handleTutorDelete} color="primary" autoFocus>
+                        <Button variant="contained" color="primary" onClick={this.handleTutorDelete} color="primary" autoFocus>
                             Yes
                         </Button>
                     </DialogActions>
@@ -76,14 +76,9 @@ class RemoveTutorDialog extends Component {
                 >
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            This tutor has been successfully deleted.
+                            Tutor successfully removed!
                         </DialogContentText>
                     </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.handleConfirmationClose} color="primary" autoFocus>
-                            Okay
-                        </Button>
-                    </DialogActions>
                 </Dialog>
             </div>
         )
