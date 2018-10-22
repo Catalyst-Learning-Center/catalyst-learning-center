@@ -61,33 +61,41 @@ class AdminDataBarGraph extends Component {
     }
 
     setData = () => {
-        console.log('setData');
         let dataLabels = [];
-        let dataset = [];
-        console.log(this.state.datasets);
-        let sortedData = this.state.datasets.sort(function(a, b) {
-            console.log(moment(a.date).format('YYYY'), moment(b.date).format('YYYY'), moment(a.date).format('YYYY') - moment(b.date).format('YYYY'));
+        //TODO: Add support for any number of libraries.
+        let datasetLibraryOne = [];
+        let datasetLibraryTwo = [];
+        let sortedData = this.state.datasets.sort(function (a, b) {
             return moment(a.date).format('YYYY') - moment(b.date).format('YYYY');
         })
-        console.log(sortedData);
         for (let location of sortedData) {
             let currentYear = moment(location.date).format('YYYY');
             let lastYear = moment(location.date).subtract(1, 'years').format('YYYY');
-            let schoolYear = lastYear +'-'+ currentYear;
-            
+            let schoolYear = lastYear + '-' + currentYear;
             dataLabels.push(schoolYear);
-            dataset.push(location.count);
+            //TODO: Add support for any number of libraries.
+            if (location.location_name == 'Franklin Library') {
+                datasetLibraryOne.push(location.count);
+            } else if (location.location_name == 'Hosmer Library') {
+                datasetLibraryTwo.push(location.count);
+            }
         }
         this.setState({
             chartData: {
                 labels: dataLabels,
+                //TODO: label: Add support for any number of libraries.
                 datasets: [{
-                    label: 'Total Number of Students Tutored by School Year',
-                    backgroundColor: '#ad0400',
-                    data: dataset,
-                }]
+                    label: `Franklin Library`,
+                    backgroundColor: this.getRandomColor(),
+                    data: datasetLibraryOne,
+                },
+                {
+                    label: `Hosmer Library`,
+                    backgroundColor: this.getRandomColor(),
+                    data: datasetLibraryTwo,
+                }
+                ]
             }
-
         });
     }
 
@@ -108,12 +116,11 @@ class AdminDataBarGraph extends Component {
                 <div className="bar-graph">
                     <Bar
                         data={this.state.chartData}
-                        width={100}
-                        height={50}
                         options={{
                             title: {
                                 display: true,
-                                text: 'Library Site Tutor Summary',
+                                text: 'Library Site Tutoring Summary',
+                                // text: `Library Site Tutor Summary: ${this.state.location}`,
                                 fontsize: 100,
                             },
                             legend: {
@@ -122,22 +129,20 @@ class AdminDataBarGraph extends Component {
                             },
                             scales: {
                                 xAxes: [{
-                                    // type: 'time',
-                                    // distribution: 'series',
-                                    // displayFormats: {
-                                    //     year: 'YYYY-YYYY',
-                                    // },
-                                    // title: 'School Year',
-                                    // scaleLabel: {
-                                    //     labelString: 'School Year'
-                                    // }
-                                    }
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'School Year'
+                                    },
+                                }
                                 ],
                                 yAxes: [{
                                     ticks: {
                                         beginAtZero: true,
-                                        yLabel: 'Number of Students',
-                                    }
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Number of Students',
+                                    },
                                 }]
                             }
                         }}
@@ -145,11 +150,11 @@ class AdminDataBarGraph extends Component {
                 </div>
                 <div>
                     <FormControl>
-                        <InputLabel>Location</InputLabel>
+                        <InputLabel shrink>Location</InputLabel>
                         <Select
                             value={this.state.location}
                             onChange={this.handleLocationChange}
-                            input={<Input name="location" id="location" />}
+                            input={<Input name="location" id="location"/>}
                         >
                             <MenuItem value="0">All</MenuItem>
                             {this.props.locations.map((location) => {
