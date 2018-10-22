@@ -217,6 +217,7 @@ class AdminDataTable extends Component {
 
     componentDidMount() {
         this.getSessionData();
+        this.getYearData();
         this.props.dispatch({ type: 'GET_GRADES' });
         this.props.dispatch({ type:'GET_SUBJECTS' });
         this.props.dispatch({ type: 'GET_LOCATIONS' });
@@ -229,6 +230,8 @@ class AdminDataTable extends Component {
         orderBy: 'date',
         selected: [],
         data: [],
+        datasets: [],
+        years: [],
         page: 0,
         rowsPerPage: 5,
         locationFilter: '',
@@ -236,6 +239,52 @@ class AdminDataTable extends Component {
         schoolFilter: '',
         gradeFilter: '',
         yearFilter: ''
+    }
+
+    getYearData = () => {
+        console.log('in getYearData');
+        axios({
+            method: 'GET',
+            url: '/sessions/library-summary/0'
+        }).then((response) => {
+            this.setState({
+                datasets: response.data,
+            });
+            console.log('back from server with: ', response.data);
+            this.setData();
+        }).catch((error) => {
+            console.log('error: ', error);
+            alert('There was an error getting sessions data.')
+        })
+    }
+
+    setData = () => {
+        console.log('setData');
+        let dataLabels = [];
+        console.log(this.state.datasets);
+        let sortedData = this.state.datasets.sort(function(a, b) {
+            console.log(moment(a.date).format('YYYY'), moment(b.date).format('YYYY'), moment(a.date).format('YYYY') - moment(b.date).format('YYYY'));
+            return moment(a.date).format('YYYY') - moment(b.date).format('YYYY');
+        })
+        console.log(sortedData);
+        sortedData = sortedData.filter(session => {
+            if (session.location_name === 'Hosmer Library') {
+                return session;
+            }
+        })
+        for (let location of sortedData) {
+            let currentYear = moment(location.date).format('YYYY');
+            let lastYear = moment(location.date).subtract(1, 'years').format('YYYY');
+            let schoolYear = lastYear +'-'+ currentYear;
+            let year = {
+                year: currentYear,
+                schoolYear: schoolYear
+            }
+            dataLabels.push(year);
+        }
+        this.setState({
+            years: dataLabels
+        });
     }
 
     getSessionData = () => {
@@ -331,9 +380,9 @@ class AdminDataTable extends Component {
             filteredData = filteredData.filter(session => {
                 let date = moment(session.session_date).format('MM/DD');
                 let year = moment(session.session_date).format('YYYY');
-                if (date < '08/01' && year === this.state.yearFilter) {
+                if (date < '08/01' && year == this.state.yearFilter) {
                     return session;
-                } else if (date > '07/31' && year === (this.state.yearFilter - 1)) {
+                } else if (date > '07/31' && year == (this.state.yearFilter - 1)) {
                     return session;
                 }
             });
@@ -357,7 +406,7 @@ class AdminDataTable extends Component {
                 <Paper className={classes.root}>
                 <AdminTableToolbar numSelected={selected.length} filteredData={filteredData} />
                 <div className="filter-container">
-                <FormControl style={{ minWidth: '20%' }}>
+                <FormControl style={{ minWidth: '15%' }}>
                             <InputLabel htmlFor="yearFilter" shrink>Filter by School Year:</InputLabel>
                         <Select
                             value={this.state.yearFilter}
@@ -370,13 +419,15 @@ class AdminDataTable extends Component {
                             <MenuItem value="">
                                 <p>Any</p>
                             </MenuItem>
-                                    <MenuItem value="2018">2017 - 2018</MenuItem>
-                                    <MenuItem value="2017">2016 - 2017</MenuItem>
-                                    <MenuItem value="2016">2015 - 2016</MenuItem>
+                            {this.state.years.map(year => {
+                                return (
+                                    <MenuItem value={year.year}>{year.schoolYear}</MenuItem>
+                                )
+                            })}
 
                         </Select>
                     </FormControl>
-                        <FormControl style={{ minWidth: '20%' }}>
+                        <FormControl style={{ minWidth: '15%' }}>
                             <InputLabel htmlFor="locationFilter" shrink>Filter by Location:</InputLabel>
                         <Select
                             value={this.state.locationFilter}
@@ -397,7 +448,7 @@ class AdminDataTable extends Component {
 
                         </Select>
                     </FormControl>
-                        <FormControl style={{ minWidth: '20%' }}>
+                        <FormControl style={{ minWidth: '15%' }}>
                             <InputLabel htmlFor="schoolFilter" shrink>Filter by School:</InputLabel>
                     <TextField
                         name="schoolFilter"
@@ -407,7 +458,7 @@ class AdminDataTable extends Component {
                         onChange={this.handleFilterChange}
                     />
                     </FormControl>
-                        <FormControl style={{ minWidth: '20%'}}>
+                        <FormControl style={{ minWidth: '15%'}}>
                             <InputLabel htmlFor="gradeFilter" shrink>Filter by Grade Level:</InputLabel>
                         <Select
                             value={this.state.gradeFilter}
@@ -428,7 +479,7 @@ class AdminDataTable extends Component {
 
                         </Select>
                     </FormControl>
-                        <FormControl style={{ minWidth: '20%' }}>
+                        <FormControl style={{ minWidth: '15%' }}>
                         <InputLabel htmlFor="subjectFilter" shrink>Filter by Subject:</InputLabel>
                         <Select
                             value={this.state.subjectFilter}
