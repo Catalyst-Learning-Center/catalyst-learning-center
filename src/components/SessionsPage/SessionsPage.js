@@ -41,8 +41,8 @@ class SessionsPage extends Component {
                 <TutorNav />
             )
             location = (
-                <div style={{ float: 'left', color: '#C21A31' }}>
-                    <h6 style={{ float: 'left', fontSize: '20px' }}><LocationIcon />&nbsp;You are tutoring at <u>{this.props.location.location_name}</u></h6>
+                <div style={{ position: 'relative', color: '#7F8380' }}>
+                    <h6 style={{position: 'absolute', top: '0', right: '0', fontSize: '20px' }}><LocationIcon />&nbsp;You are tutoring at <u>{this.props.location.location_name}</u></h6>
                 </div>
             )
         } else if (this.props.user.permissions === 2) {
@@ -56,16 +56,18 @@ class SessionsPage extends Component {
             content = (
                 <div className="sessions-view-container">
                     <div>
-                    <h1>Sessions</h1>
+                    <h1 style={{float: 'left', marginBottom: '50px'}}>Tutoring Sessions</h1>
                    {location}
+                    </div>
+                    <div style={{marginRight: '85%'}}>
                     <NewSessionDialog />
                     </div>
                     <div className="active-sessions-container">
-                        <h3>Active Sessions</h3>
+                        <h3>Active Sessions:</h3>
                         <ActiveSessionsTable />
-                    </div><br />
+                    </div>
                     <div className="completed-sessions-container">
-                        <h3>Completed Sessions</h3>
+                        <h3>Completed Sessions:</h3>
                         <CompletedSessionsTable />
                     </div>
                 </div>
