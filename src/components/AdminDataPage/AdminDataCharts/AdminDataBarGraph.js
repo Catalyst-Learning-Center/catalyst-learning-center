@@ -8,6 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import moment from 'moment';
 
 const mapStateToProps = state => ({
     locations: state.locations.locations
@@ -63,12 +64,15 @@ class AdminDataBarGraph extends Component {
         console.log('setData');
         let dataLabels = [];
         let dataset = [];
-        // let backgroundColor = [];
         for (let location of this.state.datasets) {
-            dataLabels.push(location.date);
+            let currentYear = moment(location.date).format('YYYY');
+            console.log(currentYear);
+            let lastYear = moment(location.date).subtract(1, 'years').format('YYYY');
+            console.log(lastYear);
+            let schoolYear = lastYear + '-'+ currentYear;
+            console.log(schoolYear);
+            dataLabels.push(schoolYear);
             dataset.push(location.count);
-            // let color = this.getRandomColor();
-            // backgroundColor.push(color);
         }
         this.setState({
             chartData: {
@@ -79,6 +83,7 @@ class AdminDataBarGraph extends Component {
                     data: dataset,
                 }]
             }
+
         });
     }
 
@@ -90,9 +95,6 @@ class AdminDataBarGraph extends Component {
         }
         return color;
     }
-    // getSchoolYear = () => {
-    //     let schoolyear = {moment(location.date).format('MM-DD-YYYY')}
-    // }
 
     render() {
         let content = null;
@@ -115,10 +117,18 @@ class AdminDataBarGraph extends Component {
                                 position: 'bottom',
                             },
                             scales: {
+                                xAxes: [{
+                                    // type: 'time',
+                                    distribution: 'series',
+                                    // time: {
+                                    //     unit: 'year',
+                                    //     }
+                                    }
+                                ],
                                 yAxes: [{
                                     ticks: {
                                         beginAtZero: true,
-                                        scaleLabel: 'Number of Students',
+                                        yLabel: 'Number of Students',
                                     }
                                 }]
                             }
