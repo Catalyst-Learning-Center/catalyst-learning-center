@@ -10,6 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import ErrorIcon from '@material-ui/icons/WarningOutlined';
 // component impors
 import SelectSubject from './SelectSubject';
 
@@ -56,7 +57,8 @@ class EndSessionDialog extends Component {
 
     render() {
         let content = null;
-        let stop = <StopIcon />;
+        let stop = <StopIcon />
+        let error = <div style={{marginBottom: '10px', float: 'left'}}><ErrorIcon /></div>;
         let today = new Date();
         let dd = today.getDate();
         let mm = today.getMonth() + 1; //January is 0!
@@ -73,14 +75,14 @@ class EndSessionDialog extends Component {
         today = mm + '/' + dd + '/' + yyyy;
         if (moment(this.props.date).format('MM/DD/YYYY') !== today) {
             content = (<DialogContentText>
-                <mark>This session was not ended on the day it took place!</mark><br /> 
+                <h6 style={{color: 'red', float: 'left'}}>{error}&nbsp;This session was not ended on the day it took place!</h6> 
                 <br /><b>Please specify what time it ended:</b>
                 <br />Start date: {moment(this.props.date).format('MM/DD/YYYY')}
                 <br />Start time: {moment(this.props.start_time, 'HH:mm:ss.SSSSSS').format('h:mm a')}
-                <br /><mark>End time:&nbsp;</mark><TextField
+                <br />End time:&nbsp;<mark><TextField
                 type="time"
                 defaultValue="18:00"
-                /><br />
+                /><br /></mark>
         <br /></DialogContentText>     
             )
         }
@@ -98,7 +100,7 @@ class EndSessionDialog extends Component {
                         <DialogContent>
                         {content}
                         <DialogContentText>
-                            <b>Please select which subject was worked on with the student:</b>
+                            <b>Select which subject was worked on with the student:</b>
                         </DialogContentText>
                             <SelectSubject />
                             <TextField

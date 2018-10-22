@@ -30,7 +30,7 @@ class SelectSubject extends Component {
     render() {
         return (
             <div>
-                <Select
+                <mark><Select
                     defaultValue="3"
                     value={this.props.selectedSubject}
                     onChange={this.handleChange}
@@ -47,7 +47,7 @@ class SelectSubject extends Component {
                             <MenuItem key={subject.id} value={subject.id}>{subject.subjects}</MenuItem>
                         )
                     })}
-                </Select>
+                </Select></mark>
             </div>
         )
     }
