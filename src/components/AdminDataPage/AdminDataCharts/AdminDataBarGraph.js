@@ -13,6 +13,7 @@ const mapStateToProps = state => ({
     locations: state.locations.locations
 });
 
+
 class AdminDataBarGraph extends Component {
     constructor(props) {
         super(props);

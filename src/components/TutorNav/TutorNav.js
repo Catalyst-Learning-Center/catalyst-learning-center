@@ -6,9 +6,7 @@ import Button from '@material-ui/core/Button';
 import { triggerLogout } from '../../redux/actions/loginActions';
 import './TutorNav.css';
 
-
 import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, Collapse, NavItem, NavLink, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact';
-
 
 class TutorNav extends Component {
     constructor(props) {
@@ -40,7 +38,7 @@ class TutorNav extends Component {
                 <Collapse isOpen={this.state.collapse} navbar>
                     <NavbarNav right>
                         <NavItem>
-                            <Button onClick={this.logout}>Logout</Button>
+                            <Button variant="contained" onClick={this.logout}>Logout</Button>
                         </NavItem>
                     </NavbarNav>
                 </Collapse>

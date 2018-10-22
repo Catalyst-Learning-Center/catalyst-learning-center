@@ -70,7 +70,7 @@ class CompletedSessionsTable extends React.Component {
             <Paper>
                 <div>
                     <Table aria-labelledby="tableTitle">
-                        <TableHead>
+                        <TableHead style={{backgroundColor: '#F5F5F5', color: 'red'}}>
                             <TableRow>
                                 <TableCell>Date</TableCell>
                                 <TableCell>Name</TableCell>

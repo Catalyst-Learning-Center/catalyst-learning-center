@@ -15,6 +15,8 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import Grid from '@material-ui/core/Grid';
 
 
 const mapStateToProps = state => ({
@@ -105,58 +107,69 @@ class LoginPage extends Component {
           {this.renderAlert()}
           <form onSubmit={this.login}>
             <h1>Login</h1>
-            <div>
-              <Input
-                name="username"
-                value={this.state.username}
-                onChange={this.handleInputChangeFor('username')}
-                placeholder="Email"
-                inputProps={{
-                  'aria-label': 'Email',
-                }}
-              />
-            </div>
-            <div>
-              <Input
-                id="password"
-                placeholder="Password"
-                type={this.state.showPassword ? 'text' : 'password'}
-                value={this.state.password}
-                onChange={this.handleInputChangeFor('password')}
-                inputProps={{
-                  'aria-label': 'Password',
-                }}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="Toggle password visibility"
-                      onClick={this.handleClickShowPassword}
-                    >
-                      {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </div>
-            <div>
-              <Button
-                size="small"
-                onClick={this.handlePasswordResetOpen}
+            <Grid container>
+              <Grid item xs={12}>
+                <FormControl style={{ width: '80%', marginBottom: '10px' }}>
+                  <Input
+                    name="username"
+                    value={this.state.username}
+                    onChange={this.handleInputChangeFor('username')}
+                    placeholder="Email"
+                    inputProps={{
+                      'aria-label': 'Email',
+                    }}
+                    fullwidth
+                  />
+                </FormControl>
+                <br />
+                <FormControl style={{ width: '80%' }}>
+                  <Input
+                    fullWidth
+                    id="password"
+                    placeholder="Password"
+                    type={this.state.showPassword ? 'text' : 'password'}
+                    value={this.state.password}
+                    onChange={this.handleInputChangeFor('password')}
+                    inputProps={{
+                      'aria-label': 'Password',
+                    }}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="Toggle password visibility"
+                          onClick={this.handleClickShowPassword}
+                        >
+                          {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  size="small"
+                  onClick={this.handlePasswordResetOpen}
+                  style={{margin: '20px'}}
                 >
-                Forgot Password?
+                  Forgot Password?
               </Button>
               <Button
-                size="small"
-                variant="contained"
-                type="submit"
-                name="submit"
-                color="primary"
+                  size="small"
+                  variant="contained"
+                  type="submit"
+                  name="submit"
+                  color="primary"
+                  style={{ margin: '20px' }}
                 >
-                
-                Log In
+
+                  Log In
               </Button>
-              <p>Interested in tutoring? <Link to="/new-application">Apply here</Link></p>
-            </div>
+                <Grid item xs={12}>
+                  <p>Interested in tutoring? <Link to="/new-application">Apply here</Link></p>
+                </Grid>
+              </Grid>
+            </Grid>
           </form>
           <ResetPasswordDialog openResetDialog={this.state.openResetDialog} handlePasswordResetClose={this.handlePasswordResetClose} />
         </div>

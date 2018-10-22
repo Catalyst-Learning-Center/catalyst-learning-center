@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 // Material UI imports
 import { Button } from '@material-ui/core';
+import StopIcon from '@material-ui/icons/Stop';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -55,6 +56,7 @@ class EndSessionDialog extends Component {
 
     render() {
         let content = null;
+        let stop = <StopIcon />;
         let today = new Date();
         let dd = today.getDate();
         let mm = today.getMonth() + 1; //January is 0!
@@ -79,15 +81,14 @@ class EndSessionDialog extends Component {
                 type="time"
                 defaultValue="18:00"
                 />
-        </DialogContentText>
-                
+        </DialogContentText>     
             )
         }
         console.log(today);
         console.log(moment(this.props.date).format('MM/DD/YYYY'));
             return (
                 <div>
-                    <Button onClick={this.handleClickOpen}>End Session</Button>
+                    <Button style={{float: 'right'}} variant="contained" color="secondary" onClick={this.handleClickOpen}>{stop}End</Button>
                     <Dialog
                         open={this.state.open}
                         onClose={this.handleClose}
@@ -114,7 +115,7 @@ class EndSessionDialog extends Component {
                             <Button onClick={this.handleClose} color="primary">
                                 Cancel
             </Button>
-                            <Button onClick={this.endSession} color="primary">
+                            <Button variant="contained" color="primary" onClick={this.endSession} color="primary">
                                 End Session
             </Button>
                         </DialogActions>

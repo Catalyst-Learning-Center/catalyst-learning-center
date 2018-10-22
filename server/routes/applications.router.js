@@ -13,6 +13,7 @@ router.get('/', (req, res) => {
         pool.query(query).then((results)=> {
             res.send(results.rows);
         }).catch((error) => {
+            console.log('get applications error: ', error);
             res.sendStatus(500);
         });
     } else {
@@ -39,7 +40,7 @@ router.get('/pending', (req, res) => {
 router.get('/locations/:id', (req, res) => {
     if (req.isAuthenticated()) {
         const query = 
-        `SELECT "applications_location"."id", "location"."location_name"
+        `SELECT "location"."id", "location"."location_name"
         FROM "applications_location"
         JOIN "location" ON "applications_location"."location_id" = "location"."id"
         WHERE "applications_location"."applications_id" = $1;`;
@@ -58,11 +59,12 @@ router.get('/locations/:id', (req, res) => {
 router.get('/subjects/:id', (req, res) => {
     if (req.isAuthenticated()) {
         const query = 
-        `SELECT "applications_subjects"."id", "subjects"."subjects"
+        `SELECT "subjects"."id", "subjects"."subjects"
         FROM "applications_subjects"
         JOIN "subjects" ON "applications_subjects"."subjects_id" = "subjects"."id"
-        WHERE "applications_subjects"."subjects_id" = $1;`;
+        WHERE "applications_subjects"."applications_id" = $1;`;
         pool.query(query, [req.params.id]).then((results)=> {
+            console.log('back from /applications/subjects/', req.params.id, ' with: ', results.rows);
             res.send(results.rows);
         }).catch((error) => {
             res.sendStatus(500);
@@ -92,8 +94,10 @@ router.put('/:id', (req, res) => {
  * POST route template
  */
 router.post('/', (req, res) => {
+    console.log('in application post', req.body.captcha);
+    
     if (req.body.captcha === undefined || req.body.captcha === '' || req.body.captcha === null) {
-        return res.json({ "success": false, "msg": "Please fill out captcha" });
+        return res.sendStatus(500);
     }
 
     const application = req.body.application;
