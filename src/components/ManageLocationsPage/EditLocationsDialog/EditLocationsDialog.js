@@ -14,10 +14,11 @@ import EditIcon from '@material-ui/icons/EditOutlined';
 const style = {
   marginRight: '80%',
   justifyContent: 'right'
-}
+}//end style
+
 const mapStateToProps = state => ({
   locations: state.locations,
-});
+});//end mapStateToProps
 
  class EditLocationsDialog extends Component {
    constructor (props) {
@@ -71,7 +72,6 @@ const mapStateToProps = state => ({
 
   handleChange = (event) => {
     //this will allow changes to be added to edit input fields
-
     this.setState({
       locationToEdit: {
         ...this.state.locationToEdit,
@@ -99,7 +99,9 @@ const mapStateToProps = state => ({
 }//end handleLocationStateChange
 
   render() {
+
     let edit = <EditIcon />
+
     return (
       <div>
         <React.Fragment>
@@ -182,7 +184,8 @@ const mapStateToProps = state => ({
       handleEditAlertClose={this.handleEditAlertClose}/>
       </React.Fragment>
       </div>
-    )
+    );
   }//end render
 }//end Component
+
 export default connect(mapStateToProps)(EditLocationsDialog);

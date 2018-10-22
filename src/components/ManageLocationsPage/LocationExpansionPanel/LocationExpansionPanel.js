@@ -20,6 +20,7 @@ class LocationExpansionPanel extends Component {
     }//end handleEditClick
 
     render() {
+        
         return (
             <ExpansionPanel>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -35,7 +36,7 @@ class LocationExpansionPanel extends Component {
                     </div>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
-        )
+        );
     }//end render
 }//end Component
 
