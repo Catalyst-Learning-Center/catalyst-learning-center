@@ -34,7 +34,6 @@ function* deleteTutor(action) {
 function* editTutor(action) {
     try {
         yield call(Axios.put, '/tutors/edit', action.payload);
-        yield put({type: 'GET_TUTORS'});
     } catch (error) {
         console.log('edit tutor error: ', error);
     }
@@ -43,7 +42,6 @@ function* editTutor(action) {
 function* editTutorSubjects(action) {
     try {
         yield call(Axios.put, '/tutors/edit/subjects', action.payload);
-        yield put({type: 'GET_TUTORS'});
     } catch (error) {
         console.log('edit tutor subjects error: ', error);
     }
@@ -52,7 +50,6 @@ function* editTutorSubjects(action) {
 function* editTutorLocations(action) {
     try {
         yield call(Axios.put, '/tutors/edit/locations', action.payload);
-        yield put({type: 'GET_TUTORS'});
     } catch (error) {
         console.log('edit tutor locations error: ', error);
     }
