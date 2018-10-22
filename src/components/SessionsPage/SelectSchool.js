@@ -36,7 +36,7 @@ class SelectSchool extends Component {
                     }))}
                     value={this.props.selectedSchool}
                     onChange={this.handleChange}
-                    placeholder="select a school"
+                    placeholder="Select a school"
                 />
             </div>
         )
