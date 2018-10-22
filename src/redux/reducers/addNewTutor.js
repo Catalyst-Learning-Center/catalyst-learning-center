@@ -18,8 +18,11 @@ const newTutorToAdd = (state={}, action) => {
             user_qualifications: '',
             user_experience: '',
             user_age_group: '',
-            // add locations and subjects
+            user_subjects: '',
+            user_location: '',
             resume: '',
+            username: '',
+            password: '',
         });
     }
     return state
@@ -50,5 +53,5 @@ const newTutorLocations = (state=[], action) => {
 export default combineReducers({
     newTutorToAdd,
     newTutorLocations,
-    newTutorSubjects
+    newTutorSubjects,
 })

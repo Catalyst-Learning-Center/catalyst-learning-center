@@ -7,6 +7,11 @@ import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import axios from 'axios';
 import AddTutorConfirmation from './AddTutorConfirmation';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
@@ -121,7 +126,8 @@ class AddTutorPage extends Component {
             method: 'POST',
             url: '/tutors',
             data: tutor
-        }).then((response) => {
+        }).then((response) => { 
+            // setState to open dialogue
             console.log(response.data);
             this.setState({
                 confirmationOpen: true,
@@ -234,6 +240,16 @@ class AddTutorPage extends Component {
                             value={this.props.newTutorToAdd.newTutorToAdd.applicant_age_group}
                             onChange={this.handleApplicationChange}
                         />
+
+                        <TextField 
+                        required
+                        name="password"
+                        type="password"
+                        label="Password"
+                        margin="normal"
+                        value={this.props.newTutorToAdd.newTutorToAdd.password}
+                        onChange={this.handleApplicationChange}
+                        />
                         <h3>Subject Area(s) of Interest</h3>
                         {this.props.subjects.map((subject, index) => {
                             let content = null;
@@ -311,6 +327,7 @@ class AddTutorPage extends Component {
                                 </React.Fragment>
                             )
                         })}
+                          
                         <Button variant="contained" color="primary" type="submit">
                             Submit
                         </Button>
