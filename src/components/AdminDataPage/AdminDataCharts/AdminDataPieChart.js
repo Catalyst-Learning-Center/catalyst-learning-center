@@ -86,7 +86,7 @@ class AdminDataPieChart extends Component {
                     </Grid>
                     <Grid item xs={6}>
                         <FormControl>
-                            <InputLabel>Location</InputLabel>
+                            <InputLabel shrink>Location</InputLabel>
                             <Select
                                 value={this.state.selectedLocation}
                                 onChange={this.handleChange}
