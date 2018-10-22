@@ -62,8 +62,9 @@ class AdminDataBarGraph extends Component {
 
     setData = () => {
         let dataLabels = [];
-        let datasetOne = [];
-        let datasetTwo = [];
+        //TODO: Add support for any number of libraries.
+        let datasetLibraryOne = [];
+        let datasetLibraryTwo = [];
         let sortedData = this.state.datasets.sort(function (a, b) {
             return moment(a.date).format('YYYY') - moment(b.date).format('YYYY');
         })
@@ -74,9 +75,9 @@ class AdminDataBarGraph extends Component {
             dataLabels.push(schoolYear);
             //TODO: Add support for any number of libraries.
             if (location.location_name == 'Franklin Library') {
-                datasetOne.push(location.count);
+                datasetLibraryOne.push(location.count);
             } else if (location.location_name == 'Hosmer Library') {
-                datasetTwo.push(location.count);
+                datasetLibraryTwo.push(location.count);
             }
         }
         this.setState({
@@ -86,12 +87,12 @@ class AdminDataBarGraph extends Component {
                 datasets: [{
                     label: `Franklin Library`,
                     backgroundColor: this.getRandomColor(),
-                    data: datasetOne,
+                    data: datasetLibraryOne,
                 },
                 {
                     label: `Hosmer Library`,
                     backgroundColor: this.getRandomColor(),
-                    data: datasetTwo,
+                    data: datasetLibraryTwo,
                 }
                 ]
             }
@@ -128,11 +129,10 @@ class AdminDataBarGraph extends Component {
                             },
                             scales: {
                                 xAxes: [{
-                                    title: 'School Year',
                                     scaleLabel: {
                                         display: true,
                                         labelString: 'School Year'
-                                    }
+                                    },
                                 }
                                 ],
                                 yAxes: [{
