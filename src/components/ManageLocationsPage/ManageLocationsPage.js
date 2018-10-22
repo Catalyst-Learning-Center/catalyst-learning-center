@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 const style = {
     marginLeft: '85%',
     marginBottom: '10px',
-}  
+}//end style  
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -122,7 +122,7 @@ class ManageLocationsPage extends Component {
                         
                         return (
                             <React.Fragment key={location.id}> 
-                            <LocationExpansionPanel key={i} location={location}/>
+                            <LocationExpansionPanel key={i} location={location} getLocations={this.getLocations}/>
                             </React.Fragment>
                         )
                     })} 
