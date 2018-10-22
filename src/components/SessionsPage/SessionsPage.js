@@ -61,11 +61,11 @@ class SessionsPage extends Component {
                     <NewSessionDialog />
                     </div>
                     <div className="active-sessions-container">
-                        <h3>Active Sessions</h3>
+                        <h3>Active Sessions:</h3>
                         <ActiveSessionsTable />
                     </div>  
                     <div className="completed-sessions-container">
-                        <h3>Completed Sessions</h3>
+                        <h3>Completed Sessions:</h3>
                         <CompletedSessionsTable />
                     </div>
                 </div>
