@@ -13,6 +13,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import ErrorIcon from '@material-ui/icons/WarningOutlined';
 // component impors
 import SelectSubject from './SelectSubject';
+import { select } from '../../../node_modules/redux-saga/effects';
 
 const mapStateToProps = state => ({
     subject: state.sessions.subject
@@ -57,6 +58,7 @@ class EndSessionDialog extends Component {
 
     render() {
         let content = null;
+        let selectSubject = null;
         let stop = <StopIcon />
         let error = <div style={{marginBottom: '10px', float: 'left'}}><ErrorIcon /></div>;
         let today = new Date();
@@ -85,6 +87,14 @@ class EndSessionDialog extends Component {
                 /><br /></mark>
         <br /></DialogContentText>     
             )
+            selectSubject = (
+                <SelectSubject overtime={true} />
+            )
+        }
+        else {
+            selectSubject = (
+                <SelectSubject overtime={false} />
+            )
         }
         console.log(today);
         console.log(moment(this.props.date).format('MM/DD/YYYY'));
@@ -96,13 +106,12 @@ class EndSessionDialog extends Component {
                         onClose={this.handleClose}
                         aria-labelledby="form-dialog-title"
                     >
-                        <DialogTitle id="form-dialog-title">End Tutoring Session</DialogTitle>
-                        <DialogContent>
+                        <DialogTitle id="form-dialog-title">End Tutoring Session</DialogTitle>                        <DialogContent>
                         {content}
                         <DialogContentText>
                             <b>Select which subject was worked on with the student:</b>
                         </DialogContentText>
-                            <SelectSubject />
+                            {selectSubject}
                             <TextField
                                 autoFocus
                                 margin="dense"
