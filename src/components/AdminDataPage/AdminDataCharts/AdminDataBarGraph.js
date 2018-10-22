@@ -28,17 +28,18 @@ class AdminDataBarGraph extends Component {
 
     componentDidMount() {
         this.getLocations();
+        this.getSessionData();
     }
 
     getLocations = () => {
         this.props.dispatch({ type: 'GET_LOCATIONS' });
     }
 
-    handleLocationChange = (event) => {
-        this.setState({
+    handleLocationChange = async (event) => {
+        await this.setState({
             location: event.target.value
         });
-        this.getSessionData();
+        await this.getSessionData();
     }
 
     getSessionData = () => {
@@ -113,6 +114,14 @@ class AdminDataBarGraph extends Component {
                                 display: true,
                                 position: 'bottom',
                             },
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                    scaleLabel: 'Number of Students',
+                                    }
+                                }]
+                            }
                         }}
                     />
                 </div>
@@ -124,7 +133,7 @@ class AdminDataBarGraph extends Component {
                             input={<Input name="location" id="location" />}
                         >
                             <MenuItem value="0">
-                                <em>None</em>
+                                <em>All</em>
                             </MenuItem>
                             {this.props.locations.map((location) => {
                                 return (
