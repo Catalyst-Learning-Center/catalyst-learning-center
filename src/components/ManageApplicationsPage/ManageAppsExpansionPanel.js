@@ -13,6 +13,10 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import axios from '../../../node_modules/axios';
 import moment from 'moment';
 import './ManageApplications.css';
+import RemoveIcon from '@material-ui/icons/DeleteTwoTone';
+import CheckIcon from '@material-ui/icons/CheckCircleOutlined';
+
+
 
 // this is an inline-style object variable for the expansion panel summary "date applied". 
 const style = {
@@ -154,6 +158,8 @@ class ManageAppsExpansionPanel extends Component {
     }; // end removeApplication
 
     render() {
+        let remove = <RemoveIcon />
+        let check = <CheckIcon />
         console.log(this.props.item.id)
         return (
                 <ExpansionPanel  expanded={this.state.isOpen} onChange={this.handleExpansion}>
@@ -232,8 +238,8 @@ class ManageAppsExpansionPanel extends Component {
                         </Typography>
                     <div style={{ display: 'flex', width: '100%', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
                         {/* on click of remove, send confirmation prompt. if okay, remove app.   */}
-                        <Button onClick={this.handleConfirmRemoveDialogueOpen} variant="contained" color="secondary" style={{ height: '37px', marginRight: '5px' }}>Remove</Button>
-                        <Button variant="contained" color="primary" onClick={this.acceptApplication} style={{ height: '37px'}}>Accept</Button>
+                        <Button onClick={this.handleConfirmRemoveDialogueOpen} variant="contained" color="secondary" style={{ height: '37px', marginRight: '5px' }}>{remove}Remove</Button>
+                        <Button variant="contained" color="primary" onClick={this.acceptApplication} style={{ height: '37px'}}>{check}Accept</Button>
                     </div>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>

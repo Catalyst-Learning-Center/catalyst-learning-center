@@ -34,7 +34,7 @@ class SelectSubject extends Component {
             <div>
                 <FormControl>
                 <InputLabel shrink>Subject</InputLabel>
-                <Select
+                <mark><Select
                     style={{minWidth: '200px'}}
                     defaultValue="3"
                     value={this.props.selectedSubject}
@@ -53,6 +53,7 @@ class SelectSubject extends Component {
                         )
                     })}
                 </Select>
+                </mark>
                 </FormControl>
             </div>
         )
