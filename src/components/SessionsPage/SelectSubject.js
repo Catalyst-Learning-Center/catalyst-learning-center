@@ -17,7 +17,7 @@ class SelectSubject extends Component {
     }
 
     getSubjects = () => {
-        this.props.dispatch({type: 'GET_SUBJECTS'})
+        this.props.dispatch({ type: 'GET_SUBJECTS' })
     }
 
     handleChange = (event) => {
@@ -30,10 +30,11 @@ class SelectSubject extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <FormControl>
-                <InputLabel shrink>Subject</InputLabel>
+        let content = null;
+        // overtime is brought in via EndSessionDialog.js
+        if (this.props.overtime) {
+            content = (
+                // if the session runs overtime, highlight the subject dropdown
                 <mark><Select
                     style={{minWidth: '200px'}}
                     defaultValue="3"
@@ -48,13 +49,39 @@ class SelectSubject extends Component {
                         <em>None</em>
                     </MenuItem>
                     {this.props.subjects.map((subject) => {
-                        return(
+                        return (
+                            <MenuItem key={subject.id} value={subject.id}>{subject.subjects}</MenuItem>
+                        )
+                    })}
+                </Select></mark>
+            )
+        } else {
+            content = (
+                // if the session ends within the allowed timegframe, don't highlight the subject dropdown
+                // also removes the highlighted subject dropdown from edit field
+                <Select
+                    defaultValue="3"
+                    value={this.props.selectedSubject}
+                    onChange={this.handleChange}
+                    inputProps={{
+                        name: 'subject',
+                        id: 'subject',
+                    }}
+                >
+                    <MenuItem value="">
+                        <em>None</em>
+                    </MenuItem>
+                    {this.props.subjects.map((subject) => {
+                        return (
                             <MenuItem key={subject.id} value={subject.id}>{subject.subjects}</MenuItem>
                         )
                     })}
                 </Select>
-                </mark>
-                </FormControl>
+            )
+        }
+        return (
+            <div>
+                {content}
             </div>
         )
     }
