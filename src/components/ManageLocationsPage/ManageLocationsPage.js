@@ -122,7 +122,7 @@ class ManageLocationsPage extends Component {
                         
                         return (
                             <React.Fragment key={location.id}> 
-                            <LocationExpansionPanel key={i} location={location}/>
+                            <LocationExpansionPanel key={i} location={location} getLocations={this.getLocations}/>
                             </React.Fragment>
                         )
                     })} 

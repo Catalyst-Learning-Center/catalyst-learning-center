@@ -16,7 +16,7 @@ const style = {
 }//end style
 
 const mapStateToProps = state => ({
-  locations: state.locations,
+  locations: state.locations.locations,
 });//end mapStateToProps
 
  class EditLocationsDialog extends Component {
@@ -98,6 +98,7 @@ const mapStateToProps = state => ({
 }//end handleLocationStateChange
 
   render() {
+
     return (
       <div>
         <React.Fragment>
