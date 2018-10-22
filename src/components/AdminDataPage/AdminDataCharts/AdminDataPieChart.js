@@ -21,7 +21,7 @@ class AdminDataPieChart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedLocation: null,
+            selectedLocation: 0,
             showLegend: false
 
         }
@@ -49,6 +49,13 @@ class AdminDataPieChart extends Component {
 
     render() {
         let content = null;
+        let toggleButton = null;
+
+        if (this.state.showLegend === false) {
+            toggleButton = <Button size="small" variant="contained" onClick={this.handleLegendShow}>Show Legend</Button>
+        } else if (this.state.showLegend === true) {
+            toggleButton = <Button size="small" variant="contained" onClick={this.handleLegendShow}>Hide Legend</Button>
+        }
 
 
 
@@ -78,7 +85,7 @@ class AdminDataPieChart extends Component {
                     </Grid>
                     <Grid item xs={6}>
                         <FormControl>
-                            <InputLabel>Location</InputLabel>
+                            <InputLabel shrink>Location</InputLabel>
                             <Select
                                 value={this.state.selectedLocation}
                                 onChange={this.handleChange}
@@ -102,7 +109,7 @@ class AdminDataPieChart extends Component {
                         </Grid>
                         <Grid container xs={6} direction="row" justify="flex-end" alignItems="flex-end">
                         <Grid item>
-                            <Button size="small" variant="contained" onClick={this.handleLegendShow}>Toggle Legend</Button>
+                            {toggleButton}
                         </Grid>
                         </Grid>
                     </Grid>
