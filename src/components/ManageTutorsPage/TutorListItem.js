@@ -82,11 +82,11 @@ class TutorListItem extends Component {
 
         if (this.props.tutor.permissions === 1) {
             button = (
-                <Button style={{ marginRight: '25px' }} color="default" variant="contained" onClick={this.toggleAdminStatus}>Make Admin{promote}</Button>
+                <Button style={{ marginRight: '25px' }} color="default" variant="contained" onClick={this.toggleAdminStatus}>{promote}Make Admin</Button>
             )
         } else {
             button = (
-                <Button style={{ marginRight: '25px' }} color="primary" variant="contained" onClick={this.toggleAdminStatus}>Remove as Admin{transfer}</Button>
+                <Button style={{ marginRight: '25px' }} color="primary" variant="contained" onClick={this.toggleAdminStatus}>{transfer} Remove as Admin</Button>
             )
 
             admin = (

@@ -51,10 +51,10 @@ class RemoveTutorDialog extends Component {
 
     render() {
         let remove = <RemoveIcon />
-        
+
         return (
             <div>
-                <Button style={style} color="secondary" variant="contained" onClick={this.handleOpen}>Remove{remove}</Button>
+                <Button style={style} color="secondary" variant="contained" onClick={this.handleOpen}>{remove}Remove</Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}

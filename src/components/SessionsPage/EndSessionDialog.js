@@ -88,7 +88,7 @@ class EndSessionDialog extends Component {
         console.log(moment(this.props.date).format('MM/DD/YYYY'));
             return (
                 <div>
-                    <Button style={{float: 'right'}} variant="contained" color="secondary" onClick={this.handleClickOpen}>End{stop}</Button>
+                    <Button style={{float: 'right'}} variant="contained" color="secondary" onClick={this.handleClickOpen}>{stop}End</Button>
                     <Dialog
                         open={this.state.open}
                         onClose={this.handleClose}

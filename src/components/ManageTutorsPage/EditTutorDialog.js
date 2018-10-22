@@ -168,7 +168,7 @@ class EditTutorDialog extends Component {
         let edit = <EditIcon />
         return (
             <div>
-                <Button style={{marginRight: '5px'}} color="default" variant="contained" onClick={this.handleClickOpen}>Edit{edit}</Button>
+                <Button style={{marginRight: '5px'}} color="default" variant="contained" onClick={this.handleClickOpen}>{edit}Edit</Button>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
