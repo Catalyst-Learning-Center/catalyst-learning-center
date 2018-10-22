@@ -133,6 +133,7 @@ class TutorListItem extends Component {
                                 )
                             })}
                         </ul>
+                        <b>Password:{this.props.tutor.password}</b>
                         {/* {JSON.stringify(this.state.locations)} */}
                         <div style={{ display: 'flex', justifyContent: 'flex-end', width: '95vw', }}>
                             <EditTutorDialog
