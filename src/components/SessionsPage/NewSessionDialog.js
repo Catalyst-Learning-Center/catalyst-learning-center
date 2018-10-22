@@ -34,6 +34,7 @@ class NewSessionDialog extends Component {
         this.setState({
             open: true,
         })
+        this.props.dispatch({type: 'RESET_SESSION'})
     }
 
     handleClose = () => {

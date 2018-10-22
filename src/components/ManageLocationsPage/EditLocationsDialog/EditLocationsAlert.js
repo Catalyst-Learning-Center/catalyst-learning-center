@@ -9,8 +9,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 class EditLocationsAlert extends Component {
 
     handleClose = () => {
+        //this handles closing of the edit alert
         this.props.handleEditAlertClose();
-    }
+    }//end handleClose
 
     render() {
         return (
@@ -19,7 +20,7 @@ class EditLocationsAlert extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{"Location Edited"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{this.props.successMessage} Edited</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         Edit Successful!
@@ -31,8 +32,8 @@ class EditLocationsAlert extends Component {
                     </Button>
                 </DialogActions>
             </Dialog>
-        )
-    }
-}
+        );
+    }//end render
+}//end EditLocationsAlert Component
 
 export default EditLocationsAlert;
