@@ -73,15 +73,15 @@ class EndSessionDialog extends Component {
         today = mm + '/' + dd + '/' + yyyy;
         if (moment(this.props.date).format('MM/DD/YYYY') !== today) {
             content = (<DialogContentText>
-                This session was not ended on the day it took place! 
-                <br />Please specify what time it ended:
+                <mark>This session was not ended on the day it took place!</mark><br /> 
+                <br /><b>Please specify what time it ended:</b>
                 <br />Start date: {moment(this.props.date).format('MM/DD/YYYY')}
                 <br />Start time: {moment(this.props.start_time, 'HH:mm:ss.SSSSSS').format('h:mm a')}
-                <br />End time: <TextField 
+                <br /><mark>End time:&nbsp;</mark><TextField
                 type="time"
                 defaultValue="18:00"
-                />
-        </DialogContentText>     
+                /><br />
+        <br /></DialogContentText>     
             )
         }
         console.log(today);
@@ -98,7 +98,7 @@ class EndSessionDialog extends Component {
                         <DialogContent>
                         {content}
                         <DialogContentText>
-                            Please select which subjects were worked on with the student.
+                            <b>Please select which subject was worked on with the student:</b>
                         </DialogContentText>
                             <SelectSubject />
                             <TextField
