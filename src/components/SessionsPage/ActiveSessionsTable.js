@@ -22,19 +22,6 @@ class ActiveSessionsTable extends Component {
     }
 
     getActiveSessions = () => {
-        console.log('in getActiveSessions');
-        // Axios({
-        //     method: 'GET',
-        //     url: '/sessions/active',
-        // }).then((response) => {
-        //     console.log('back from /sessions/active with: ', response.data);
-        //     this.setState({
-        //         activeSessions: response.data,
-        //     });
-        // }).catch((error) => {
-        //     console.log('/sessions/active error: ', error);
-        //     alert('there was a problem getting the active sessions');
-        // })
         this.props.dispatch({type: 'GET_ACTIVE_SESSIONS'});
     }
 
@@ -42,12 +29,12 @@ class ActiveSessionsTable extends Component {
         return (
             <Paper>
                 <Table>
-                    <TableHead>
+                    <TableHead style={{backgroundColor: '#F5F5F5'}}>
                         <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell>School</TableCell>
-                            <TableCell>Grade</TableCell>
-                            <TableCell>Start Time</TableCell>
+                            <TableCell style={{color: 'black', size: '20px'}}>Name</TableCell>
+                            <TableCell style={{color: 'black', size: '20px'}}>School</TableCell>
+                            <TableCell style={{color: 'black', size: '20px'}}>Grade</TableCell>
+                            <TableCell style={{color: 'black', size: '20px'}}>Start Time</TableCell>
                             <TableCell></TableCell>
                         </TableRow>
                     </TableHead>
@@ -62,7 +49,11 @@ class ActiveSessionsTable extends Component {
                                     <TableCell>{session.grade_level}</TableCell>
                                     <TableCell>{moment(session.start_time, 'HH:mm:ss.SSSSSS').format('h:mm a')}</TableCell>
                                     <TableCell>
-                                        <EndSessionDialog id={session.id} />
+                                        <EndSessionDialog 
+                                        date={session.session_date} 
+                                        id={session.id} 
+                                        start_time={session.start_time}
+                                        />
                                     </TableCell>
                                 </TableRow>
                             );

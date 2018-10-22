@@ -6,18 +6,14 @@ const axios = require('axios');
 const nodemailer = require("nodemailer");
 
 
-
-
-
-/**
- * GET route for Manage Applications View
- */
+// GET route for Manage Applications View
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
         const query = `SELECT * FROM "applications" WHERE "active" = true ORDER BY "date" DESC;`;
         pool.query(query).then((results)=> {
             res.send(results.rows);
         }).catch((error) => {
+            console.log('get applications error: ', error);
             res.sendStatus(500);
         });
     } else {
@@ -25,9 +21,8 @@ router.get('/', (req, res) => {
     }
 }); // end applications GET route
 
-/**
- * GET route for Pending Applications Nav Indicator
- */
+
+// GET route for Pending Applications Nav Indicator
 router.get('/pending', (req, res) => {
     if (req.isAuthenticated()) {
         const query = `SELECT COUNT(*) FROM "applications" WHERE "active" = true;`;
@@ -41,10 +36,11 @@ router.get('/pending', (req, res) => {
     }
 }); // end pending applications GET route
 
+// get locations for each applicant/application
 router.get('/locations/:id', (req, res) => {
     if (req.isAuthenticated()) {
         const query = 
-        `SELECT "applications_location"."id", "location"."location_name"
+        `SELECT "location"."id", "location"."location_name"
         FROM "applications_location"
         JOIN "location" ON "applications_location"."location_id" = "location"."id"
         WHERE "applications_location"."applications_id" = $1;`;
@@ -59,10 +55,16 @@ router.get('/locations/:id', (req, res) => {
     }
 }); // end applications-locations GET route
 
-router.get('/subjects', (req, res) => {
+// get subjects for each applicant/application
+router.get('/subjects/:id', (req, res) => {
     if (req.isAuthenticated()) {
-        const query = `SELECT * FROM "applications" WHERE "active" = true ORDER BY "date" DESC;`;
-        pool.query(query).then((results)=> {
+        const query = 
+        `SELECT "subjects"."id", "subjects"."subjects"
+        FROM "applications_subjects"
+        JOIN "subjects" ON "applications_subjects"."subjects_id" = "subjects"."id"
+        WHERE "applications_subjects"."applications_id" = $1;`;
+        pool.query(query, [req.params.id]).then((results)=> {
+            console.log('back from /applications/subjects/', req.params.id, ' with: ', results.rows);
             res.send(results.rows);
         }).catch((error) => {
             res.sendStatus(500);
@@ -72,9 +74,8 @@ router.get('/subjects', (req, res) => {
     }
 }); // end applications-subjects GET route
 
-/**
- * "Delete" (Update) an application from the database
- */
+
+ // "Delete" (Update) an application from the database
 router.put('/:id', (req, res) => {
     if (req.isAuthenticated()) {
         console.log(req.params.id)
@@ -93,8 +94,10 @@ router.put('/:id', (req, res) => {
  * POST route template
  */
 router.post('/', (req, res) => {
+    console.log('in application post', req.body.captcha);
+    
     if (req.body.captcha === undefined || req.body.captcha === '' || req.body.captcha === null) {
-        return res.json({ "success": false, "msg": "Please fill out captcha" });
+        return res.sendStatus(500);
     }
 
     const application = req.body.application;
@@ -158,7 +161,7 @@ router.post('/', (req, res) => {
 
                 const mail = {
                     from: "Catalyst Learning Center <catalystcenter.mail@gmail.com>",
-                    to: "trav.dunn@outlook.com",
+                    to: "catalystcenter.mail@gmail.com",
                     subject: "Application Submitted",
                     text: "An application has been submitted to Catalyst Learning Center",
                     html: "<p>An application has been submitted to Catalyst Learning Center</p>"

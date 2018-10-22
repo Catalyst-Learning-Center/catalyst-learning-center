@@ -25,34 +25,77 @@ router.get('/', (req, res) => {
     }
 });
 
-router.get('/library-summary', (req, res) => {
+router.get('/library-summary/:id', (req, res) => {
     if (req.isAuthenticated()) {
-        const query = `SELECT  "location"."location_name", COUNT("sessions"."location_id") FROM "sessions"
-        JOIN "location" ON "location"."id" = "sessions"."location_id" 
-        GROUP BY "location"."location_name"
-        ORDER BY "count" DESC;`;
-        pool.query(query).then((results) => {
-            res.send(results.rows);
-        }).catch((error) => {
-            res.sendStatus(500);
-        });
+        if (req.params.id == 0) {
+            const query = `WITH dates AS (
+            SELECT
+              DATE(date) AS date
+              FROM GENERATE_SERIES((
+                SELECT DATE(DATE_TRUNC('YEAR', MIN(session_date))) FROM sessions)
+              , (DATE(date_trunc('year', now()  + interval '1 year'))), '1 YEAR'::INTERVAL) date
+        )
+        SELECT dates.date, count(sessions.*), "location"."location_name"
+        FROM dates
+        LEFT OUTER JOIN sessions ON sessions.session_date BETWEEN dates.date - interval '5 months' AND dates.date + interval '7 months'
+        JOIN "location" ON "location"."id" = "sessions"."location_id"
+        GROUP BY dates.date, "location"."location_name";`;
+            pool.query(query).then((results) => {
+                res.send(results.rows);
+            }).catch((error) => {
+                res.sendStatus(500);
+                console.log(error);
+            });
+        } else {
+            const query = `WITH dates AS (
+                SELECT
+                  DATE(date) AS date
+                  FROM GENERATE_SERIES((
+                    SELECT DATE(DATE_TRUNC('YEAR', MIN(session_date))) FROM sessions)
+                  , (DATE(date_trunc('year', now()  + interval '1 year'))), '1 YEAR'::INTERVAL) date
+            )
+            SELECT dates.date, count(sessions.*), "location"."location_name"
+            FROM dates
+            LEFT OUTER JOIN sessions ON sessions.session_date BETWEEN dates.date - interval '5 months' AND dates.date + interval '7 months'
+            JOIN "location" ON "location"."id" = "sessions"."location_id"
+            WHERE "location_id" = $1
+            GROUP BY dates.date, "location"."location_name";`;
+            pool.query(query, [req.params.id]).then((results) => {
+                res.send(results.rows);
+            }).catch((error) => {
+                res.sendStatus(500);
+                console.log(error);
+            });
+        }
     } else {
         res.sendStatus(403);
-
     }
 });
 
-router.get('/school-reach', (req, res) => {
+router.get('/school-reach/:id', (req, res) => {
     if (req.isAuthenticated()) {
-        const query = `SELECT "schools"."school_name", COUNT("sessions"."school_id") FROM "sessions"
-        JOIN "schools" ON "schools"."id" = "sessions"."school_id" 
-        GROUP BY "schools"."school_name"
-        ORDER BY "count" DESC;`;
-        pool.query(query).then((results) => {
-            res.send(results.rows);
-        }).catch((error) => {
-            res.sendStatus(500);
-        });
+        if (req.params.id == 0) {
+            const query = `SELECT "schools"."school_name", COUNT("sessions"."school_id") FROM "sessions"
+            JOIN "schools" ON "schools"."id" = "sessions"."school_id" 
+            GROUP BY "schools"."school_name"
+            ORDER BY "count" DESC;`;
+            pool.query(query).then((results) => {
+                res.send(results.rows);
+            }).catch((error) => {
+                res.sendStatus(500);
+            });
+        } else {
+            const query = `SELECT "schools"."school_name", COUNT("sessions"."school_id") FROM "sessions"
+            JOIN "schools" ON "schools"."id" = "sessions"."school_id"
+            WHERE "location_id" = $1
+            GROUP BY "schools"."school_name"
+            ORDER BY "count" DESC;`;
+            pool.query(query, [req.params.id]).then((results) => {
+                res.send(results.rows);
+            }).catch((error) => {
+                res.sendStatus(500);
+            });
+        }
     } else {
         res.sendStatus(403);
 
@@ -62,7 +105,7 @@ router.get('/school-reach', (req, res) => {
 router.get('/active', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/sessions/active GET hit');
-        const queryText = `SELECT "sessions"."student_name", "sessions"."id", "sessions"."start_time", "schools"."school_name", "grade"."grade_level"
+        const queryText = `SELECT "sessions"."student_name", "sessions"."session_date", "sessions"."id", "sessions"."start_time", "schools"."school_name", "grade"."grade_level"
         FROM "sessions" JOIN "schools" ON "schools"."id" = "sessions"."school_id"
         JOIN "grade" ON "grade"."id" = "sessions"."grade_id"
         WHERE "user_id" = $1 AND "end_time" is NULL;`;

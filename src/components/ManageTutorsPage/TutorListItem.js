@@ -9,9 +9,13 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // Material UI imports
 import { Button } from '@material-ui/core';
+import AdminIcon from '@material-ui/icons/VerifiedUserOutlined';
+import TransferIcon from '@material-ui/icons/BlockOutlined';
+
 // component imports
 import RemoveTutorDialog from './RemoveTutorDialog';
 import EditTutorDialog from './EditTutorDialog';
+
 
 const mapStateToProps = state => ({
     tutors: state.tutors,
@@ -36,6 +40,7 @@ class TutorListItem extends Component {
             method: 'GET',
             url: `/tutors/locations/${this.props.tutor.id}`
         }).then((response) => {
+            console.log('getTutorLocations: ', response.data);
             this.setState({
                 locations: response.data,
             });
@@ -49,6 +54,7 @@ class TutorListItem extends Component {
             method: 'GET',
             url: `/tutors/subjects/${this.props.tutor.id}`
         }).then((response) => {
+            console.log('getTutorSubjects: ', response.data);
             this.setState({
                 subjects: response.data,
             });
@@ -70,56 +76,75 @@ class TutorListItem extends Component {
 
     render() {
         let button = null;
+        let admin = null;
+        let transfer = <TransferIcon />
+        let promote = <AdminIcon />
+
         if (this.props.tutor.permissions === 1) {
             button = (
-                <Button onClick={this.toggleAdminStatus}>Make Admin</Button>
+                <Button style={{ marginRight: '25px' }} color="default" variant="contained" onClick={this.toggleAdminStatus}>{promote}Make Admin</Button>
             )
         } else {
             button = (
-                <Button onClick={this.toggleAdminStatus}>Remove as Admin</Button>
+                <Button style={{ marginRight: '25px' }} color="primary" variant="contained" onClick={this.toggleAdminStatus}>{transfer} Remove as Admin</Button>
             )
-        }
 
+            admin = (
+                <div style={{ color: '#718C92' }}>
+                    <AdminIcon />
+                    <p style={{ float: 'right', fontSize: '12px' }}>Admin</p>
+                </div>
+
+            )
+
+        }
         return (
             <ExpansionPanel>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography>
-                        {this.props.tutor.user_first_name} {this.props.tutor.user_last_name}
+                        <b style={{ fontSize: "24px", color: "#5D6874" }}>{this.props.tutor.user_first_name} {this.props.tutor.user_last_name}</b>
+                        <div style={{ float: "right", marginLeft: "10px" }}>{admin}</div>
                     </Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <Typography>
-                        {this.props.tutor.user_address}
-                        <br />{this.props.tutor.user_city}, {this.props.tutor.user_state} {this.props.tutor.user_zipcode}
+                        <h5>Contact:</h5>
+                        {this.props.tutor.user_address} <br />
+                        {this.props.tutor.user_city}, {this.props.tutor.user_state} {this.props.tutor.user_zipcode}
                         <br />{this.props.tutor.user_cell_phone}
-                        <br />{this.props.tutor.user_email}
-                        <br />Qualifications: {this.props.tutor.user_qualifications}
-                        <br />Experience: {this.props.tutor.user_experience}
-                        <br />Age group: {this.props.tutor.user_age_group}
-                        <br />Subjects:
-                        <ul>
+                        <br />{this.props.tutor.user_email} <br />
+                        <br /> <h5>Application Information:</h5>
+                        <b>Qualifications:</b> {this.props.tutor.user_qualifications}
+                        <br /><b>Experience:</b> {this.props.tutor.user_experience}
+                        <br /><b>Age group:</b> {this.props.tutor.user_age_group}<br />
+                        <br /><b>Subject(s):</b>
+                        <ul style={{ listStyleType: 'none' }}>
                             {this.state.subjects.map((subject) => {
-                                return(
+                                return (
                                     <li key={subject.join_id}>{subject.subjects}</li>
                                 )
                             })}
                         </ul>
-                        <br />Locations:
-                        <ul>
+                        <b>Preferred Location(s):</b>
+                        <ul style={{ listStyleType: 'none' }}>
                             {this.state.locations.map((location) => {
-                                return(
+                                return (
                                     <li key={location.join_id}>{location.location_name}</li>
                                 )
                             })}
                         </ul>
-                        {JSON.stringify(this.state.locations)}
-                        <EditTutorDialog 
-                            tutor={this.props.tutor}
-                            selectedSubjects={this.state.subjects}
-                            selectedLocations={this.state.locations} 
-                        />
-                        <RemoveTutorDialog id={this.props.tutor.id} />
-                        {button}
+                        {/* {JSON.stringify(this.state.locations)} */}
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', width: '95vw', }}>
+                            <EditTutorDialog
+                                tutor={this.props.tutor}
+                                selectedSubjects={this.state.subjects}
+                                selectedLocations={this.state.locations}
+                                getTutorLocations={this.getTutorLocations}
+                                getTutorSubjects={this.getTutorSubjects}
+                            />
+                            <RemoveTutorDialog id={this.props.tutor.id} />
+                            {button}
+                        </div>
                     </Typography>
                 </ExpansionPanelDetails>
             </ExpansionPanel>

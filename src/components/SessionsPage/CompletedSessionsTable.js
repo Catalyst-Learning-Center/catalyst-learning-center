@@ -15,12 +15,6 @@ const mapStateToProps = state => ({
     completedSessions: state.sessions.completedSessions
 });
 
-// let counter = 0;
-// function createData(name, calories, fat, carbs, protein) {
-//     counter += 1;
-//     return { id: counter, name, calories, fat, carbs, protein };
-// }
-
 function desc(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -45,161 +39,8 @@ function getSorting(order, orderBy) {
     return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
 }
 
-// const rows = [
-//   { id: 'name', numeric: false, disablePadding: true, label: 'Dessert (100g serving)' },
-//   { id: 'calories', numeric: true, disablePadding: false, label: 'Calories' },
-//   { id: 'fat', numeric: true, disablePadding: false, label: 'Fat (g)' },
-//   { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
-//   { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
-// ];
-
-// class EnhancedTableHead extends React.Component {
-//   createSortHandler = property => event => {
-//     this.props.onRequestSort(event, property);
-//   };
-
-//   render() {
-//     const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
-
-//     return (
-//       <TableHead>
-//         <TableRow>
-//           <TableCell padding="checkbox">
-//             <Checkbox
-//               indeterminate={numSelected > 0 && numSelected < rowCount}
-//               checked={numSelected === rowCount}
-//               onChange={onSelectAllClick}
-//             />
-//           </TableCell>
-//           {rows.map(row => {
-//             return (
-//               <TableCell
-//                 key={row.id}
-//                 numeric={row.numeric}
-//                 padding={row.disablePadding ? 'none' : 'default'}
-//                 sortDirection={orderBy === row.id ? order : false}
-//               >
-//                 <Tooltip
-//                   title="Sort"
-//                   placement={row.numeric ? 'bottom-end' : 'bottom-start'}
-//                   enterDelay={300}
-//                 >
-//                   <TableSortLabel
-//                     active={orderBy === row.id}
-//                     direction={order}
-//                     onClick={this.createSortHandler(row.id)}
-//                   >
-//                     {row.label}
-//                   </TableSortLabel>
-//                 </Tooltip>
-//               </TableCell>
-//             );
-//           }, this)}
-//         </TableRow>
-//       </TableHead>
-//     );
-//   }
-// }
-
-// EnhancedTableHead.propTypes = {
-//   numSelected: PropTypes.number.isRequired,
-//   onRequestSort: PropTypes.func.isRequired,
-//   onSelectAllClick: PropTypes.func.isRequired,
-//   order: PropTypes.string.isRequired,
-//   orderBy: PropTypes.string.isRequired,
-//   rowCount: PropTypes.number.isRequired,
-// };
-
-// const toolbarStyles = theme => ({
-//   root: {
-//     paddingRight: theme.spacing.unit,
-//   },
-//   highlight:
-//     theme.palette.type === 'light'
-//       ? {
-//           color: theme.palette.secondary.main,
-//           backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-//         }
-//       : {
-//           color: theme.palette.text.primary,
-//           backgroundColor: theme.palette.secondary.dark,
-//         },
-//   spacer: {
-//     flex: '1 1 100%',
-//   },
-//   actions: {
-//     color: theme.palette.text.secondary,
-//   },
-//   title: {
-//     flex: '0 0 auto',
-//   },
-// });
-
-// let EnhancedTableToolbar = props => {
-//   const { numSelected, classes } = props;
-
-//   return (
-//     <Toolbar
-//       className={classNames(classes.root, {
-//         [classes.highlight]: numSelected > 0,
-//       })}
-//     >
-//       <div className={classes.title}>
-//         {numSelected > 0 ? (
-//           <Typography color="inherit" variant="subtitle1">
-//             {numSelected} selected
-//           </Typography>
-//         ) : (
-//           <Typography variant="h6" id="tableTitle">
-//             Nutrition
-//           </Typography>
-//         )}
-//       </div>
-//       <div className={classes.spacer} />
-//       <div className={classes.actions}>
-//         {numSelected > 0 ? (
-//           <Tooltip title="Delete">
-//             <IconButton aria-label="Delete">
-//               <DeleteIcon />
-//             </IconButton>
-//           </Tooltip>
-//         ) : (
-//           <Tooltip title="Filter list">
-//             <IconButton aria-label="Filter list">
-//               <FilterListIcon />
-//             </IconButton>
-//           </Tooltip>
-//         )}
-//       </div>
-//     </Toolbar>
-//   );
-// };
-
-// EnhancedTableToolbar.propTypes = {
-//   classes: PropTypes.object.isRequired,
-//   numSelected: PropTypes.number.isRequired,
-// };
-
-// EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
-
-// const styles = theme => ({
-//   root: {
-//     width: '100%',
-//     marginTop: theme.spacing.unit * 3,
-//   },
-//   table: {
-//     minWidth: 1020,
-//   },
-//   tableWrapper: {
-//     overflowX: 'auto',
-//   },
-// });
-
 class CompletedSessionsTable extends React.Component {
     state = {
-        // order: 'asc',
-        // orderBy: 'calories',
-        // data: [],
         page: 0,
         rowsPerPage: 5,
     };
@@ -209,60 +50,9 @@ class CompletedSessionsTable extends React.Component {
     }
 
     getCompletedSessions = () => {
-        // Axios({
-        //     method: 'GET',
-        //     url: '/sessions/completed'
-        // }).then((response) => {
-        //     console.log('back from /sessions/completed get with: ', response.data);
-        //     this.setState({
-        //         data: response.data
-        //     });
-        // }).catch((error) => {
-        //     console.log('/sessions/completed get error: ', error);
-        //     alert('there was an error getting the completed sessions');
-        // })
+       
         this.props.dispatch({type: 'GET_COMPLETED_SESSIONS'});
     }
-
-    // handleRequestSort = (event, property) => {
-    //     const orderBy = property;
-    //     let order = 'desc';
-
-    //     if (this.state.orderBy === property && this.state.order === 'desc') {
-    //         order = 'asc';
-    //     }
-
-    //     this.setState({ order, orderBy });
-    // };
-
-    // handleSelectAllClick = event => {
-    //     if (event.target.checked) {
-    //         this.setState(state => ({ selected: state.data.map(n => n.id) }));
-    //         return;
-    //     }
-    //     this.setState({ selected: [] });
-    // };
-
-    // handleClick = (event, id) => {
-    //     const { selected } = this.state;
-    //     const selectedIndex = selected.indexOf(id);
-    //     let newSelected = [];
-
-    //     if (selectedIndex === -1) {
-    //         newSelected = newSelected.concat(selected, id);
-    //     } else if (selectedIndex === 0) {
-    //         newSelected = newSelected.concat(selected.slice(1));
-    //     } else if (selectedIndex === selected.length - 1) {
-    //         newSelected = newSelected.concat(selected.slice(0, -1));
-    //     } else if (selectedIndex > 0) {
-    //         newSelected = newSelected.concat(
-    //             selected.slice(0, selectedIndex),
-    //             selected.slice(selectedIndex + 1),
-    //         );
-    //     }
-
-    //     this.setState({ selected: newSelected });
-    // };
 
     handleChangePage = (event, page) => {
         this.setState({ page });
@@ -272,10 +62,7 @@ class CompletedSessionsTable extends React.Component {
         this.setState({ rowsPerPage: event.target.value });
     };
 
-    // isSelected = id => this.state.selected.indexOf(id) !== -1;
-
     render() {
-        // const { classes } = this.props;
         const { rowsPerPage, page } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, this.props.completedSessions.length - page * rowsPerPage);
 
@@ -283,7 +70,7 @@ class CompletedSessionsTable extends React.Component {
             <Paper>
                 <div>
                     <Table aria-labelledby="tableTitle">
-                        <TableHead>
+                        <TableHead style={{backgroundColor: '#F5F5F5', color: 'red'}}>
                             <TableRow>
                                 <TableCell>Date</TableCell>
                                 <TableCell>Name</TableCell>
@@ -330,9 +117,5 @@ class CompletedSessionsTable extends React.Component {
         );
     }
 }
-
-// EnhancedTable.propTypes = {
-//     classes: PropTypes.object.isRequired,
-// };
 
 export default connect(mapStateToProps)(CompletedSessionsTable);

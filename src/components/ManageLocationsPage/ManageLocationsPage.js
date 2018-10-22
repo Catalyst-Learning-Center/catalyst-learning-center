@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
+import './ManageLocationsPage.css';
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
@@ -8,6 +8,11 @@ import AdminNav from '../AdminNav/AdminNav';
 import AddLocationsDialog from './AddLocationsDialog/AddLocationsDialog';
 import LocationExpansionPanel from './LocationExpansionPanel/LocationExpansionPanel';
 import Button from '@material-ui/core/Button';
+
+const style = {
+    marginLeft: '85%',
+    marginBottom: '10px',
+}  
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -48,7 +53,7 @@ class ManageLocationsPage extends Component {
     }//end componentDidUpdate
 
     addLocationOpen = () => {
-        //handles opening dialog for add locations button
+        //this handles opening dialog for add locations button
         console.log('addLocationOpen');
         this.setState({
             addDialogOpen: true,
@@ -56,7 +61,7 @@ class ManageLocationsPage extends Component {
     }//end addLocationOpen
 
     addLocationClose = () => {
-        //sets dialog box to close initially
+        //this will manage closing the dialog in add location
         this.setState({
           addDialogOpen: false,
         });//end setState
@@ -102,12 +107,12 @@ class ManageLocationsPage extends Component {
 
         if (this.props.user.userName) {
             content = (
-                <div>
+                <div className="locations-view-container">
                     <div>
-                        <p>Manage Tutoring Locations</p>
+                        <h1>Manage Tutoring Locations</h1>
                     </div>
                     <div>
-                        <Button variant="contained" color="primary" onClick={this.addLocationOpen}>Add Location</Button>
+                        <Button style={style} variant="contained" color="primary" onClick={this.addLocationOpen}>+ Add Location</Button>
                         <AddLocationsDialog 
                         open = {this.state.addDialogOpen}
                         addLocationClose = {this.addLocationClose} />

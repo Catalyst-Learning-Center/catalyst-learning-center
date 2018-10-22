@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Axios from 'axios';
+import moment from 'moment';
 // Material UI imports
 import { Button } from '@material-ui/core';
+import StopIcon from '@material-ui/icons/Stop';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -32,18 +33,6 @@ class EndSessionDialog extends Component {
             subject: this.props.subject,
             topic: this.state.topic
         }
-        // Axios({
-        //     method: 'PUT',
-        //     url: '/sessions',
-        //     data: dataToSend,
-        // }).then((response) => {
-        //     console.log('back from /sessions put with: ', response.data);
-        //     this.props.dispatch({type: 'GET_ACTIVE_SESSIONS'});
-        //     this.props.dispatch({type: 'GET_COMPLETED_SESSIONS'});
-        // }).catch((error) => {
-        //     console.log('/sessions put error: ', error);
-        //     alert('there was a problem ending the sessions');
-        // })
         let action = {
             type: 'END_SESSION',
             payload: dataToSend
@@ -66,41 +55,73 @@ class EndSessionDialog extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <Button onClick={this.handleClickOpen}>End Session</Button>
-                <Dialog
-                    open={this.state.open}
-                    onClose={this.handleClose}
-                    aria-labelledby="form-dialog-title"
-                >
-                    <DialogTitle id="form-dialog-title">End Tutoring Session</DialogTitle>
-                    <DialogContent>
+        let content = null;
+        let stop = <StopIcon />;
+        let today = new Date();
+        let dd = today.getDate();
+        let mm = today.getMonth() + 1; //January is 0!
+        let yyyy = today.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+
+        today = mm + '/' + dd + '/' + yyyy;
+        if (moment(this.props.date).format('MM/DD/YYYY') !== today) {
+            content = (<DialogContentText>
+                This session was not ended on the day it took place! 
+                <br />Please specify what time it ended:
+                <br />Start date: {moment(this.props.date).format('MM/DD/YYYY')}
+                <br />Start time: {moment(this.props.start_time, 'HH:mm:ss.SSSSSS').format('h:mm a')}
+                <br />End time: <TextField 
+                type="time"
+                defaultValue="18:00"
+                />
+        </DialogContentText>     
+            )
+        }
+        console.log(today);
+        console.log(moment(this.props.date).format('MM/DD/YYYY'));
+            return (
+                <div>
+                    <Button style={{float: 'right'}} variant="contained" color="secondary" onClick={this.handleClickOpen}>{stop}End</Button>
+                    <Dialog
+                        open={this.state.open}
+                        onClose={this.handleClose}
+                        aria-labelledby="form-dialog-title"
+                    >
+                        <DialogTitle id="form-dialog-title">End Tutoring Session</DialogTitle>
+                        <DialogContent>
+                        {content}
                         <DialogContentText>
-                            Please enter which subject was worked on with the student.
+                            Please select which subjects were worked on with the student.
                         </DialogContentText>
-                        <SelectSubject />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="name"
-                            label="Subtopic"
-                            type="email"
-                            onChange={this.handleInputChange}
-                            fullWidth
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
-                            Cancel
+                            <SelectSubject />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Subtopic"
+                                type="email"
+                                onChange={this.handleInputChange}
+                                fullWidth
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.handleClose} color="primary">
+                                Cancel
             </Button>
-                        <Button onClick={this.endSession} color="primary">
-                            End Session
+                            <Button variant="contained" color="primary" onClick={this.endSession} color="primary">
+                                End Session
             </Button>
-                    </DialogActions>
-                </Dialog>
-            </div>
-        )
+                        </DialogActions>
+                    </Dialog>
+                </div>
+            )
     }
 }
 

@@ -11,10 +11,15 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import SelectSchool from './SelectSchool';
 import SelectGrade from './SelectGrade';
 
+const style = {
+   
+    marginBottom: '10px',
+    
+}  
+
 const mapStateToProps = state => ({
     sessions: state.sessions
 });
-
 
 class NewSessionDialog extends Component {
     constructor(props) {
@@ -50,18 +55,6 @@ class NewSessionDialog extends Component {
             school: this.props.sessions.school.value,
             grade: this.props.sessions.grade
         }
-        // Axios({
-        //     method: 'POST',
-        //     url: '/sessions',
-        //     data: dataToSend
-        // }).then((response) => {
-        //     console.log('back from /sessions POST with: ', response.data);
-        //     this.handleClose();
-        //     this.props.dispatch({type: 'GET_ACTIVE_SESSIONS'});
-        // }).catch((error) => {
-        //     console.log('/sessions POST error: ', error);
-        //     alert('there was a problem starting the session!');
-        // })
         let action = {
             type: 'POST_NEW_SESSION',
             payload: dataToSend
@@ -73,13 +66,15 @@ class NewSessionDialog extends Component {
     render() {
         return (
             <div>
-                <Button onClick={this.handleClickOpen}>New Tutoring Session</Button>
+                <div>
+                <Button style={style} variant="contained" color="primary" onClick={this.handleClickOpen}>+ New Session</Button>
+                </div>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
                     aria-labelledby="form-dialog-title"
                 >
-                    <DialogTitle id="form-dialog-title">New Tutoring Session</DialogTitle>
+                    <DialogTitle id="form-dialog-title">Start New Tutoring Session</DialogTitle>
                     <DialogContent>
                         <TextField
                             autoFocus
@@ -96,7 +91,7 @@ class NewSessionDialog extends Component {
                         <Button onClick={this.handleClose} color="primary">
                             Cancel
             </Button>
-                        <Button onClick={this.handleSessionStart} color="primary">
+                        <Button variant="contained" color="primary" onClick={this.handleSessionStart} color="primary">
                             Start Session
             </Button>
                     </DialogActions>

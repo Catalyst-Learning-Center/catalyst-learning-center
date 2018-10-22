@@ -15,16 +15,13 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
 import DownloadCsv from '@material-ui/icons/GetApp';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import moment from 'moment';
 
 //CSV export
-import { CSVDownload } from "react-csv";
 import { CSVLink } from "react-csv";
 
 //filter imports
@@ -34,12 +31,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 
-import Button from '@material-ui/core/Button';
-import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter';
-
 const MapStateToProps = state => ({
     state,
-    grades: state.grades
+    grades: state.grades,
+    subjects: state.subjects,
+    locations: state.locations.locations
+
 });
 
 function desc(a, b, orderBy) {
@@ -67,7 +64,7 @@ function getSorting(order, orderBy) {
 }
 
 const rows = [
-    { id: 'session_date', numeric: false, disablePadding: true, label: 'Date' },
+    { id: 'session_date', numeric: false, disablePadding: false, label: 'Date' },
     { id: 'location_name', numeric: false, disablePadding: true, label: 'Location' },
     { id: 'student_name', numeric: false, disablePadding: true, label: 'Student Name' },
     { id: 'school_name', numeric: false, disablePadding: true, label: 'School' },
@@ -141,7 +138,8 @@ const toolbarStyles = theme => ({
         flex: ' 1 1 100%',
     },
     actions: {
-        color: theme.palette.text.secondary
+        color: theme.palette.text.secondary,
+        display: 'flex'
     },
     title: {
         flex: '0 0 auto',
@@ -155,12 +153,13 @@ let AdminTableToolbar = props => {
         { label: "Location", key: "location_name" },
         { label: "Session Date", key: "session_date" },
         { label: "Student Name", key: "student_name" },
-        { label: "School Name", key: "school_name"},
-        { label: "Grade Level", key: "grade_level"},
-        { label: "Subject", key: "subjects"}
+        { label: "School Name", key: "school_name" },
+        { label: "Grade Level", key: "grade_level" },
+        { label: "Subject", key: "subjects" },
+        { label: "Time (Minutes)", key: "time" }
     ];
 
-    const handleCSV = ( ) =>{
+    const handleCSV = () => {
         console.log('hello', filteredData);
     }
 
@@ -178,16 +177,17 @@ let AdminTableToolbar = props => {
                 </div>
                 <div className={classes.spacer} />
                 <div className={classes.actions} >
-                    <Tooltip title="Download CSV">
-                        <IconButton aria-label="Download CSV">
-                            <CSVLink
-                                data={filteredData}
-                                headers={headers}
-                            >
+                    <Typography variant="caption" align="nowrap" style={{width: '85px', marginTop: '16px', color: 'rgb(117,117,117)'}}>Export as CSV</Typography>
+                    <Tooltip title="Export CSV" >
+                        <CSVLink
+                            data={filteredData}
+                            headers={headers}
+                        >
+                            <IconButton aria-label="Export CSV">
                                 <DownloadCsv />
-                            </CSVLink>
-                        </IconButton>
-                    </Tooltip>   
+                            </IconButton>
+                        </CSVLink>
+                    </Tooltip>
                 </div>
             </Toolbar>
         </div>
@@ -204,7 +204,6 @@ AdminTableToolbar = withStyles(toolbarStyles)(AdminTableToolbar);
 const styles = theme => ({
     root: {
         width: '100%',
-        marginTop: theme.spacing.unit * 3,
     },
     table: {
         minWidth: 1020,
@@ -218,10 +217,12 @@ class AdminDataTable extends Component {
 
     componentDidMount() {
         this.getSessionData();
-        this.props.dispatch({type: 'GET_GRADES'});
+        this.props.dispatch({ type: 'GET_GRADES' });
+        this.props.dispatch({ type:'GET_SUBJECTS' });
+        this.props.dispatch({ type: 'GET_LOCATIONS' });
     }
 
-    
+
 
     state = {
         order: 'asc',
@@ -242,6 +243,18 @@ class AdminDataTable extends Component {
             method: 'GET',
             url: '/sessions'
         }).then((response) => {
+            for (let session of response.data) {
+                let time = null;
+                if (session.time.hours > 0 && session.time.minutes == null) {
+                    time = (session.time.hours * 60);
+                } else if (session.time.hours > 0) {
+                    time = (session.time.hours * 60) + session.time.minutes;
+                } else {
+                    time = session.time.minutes;
+                }
+                session.time = time;
+                session.session_date = moment(session.session_date.toString()).format('MM/DD/YY');
+            }
             this.setState({
                 data: response.data
             });
@@ -299,7 +312,7 @@ class AdminDataTable extends Component {
                 }
             });
         }
-         if (this.state.schoolFilter.length) {
+        if (this.state.schoolFilter.length) {
             filteredData = filteredData.filter(session => {
                 if (session.school_name.toLowerCase().includes(this.state.schoolFilter.toLowerCase())) {
                     return session;
@@ -329,115 +342,136 @@ class AdminDataTable extends Component {
 
         content = (
             <div>
-                <div style={{ backgroundColor: '#f4f4f4', width: '80%', height: '100px', textAlign: 'center', marginLeft: 'auto', marginRight: 'auto' }}>
-                    <TextField
-                        name="locationFilter"
-                        label="location"
-                        margin="normal"
-                        value={this.state.locationFilter}
-                        onChange={this.handleFilterChange}
-                    />
-                    <TextField
-                        name="subjectFilter"
-                        label="subject"
-                        margin="normal"
-                        value={this.state.subjectFilter}
-                        onChange={this.handleFilterChange}
-                    />
+                <Paper className={classes.root}>
+                <AdminTableToolbar numSelected={selected.length} filteredData={filteredData} />
+                <div className="filter-container">
+                        <FormControl style={{ minWidth: '20%' }}>
+                            <InputLabel htmlFor="locationFilter" shrink>Filter by Location:</InputLabel>
+                        <Select
+                            value={this.state.locationFilter}
+                            onChange={this.handleFilterChange}
+                            inputProps={{
+                                name: 'locationFilter',
+                                id: 'locationFilter',
+                            }}
+                        >
+                            <MenuItem value="">
+                                <p>Any</p>
+                            </MenuItem>
+                            {this.props.locations.map(location => {
+                                return (
+                                    <MenuItem value={location.location_name}>{location.location_name}</MenuItem>
+                                )
+                            })}
+
+                        </Select>
+                    </FormControl>
+                        <FormControl style={{ minWidth: '20%' }}>
+                            <InputLabel htmlFor="schoolFilter" shrink>Filter by School:</InputLabel>
                     <TextField
                         name="schoolFilter"
-                        label="school"
+                        id="schoolFilter"
                         margin="normal"
                         value={this.state.schoolFilter}
                         onChange={this.handleFilterChange}
                     />
-                    <FormControl >
-                    <InputLabel htmlFor="gradegradeFilter">Grade:</InputLabel>
-                    <Select
-                        value={this.state.gradeFilter}
-                        onChange={this.handleFilterChange}
-                        inputProps={{
-                            name: 'gradeFilter',
-                            id: 'gradeFilter',
-                        }}
-                    >
-                        <MenuItem value="">
-                            <p>Any</p>
-                        </MenuItem>
-                         {this.props.grades.map(grade => {
-                            return (
-                                <MenuItem value={grade.grade_level}>{grade.grade_level}</MenuItem>
-                            )
-                        })}
-                        
-                    </Select>
+                    </FormControl>
+                        <FormControl style={{ minWidth: '20%'}}>
+                            <InputLabel htmlFor="gradeFilter" shrink>Filter by Grade Level:</InputLabel>
+                        <Select
+                            value={this.state.gradeFilter}
+                            onChange={this.handleFilterChange}
+                            inputProps={{
+                                name: 'gradeFilter',
+                                id: 'gradeFilter',
+                            }}
+                        >
+                            <MenuItem value="">
+                                <p>Any</p>
+                            </MenuItem>
+                            {this.props.grades.map(grade => {
+                                return (
+                                    <MenuItem value={grade.grade_level}>{grade.grade_level}</MenuItem>
+                                )
+                            })}
+
+                        </Select>
+                    </FormControl>
+                        <FormControl style={{ minWidth: '20%' }}>
+                        <InputLabel htmlFor="subjectFilter" shrink>Filter by Subject:</InputLabel>
+                        <Select
+                            value={this.state.subjectFilter}
+                            onChange={this.handleFilterChange}
+                            inputProps={{
+                                name: 'subjectFilter',
+                                id: 'subjectFilter',
+                            }}
+                        >
+                            <MenuItem value="">
+                                <p>Any</p>
+                            </MenuItem>
+                            {this.props.subjects.map(subject => {
+                                return (
+                                    <MenuItem value={subject.subjects}>{subject.subjects}</MenuItem>
+                                )
+                            })}
+
+                        </Select>
                     </FormControl>
                 </div>
-
-
-                <Paper className={classes.root}>
-                    <AdminTableToolbar numSelected={selected.length} filteredData = {filteredData}/>
-                    <div className={classes.tableWrapper}>
-                        <Table className={classes.table} aria-labelledby="tableTitle">
-                            <AdminDataHeader
-                                order={order}
-                                orderBy={orderBy}
-                                onRequestSort={this.handleRequestSort}
-                                rowCount={filteredData.length}
-                            />
-                            <TableBody>
-                                {stableSort(filteredData, getSorting(order, orderBy))
-                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .map((session, i) => {
-                                        const isSelected = this.isSelected(session.id);
-                                        let time = null;
-                                        if (session.time.hours > 0 && session.time.minutes == null) {
-                                            time = (session.time.hours * 60);
-                                        } else if (session.time.hours > 0) {
-                                            time = (session.time.hours * 60) + session.time.minutes;
-                                        } else {
-                                            time = session.time.minutes;
-                                        }
-                                        return (
-                                            <TableRow
-                                                hover
-                                                tabIndex={-1}
-                                                key={i}
-                                            >
-                                                <TableCell component="th" scope="row" padding="none">
-                                                    {moment(session.session_date.toString()).format('MM/DD/YY')}
-                                                </TableCell>
-                                                <TableCell padding="none">{session.location_name}</TableCell>
-                                                <TableCell padding="none">{session.student_name}</TableCell>
-                                                <TableCell padding="none">{session.school_name}</TableCell>
-                                                <TableCell numeric>{session.grade_level}</TableCell>
-                                                <TableCell padding="none">{session.subjects}</TableCell>
-                                                <TableCell numeric>{time} minutes</TableCell>
-                                            </TableRow>
-                                        );
-                                    })}
-                                {emptyRows > 0 && (
-                                    <TableRow style={{ height: 49 * emptyRows }}>
-                                        <TableCell colSpan={6} />
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                    </div>
-                    <TablePagination
-                        component="div"
-                        count={filteredData.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        backiconbuttonprop={{
-                            'aria-label': 'Previous Page',
-                        }}
-                        nextIconButtonProps={{
-                            'aria-label': 'Next Page',
-                        }}
-                        onChangePage={this.handleChangePage}
-                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                    />
+                <div className={classes.tableWrapper}>
+                    <Table className={classes.table} aria-labelledby="tableTitle">
+                        <AdminDataHeader
+                            order={order}
+                            orderBy={orderBy}
+                            onRequestSort={this.handleRequestSort}
+                            rowCount={filteredData.length}
+                        />
+                        <TableBody>
+                            {stableSort(filteredData, getSorting(order, orderBy))
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map((session, i) => {
+                                    const isSelected = this.isSelected(session.id);
+                                    return (
+                                        <TableRow
+                                            hover
+                                            tabIndex={-1}
+                                            key={i}
+                                        >
+                                            <TableCell component="th" scope="row" >
+                                                {session.session_date}
+                                            </TableCell>
+                                            <TableCell padding="none">{session.location_name}</TableCell>
+                                            <TableCell padding="none">{session.student_name}</TableCell>
+                                            <TableCell padding="none">{session.school_name}</TableCell>
+                                            <TableCell numeric>{session.grade_level}</TableCell>
+                                            <TableCell padding="none">{session.subjects}</TableCell>
+                                            <TableCell numeric>{session.time} minutes</TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            {emptyRows > 0 && (
+                                <TableRow style={{ height: 49 * emptyRows }}>
+                                    <TableCell colSpan={6} />
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
+                <TablePagination
+                    component="div"
+                    count={filteredData.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    backiconbuttonprop={{
+                        'aria-label': 'Previous Page',
+                    }}
+                    nextIconButtonProps={{
+                        'aria-label': 'Next Page',
+                    }}
+                    onChangePage={this.handleChangePage}
+                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                />
                 </Paper>
             </div>
         );
