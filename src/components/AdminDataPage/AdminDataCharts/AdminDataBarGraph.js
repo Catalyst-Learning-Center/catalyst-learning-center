@@ -22,7 +22,7 @@ class AdminDataBarGraph extends Component {
                 labels: [],
                 datasets: [],
             },
-            location: 0
+            location: 0,
         }
     }
 
@@ -129,12 +129,11 @@ class AdminDataBarGraph extends Component {
                     <FormControl>
                         <InputLabel>Location</InputLabel>
                         <Select
+                            value={this.state.location}
                             onChange={this.handleLocationChange}
                             input={<Input name="location" id="location" />}
                         >
-                            <MenuItem value="0">
-                                All
-                            </MenuItem>
+                            <MenuItem value="0">All</MenuItem>
                             {this.props.locations.map((location) => {
                                 return (
                                     <MenuItem
