@@ -21,7 +21,7 @@ class AdminDataPieChart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedLocation: null,
+            selectedLocation: 0,
             showLegend: false
 
         }

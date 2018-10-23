@@ -62,40 +62,52 @@ router.get('/locations/:id', (req, res) => {
 //  async await POST route to add a new tutor to the database and register them as a user
 router.post('/', (req, res) => {
     console.log('in tutors router', req.body)
+    const userLocations = req.body.newTutor.newTutorLocations
+    const userSubects = req.body.newTutor.newTutorSubjects
+
     if (req.isAuthenticated()) {
         (async () => {
             const client = await pool.connect();
-    
+
             try {
                 await client.query('BEGIN');
-
+                const newTutor = req.body.newTutor.newTutorToAdd;
                 // BELOW HERE
-                const password = encryptLib.encryptPassword(req.body.newTutor.password);
+                // define password via client
+                const password = encryptLib.encryptPassword(newTutor.password);
                 // INSERT INTO users... from req.body.newTutor
-                const queryText = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id';
-              
-                const values = [contact.city, contact.state, contact.zip, contact.street];
-
+                let queryText = `INSERT INTO "users" (username, password) 
+                                    VALUES ($1, $2) RETURNING id;`;
+                const values = [newTutor.applicant_email, password];
                 const userResult = await client.query(queryText, values);
                 // id of the newly inserted tutor
                 const userId = userResult.rows[0].id;
 
-
                 // INSERT INTO ... user_info
+                userQuery = `INSERT INTO "user_info" ("user_id", "user_first_name", "user_last_name", "user_address", "user_city", 
+                "user_state", "user_zipcode", "user_cell_phone", "user_email", "user_qualifications", "user_experience", 
+                "user_age_group", "resume") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id";`
+                const userInfoResult = await client.query(userQuery, [userId, newTutor.applicant_first_name, newTutor.applicant_last_name, newTutor.applicant_address,
+                    newTutor.applicant_city, newTutor.applicant_state, newTutor.applicant_zipcode, newTutor.applicant_cell_phone, newTutor.applicant_email,
+                    newTutor.applicant_qualifications, newTutor.applicant_experience, newTutor.applicant_age_group, 
+                    newTutor.resume])
+                    const userInfoId = userInfoResult.rows[0].id;
 
-                // INSERT INTO ... user_info_location (in a for loop)
-                // for each location {
-                queryText = 'INSERT INTO "people" ("first_name", "address_id") VALUES ($1, $2) RETURNING "id";';
+                // INSERT INTO ... user_info_location 
+                // const req.body.locations declared 
+                for (let location of userLocations) {
+                let locationQuery = 'INSERT INTO "user_info_location" ("user_info_id", "location_id") VALUES ($1, $2);';
+                await client.query(locationQuery, [userInfoId, location])
+                }
 
-                await client.query(queryText, [contact.first_name, userId]);
-                // }
-
-                // INSERT INTO ... user_info_subjects (in a for loop)
-
-
-
+                // INSERT INTO ... user_info_subjects 
+                for (let subject of userSubects) {
+                   let subjectsQuery = `INSERT INTO "user_info_subjects" ("user_info_id", "subjects_id") VALUES ($1, $2);`;
+                    await client.query(subjectsQuery, [userInfoId, subject])
+                }
+                const acceptApplicationQuery = `UPDATE "applications" SET "active" = false WHERE id = $1;`;
+                await client.query(acceptApplicationQuery, [newTutor.id])
                 // ABOVE HERE
-                
                 await client.query('COMMIT');
                 res.sendStatus(201);
             } catch (e) {
