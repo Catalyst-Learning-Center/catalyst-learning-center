@@ -34,7 +34,7 @@ CREATE TABLE "location" (
 
 CREATE TABLE "applications" (
 	"id" serial primary key NOT NULL,
-	"date" DATE NOT NULL DEFAULT 'CURRENT_DATE',
+	"date" DATE DEFAULT CURRENT_DATE NOT NULL,
 	"applicant_first_name" varchar(1000) NOT NULL,
 	"applicant_last_name" varchar(1000) NOT NULL,
 	"applicant_address" varchar(1000) NOT NULL,
