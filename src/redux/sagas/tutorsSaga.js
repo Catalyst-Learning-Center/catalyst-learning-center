@@ -34,8 +34,27 @@ function* deleteTutor(action) {
 function* editTutor(action) {
     try {
         yield call(Axios.put, '/tutors/edit', action.payload);
+        let actionPayload = {
+            open: true,
+            dispatch: 'GET_TUTORS',
+            title: 'Tutor Edited',
+            content: 'Tutor successfully edited!',
+        }
+        yield put({
+            type: 'OPEN_ALERT',
+            payload: actionPayload
+        });
     } catch (error) {
-        console.log('edit tutor error: ', error);
+        let actionPayload = {
+            open: true,
+            dispatch: 'GET_TUTORS',
+            title: 'Error Editing Tutor',
+            content: 'There was an error editing the tutor!',
+        }
+        yield put({
+            type: 'OPEN_ALERT',
+            payload: actionPayload
+        });
     }
 }
 
