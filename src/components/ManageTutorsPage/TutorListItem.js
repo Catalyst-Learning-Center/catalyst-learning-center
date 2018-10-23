@@ -87,11 +87,11 @@ class TutorListItem extends Component {
             )
         } else {
             button = (
-                <Button style={{ marginRight: '25px' }} color="primary" variant="contained" onClick={this.toggleAdminStatus}>{transfer} Remove as Admin</Button>
+                <Button style={{ marginRight: '25px' }} color="primary" variant="contained" onClick={this.toggleAdminStatus}>{transfer}Remove as Admin</Button>
             )
 
             admin = (
-                <div style={{ color: '#EF5B54' }}>
+                <div style={{ color: '#B66D67'}}>
                     <AdminIcon />
                     <p style={{ float: 'right', fontSize: '12px' }}>Admin</p>
                 </div>
