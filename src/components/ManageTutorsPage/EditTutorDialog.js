@@ -125,7 +125,7 @@ class EditTutorDialog extends Component {
             id: this.state.editedTutor.id
         }
         this.props.dispatch({
-            type: 'EDIT_TUTOR',
+            type: 'UPDATE_TUTOR',
             payload: this.state.editedTutor
         })
         this.props.dispatch({

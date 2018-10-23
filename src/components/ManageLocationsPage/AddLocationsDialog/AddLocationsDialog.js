@@ -138,10 +138,10 @@ class AddLocationsDialog extends Component {
               />
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.props.addLocationClose} color="secondary">
+              <Button onClick={this.props.addLocationClose} variant="contained">
                 Cancel
           </Button>
-              <Button onClick={this.saveLocation} color="primary">
+              <Button onClick={this.saveLocation} variant="contained" color="primary">
                 Save
           </Button>
             </DialogActions>
