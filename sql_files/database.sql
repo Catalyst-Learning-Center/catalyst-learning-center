@@ -28,7 +28,8 @@ CREATE TABLE "location" (
 	"location_city" varchar(1000) NOT NULL,
 	"location_state" varchar(1000) NOT NULL,
 	"location_zipcode" integer NOT NULL,
-	"location_phone" varchar(1000) NOT NULL
+	"location_phone" varchar(1000) NOT NULL,
+	"active" BOOLEAN DEFAULT TRUE NOT NULL
 );
 
 CREATE TABLE "applications" (

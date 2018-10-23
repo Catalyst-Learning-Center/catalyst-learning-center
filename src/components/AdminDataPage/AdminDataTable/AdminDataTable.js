@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-
+// moment.js
+import moment from 'moment';
+//CSV export
+import { CSVLink } from "react-csv";
+//Material UI 
+import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -19,17 +28,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DownloadCsv from '@material-ui/icons/GetApp';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-import moment from 'moment';
-
-//CSV export
-import { CSVLink } from "react-csv";
-
-//filter imports
-import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 
 const MapStateToProps = state => ({
     state,
@@ -148,7 +146,8 @@ const toolbarStyles = theme => ({
 
 let AdminTableToolbar = props => {
     const { numSelected, classes, filteredData } = props;
-
+    
+    // set table headers for the CSV export
     const headers = [
         { label: "Location", key: "location_name" },
         { label: "Session Date", key: "session_date" },
@@ -158,11 +157,6 @@ let AdminTableToolbar = props => {
         { label: "Subject", key: "subjects" },
         { label: "Time (Minutes)", key: "time" }
     ];
-
-    const handleCSV = () => {
-        console.log('hello', filteredData);
-    }
-
     return (
         <div>
             <Toolbar
@@ -216,14 +210,12 @@ const styles = theme => ({
 class AdminDataTable extends Component {
 
     componentDidMount() {
-        this.getSessionData();
-        this.getYearData();
+        this.getSessionData(); // get sessions
+        this.getYearData(); // get school year
         this.props.dispatch({ type: 'GET_GRADES' });
         this.props.dispatch({ type:'GET_SUBJECTS' });
         this.props.dispatch({ type: 'GET_LOCATIONS' });
     }
-
-
 
     state = {
         order: 'asc',
@@ -346,6 +338,7 @@ class AdminDataTable extends Component {
         });
     }
 
+    // function for the table filtering
     filterData = (data) => {
         let filteredData = data;
         if (this.state.locationFilter.length) {
@@ -387,7 +380,6 @@ class AdminDataTable extends Component {
                 }
             });
         }
-
         return filteredData;
     }
 
@@ -397,9 +389,8 @@ class AdminDataTable extends Component {
         const { classes } = this.props;
         const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-
+        // pass all session data through the filters
         let filteredData = this.filterData(data);
-
 
         content = (
             <div>

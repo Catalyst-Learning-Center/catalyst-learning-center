@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import EditLocationsAlert from './EditLocationsAlert';
+import StateSelect from '../../NewApplicationPage/StateSelect'; 
 import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -12,11 +13,13 @@ import EditIcon from '@material-ui/icons/EditOutlined';
 
 const style = {
   marginRight: '80%',
-  justifyContent: 'right'
-}
+  justifyContent: 'right',
+  height: '37px',
+}//end style
+
 const mapStateToProps = state => ({
-  locations: state.locations,
-});
+  locations: state.locations.locations,
+});//end mapStateToProps
 
  class EditLocationsDialog extends Component {
    constructor (props) {
@@ -70,7 +73,6 @@ const mapStateToProps = state => ({
 
   handleChange = (event) => {
     //this will allow changes to be added to edit input fields
-
     this.setState({
       locationToEdit: {
         ...this.state.locationToEdit,
@@ -90,8 +92,17 @@ const mapStateToProps = state => ({
     this.props.dispatch({type: 'GET_LOCATIONS'})
   }//end handleEditAlertClose
 
+  handleStateDropDownChange = (value) => {
+    //updates with location from drop down
+    this.setState({
+        locationToEdit: { ...this.state.locationToEdit, location_state: value }
+    });//end setState
+}//end handleLocationStateChange
+
   render() {
+
     let edit = <EditIcon />
+
     return (
       <div>
         <React.Fragment>
@@ -107,6 +118,7 @@ const mapStateToProps = state => ({
             Please enter changes here:
           </DialogContentText>
           <TextField
+              required
               autoFocus
               margin="dense"
               name="location_name"
@@ -117,6 +129,7 @@ const mapStateToProps = state => ({
               onChange={this.handleChange}
             />
             <TextField
+              required
               autoFocus
               margin="dense"
               name="location_address"
@@ -127,6 +140,7 @@ const mapStateToProps = state => ({
               onChange={this.handleChange}
             />
             <TextField
+              required
               autoFocus
               margin="dense"
               name="location_city"
@@ -136,17 +150,12 @@ const mapStateToProps = state => ({
               value={this.state.locationToEdit.location_city}
               onChange={this.handleChange}
             />
-            <TextField
-              autoFocus
-              margin="dense"
-              name="location_state"
-              label="State"
-              type="text"
-              fullWidth
-              value={this.state.locationToEdit.location_state}
-              onChange={this.handleChange}
+            <StateSelect 
+            handleApplicantStateChange={this.handleStateDropDownChange}
+            defaultState={this.state.locationToEdit.location_state}
             />
             <TextField
+              required
               autoFocus
               margin="dense"
               name="location_zipcode"
@@ -157,6 +166,7 @@ const mapStateToProps = state => ({
               onChange={this.handleChange}
             />
             <TextField
+              required
               autoFocus
               margin="dense"
               name="location_phone"
@@ -183,7 +193,8 @@ const mapStateToProps = state => ({
       />
       </React.Fragment>
       </div>
-    )
+    );
   }//end render
 }//end Component
+
 export default connect(mapStateToProps)(EditLocationsDialog);

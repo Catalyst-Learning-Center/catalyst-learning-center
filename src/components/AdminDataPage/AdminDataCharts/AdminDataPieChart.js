@@ -8,6 +8,10 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import ShowIcon from '@material-ui/icons/ZoomInOutlined';
+import HideIcon from '@material-ui/icons/ZoomOutOutlined';
+
+
 
 // // import { connect } from 'react-redux';
 // import axios from 'axios';
@@ -21,7 +25,7 @@ class AdminDataPieChart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedLocation: null,
+            selectedLocation: 0,
             showLegend: false
 
         }
@@ -49,6 +53,15 @@ class AdminDataPieChart extends Component {
 
     render() {
         let content = null;
+        let toggleButton = null;
+        let zoom = <ShowIcon />
+        let minify = <HideIcon />
+
+        if (this.state.showLegend === false) {
+            toggleButton = <Button size="small" variant="contained" onClick={this.handleLegendShow}>{zoom}Show Legend</Button>
+        } else if (this.state.showLegend === true) {
+            toggleButton = <Button size="small" variant="contained" onClick={this.handleLegendShow}>{minify}Hide Legend</Button>
+        }
 
 
 
@@ -78,7 +91,7 @@ class AdminDataPieChart extends Component {
                     </Grid>
                     <Grid item xs={6}>
                         <FormControl>
-                            <InputLabel>Location</InputLabel>
+                            <InputLabel shrink>Location</InputLabel>
                             <Select
                                 value={this.state.selectedLocation}
                                 onChange={this.handleChange}
@@ -102,7 +115,7 @@ class AdminDataPieChart extends Component {
                         </Grid>
                         <Grid container xs={6} direction="row" justify="flex-end" alignItems="flex-end">
                         <Grid item>
-                            <Button size="small" variant="contained" onClick={this.handleLegendShow}>Toggle Legend</Button>
+                            {toggleButton}
                         </Grid>
                         </Grid>
                     </Grid>

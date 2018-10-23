@@ -152,7 +152,7 @@ class AdminDataBarGraph extends Component {
                 </div>
                 <div>
                     <FormControl>
-                        <InputLabel>Location</InputLabel>
+                        <InputLabel shrink>Location</InputLabel>
                         <Select
                             value={this.state.location}
                             onChange={this.handleLocationChange}
