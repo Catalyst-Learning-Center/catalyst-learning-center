@@ -297,7 +297,6 @@ class AddTutorPage extends Component {
                                     multiline
                                     rows={3}
                                 />
-
                                 <TextField
                                     required
                                     name="applicant_age_group"
@@ -345,7 +344,6 @@ class AddTutorPage extends Component {
                                                         />}
                                                     label={subject.subjects}>
                                                 </FormControlLabel>
-
                                             )
                                         }
                                         return (
