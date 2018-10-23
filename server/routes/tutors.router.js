@@ -86,11 +86,11 @@ router.post('/', (req, res) => {
                 // INSERT INTO ... user_info
                 userQuery = `INSERT INTO "user_info" ("user_id", "user_first_name", "user_last_name", "user_address", "user_city", 
                 "user_state", "user_zipcode", "user_cell_phone", "user_email", "user_qualifications", "user_experience", 
-                "user_age_group", "resume") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id";`
+                "user_age_group", "resume", "password") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "id";`
                 const userInfoResult = await client.query(userQuery, [userId, newTutor.applicant_first_name, newTutor.applicant_last_name, newTutor.applicant_address,
                     newTutor.applicant_city, newTutor.applicant_state, newTutor.applicant_zipcode, newTutor.applicant_cell_phone, newTutor.applicant_email,
                     newTutor.applicant_qualifications, newTutor.applicant_experience, newTutor.applicant_age_group, 
-                    newTutor.resume])
+                    newTutor.resume, newTutor.password])
                     const userInfoId = userInfoResult.rows[0].id;
 
                 // INSERT INTO ... user_info_location 
