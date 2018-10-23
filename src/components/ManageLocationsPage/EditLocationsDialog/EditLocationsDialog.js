@@ -13,7 +13,8 @@ import EditIcon from '@material-ui/icons/EditOutlined';
 
 const style = {
   marginRight: '80%',
-  justifyContent: 'right'
+  justifyContent: 'right',
+  height: '37px',
 }//end style
 
 const mapStateToProps = state => ({

@@ -7,11 +7,16 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import LockIcon from '@material-ui/icons/LockOutlined';
+import UnlockIcon from '@material-ui/icons/LockOpenOutlined';
 
-const style = {
-    marginRight: '80%',
-    justifyContent: 'right'
-  }//end style
+
+
+// const style = {
+//     marginRight: '80%',
+//     justifyContent: 'right',
+//     float: 'right'
+//   }//end style
 
 class LocationExpansionPanel extends Component {
 
@@ -36,16 +41,17 @@ class LocationExpansionPanel extends Component {
       }//end toggleLocationStatus
       
     render() {
-
         let toggleButton = null;
+        let deactive = <LockIcon />
+        let active = <UnlockIcon />
        
     if (this.props.location.active === false) {
       toggleButton = (
-        <Button style={style} onClick={this.toggleLocationStatus} variant="contained" color="default">Activate</Button>
+        <Button style={{height: '37px'}} onClick={this.toggleLocationStatus} variant="contained" color="default">{active}Activate</Button>
       );
     } else {
       toggleButton = (
-        <Button style={style} onClick={this.toggleLocationStatus} variant="contained" color="secondary">Deactivate</Button>
+        <Button style={{height: '37px'}} onClick={this.toggleLocationStatus} variant="contained" color="secondary">{deactive}Deactivate</Button>
       )
     }//end if/else
 
@@ -59,8 +65,8 @@ class LocationExpansionPanel extends Component {
                     </Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                    <div>
-                        <EditLocationsDialog location={this.props.location} />
+                <div style={{ display: 'flex', width: '100%', justifyContent: 'left', alignItems: 'flex-end' }}>
+                        <EditLocationsDialog location={this.props.location} />&nbsp;
                         {toggleButton}
                     </div>
                 </ExpansionPanelDetails>
