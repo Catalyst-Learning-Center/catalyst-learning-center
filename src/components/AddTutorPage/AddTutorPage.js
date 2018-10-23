@@ -9,8 +9,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import axios from 'axios';
 import AddTutorConfirmation from './AddTutorConfirmation';
 import Grid from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
@@ -295,24 +297,12 @@ class AddTutorPage extends Component {
                                     multiline
                                     rows={3}
                                 />
-
                                 <TextField
                                     required
                                     name="applicant_age_group"
                                     label="Preferred Age Group"
                                     margin="normal"
                                     value={this.props.newTutorToAdd.newTutorToAdd.applicant_age_group}
-                                    onChange={this.handleApplicationChange}
-                                    fullWidth
-                                />
-
-                                <TextField
-                                    required
-                                    name="password"
-                                    type="password"
-                                    label="Password"
-                                    margin="normal"
-                                    value={this.props.newTutorToAdd.newTutorToAdd.password}
                                     onChange={this.handleApplicationChange}
                                     fullWidth
                                 />
@@ -354,7 +344,6 @@ class AddTutorPage extends Component {
                                                         />}
                                                     label={subject.subjects}>
                                                 </FormControlLabel>
-
                                             )
                                         }
                                         return (
@@ -364,8 +353,20 @@ class AddTutorPage extends Component {
                                         )
                                     })}
                                 </FormGroup>
-
-                                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', alignContent: 'flex-end', height: '100px' }}>
+                                <FormControl>
+                                <TextField
+                                    required
+                                    name="password"
+                                    type="password"
+                                    label="Password"
+                                    margin="normal"
+                                    value={this.props.newTutorToAdd.newTutorToAdd.password}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
+                                <FormHelperText style={{color: 'red'}}><p>Enter a password to register this tutor.<br />Username will be the tutor's email address.</p></FormHelperText>
+                                </FormControl>
+                                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', alignContent: 'flex-end', height: '50px' }}>
                                 <Button variant="contained" color="primary" type="submit">
                                     Submit
                                 </Button>
