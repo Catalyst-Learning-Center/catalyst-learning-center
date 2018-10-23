@@ -25,7 +25,6 @@ class EditTutorDialog extends Component {
         super(props);
         this.state = {
             open: false,
-            alert: false,
             editedTutor: {
                 user_first_name: this.props.tutor.user_first_name,
                 user_last_name: this.props.tutor.user_last_name,
@@ -138,19 +137,7 @@ class EditTutorDialog extends Component {
             payload: locations
         });
         this.handleClose();
-        this.handleEditAlertOpen();
     }
-
-    handleEditAlertOpen = () => {
-        //when user edits a tutor and presses save an alert dialog will appear
-        this.setState({ alert: true });
-    }//end handleEditAlertOpen
-
-    handleEditAlertClose = () => {
-        //after pressing okay alert dialog will close
-        this.setState({ alert: false });
-        this.props.dispatch({ type: 'GET_TUTORS' })
-    }//end handleEditAlertClose
 
     handleSubjectCheckbox = (event, isChecked) => {
         console.log('clicked: ', event.target);

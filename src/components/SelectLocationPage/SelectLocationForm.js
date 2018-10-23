@@ -66,7 +66,7 @@ class SelectLocationDropdown extends Component {
         return (
             <form onSubmit={this.handleSubmit}>
                 <FormControl>
-                    <InputLabel htmlFor="location">Location</InputLabel>
+                    <InputLabel htmlFor="location" shrink>Location</InputLabel>
                     <Select
                         value={this.state.selectedLocation}
                         onChange={this.handleChange}
