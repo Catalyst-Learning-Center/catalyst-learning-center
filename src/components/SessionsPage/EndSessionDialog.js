@@ -114,6 +114,7 @@ class EndSessionDialog extends Component {
                         </DialogContentText>
                             {selectSubject}
                             <TextField
+                                required
                                 autoFocus
                                 margin="dense"
                                 id="name"
@@ -126,10 +127,10 @@ class EndSessionDialog extends Component {
                         <DialogActions>
                             <Button onClick={this.handleClose} color="primary">
                                 Cancel
-            </Button>
+                            </Button>
                             <Button variant="contained" color="primary" onClick={this.endSession} color="primary">
                                 End Session
-            </Button>
+                            </Button>
                         </DialogActions>
                     </Dialog>
                 </div>
