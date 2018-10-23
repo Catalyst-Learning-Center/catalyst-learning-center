@@ -125,20 +125,12 @@ router.get('/active', (req, res) => {
 router.get('/completed', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/sessions/active GET hit');
-        // const queryText = `SELECT "sessions"."student_name", "sessions"."id", "sessions"."session_date", 
-        // "sessions"."topics", "sessions"."end_time" - "sessions"."start_time" AS "time", "subjects"."subjects", 
-        // "schools"."school_name", "grade"."grade_level"
-        // FROM "sessions" JOIN "schools" ON "schools"."id" = "sessions"."school_id"
-        // JOIN "grade" ON "grade"."id" = "sessions"."grade_id"
-        // JOIN "subjects" ON "subjects"."id" = "sessions"."subjects_id"
-        // WHERE "user_id" = $1 AND "end_time" is not NULL
-        // ORDER BY "session_date" DESC;`;
         const queryText = `SELECT "sessions".*, "sessions"."end_time" - "sessions"."start_time" AS "time", 
         "subjects"."subjects", "schools"."school_name", "grade"."grade_level"
         FROM "sessions" JOIN "schools" ON "schools"."id" = "sessions"."school_id"
         JOIN "grade" ON "grade"."id" = "sessions"."grade_id"
         JOIN "subjects" ON "subjects"."id" = "sessions"."subjects_id"
-        WHERE "user_id" = $1 AND "end_time" is not NULL ORDER BY "session_date" DESC;`;
+        WHERE "user_id" = $1 AND "end_time" is not NULL ORDER BY "session_date" DESC, "end_time" DESC;`;
         pool.query(queryText, [req.user.id]).then((results) => {
             console.log('back from /sessions/completed GET with: ', results.rows);
             res.send(results.rows);
@@ -180,9 +172,18 @@ router.put('/', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('in /sessions PUT with: ', req.body);
         let edit = req.body;
-        const queryText = `UPDATE "sessions" SET "subjects_id" = $1, "topics" = $2, "end_time" = CURRENT_TIME
-        WHERE "id" = $3;`;
-        pool.query(queryText, [edit.subject, edit.topic, edit.id]).then((results) => {
+        let queryText = '';
+        let values = [];
+        if (edit.end_time.length) {
+            queryText = `UPDATE "sessions" SET "subjects_id" = $1, "topics" = $2, "end_time" = $3
+            WHERE "id" = $4;`;
+            values = [edit.subject, edit.topic, edit.end_time, edit.id];
+        } else {
+            queryText = `UPDATE "sessions" SET "subjects_id" = $1, "topics" = $2, "end_time" = CURRENT_TIME
+            WHERE "id" = $3;`;
+            values = [edit.subject, edit.topic, edit.id];
+        }
+        pool.query(queryText, values).then((results) => {
             console.log('back from /sessions PUT with: ', results.rows);
             res.sendStatus(201);
         }).catch((error) => {
