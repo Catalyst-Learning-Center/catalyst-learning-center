@@ -7,13 +7,12 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import axios from 'axios';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
+import AddTutorConfirmation from './AddTutorConfirmation';
 import Grid from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
@@ -31,6 +30,7 @@ class AddTutorPage extends Component {
         this.state = {
             applicant_subjects: [],
             applicant_locations: [],
+            confirmationOpen: false,
         }
     }
 
@@ -132,9 +132,19 @@ class AddTutorPage extends Component {
         }).then((response) => {
             // setState to open dialogue
             console.log(response.data);
+            this.setState({
+                confirmationOpen: true,
+            })
         }).catch((error) => {
             console.log('Error in handleNewTutorForm POST route: ', error);
         });
+    }
+
+    handleConfirmationClose = () => {
+        this.setState({
+            confirmationOpen: false,
+        })
+        this.props.history.push('/manage-tutors');
     }
 
     render() {
@@ -287,24 +297,12 @@ class AddTutorPage extends Component {
                                     multiline
                                     rows={3}
                                 />
-
                                 <TextField
                                     required
                                     name="applicant_age_group"
                                     label="Preferred Age Group"
                                     margin="normal"
                                     value={this.props.newTutorToAdd.newTutorToAdd.applicant_age_group}
-                                    onChange={this.handleApplicationChange}
-                                    fullWidth
-                                />
-
-                                <TextField
-                                    required
-                                    name="password"
-                                    type="password"
-                                    label="Password"
-                                    margin="normal"
-                                    value={this.props.newTutorToAdd.newTutorToAdd.password}
                                     onChange={this.handleApplicationChange}
                                     fullWidth
                                 />
@@ -346,7 +344,6 @@ class AddTutorPage extends Component {
                                                         />}
                                                     label={subject.subjects}>
                                                 </FormControlLabel>
-
                                             )
                                         }
                                         return (
@@ -356,8 +353,20 @@ class AddTutorPage extends Component {
                                         )
                                     })}
                                 </FormGroup>
-
-                                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', alignContent: 'flex-end', height: '100px' }}>
+                                <FormControl>
+                                <TextField
+                                    required
+                                    name="password"
+                                    type="password"
+                                    label="Password"
+                                    margin="normal"
+                                    value={this.props.newTutorToAdd.newTutorToAdd.password}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
+                                <FormHelperText style={{color: 'red'}}><p>Enter a password to register this tutor.<br />Username will be the tutor's email address.</p></FormHelperText>
+                                </FormControl>
+                                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', alignContent: 'flex-end', height: '50px' }}>
                                 <Button variant="contained" color="primary" type="submit">
                                     Submit
                                 </Button>
@@ -372,6 +381,10 @@ class AddTutorPage extends Component {
             <div>
                 <AdminNav history={this.props.history} />
                 {content}
+                <AddTutorConfirmation 
+                    open={this.state.confirmationOpen}
+                    handleClose={this.handleConfirmationClose}
+                />
             </div>
         )
     }

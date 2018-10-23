@@ -13,7 +13,6 @@ import EditIcon from '@material-ui/icons/EditOutlined';
 
 // component imports
 import StateSelect from '../NewApplicationPage/StateSelect';
-import EditAlert from '../ManageLocationsPage/EditLocationsDialog/EditLocationsAlert';
 
 const mapStateToProps = state => ({
     tutors: state.tutors,
@@ -26,7 +25,6 @@ class EditTutorDialog extends Component {
         super(props);
         this.state = {
             open: false,
-            alert: false,
             editedTutor: {
                 user_first_name: this.props.tutor.user_first_name,
                 user_last_name: this.props.tutor.user_last_name,
@@ -139,19 +137,7 @@ class EditTutorDialog extends Component {
             payload: locations
         });
         this.handleClose();
-        this.handleEditAlertOpen();
     }
-
-    handleEditAlertOpen = () => {
-        //when user edits a tutor and presses save an alert dialog will appear
-        this.setState({ alert: true });
-    }//end handleEditAlertOpen
-
-    handleEditAlertClose = () => {
-        //after pressing okay alert dialog will close
-        this.setState({ alert: false });
-        this.props.dispatch({ type: 'GET_TUTORS' })
-    }//end handleEditAlertClose
 
     handleSubjectCheckbox = (event, isChecked) => {
         console.log('clicked: ', event.target);
@@ -348,11 +334,6 @@ class EditTutorDialog extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-                <EditAlert
-                    open={this.state.alert}
-                    handleEditAlertClose={this.handleEditAlertClose}
-                    successMessage="Tutor"
-                />
             </div>
         )
     }

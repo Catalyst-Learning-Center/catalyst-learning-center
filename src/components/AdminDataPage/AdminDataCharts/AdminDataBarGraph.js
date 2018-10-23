@@ -72,7 +72,8 @@ class AdminDataBarGraph extends Component {
             let currentYear = moment(location.date).format('YYYY');
             let lastYear = moment(location.date).subtract(1, 'years').format('YYYY');
             let schoolYear = lastYear + '-' + currentYear;
-            dataLabels.push(schoolYear);
+            if (dataLabels.indexOf(schoolYear) < 0)
+            {dataLabels.push(schoolYear)};
             //TODO: Add support for any number of libraries.
             if (location.location_name == 'Franklin Library') {
                 datasetLibraryOne.push(location.count);
@@ -131,7 +132,8 @@ class AdminDataBarGraph extends Component {
                                 xAxes: [{
                                     scaleLabel: {
                                         display: true,
-                                        labelString: 'School Year'
+                                        labelString: 'School Year',
+                                        distribution: 'series'
                                     },
                                 }
                                 ],
