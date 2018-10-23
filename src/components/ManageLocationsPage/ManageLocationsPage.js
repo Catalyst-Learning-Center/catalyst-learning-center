@@ -8,7 +8,7 @@ import AdminNav from '../AdminNav/AdminNav';
 import AddLocationsDialog from './AddLocationsDialog/AddLocationsDialog';
 import LocationExpansionPanel from './LocationExpansionPanel/LocationExpansionPanel';
 import Button from '@material-ui/core/Button';
-import AlertDialog from '../AlertDialog.js/AlertDialog';
+import AlertDialog from '../AlertDialog/AlertDialog';
 
 const style = {
     marginLeft: '85%',
