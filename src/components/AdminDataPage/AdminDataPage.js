@@ -43,11 +43,11 @@ class AdminDataPage extends Component {
         }
     }
 
-    handleLocationChange = (event) => {
-        this.setState({
+    handleLocationChange = async (event) => {
+        await this.setState({
             location: event.target.value
         });
-        this.getSessionData();
+        await this.getSessionData();
     }
 
     getSessionData = () => {
