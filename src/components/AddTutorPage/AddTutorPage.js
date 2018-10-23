@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import StateSelect from '../NewApplicationPage/StateSelect';
 import { connect } from 'react-redux';
+import './AddTutorPage.css';
 import AdminNav from '../AdminNav/AdminNav';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -10,6 +11,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import Grid from '@material-ui/core/Grid';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
 
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
@@ -29,7 +33,7 @@ class AddTutorPage extends Component {
             applicant_locations: [],
         }
     }
-    
+
     componentDidMount() {
         this.getSubjects();
         this.getLocations();
@@ -124,7 +128,7 @@ class AddTutorPage extends Component {
             method: 'POST',
             url: '/tutors',
             data: tutor
-        }).then((response) => { 
+        }).then((response) => {
             // setState to open dialogue
             console.log(response.data);
         }).catch((error) => {
@@ -137,188 +141,228 @@ class AddTutorPage extends Component {
 
         if (this.props.user.userName) {
             content = (
-                <div>
+                <div className="add-tutor-container">
                     <form onSubmit={this.handleNewTutorForm}>
-                        <h1>Add New Tutor</h1>
-                        <TextField
-                            required
-                            name="applicant_first_name"
-                            label="First Name"
-                            margin="normal"
-                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_first_name}
-                            onChange={this.handleApplicationChange}
-                        />
-                        <TextField
-                            required
-                            name="applicant_last_name"
-                            label="Last Name"
-                            margin="normal"
-                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_last_name}
-                            onChange={this.handleApplicationChange}
-                        />
-                        <br />
-                        <TextField
-                            required
-                            name="applicant_address"
-                            label="Address"
-                            margin="normal"
-                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_address}
-                            onChange={this.handleApplicationChange}
-                        />
-                        <TextField
-                            required
-                            name="applicant_city"
-                            label="City"
-                            margin="normal"
-                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_city}
-                            onChange={this.handleApplicationChange}
-                        />
-                        <StateSelect
-                            handleApplicantStateChange={this.handleApplicantStateChange}
-                            defaultState={this.props.newTutorToAdd.newTutorToAdd.applicant_state}
-                        />
-                        <TextField
-                            required
-                            name="applicant_zipcode"
-                            label="Zipcode"
-                            margin="normal"
-                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_zipcode}
-                            onChange={this.handleApplicationChange}
-                        />
-                        <br />
-                        <TextField
-                            required
-                            name="applicant_cell_phone"
-                            label="Cell Phone"
-                            margin="normal"
-                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_cell_phone}
-                            onChange={this.handleApplicationChange}
-                        />
-                        <TextField
-                            required
-                            name="applicant_email"
-                            label="Email"
-                            margin="normal"
-                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_email}
-                            onChange={this.handleApplicationChange}
-                        />
-                        <br />
-                        <TextField
-                            required
-                            name="applicant_qualifications"
-                            label="Qualifications"
-                            margin="normal"
-                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_qualifications}
-                            onChange={this.handleApplicationChange}
-                        />
-                        <TextField
-                            required
-                            name="applicant_experience"
-                            label="Previous Experience"
-                            margin="normal"
-                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_experience}
-                            onChange={this.handleApplicationChange}
-                        />
+                        <Grid container spacing={16}>
+                            <Grid item xs={4}>
+                                <h1>Add New Tutor</h1>
+                                <TextField
+                                    required
+                                    name="applicant_first_name"
+                                    label="First Name"
+                                    margin="normal"
+                                    value={this.props.newTutorToAdd.newTutorToAdd.applicant_first_name}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
+                                <TextField
+                                    required
+                                    name="applicant_last_name"
+                                    label="Last Name"
+                                    margin="normal"
+                                    value={this.props.newTutorToAdd.newTutorToAdd.applicant_last_name}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
+                                <br />
+                                <TextField
+                                    required
+                                    name="applicant_address"
+                                    label="Address"
+                                    margin="normal"
+                                    value={this.props.newTutorToAdd.newTutorToAdd.applicant_address}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
+                                <TextField
+                                    required
+                                    name="applicant_city"
+                                    label="City"
+                                    margin="normal"
+                                    value={this.props.newTutorToAdd.newTutorToAdd.applicant_city}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
+                                <br />
+                                <br />
+                                <StateSelect
+                                    handleApplicantStateChange={this.handleApplicantStateChange}
+                                    defaultState={this.props.newTutorToAdd.newTutorToAdd.applicant_state}
+                                />
+                                <TextField
+                                    required
+                                    name="applicant_zipcode"
+                                    label="Zipcode"
+                                    margin="normal"
+                                    value={this.props.newTutorToAdd.newTutorToAdd.applicant_zipcode}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
+                                <br />
+                                <TextField
+                                    required
+                                    name="applicant_cell_phone"
+                                    label="Cell Phone"
+                                    margin="normal"
+                                    value={this.props.newTutorToAdd.newTutorToAdd.applicant_cell_phone}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
+                                <TextField
+                                    required
+                                    name="applicant_email"
+                                    label="Email"
+                                    margin="normal"
+                                    value={this.props.newTutorToAdd.newTutorToAdd.applicant_email}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <h3>Requested Locations</h3>
+                                <FormGroup>
+                                    {this.props.locations.map((location, index) => {
+                                        let content = null;
+                                        if (this.props.newTutorToAdd.newTutorLocations.includes(String(location.id))) {
+                                            content = (
+                                                <FormControlLabel
+                                                    key={location.id}
+                                                    control={
+                                                        <Checkbox
+                                                            checked="true"
+                                                            name="applicant_locations"
+                                                            key={location.id}
+                                                            label={location.location_name}
+                                                            value={`${location.id}`}
+                                                            onChange={this.handleLocationsCheckbox}
+                                                            color="primary"
+                                                        />}
+                                                    label={location.location_name}>
+                                                </FormControlLabel>
+                                            )
+                                        } else {
+                                            content = (
+                                                <FormControlLabel
+                                                    key={location.id}
+                                                    control={
+                                                        <Checkbox
+                                                            name="applicant_locations"
+                                                            key={location.id}
+                                                            label={location.location_name}
+                                                            value={`${location.id}`}
+                                                            onChange={this.handleLocationsCheckbox}
+                                                            color="primary"
+                                                        />}
+                                                    label={location.location_name}>
+                                                </FormControlLabel>
+                                            )
+                                        }
+                                        return (
+                                            <React.Fragment>
+                                                {content}
+                                            </React.Fragment>
+                                        )
+                                    })}
+                                </FormGroup>
+                                <TextField
+                                    required
+                                    name="applicant_qualifications"
+                                    label="Qualifications"
+                                    margin="normal"
+                                    value={this.props.newTutorToAdd.newTutorToAdd.applicant_qualifications}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                    multiline
+                                    rows={3}
+                                />
+                                <TextField
+                                    required
+                                    name="applicant_experience"
+                                    label="Previous Experience"
+                                    margin="normal"
+                                    value={this.props.newTutorToAdd.newTutorToAdd.applicant_experience}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                    multiline
+                                    rows={3}
+                                />
 
-                        <TextField
-                            required
-                            name="applicant_age_group"
-                            label="Preferred Age Group"
-                            margin="normal"
-                            value={this.props.newTutorToAdd.newTutorToAdd.applicant_age_group}
-                            onChange={this.handleApplicationChange}
-                        />
+                                <TextField
+                                    required
+                                    name="applicant_age_group"
+                                    label="Preferred Age Group"
+                                    margin="normal"
+                                    value={this.props.newTutorToAdd.newTutorToAdd.applicant_age_group}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
 
-                        <TextField 
-                        required
-                        name="password"
-                        type="password"
-                        label="Password"
-                        margin="normal"
-                        value={this.props.newTutorToAdd.newTutorToAdd.password}
-                        onChange={this.handleApplicationChange}
-                        />
-                        <h3>Subject Area(s) of Interest</h3>
-                        {this.props.subjects.map((subject, index) => {
-                            let content = null;
-                            if (this.props.newTutorToAdd.newTutorSubjects.includes(String(subject.id))) {
-                                content = (
-                                    <label key={index}> {subject.subjects}
-                                        <Checkbox
-                                            checked="true"
-                                            name="applicant_subjects"
-                                            key={subject.id}
-                                            label={subject.subjects}
-                                            value={`${subject.id}`}
-                                            onChange={this.handleSubjectCheckbox}
-                                            color="primary"
-                                        />
-                                        <br />
-                                    </label>
-                                )
-                            } else {
-                                content = (
-                                    <label key={index}> {subject.subjects}
-                                        <Checkbox
-                                            name="applicant_subjects"
-                                            key={subject.id}
-                                            label={subject.subjects}
-                                            value={`${subject.id}`}
-                                            onChange={this.handleSubjectCheckbox}
-                                            color="primary"
-                                        />
-                                        <br />
-                                    </label>
-                                )
-                            }
-                            return (
-                                <React.Fragment>
-                                    {content}
-                                </React.Fragment>
-                            )
-                        })}
+                                <TextField
+                                    required
+                                    name="password"
+                                    type="password"
+                                    label="Password"
+                                    margin="normal"
+                                    value={this.props.newTutorToAdd.newTutorToAdd.password}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <h3>Subject Area(s) of Interest</h3>
+                                <FormGroup>
+                                    {this.props.subjects.map((subject, index) => {
+                                        let content = null;
+                                        if (this.props.newTutorToAdd.newTutorSubjects.includes(String(subject.id))) {
+                                            content = (
+                                                <FormControlLabel
+                                                    key={subject.id}
+                                                    control={
+                                                        <Checkbox
+                                                            checked="true"
+                                                            name="applicant_subjects"
+                                                            key={subject.id}
+                                                            label={subject.subjects}
+                                                            value={`${subject.id}`}
+                                                            onChange={this.handleSubjectCheckbox}
+                                                            color="primary"
+                                                        />}
+                                                    label={subject.subjects}>
+                                                </FormControlLabel>
+                                            )
+                                        } else {
+                                            content = (
+                                                <FormControlLabel
+                                                    key={subject.id}
+                                                    control={
+                                                        <Checkbox
+                                                            name="applicant_subjects"
+                                                            key={subject.id}
+                                                            label={subject.subjects}
+                                                            value={`${subject.id}`}
+                                                            onChange={this.handleSubjectCheckbox}
+                                                            color="primary"
+                                                        />}
+                                                    label={subject.subjects}>
+                                                </FormControlLabel>
 
-                        <h3>Requested Locations</h3>
-                        {this.props.locations.map((location, index) => {
-                            let content = null;
-                            if (this.props.newTutorToAdd.newTutorLocations.includes(String(location.id))) {
-                                content = (
-                                    <label key={index}> {location.location_name}
-                                        <Checkbox
-                                            checked="true"
-                                            name="applicant_locations"
-                                            key={location.id}
-                                            label={location.location_name}
-                                            value={`${location.id}`}
-                                            onChange={this.handleLocationsCheckbox}
-                                            color="primary"
-                                        />
-                                    </label>
-                                )
-                            } else {
-                                content = (
-                                    <label key={index}> {location.location_name}
-                                        <Checkbox
-                                            name="applicant_locations"
-                                            key={location.id}
-                                            label={location.location_name}
-                                            value={`${location.id}`}
-                                            onChange={this.handleLocationsCheckbox}
-                                            color="primary"
-                                        />
-                                    </label>
-                                )
-                            }
-                            return (
-                                <React.Fragment>
-                                    {content}
-                                </React.Fragment>
-                            )
-                        })}
-                          
-                        <Button variant="contained" color="primary" type="submit">
-                            Submit
-                        </Button>
+                                            )
+                                        }
+                                        return (
+                                            <React.Fragment>
+                                                {content}
+                                            </React.Fragment>
+                                        )
+                                    })}
+                                </FormGroup>
+
+                                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', alignContent: 'flex-end', height: '100px' }}>
+                                <Button variant="contained" color="primary" type="submit">
+                                    Submit
+                                </Button>
+                                </div>
+                            </Grid>
+                        </Grid>
                     </form>
                 </div>
             )
