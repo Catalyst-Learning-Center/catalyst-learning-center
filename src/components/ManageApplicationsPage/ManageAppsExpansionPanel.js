@@ -31,7 +31,7 @@ const style = {
     height: 28,
     padding: '0 30px',
     paddingTop: '4px',
-    boxShadow: '0 4px 4px 2px grey',
+    boxShadow: 'inset 0 2px 3px 2px lightgrey',
 };
 
 class ManageAppsExpansionPanel extends Component {

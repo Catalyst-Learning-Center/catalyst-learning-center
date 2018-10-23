@@ -9,6 +9,10 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import LockIcon from '@material-ui/icons/LockOutlined';
 import UnlockIcon from '@material-ui/icons/LockOpenOutlined';
+import LocationIcon from '@material-ui/icons/LocalLibraryOutlined';
+import GPSIcon from '@material-ui/icons/RoomOutlined';
+
+
 
 
 
@@ -58,10 +62,10 @@ class LocationExpansionPanel extends Component {
         return (
             <ExpansionPanel>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography><b style={{ fontSize: "24px", color: "#5D6874" }}>{this.props.location.location_name}</b><br />
-                    {this.props.location.location_address}<br />
-                        {`${this.props.location.location_city}, ${this.props.location.location_state} ${this.props.location.location_zipcode} `}<br />
-                        {this.props.location.location_phone} 
+                    <Typography><b style={{ fontSize: "24px", color: "#5D6874" }}><LocationIcon />&nbsp;{this.props.location.location_name}</b><br />
+                    <span style={{color: '#5D6874'}}><GPSIcon /></span> {this.props.location.location_address}<br />
+                    <div style={{marginLeft: '30px'}}>{`${this.props.location.location_city}, ${this.props.location.location_state} ${this.props.location.location_zipcode} `}<br />
+                        {this.props.location.location_phone}</div>
                     </Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
