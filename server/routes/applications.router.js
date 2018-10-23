@@ -2,7 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 const axios = require('axios');
-
+// nodemailer
 const nodemailer = require("nodemailer");
 
 
@@ -90,12 +90,8 @@ router.put('/:id', (req, res) => {
     }
 }); // end delete
 
-/**
- * POST route template
- */
+// POST route for new applications
 router.post('/', (req, res) => {
-    console.log('in application post', req.body.captcha);
-    
     if (req.body.captcha === undefined || req.body.captcha === '' || req.body.captcha === null) {
         return res.sendStatus(500);
     }
@@ -107,7 +103,7 @@ router.post('/', (req, res) => {
     //verify URL
     const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_API_SECRET_KEY}&response=${req.body.captcha}&remoteip=${req.connection.remoteAddress}`;
 
-    // make request to verifyUrl
+    // make request to verifyUrl for recaptcha
     axios({
         method: 'POST',
         url: verifyUrl,
@@ -117,7 +113,7 @@ router.post('/', (req, res) => {
         if (body.success !== undefined && !body.success) {
             return res.json({ "success": false, "msg": "Failed captcha verification" });
         }
-        //if successful
+        //if recaptcha was successful
         (async () => {
             const client = await pool.connect();
 
@@ -135,15 +131,16 @@ router.post('/', (req, res) => {
 
                 for (let subject of applicantSubjects) {
                     queryText = 'INSERT INTO "applications_subjects" ("applications_id", "subjects_id") VALUES ($1, $2);';
-                    const result = await client.query(queryText, [applicationId, subject]);
+                    await client.query(queryText, [applicationId, subject]);
                 }
 
                 for (let location of applicantLocations) {
                     queryText = 'INSERT INTO "applications_location" ("applications_id", "location_id") VALUES ($1, $2);';
-                    const result = await client.query(queryText, [applicationId, location]);
+                    await client.query(queryText, [applicationId, location]);
                 }
                 await client.query('COMMIT');
                 
+                // nodemailer auth
                 const auth = {
                     type: 'OAuth2',
                     user: 'catalystcenter.mail@gmail.com',
@@ -159,6 +156,7 @@ router.post('/', (req, res) => {
                     auth: auth
                 });
 
+                // email information
                 const mail = {
                     from: "Catalyst Learning Center <catalystcenter.mail@gmail.com>",
                     to: "catalystcenter.mail@gmail.com",
@@ -167,6 +165,7 @@ router.post('/', (req, res) => {
                     html: "<p>An application has been submitted to Catalyst Learning Center</p>"
                 }
 
+                //function to send the email
                 transporter.sendMail(mail, function (err, info) {
                     if (err) {
                         console.log(err);
