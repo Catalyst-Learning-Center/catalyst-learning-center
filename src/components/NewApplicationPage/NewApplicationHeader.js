@@ -4,11 +4,8 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 // action imports
 import { triggerLogout } from '../../redux/actions/loginActions';
-
-
-
+// material bootstrap imports
 import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, Collapse, NavItem } from 'mdbreact';
-
 
 class NewApplicationHeader extends Component {
     constructor(props) {
