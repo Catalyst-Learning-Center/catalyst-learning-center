@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './AdminNav.css';
-import Badge from '@material-ui/core/Badge';
 import axios from 'axios';
-
-
-// Material UI imports
+// css
+import './AdminNav.css';
+// Material UI 
 import Button from '@material-ui/core/Button';
+import Badge from '@material-ui/core/Badge';
+// Material Bootstrap
+import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, Collapse, NavItem, NavLink } from 'mdbreact';
 // action imports
 import { triggerLogout } from '../../redux/actions/loginActions';
-
-import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, Collapse, NavItem, NavLink, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact';
-
 
 const style = {
     backgroundColor: 'rgba(0,0,0,0.5)',
 }
-
 
 class AdminNav extends React.Component {
     constructor(props) {

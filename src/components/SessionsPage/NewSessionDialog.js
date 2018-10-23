@@ -12,9 +12,7 @@ import SelectSchool from './SelectSchool';
 import SelectGrade from './SelectGrade';
 
 const style = {
-
     marginBottom: '10px',
-
 }
 
 const mapStateToProps = state => ({
@@ -49,7 +47,8 @@ class NewSessionDialog extends Component {
         })
     }
 
-    handleSessionStart = () => {
+    handleSessionStart = (e) => {
+        e.preventDefault();
         let dataToSend = {
             location: this.props.sessions.location,
             name: this.state.name,
@@ -75,9 +74,12 @@ class NewSessionDialog extends Component {
                     onClose={this.handleClose}
                     aria-labelledby="form-dialog-title"
                 >
+                    <form onSubmit={this.handleSessionStart}>
                     <DialogTitle id="form-dialog-title">Start New Tutoring Session</DialogTitle>
                     <DialogContent class="new-session-dialog">
+                    
                         <TextField
+                            required
                             autoFocus
                             margin="dense"
                             id="name"
@@ -86,16 +88,18 @@ class NewSessionDialog extends Component {
                             onChange={this.handleInputChange}
                         />
                         <SelectSchool />
-                        <SelectGrade />
+                        <SelectGrade required={true}/>
+                  
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
                             Cancel
                         </Button>
-                        <Button variant="contained" color="primary" onClick={this.handleSessionStart} color="primary">
+                        <Button variant="contained" color="primary" type="submit" color="primary">
                             Start Session
                         </Button>
                     </DialogActions>
+                    </form>
                 </Dialog>
             </div>
         )

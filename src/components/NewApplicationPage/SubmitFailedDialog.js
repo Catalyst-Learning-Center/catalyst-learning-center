@@ -8,7 +8,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 class SubmitFailedDialog extends Component {
 
-
     handleClose = () => {
         this.props.handleDialogClose();
     }
