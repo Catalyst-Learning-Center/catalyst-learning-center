@@ -20,9 +20,9 @@ function* saveLocations(action) {
     console.log('save location with action: ', action.payload);
     try {
         yield call(Axios.post, '/locations', action.payload);
-        yield put({type: 'GET_LOCATIONS'});
+        yield put({ type: 'GET_LOCATIONS' });
     } catch (error) {
-        console.log('post new location error: ', error);       
+        console.log('post new location error: ', error);
     }//end error handling
 }//end saveLocations
 
@@ -31,8 +31,18 @@ function* editLocations(action) {
     console.log('edit location with action: ', action);
     try {
         yield call(Axios.put, `/locations/edit/${action.payload.id}`, action.payload);
+        let actionPayload = {
+            open: true,
+            dispatch: 'GET_LOCATIONS',
+            title: 'Location Edited',
+            content: 'Location successfully edited!',
+        }
+        yield put({
+            type: 'OPEN_ALERT',
+            payload: actionPayload
+        });
     } catch (error) {
-        console.log('edit locations error: ', error); 
+        console.log('edit locations error: ', error);
     }//end error handling
 }//end editLocations
 
@@ -40,7 +50,7 @@ function* toggleLocation(action) {
     //this handles making PUT request to toggle a location to true/false in the server
     try {
         yield call(Axios.put, `/locations/status/${action.payload}`);
-        yield put({type: 'GET_LOCATIONS'});
+        yield put({ type: 'GET_LOCATIONS' });
     } catch (error) {
         console.log('toggle locations error: ', error);
     }//end error handling

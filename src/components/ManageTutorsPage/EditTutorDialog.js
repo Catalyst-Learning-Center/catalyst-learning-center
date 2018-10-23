@@ -13,7 +13,6 @@ import EditIcon from '@material-ui/icons/EditOutlined';
 
 // component imports
 import StateSelect from '../NewApplicationPage/StateSelect';
-import EditAlert from '../ManageLocationsPage/EditLocationsDialog/EditLocationsAlert';
 
 const mapStateToProps = state => ({
     tutors: state.tutors,
@@ -348,11 +347,6 @@ class EditTutorDialog extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-                <EditAlert
-                    open={this.state.alert}
-                    handleEditAlertClose={this.handleEditAlertClose}
-                    successMessage="Tutor"
-                />
             </div>
         )
     }
