@@ -13,7 +13,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import ErrorIcon from '@material-ui/icons/WarningOutlined';
 // component impors
 import SelectSubject from './SelectSubject';
-import { select } from '../../../node_modules/redux-saga/effects';
 
 const mapStateToProps = state => ({
     subject: state.sessions.subject
@@ -24,7 +23,8 @@ class EndSessionDialog extends Component {
         super(props);
         this.state = {
             open: false,
-            topic: ''
+            topic: '',
+            endTime: ''
         }
     }
 
@@ -33,7 +33,8 @@ class EndSessionDialog extends Component {
         let dataToSend = {
             id: this.props.id,
             subject: this.props.subject,
-            topic: this.state.topic
+            topic: this.state.topic,
+            end_time: this.state.endTime
         }
         let action = {
             type: 'END_SESSION',
@@ -54,6 +55,12 @@ class EndSessionDialog extends Component {
     handleInputChange = (event) => {
         this.setState({
             topic: event.target.value
+        })
+    }
+
+    handleEndTime = (event) => {
+        this.setState({
+            endTime: event.target.value
         })
     }
 
@@ -84,7 +91,8 @@ class EndSessionDialog extends Component {
                 <br />Start time: {moment(this.props.start_time, 'HH:mm:ss.SSSSSS').format('h:mm a')}
                 <br />End time:&nbsp;<mark><TextField
                 type="time"
-                defaultValue="18:00"
+                // defaultValue="18:00"
+                onChange={this.handleEndTime}
                 /><br /></mark>
         <br /></DialogContentText>     
             )
