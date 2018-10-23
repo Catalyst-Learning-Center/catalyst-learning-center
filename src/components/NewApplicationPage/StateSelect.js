@@ -61,14 +61,7 @@ class StateSelect extends Component {
         }
     }
 
-    componentDidMount = () => {
-        this.handleDefaultValue();
-    }
-
-    handleDefaultValue = () => {
-
-    }
-
+    // handle state select change
     handleChange = (value) => {
         this.props.handleApplicantStateChange(value.value);
     }

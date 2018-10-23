@@ -15,6 +15,8 @@ import moment from 'moment';
 import './ManageApplications.css';
 import RemoveIcon from '@material-ui/icons/DeleteTwoTone';
 import CheckIcon from '@material-ui/icons/CheckCircleOutlined';
+import PersonIcon from '@material-ui/icons/PersonOutlined';
+
 
 
 
@@ -23,13 +25,13 @@ const style = {
     background: 'white',
     borderRadius: 3,
     border: 0,
-    marginLeft: '60%',
+    marginLeft: '65%',
     position: 'absolute',
-    color: '#BA0A19',
+    color: 'black',
     height: 28,
     padding: '0 30px',
     paddingTop: '4px',
-    boxShadow: '0 3px 5px 2px grey',
+    boxShadow: 'inset 0 2px 3px 2px lightgrey',
 };
 
 class ManageAppsExpansionPanel extends Component {
@@ -160,11 +162,12 @@ class ManageAppsExpansionPanel extends Component {
     render() {
         let remove = <RemoveIcon />
         let check = <CheckIcon />
+        let person = <PersonIcon />
         console.log(this.props.item.id)
         return (
-                <ExpansionPanel  expanded={this.state.isOpen} onChange={this.handleExpansion}>
-                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography><b style={{ fontSize: "24px", color: "#5D6874" }}>{this.props.item.applicant_first_name} {this.props.item.applicant_last_name}</b> <br />
+                <ExpansionPanel expanded={this.state.isOpen} onChange={this.handleExpansion}>
+                    <ExpansionPanelSummary style={{backgroundColor: '#F1F6FF'}} expandIcon={<ExpandMoreIcon />}>
+                        <Typography>{person}<b style={{ fontSize: "24px", color: "#5D6874" }}>{this.props.item.applicant_first_name} {this.props.item.applicant_last_name}</b> <br />
                         </Typography>
                         {/* formatting the date using Moment.js */}
                         <Typography style={style}> &nbsp;Applied: {moment(this.props.item.date).format('MMMM Do, YYYY')}</Typography>
@@ -176,7 +179,7 @@ class ManageAppsExpansionPanel extends Component {
                             {this.props.item.applicant_city}, {this.props.item.applicant_state} {this.props.item.applicant_zipcode}<br />
                             {this.props.item.applicant_email}<br />
                             {this.props.item.applicant_cell_phone}<br />
-                        <br /><h5>Application Information:</h5>
+                        <br /> <h5>Application&nbsp;Information:</h5>
                             <b>Qualifications:</b> {this.props.item.applicant_qualifications}<br />
                             <b>Experience:</b> {this.props.item.applicant_experience}<br />
                             <b>Age group: </b>{this.props.item.applicant_age_group}<br />

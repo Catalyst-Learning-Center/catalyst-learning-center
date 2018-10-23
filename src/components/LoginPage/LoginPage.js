@@ -150,7 +150,7 @@ class LoginPage extends Component {
                 <Button
                   size="small"
                   onClick={this.handlePasswordResetOpen}
-                  style={{margin: '20px'}}
+                  style={{margin: '20px', marginBottom: '10px'}}
                 >
                   Forgot Password?
               </Button>
@@ -160,9 +160,8 @@ class LoginPage extends Component {
                   type="submit"
                   name="submit"
                   color="primary"
-                  style={{ margin: '20px' }}
+                  style={{ margin: '20px', marginBottom: '10px' }}
                 >
-
                   Log In
               </Button>
                 <Grid item xs={12}>

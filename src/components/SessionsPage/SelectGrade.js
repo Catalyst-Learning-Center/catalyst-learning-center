@@ -33,6 +33,7 @@ class SelectGrade extends Component {
             <div class="new-session-inputs">
                 <InputLabel htmlFor="grade">Grade</InputLabel>
                 <Select
+                    required
                     value={this.props.selectedGrade}
                     onChange={this.handleChange}
                     inputProps={{

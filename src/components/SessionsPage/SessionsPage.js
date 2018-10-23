@@ -35,7 +35,7 @@ class SessionsPage extends Component {
     render() {
         let content = null;
         let nav = null;
-        let location = null;
+        let location = <LocationIcon />;
 
         if (this.props.user.permissions === 1) {
             nav = (
@@ -43,14 +43,18 @@ class SessionsPage extends Component {
             )
             location = (
                 <div style={{ position: 'relative', color: '#7F8380' }}>
-                   <h6 style={{position: 'absolute', top: '0', right: '0', fontSize: '20px' }}><LocationIcon />&nbsp;You are tutoring at&nbsp;<Link to="/select-location" style={{ color: '#7F8380' }}><u>{this.props.location.location_name}</u></Link></h6>
+                   <h6 style={{position: 'absolute', top: '0', right: '0', fontSize: '20px' }}>{location}&nbsp;You are tutoring at&nbsp;<Link to="/select-location" style={{ color: '#7F8380' }}><u>{this.props.location.location_name}</u></Link></h6>
                 </div>
             )
         } else if (this.props.user.permissions === 2) {
             nav = (
                 <AdminNav history={this.props.history} />
             )
-
+            location = (
+                <div style={{ position: 'relative', color: '#7F8380' }}>
+                    <h6 style={{ position: 'absolute', top: '0', right: '0', fontSize: '20px' }}><LocationIcon />&nbsp;You are tutoring at&nbsp;<Link to="/select-location" style={{ color: '#7F8380' }}><u>{this.props.location.location_name}</u></Link></h6>
+                </div>
+            )
         }
 
         if (this.props.user.userName) {
