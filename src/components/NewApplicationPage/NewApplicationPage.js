@@ -139,7 +139,7 @@ class NewApplicationPage extends Component {
 
     // get list of locations
     getLocations = () => {
-        this.props.dispatch({type: 'GET_LOCATIONS'})
+        this.props.dispatch({ type: 'GET_LOCATIONS' })
     }
 
     // open submit dialog
@@ -214,109 +214,109 @@ class NewApplicationPage extends Component {
 
         return (
             <div className="view-container">
-            <NewApplicationHeader history={this.props.history} />
+                <NewApplicationHeader history={this.props.history} />
                 <div className="application-container">
                     <form onSubmit={this.postApplication}>
-                            <Grid container spacing={16}>
-                                <Grid item xs={4}>
-                                    <h3>Contact Information</h3>
-                                    <TextField
-                                        required
-                                        name="applicant_first_name"
-                                        label="First Name"
-                                        margin="normal"
-                                        value={this.state.application.applicant_first_name}
-                                        onChange={this.handleApplicationChange}
-                                        fullWidth
-                                    />
-                                    <br />
-                                    <TextField
-                                        required
-                                        name="applicant_last_name"
-                                        label="Last Name"
-                                        margin="normal"
-                                        value={this.state.application.applicant_last_name}
-                                        onChange={this.handleApplicationChange}
-                                        fullWidth
-                                    />
-                                    <br />
-                                    <TextField
-                                        required
-                                        name="applicant_address"
-                                        label="Address"
-                                        margin="normal"
-                                        value={this.state.application.applicant_address}
-                                        onChange={this.handleApplicationChange}
-                                        fullWidth
-                                    />
-                                    <br />
-                                    <TextField
-                                        required
-                                        name="applicant_city"
-                                        label="City"
-                                        margin="normal"
-                                        value={this.state.application.applicant_city}
-                                        onChange={this.handleApplicationChange}
-                                        fullWidth
-                                    />
-                                    <br />
-                                    <br />
-                                    <StateSelect
-                                        handleApplicantStateChange={this.handleApplicantStateChange} defaultState={this.state.application.applicant_state}
-                                    />
-                                    <TextField
-                                        required
-                                        name="applicant_zipcode"
-                                        label="Zip Code"
-                                        margin="normal"
-                                        value={this.state.application.applicant_zipcode}
-                                        onChange={this.handleApplicationChange}
-                                        fullWidth
-                                    />
-                                    <br />
-                                    <TextField
-                                        required
-                                        name="applicant_cell_phone"
-                                        label="Cell Phone"
-                                        margin="normal"
-                                        value={this.state.application.applicant_cell_phone}
-                                        onChange={this.handleApplicationChange}
-                                        fullWidth
-                                    />
-                                    <br />
-                                    <TextField
-                                        required
-                                        name="applicant_email"
-                                        label="Email Address"
-                                        margin="normal"
-                                        value={this.state.application.applicant_email}
-                                        onChange={this.handleApplicationChange}
-                                        fullWidth
-                                    />
-                                    <br />
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <h3 onClick={this.easyFunction}>Subject Areas of Interest</h3>
-                                    <FormGroup>
-                                        {this.props.subjects.map((subject, index) => (
-                                            <FormControlLabel
+                        <Grid container spacing={16}>
+                            <Grid item xs={4}>
+                                <h3>Contact Information</h3>
+                                <TextField
+                                    required
+                                    name="applicant_first_name"
+                                    label="First Name"
+                                    margin="normal"
+                                    value={this.state.application.applicant_first_name}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
+                                <br />
+                                <TextField
+                                    required
+                                    name="applicant_last_name"
+                                    label="Last Name"
+                                    margin="normal"
+                                    value={this.state.application.applicant_last_name}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
+                                <br />
+                                <TextField
+                                    required
+                                    name="applicant_address"
+                                    label="Address"
+                                    margin="normal"
+                                    value={this.state.application.applicant_address}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
+                                <br />
+                                <TextField
+                                    required
+                                    name="applicant_city"
+                                    label="City"
+                                    margin="normal"
+                                    value={this.state.application.applicant_city}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
+                                <br />
+                                <br />
+                                <StateSelect
+                                    handleApplicantStateChange={this.handleApplicantStateChange} defaultState={this.state.application.applicant_state}
+                                />
+                                <TextField
+                                    required
+                                    name="applicant_zipcode"
+                                    label="Zip Code"
+                                    margin="normal"
+                                    value={this.state.application.applicant_zipcode}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
+                                <br />
+                                <TextField
+                                    required
+                                    name="applicant_cell_phone"
+                                    label="Cell Phone"
+                                    margin="normal"
+                                    value={this.state.application.applicant_cell_phone}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
+                                <br />
+                                <TextField
+                                    required
+                                    name="applicant_email"
+                                    label="Email Address"
+                                    margin="normal"
+                                    value={this.state.application.applicant_email}
+                                    onChange={this.handleApplicationChange}
+                                    fullWidth
+                                />
+                                <br />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <h3 onClick={this.easyFunction}>Subject Areas of Interest</h3>
+                                <FormGroup>
+                                    {this.props.subjects.map((subject, index) => (
+                                        <FormControlLabel
+                                            key={subject.id}
+                                            control={<Checkbox
+                                                name="applicant_subjects"
                                                 key={subject.id}
-                                                control={<Checkbox
-                                                    name="applicant_subjects"
-                                                    key={subject.id}
-                                                    label={subject.subjects}
-                                                    value={`${subject.id}`}
-                                                    onChange={this.handleSubjectCheckbox}
-                                                    color="primary"
-                                                />}
-                                                label={subject.subjects}>
-                                            </FormControlLabel>
-                                        ))}
-                                    </FormGroup>
-                                    <br />
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start'}}>
+                                                label={subject.subjects}
+                                                value={`${subject.id}`}
+                                                onChange={this.handleSubjectCheckbox}
+                                                color="primary"
+                                            />}
+                                            label={subject.subjects}>
+                                        </FormControlLabel>
+                                    ))}
+                                </FormGroup>
+                                <br />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
                                     <h3>Requested Locations</h3>
                                     <FormGroup>
                                         {this.props.locations.map((location) => (
@@ -366,29 +366,29 @@ class NewApplicationPage extends Component {
                                     />
                                     {resumePdf}
                                     <Button variant="contained" onClick={this.openCloudinary}>Upload Resume (PDF)</Button>
-                                    </div>
-                                    <div style={{display: 'flex', alignItems: 'flex-end', justifyContent: 'space-around', alignContent: 'center', height: '100px'}}>
-                                        <ReCaptcha
-                                            ref={(el) => { this.captcha = el; }}
-                                            size="normal"
-                                            render="explicit"
-                                            sitekey="6Ld9BHQUAAAAANG2ZTJ-tsZGsw9uaE1_1PTUKXlM"
-                                            onloadCallback={this.onLoadRecaptcha}
-                                            verifyCallback={this.verifyCallback}
-                                        />
-                                        <Button variant="contained" color="primary" type="submit">
-                                            Submit
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-around', alignContent: 'center', height: '100px' }}>
+                                <ReCaptcha
+                                    ref={(el) => { this.captcha = el; }}
+                                    size="normal"
+                                    render="explicit"
+                                    sitekey="6Ld9BHQUAAAAANG2ZTJ-tsZGsw9uaE1_1PTUKXlM"
+                                    onloadCallback={this.onLoadRecaptcha}
+                                    verifyCallback={this.verifyCallback}
+                                />
+                                <Button variant="contained" color="primary" type="submit">
+                                    Submit
                                         </Button>
                                     </div>
-                                </Grid>
+                        </Grid>
                             </Grid>
                     </form>
-                    <SubmitDialog open={this.state.submitDialogOpen} handleDialogClose={this.handleSubmitDialogClose} />
-                    <SubmitFailedDialog open={this.state.submitFailedDialogOpen} handleDialogClose={this.submitFailedDialogClose} />
-                </div>
+                <SubmitDialog open={this.state.submitDialogOpen} handleDialogClose={this.handleSubmitDialogClose} />
+                <SubmitFailedDialog open={this.state.submitFailedDialogOpen} handleDialogClose={this.submitFailedDialogClose} />
             </div>
+            </div >
                 )
-            }
-        }
-        
+    }
+}
+
 export default connect(mapStateToProps)(NewApplicationPage);
