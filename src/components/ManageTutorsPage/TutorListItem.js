@@ -9,10 +9,10 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // Material UI imports
 import { Button } from '@material-ui/core';
-import AdminIcon from '@material-ui/icons/VerifiedUserOutlined';
+import AdminIcon from '@material-ui/icons/VerifiedUserRounded';
 import TransferIcon from '@material-ui/icons/BlockOutlined';
-
-// component imports
+import PersonIcon from '@material-ui/icons/PersonOutlined';
+// component importsVerifiedUserRoundedVerifiedUserRounded
 import RemoveTutorDialog from './RemoveTutorDialog';
 import EditTutorDialog from './EditTutorDialog';
 
@@ -79,6 +79,7 @@ class TutorListItem extends Component {
         let admin = null;
         let transfer = <TransferIcon />
         let promote = <AdminIcon />
+        let person = <PersonIcon />
 
         if (this.props.tutor.permissions === 1) {
             button = (
@@ -86,11 +87,11 @@ class TutorListItem extends Component {
             )
         } else {
             button = (
-                <Button style={{ marginRight: '25px' }} color="primary" variant="contained" onClick={this.toggleAdminStatus}>{transfer} Remove as Admin</Button>
+                <Button style={{ marginRight: '25px' }} color="primary" variant="contained" onClick={this.toggleAdminStatus}>{transfer}Remove as Admin</Button>
             )
 
             admin = (
-                <div style={{ color: '#718C92' }}>
+                <div style={{ color: '#B66D67'}}>
                     <AdminIcon />
                     <p style={{ float: 'right', fontSize: '12px' }}>Admin</p>
                 </div>
@@ -100,9 +101,9 @@ class TutorListItem extends Component {
         }
         return (
             <ExpansionPanel>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <ExpansionPanelSummary style={{backgroundColor: '#F1F6FF'}} expandIcon={<ExpandMoreIcon />}>
                     <Typography>
-                        <b style={{ fontSize: "24px", color: "#5D6874" }}>{this.props.tutor.user_first_name} {this.props.tutor.user_last_name}</b>
+                        {person}<b style={{ fontSize: "24px", color: "#5D6874" }}>{this.props.tutor.user_first_name} {this.props.tutor.user_last_name}</b>
                         <div style={{ float: "right", marginLeft: "10px" }}>{admin}</div>
                     </Typography>
                 </ExpansionPanelSummary>

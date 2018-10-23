@@ -13,7 +13,8 @@ import EditIcon from '@material-ui/icons/EditOutlined';
 
 const style = {
   marginRight: '80%',
-  justifyContent: 'right'
+  justifyContent: 'right',
+  height: '37px',
 }//end style
 
 const mapStateToProps = state => ({
@@ -117,6 +118,7 @@ const mapStateToProps = state => ({
             Please enter changes here:
           </DialogContentText>
           <TextField
+              required
               autoFocus
               margin="dense"
               name="location_name"
@@ -127,6 +129,7 @@ const mapStateToProps = state => ({
               onChange={this.handleChange}
             />
             <TextField
+              required
               autoFocus
               margin="dense"
               name="location_address"
@@ -137,6 +140,7 @@ const mapStateToProps = state => ({
               onChange={this.handleChange}
             />
             <TextField
+              required
               autoFocus
               margin="dense"
               name="location_city"
@@ -151,6 +155,7 @@ const mapStateToProps = state => ({
             defaultState={this.state.locationToEdit.location_state}
             />
             <TextField
+              required
               autoFocus
               margin="dense"
               name="location_zipcode"
@@ -161,6 +166,7 @@ const mapStateToProps = state => ({
               onChange={this.handleChange}
             />
             <TextField
+              required
               autoFocus
               margin="dense"
               name="location_phone"
