@@ -9,6 +9,7 @@ import schools from './schoolsReducer';
 import subjects from './subjectsReducer';
 import tutors from './tutorsReducer';
 import newTutorToAdd from './addNewTutor';
+import alert from './alertReducer';
 
 //Lets make a bigger object for our store, with the objects from our reducers.
 //This is why we get this.props.reduxStore.user.isLoading
@@ -23,6 +24,7 @@ const store = combineReducers({
   subjects,
   tutors,
   newTutorToAdd,
+  alert
 });
 
 export default store;
