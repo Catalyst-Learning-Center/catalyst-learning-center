@@ -6,6 +6,7 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
 import AdminNav from '../AdminNav/AdminNav';
 import TutorsList from './TutorsList';
+import AlertDialog from '../AlertDialog/AlertDialog';
 // Material UI imports
 import { Button } from '@material-ui/core';
 
@@ -60,6 +61,7 @@ class ManageTutorsPage extends Component {
             <div>
                 {nav}
                 {content}
+                <AlertDialog />
             </div>
         )
     }

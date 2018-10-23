@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import EditLocationsAlert from './EditLocationsAlert';
 import StateSelect from '../../NewApplicationPage/StateSelect'; 
 import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button';
@@ -186,11 +185,6 @@ const mapStateToProps = state => ({
           </Button>
         </DialogActions>
       </Dialog>
-      <EditLocationsAlert 
-        open={this.state.alert}
-        handleEditAlertClose={this.handleEditAlertClose}
-        successMessage="Location"
-      />
       </React.Fragment>
       </div>
     );
