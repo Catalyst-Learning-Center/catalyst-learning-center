@@ -120,6 +120,7 @@ class AddTutorPage extends Component {
             subjects: this.state.applicant_subjects,
             locations: this.state.applicant_locations,
         }
+        console.log(tutor)
         axios({
             method: 'POST',
             url: '/tutors',
