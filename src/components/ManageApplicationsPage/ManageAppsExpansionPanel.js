@@ -176,7 +176,7 @@ class ManageAppsExpansionPanel extends Component {
                             {this.props.item.applicant_city}, {this.props.item.applicant_state} {this.props.item.applicant_zipcode}<br />
                             {this.props.item.applicant_email}<br />
                             {this.props.item.applicant_cell_phone}<br />
-                        <br /><h5>Application Information:</h5>
+                        <br /> <h5>Application&nbsp;Information:</h5>
                             <b>Qualifications:</b> {this.props.item.applicant_qualifications}<br />
                             <b>Experience:</b> {this.props.item.applicant_experience}<br />
                             <b>Age group: </b>{this.props.item.applicant_age_group}<br />
