@@ -15,7 +15,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 
 const mapStateToProps = state => ({
     locations: state.locations.locations
-});
+});//end mapStateToProps
 
 class SelectLocationDropdown extends Component {
     constructor(props) {
@@ -23,22 +23,22 @@ class SelectLocationDropdown extends Component {
         this.state = {
             selectedLocation: null,
             open: false
-        }
-    }
+        };//end state
+    };//end constructor
 
     componentDidMount = () => {
         this.getLocations();
-    }
+    };//end componentDidMount
 
     getLocations = () => {
         this.props.dispatch({type: 'GET_LOCATIONS'});
-    }
+    };//end getLocations
 
     handleChange = (event) => {
         this.setState({
             selectedLocation: event.target.value,
-        });
-    }
+        });//end setState
+    };//end handleChange
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -52,15 +52,15 @@ class SelectLocationDropdown extends Component {
         } else {
             this.setState({
                 open: true,
-            })
-        }
-    }
+            });//end setState
+        };//end else if
+    };//end handleSubmit
 
     handleClose = () => {
         this.setState({
             open: false,
-        })
-    }
+        });//end setState
+    };//end handleClose
 
     render() {
         return (
@@ -105,7 +105,7 @@ class SelectLocationDropdown extends Component {
                 </Dialog>
             </form>
         )
-    }
-}
+    };//end render
+};//end SelectLocationDropdown Component
 
 export default connect(mapStateToProps)(SelectLocationDropdown);

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+// import actions
 import { USER_ACTIONS } from '../actions/userActions';
 
 //id holds onto the user.id from passport/database
@@ -10,8 +11,8 @@ const id = (state = null, action) => {
       return null;
     default:
       return state;
-  }
-};
+  }//end switch
+};//end id
 
 //userName holds onto the user.username from passport/database
 const userName = (state = null, action) => {
@@ -22,8 +23,8 @@ const userName = (state = null, action) => {
       return null;
     default:
       return state;
-  }
-};
+  }//end switch
+};//end userName
 
 const permissions = (state = null, action) => {
   switch (action.type) {
@@ -33,8 +34,8 @@ const permissions = (state = null, action) => {
       return null;
     default:
       return state;
-  }
-}
+  }//end switch
+};//end permissions
 
 //isLoading holds the boolean that tracks whether or not this async call is out in the internet or not
 const isLoading = (state = false, action) => {
@@ -45,8 +46,8 @@ const isLoading = (state = false, action) => {
       return false;
     default:
       return state;
-  }
-};
+  }//end switch
+};//end isLoading
 
 //make one object that has keys id, username, isLoading
 export default combineReducers({

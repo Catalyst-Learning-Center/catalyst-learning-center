@@ -16,10 +16,9 @@ import PersonIcon from '@material-ui/icons/PersonOutlined';
 import RemoveTutorDialog from './RemoveTutorDialog';
 import EditTutorDialog from './EditTutorDialog';
 
-
 const mapStateToProps = state => ({
     tutors: state.tutors,
-});
+});//end mapStateToProps
 
 class TutorListItem extends Component {
     constructor(props) {
@@ -27,13 +26,13 @@ class TutorListItem extends Component {
         this.state = {
             locations: [],
             subjects: []
-        }
-    }
+        };//end state
+    };//end constructor
 
     componentDidMount = () => {
         this.getTutorLocations();
         this.getTutorSubjects();
-    }
+    };//end componentDidMount
 
     getTutorLocations = () => {
         Axios({
@@ -42,25 +41,24 @@ class TutorListItem extends Component {
         }).then((response) => {
             this.setState({
                 locations: response.data,
-            });
+            });//end setState
         }).catch((error) => {
             console.log('get locations error: ', error);
-        })
-    }
+        });//end error handling
+    };//end getTutorLocations
 
     getTutorSubjects = () => {
         Axios({
             method: 'GET',
             url: `/tutors/subjects/${this.props.tutor.id}`
         }).then((response) => {
-            console.log('getTutorSubjects: ', response.data);
             this.setState({
                 subjects: response.data,
-            });
+            });//end setState
         }).catch((error) => {
             console.log('get subjects error: ', error);
-        })
-    }
+        });//end error handling
+    };//end getTutorSubjects
 
     toggleAdminStatus = () => {
         let action = {
@@ -68,10 +66,10 @@ class TutorListItem extends Component {
             payload: {
                 permissions: this.props.tutor.permissions,
                 id: this.props.tutor.user_id
-            }
-        }
+            }//end payload
+        };//end action
         this.props.dispatch(action);
-    }
+    };//end toggleAdminStatus
 
     render() {
         let button = null;
@@ -87,7 +85,7 @@ class TutorListItem extends Component {
         } else {
             button = (
                 <Button style={{ marginRight: '25px' }} color="primary" variant="contained" onClick={this.toggleAdminStatus}>{transfer}Remove as Admin</Button>
-            )
+            );
 
             admin = (
                 <div style={{ color: '#B66D67'}}>
@@ -95,9 +93,9 @@ class TutorListItem extends Component {
                     <p style={{ float: 'right', fontSize: '12px' }}>Admin</p>
                 </div>
 
-            )
+            );
+        };//end else if
 
-        }
         return (
             <ExpansionPanel>
                 <ExpansionPanelSummary style={{backgroundColor: '#F1F6FF'}} expandIcon={<ExpandMoreIcon />}>
@@ -150,7 +148,7 @@ class TutorListItem extends Component {
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         )
-    }
-}
+    };//end render
+};//end TutorListItem
 
 export default connect(mapStateToProps)(TutorListItem);

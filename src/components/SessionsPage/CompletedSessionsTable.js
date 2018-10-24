@@ -13,7 +13,7 @@ import CompletedSessionsTableRow from './CompletedSessionsTableRow';
 
 const mapStateToProps = state => ({
     completedSessions: state.sessions.completedSessions
-});
+});//end mapStateToProps
 
 function desc(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -23,7 +23,7 @@ function desc(a, b, orderBy) {
         return 1;
     }
     return 0;
-}
+};//end desc
 
 function stableSort(array, cmp) {
     const stabilizedThis = array.map((el, index) => [el, index]);
@@ -33,34 +33,33 @@ function stableSort(array, cmp) {
         return a[1] - b[1];
     });
     return stabilizedThis.map(el => el[0]);
-}
+};//end stableSort
 
 function getSorting(order, orderBy) {
     return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
-}
+};//end getSorting
 
 class CompletedSessionsTable extends React.Component {
     state = {
         page: 0,
         rowsPerPage: 5,
-    };
+    };//end state
 
     componentDidMount = () => {
         this.getCompletedSessions();
-    }
+    };//end componentDidMount
 
     getCompletedSessions = () => {
-       
         this.props.dispatch({type: 'GET_COMPLETED_SESSIONS'});
-    }
+    };//end getCompletedSessions
 
     handleChangePage = (event, page) => {
         this.setState({ page });
-    };
+    };//end handleChangePage
 
     handleChangeRowsPerPage = event => {
         this.setState({ rowsPerPage: event.target.value });
-    };
+    };//end handleChangeRowsPerPage
 
     render() {
         const { rowsPerPage, page } = this.state;
@@ -115,7 +114,7 @@ class CompletedSessionsTable extends React.Component {
                 />
             </Paper>
         );
-    }
-}
+    };//end render
+};//end CompletedSessionsTable
 
 export default connect(mapStateToProps)(CompletedSessionsTable);

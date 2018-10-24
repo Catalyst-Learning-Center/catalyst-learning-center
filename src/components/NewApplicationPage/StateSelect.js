@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Select from 'react-select';
 
-
 class StateSelect extends Component {
     constructor(props) {
         super(props);
@@ -58,13 +57,13 @@ class StateSelect extends Component {
                 'WI',
                 'WY'
             ]
-        }
-    }
+        };//end state
+    };//end constructor
 
     // handle state select change
     handleChange = (value) => {
         this.props.handleApplicantStateChange(value.value);
-    }
+    };//end handleChange
 
     render() {
         return (
@@ -82,8 +81,7 @@ class StateSelect extends Component {
             />
 
         )
-    }
-}
-
+    };//end render
+};//end StateSelect Component
 
 export default StateSelect;

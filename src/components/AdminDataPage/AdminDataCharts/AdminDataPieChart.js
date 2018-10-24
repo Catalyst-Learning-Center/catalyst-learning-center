@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+// material UI imports
 import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -11,15 +12,11 @@ import Grid from '@material-ui/core/Grid';
 import ShowIcon from '@material-ui/icons/ZoomInOutlined';
 import HideIcon from '@material-ui/icons/ZoomOutOutlined';
 
-
-
-// // import { connect } from 'react-redux';
-// import axios from 'axios';
 import { Pie } from 'react-chartjs-2';
 
 const mapStateToProps = state => ({
     locations: state.locations.locations
-});
+});//end mapStateToProps
 
 class AdminDataPieChart extends Component {
     constructor(props) {
@@ -28,28 +25,32 @@ class AdminDataPieChart extends Component {
             selectedLocation: 0,
             showLegend: false
 
-        }
-    }
+        };//end state
+    };//end constructor
+
     componentDidMount = () => {
         this.getLocations();
-    }
+    };//end componentDidMount
 
+//function to get locations to populate select location menu
     getLocations = () => {
         this.props.dispatch({ type: 'GET_LOCATIONS' });
-    }
+    };//end getLocations
 
+//function to handle select menu option to change location
     handleChange = (event) => {
         this.setState({
             selectedLocation: event.target.value,
-        })
+        });//end setState
         this.props.handleLocationChange(event);
-    }
+    };//end handleChange
 
+//function to show and hide the legend
     handleLegendShow = () => {
         this.setState({
             showLegend: !this.state.showLegend
-        })
-    }
+        });//end setState
+    };//end handleLegendShow
 
     render() {
         let content = null;
@@ -61,9 +62,7 @@ class AdminDataPieChart extends Component {
             toggleButton = <Button size="small" variant="contained" onClick={this.handleLegendShow}>{zoom}Show Legend</Button>
         } else if (this.state.showLegend === true) {
             toggleButton = <Button size="small" variant="contained" onClick={this.handleLegendShow}>{minify}Hide Legend</Button>
-        }
-
-
+        };//end else if
 
         if (this.props.data) {
             content = (
@@ -125,15 +124,14 @@ class AdminDataPieChart extends Component {
             content = (
                 <div>{JSON.stringify(this.props.data)}</div>
             )
-        }
-        // console.log(this.props.data);
+        }//end else if
         return (
             <div>
                 {content}
             </div>
         )
 
-    }
-}
+    };//end render
+};//end AdminDataPieChart Component
 
 export default connect(mapStateToProps)(AdminDataPieChart);

@@ -14,7 +14,7 @@ import Grid from '@material-ui/core/Grid';
 
 const mapStateToProps = state => ({
     user: state.user,
-});
+});//end mapStateToProps
 
 class AdminDataPage extends Component {
     constructor(props) {
@@ -25,13 +25,13 @@ class AdminDataPage extends Component {
                 datasets: [],
             },
             location: 0
-        }
-    }
+        };//end state
+    };//end constructor
 
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
         this.getSessionData();
-    }
+    };//end componentDidMount
 
     // componentDidUpdate runs after props and state have changed.
     //If we arent loading the user call AND we dont have a user, kick us out to home
@@ -40,35 +40,35 @@ class AdminDataPage extends Component {
             this.props.history.push('/login');
         } else if (!this.props.user.isLoading && this.props.user.permissions === 1) {
             this.props.history.push('/select-location');
-        }
-    }
+        };//end else if
+    };//end componentDidUpdate
 
+//function to handle select menu option to change location
     handleLocationChange = async (event) => {
         await this.setState({
             location: event.target.value
-        });
+        });//end setState
         await this.getSessionData();
-    }
+    };//end handleLocationChange
 
+//get session data to populate pie chart
     getSessionData = () => {
-        console.log('in getSessionData');
         axios({
             method: 'GET',
             url: '/sessions/school-reach/' + this.state.location
         }).then((response) => {
             this.setState({
                 datasets: response.data,
-            });
-            console.log('back from server with: ', response.data);
+            });//end setState
             this.setData();
         }).catch((error) => {
             console.log('error: ', error);
             alert('There was an error getting sessions data.')
-        })
-    }
+        });//end error handling
+    };//end getSessionData
 
+//function to set data for pie chart
     setData = () => {
-        console.log('setData');
         let dataLabels = [];
         let dataset = [];
         let backgroundColor = [];
@@ -85,10 +85,11 @@ class AdminDataPage extends Component {
                     backgroundColor: backgroundColor,
                     data: dataset,
                 }]
-            }
-        });
-    }
+            }//end chartData
+        });//end setState
+    };//end setData
 
+//function to randomize colors for data in pie chart
     getRandomColor = () => {
         let letters = '0123456789ABCDEF';
         let color = '#';
@@ -96,7 +97,7 @@ class AdminDataPage extends Component {
           color += letters[Math.floor(Math.random() * 16)];
         }
         return color;
-      }
+      };//end getRandomColor
 
     render() {
         let content = null;
@@ -140,7 +141,7 @@ class AdminDataPage extends Component {
                 {content}
             </div>
         )
-    }
-}
+    };//end render
+};//end AdminDataPage Component
 
 export default connect(mapStateToProps)(AdminDataPage);

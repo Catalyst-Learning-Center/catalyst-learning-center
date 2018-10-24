@@ -28,11 +28,10 @@ class EditSessionDialog extends Component {
             student_name: this.props.session.student_name,
             topics: this.props.session.topics,
             time: this.props.time
-        }
-    };
+        }//end editedSession
+    };//end state
 
     handleClickOpen = () => {
-        console.log(this.props.session);
         this.setState({ open: true });
         this.props.dispatch({
             type: 'SET_SESSION_SCHOOL',
@@ -49,27 +48,27 @@ class EditSessionDialog extends Component {
             type: 'SET_SESSION_SUBJECT',
             payload: this.props.session.subjects_id
         });
-    };
+    };//end handleClickOpen
 
     handleClose = () => {
         this.setState({ open: false });
-    };
+    };//end handleClose
 
     changeSession = (event) => {
         this.setState({
             editedSession: {
                 ...this.state.editedSession,
                 [event.target.name]: event.target.value
-            }
-        })
-    }
+            }//end editedSession
+        });//end setState
+    };//end changeSessions
 
     calculateNewTime = () => {
         let time = this.state.editedSession.time;
         let end_time = moment(this.props.session.start_time, 'HH:mm:ss').add(time, 'm')._d;
         end_time = moment(end_time).format('HH:mm:ss');
         return end_time;
-    }
+    };//end calculateNewTime
 
     handleConfirm = () => {
         let dataToSend = {
@@ -81,15 +80,14 @@ class EditSessionDialog extends Component {
             topics: this.state.editedSession.topics,
             end_time: this.calculateNewTime(),
             id: this.props.session.id,
-        }
-        console.log(dataToSend);
+        }//end dataToSend
         let action = {
             type: 'EDIT_SESSION',
             payload: dataToSend,
-        }
+        };//end action
         this.props.dispatch(action);
         this.handleClose();
-    }
+    };//end handleConfirm
 
     render() {
         let edit = <EditIcon />
@@ -143,7 +141,7 @@ class EditSessionDialog extends Component {
                 </Dialog>
             </div>
         );
-    }
-}
+    };//end render
+};//end EditSessionDialog
 
 export default connect(mapStateToProps)(EditSessionDialog);

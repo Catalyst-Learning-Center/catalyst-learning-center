@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+// component imports
 import user from './userReducer';
 import login from './loginReducer';
 import sessions from './sessionsReducer';

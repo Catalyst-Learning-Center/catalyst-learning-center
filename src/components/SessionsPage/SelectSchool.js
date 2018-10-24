@@ -6,24 +6,24 @@ import Select from 'react-select';
 const mapStateToProps = state => ({
     schools: state.schools,
     selectedSchool: state.sessions.school
-});
+});//end mapStateToProps
 
 class SelectSchool extends Component {
     componentDidMount = () => {
         this.getSchools();
-    }
+    };//end componentDidMount
 
     getSchools = () => {
         this.props.dispatch({ type: 'GET_SCHOOLS' });
-    }
+    };//end getSchool
 
     handleChange = (value) => {
         let action = {
             type: 'SET_SESSION_SCHOOL',
             payload: value
-        }
+        };//end action
         this.props.dispatch(action);
-    };
+    };//end handleChange
 
     render() {
         return (
@@ -40,7 +40,7 @@ class SelectSchool extends Component {
                 />
             </div>
         )
-    }
-}
+    };//end render
+};//end SelectSchool Component
 
 export default connect(mapStateToProps)(SelectSchool);

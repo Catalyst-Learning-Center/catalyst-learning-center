@@ -8,25 +8,24 @@ import InputLabel from '@material-ui/core/InputLabel';
 const mapStateToProps = state => ({
     subjects: state.subjects,
     selectedSubject: state.sessions.subject
-});
+});//end mapStateToProps
 
 class SelectSubject extends Component {
     componentDidMount = () => {
         this.getSubjects();
-    }
+    };//end componentDidMount
 
     getSubjects = () => {
         this.props.dispatch({ type: 'GET_SUBJECTS' })
-    }
+    };//end getSubjects
 
     handleChange = (event) => {
-        console.log(event.target.value);
         let action = {
             type: 'SET_SESSION_SUBJECT',
             payload: event.target.value
-        }
+        }//end action
         this.props.dispatch(action);
-    }
+    };//end handleChange
 
     render() {
         let content = null;
@@ -84,13 +83,13 @@ class SelectSubject extends Component {
                 </Select>
                 </div>
             )
-        }
+        }//end if else
         return (
             <div>
                 {content}
             </div>
         )
-    }
-}
+    };//end render
+};//end SelectSubjects Component
 
 export default connect(mapStateToProps)(SelectSubject);

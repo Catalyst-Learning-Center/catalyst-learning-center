@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './SessionsPage.css';
-import LocationIcon from '@material-ui/icons/LocalLibraryOutlined';
 import { Link } from 'react-router-dom';
+// css
+import './SessionsPage.css';
+// material UI imports
+import LocationIcon from '@material-ui/icons/LocalLibraryOutlined';
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
@@ -15,12 +17,12 @@ import NewSessionDialog from './NewSessionDialog';
 const mapStateToProps = state => ({
     user: state.user,
     location: state.sessions.location
-});
+});//end mapStateToProps
 
 class SessionsPage extends Component {
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
-    }
+    };//end componentDidMount
 
     // componentDidUpdate runs after props and state have changed.
     //If we arent loading the user call AND we dont have a user, kick us out to home
@@ -29,8 +31,8 @@ class SessionsPage extends Component {
             this.props.history.push('/login');
         } else if (this.props.location === null) {
             this.props.history.push('/select-location');
-        }
-    }
+        };//end else if
+    };//end componentDidUpdate
 
     render() {
         let content = null;
@@ -55,7 +57,7 @@ class SessionsPage extends Component {
                     <h6 style={{ position: 'absolute', top: '0', right: '0', fontSize: '20px' }}><LocationIcon />&nbsp;You are tutoring at&nbsp;<Link to="/select-location" style={{ color: '#7F8380' }}><u>{this.props.location.location_name}</u></Link></h6>
                 </div>
             )
-        }
+        }//end else if
 
         if (this.props.user.userName) {
             content = (
@@ -84,7 +86,7 @@ class SessionsPage extends Component {
                 {content}
             </div>
         )
-    }
-}
+    };//end render
+};//end SessionsPage Component
 
 export default connect(mapStateToProps)(SessionsPage);

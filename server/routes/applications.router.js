@@ -5,8 +5,7 @@ const axios = require('axios');
 // nodemailer
 const nodemailer = require("nodemailer");
 
-
-// GET route for Manage Applications View
+// GET route for Manage Applications View -- gets all active applications and displays them on the page, ordered by receipt date
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
         const query = `SELECT * FROM "applications" WHERE "active" = true ORDER BY "date" DESC;`;
@@ -15,14 +14,13 @@ router.get('/', (req, res) => {
         }).catch((error) => {
             console.log('get applications error: ', error);
             res.sendStatus(500);
-        });
+        });//end error handling
     } else {
         res.sendStatus(403);
-    }
+    };//end if else
 }); // end applications GET route
 
-
-// GET route for Pending Applications Nav Indicator
+// GET route for Pending Applications Nav Indicator -- counts the active applications and displays them as a badge via client
 router.get('/pending', (req, res) => {
     if (req.isAuthenticated()) {
         const query = `SELECT COUNT(*) FROM "applications" WHERE "active" = true;`;
@@ -30,13 +28,13 @@ router.get('/pending', (req, res) => {
             res.send(results.rows);
         }).catch((error) => {
             res.sendStatus(500);
-        });
+        });//end error handling
     } else {
         res.sendStatus(403);
-    }
+    };//end if else
 }); // end pending applications GET route
 
-// get locations for each applicant/application
+// GET the selected locations for each applicant/application
 router.get('/locations/:id', (req, res) => {
     if (req.isAuthenticated()) {
         const query = 
@@ -49,13 +47,13 @@ router.get('/locations/:id', (req, res) => {
         }).catch((error) => {
             console.log(error)
             res.sendStatus(500);
-        });
+        });//end error handling
     } else {
         res.sendStatus(403);
-    }
+    };//end if else
 }); // end applications-locations GET route
 
-// get subjects for each applicant/application
+// GET selected subjects of interest for each applicant/application
 router.get('/subjects/:id', (req, res) => {
     if (req.isAuthenticated()) {
         const query = 
@@ -68,14 +66,13 @@ router.get('/subjects/:id', (req, res) => {
             res.send(results.rows);
         }).catch((error) => {
             res.sendStatus(500);
-        });
+        });//end error handling
     } else {
         res.sendStatus(403);
-    }
+    };//end if else
 }); // end applications-subjects GET route
 
-
- // "Delete" (Update) an application from the database
+ // "Delete" an application from the database by updating the active column from true to false
 router.put('/:id', (req, res) => {
     if (req.isAuthenticated()) {
         console.log(req.params.id)
@@ -84,13 +81,13 @@ router.put('/:id', (req, res) => {
             res.sendStatus(201);
         }).catch((error) => {
             res.sendStatus(500);
-        })
+        });//end error handling
     } else {
         res.sendStatus(403);
-    }
-}); // end delete
+    };//end if else
+});//end delete
 
-// POST route for new applications
+// async await POST route for new applications 
 router.post('/', (req, res) => {
     if (req.body.captcha === undefined || req.body.captcha === '' || req.body.captcha === null) {
         return res.sendStatus(500);
@@ -191,11 +188,11 @@ router.post('/', (req, res) => {
         })().catch((error) => {
             console.log('CATCH', error);
             res.sendStatus(500);
-        });
+        });//end error handling
     }).catch((error) => {
         console.log('ERROR', error);
         res.sendStatus(500);
-    })
+    });//end error handling
 }); // end POST
 
 module.exports = router;

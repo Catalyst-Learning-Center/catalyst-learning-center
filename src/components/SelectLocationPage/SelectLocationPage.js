@@ -8,15 +8,14 @@ import TutorNav from '../TutorNav/TutorNav';
 import AdminNav from '../AdminNav/AdminNav';
 import SelectLocationForm from './SelectLocationForm';
 
-
 const mapStateToProps = state => ({
     user: state.user,
-});
+});//end MapStateToProps
 
 class SelectLocationPage extends Component {
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
-    }
+    };//end componentDidMount
 
     // componentDidUpdate runs after props and state have changed.
     //If we arent loading the user call AND we dont have a user, kick us out to home
@@ -24,7 +23,7 @@ class SelectLocationPage extends Component {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
             this.props.history.push('/login');
         }
-    }
+    };//end componentDidUpdate
 
     render() {
         let content = null;
@@ -38,7 +37,7 @@ class SelectLocationPage extends Component {
             nav = (
                 <AdminNav history={this.props.history}/>
             )
-        }
+        };//end else if
 
         if (this.props.user.userName) {
             content = (
@@ -56,7 +55,7 @@ class SelectLocationPage extends Component {
                 {content}
             </div>
         )
-    }
-}
+    };//end render
+};//end SelectLocationPage Component
 
 export default connect(mapStateToProps)(SelectLocationPage);

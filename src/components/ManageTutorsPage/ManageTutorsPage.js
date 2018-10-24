@@ -13,16 +13,16 @@ import { Button } from '@material-ui/core';
 const style = {
     marginLeft: '85%',
     marginBottom: '10px',
-}
+};//end style
 
 const mapStateToProps = state => ({
     user: state.user,
-});
+});//end mapStateToProps
 
 class ManageTutorsPage extends Component {
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
-    }
+    };//end componentDidMount
 
     // componentDidUpdate runs after props and state have changed.
     //If we arent loading the user call AND we dont have a user, kick us out to home
@@ -31,17 +31,17 @@ class ManageTutorsPage extends Component {
             this.props.history.push('/login');
         } else if (!this.props.user.isLoading && this.props.user.permissions === 1) {
             this.props.history.push('/select-location');
-        }
-    }
+        };//end else if
+    };//end componentDidUpdate
 
     newTutor = () => {
         this.props.history.push('/add-tutor');
-    }
+    };//end newTutor
 
     render() {
         let content = null;
         let nav = null;
-
+        
         if (this.props.user.permissions === 2) {
             nav = (
                 <AdminNav history={this.props.history} />
@@ -64,7 +64,7 @@ class ManageTutorsPage extends Component {
                 <AlertDialog />
             </div>
         )
-    }
-}
+    };//end render
+};//end ManageTutorsPage Component
 
 export default connect(mapStateToProps)(ManageTutorsPage);

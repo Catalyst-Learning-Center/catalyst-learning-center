@@ -5,10 +5,7 @@ const pool = require('../modules/pool');
 const userStrategy = require('../strategies/user.strategy');
 
 const router = express.Router();
-
 const nodemailer = require("nodemailer");
-
-
 
 // Handles Ajax request for user information if user is authenticated
 router.get('/', rejectUnauthenticated, (req, res) => {
@@ -21,23 +18,21 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   }).catch((error) => {
     console.log(error);
     res.sendStatus(500);
-  })
-});
+  });//end error handling
+});//end users GET route
 
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
 // is that the password gets encrypted before being inserted
 router.post('/register', (req, res, next) => {
   console.log('req: ', req.body);
-
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
-
   const queryText = 'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id';
   pool.query(queryText, [username, password])
     .then(() => { res.sendStatus(201); })
     .catch((err) => { next(err); });
-});
+});//end users POST route
 
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
@@ -45,8 +40,7 @@ router.post('/register', (req, res, next) => {
 // this middleware will send a 404 if not successful
 router.post('/login', userStrategy.authenticate('local'), (req, res) => {
   res.sendStatus(200);
-});
-
+});//end users POST route
 
 // Handles forgot password email
 router.post('/forgot', (req,res)=>{
@@ -92,15 +86,15 @@ router.post('/forgot', (req,res)=>{
       res.sendStatus(200);
     } else {
       res.sendStatus(401);
-    }
+    };//end if else
   });
-});
+});//end user POST router
 
 // clear all server session information about this user
 router.get('/logout', (req, res) => {
   // Use passport's built-in method to log out the user
   req.logout();
   res.sendStatus(200);
-});
+});//end user GET route
 
 module.exports = router;

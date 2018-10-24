@@ -10,8 +10,8 @@ class RegisterPage extends Component {
       username: '',
       password: '',
       message: '',
-    };
-  }
+    };//end state
+  };//end constructor
 
   registerUser = (event) => {
     event.preventDefault();
@@ -19,12 +19,12 @@ class RegisterPage extends Component {
     if (this.state.username === '' || this.state.password === '') {
       this.setState({
         message: 'Choose a username and password!',
-      });
+      });//end setState
     } else {
       const body = {
         username: this.state.username,
         password: this.state.password,
-      };
+      };//end body
 
       // making the request to the server to post the new user's registration
       axios.post('/api/user/register/', body)
@@ -34,22 +34,22 @@ class RegisterPage extends Component {
           } else {
             this.setState({
               message: 'Ooops! That didn\'t work. The username might already be taken. Try again!',
-            });
+            });//end setState
           }
-        })
+        })//error handling
         .catch(() => {
           this.setState({
             message: 'Ooops! Something went wrong! Is the server running?',
-          });
-        });
-    }
-  } // end registerUser
+          });//end setState
+        });//end error handling
+    };//end else if
+  }; //end registerUser
 
   handleInputChangeFor = propertyName => (event) => {
     this.setState({
       [propertyName]: event.target.value,
     });
-  }
+  };//end handleInputChangeFor
 
   renderAlert() {
     if (this.state.message !== '') {
@@ -63,7 +63,7 @@ class RegisterPage extends Component {
       );
     }
     return (<span />);
-  }
+  };//end render alert
 
   render() {
     return (
@@ -104,8 +104,8 @@ class RegisterPage extends Component {
         </form>
       </div>
     );
-  }
-}
+  };//end render
+};//end RegisterPage Component
 
 export default RegisterPage;
 
