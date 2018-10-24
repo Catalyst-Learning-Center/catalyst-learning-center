@@ -70,15 +70,15 @@ For future implementation:
 - [ ] A scheduling / calendar system that allows admin users to create shifts that tutor level users can see and assign themselves to.
 
 ## Deployment
-0. If you don't have one already, sign up for an account on https://heroku.com 
+### 0. If you don't have one already, sign up for an account on https://heroku.com 
 ![Heroku Prerequisite](public/images/herokuprereq.png)
-1. Create a new Heroku project
+### 1. Create a new Heroku project
 ![Create New Heroku Project](public/images/herokusetup.png)
-2. Connect to the Herkoku Postgres database 
+### 2. Connect to the Herkoku Postgres database 
 ![PostgreSQL on Heroku](public/images/herokusql.png)
-3. Commit Changes and Push them to Heroku
+### 3. Commit Changes and Push them to Heroku
 ![Push to Heroku](public/images/herokucommit.png)
-4. Connect Postico to your Heroku Database
+### 4. Connect Postico to your Heroku Database
 ![Connecting Postico](public/images/herokupostico.png)
 
 
