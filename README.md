@@ -50,7 +50,7 @@ And so on...
 
 ## Screen Shot
 
-Include one or two screen shots of your project here (optional). Remove if unused.
+![]
 
 ### Completed Features
 
