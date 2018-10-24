@@ -38,6 +38,7 @@ Steps to get the development environment running.
     CLOUDINARY_API_SECRET=YOUR_API_KEY
     ```
     While you're in your new `.env` file, take the time to replace `superDuperSecret` with some long random string like `25POUbVtx6RKVNWszd9ERB9Bb6` to keep your application secure. Here's a site that can help you: [https://passwordsgenerator.net/](https://passwordsgenerator.net/). If you don't do this step, create a secret with less than eight characters, or leave it as `superDuperSecret`, you will get a warning.
+    
 4. Start postgres if not running already by using `brew services start postgresql`
 5. Run `npm run server`
 6. Run `npm run client`
@@ -45,9 +46,13 @@ Steps to get the development environment running.
 
 ## Screen Shots
 ![Manage Tutors View](public/images/managetutors.png)
+#### Manage Tutors View
 ![New Tutor Application View](public/images/managetutors.png)
+#### New Tutor Application View
 ![Tutoring Sessions View](public/images/tutoringsessions.png)
+#### Tutoring Sessions View
 ![Data View](public/images/viewdata.png)
+#### Data View, displaying 
 
 ### Completed Features
 - [x] Two-level access: Admin and user-level 
