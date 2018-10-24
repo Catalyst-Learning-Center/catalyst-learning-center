@@ -38,7 +38,12 @@ Steps to get the development environment running.
 2. Run `npm install`
 3. Create a `.env` file at the root of the project and paste this line into the file:
     ```
-    SERVER_SESSION_SECRET=superDuperSecret
+    SERVER_SESSION_SECRET=
+    OAUTH_CLIENT_SECRET=
+    OAUTH_REFRESH_TOKEN=
+    OAUTH_ACCESS_TOKEN=
+    RECAPTCHA_API_KEY=
+    RECAPTCHA_API_SECRET=
     ```
     While you're in your new `.env` file, take the time to replace `superDuperSecret` with some long random string like `25POUbVtx6RKVNWszd9ERB9Bb6` to keep your application secure. Here's a site that can help you: [https://passwordsgenerator.net/](https://passwordsgenerator.net/). If you don't do this step, create a secret with less than eight characters, or leave it as `superDuperSecret`, you will get a warning.
 4. Start postgres if not running already by using `brew services start postgresql`
@@ -50,7 +55,7 @@ And so on...
 
 ## Screen Shot
 
-![]
+![Manage Tutors](public/images/managetutors.png)
 
 ### Completed Features
 
