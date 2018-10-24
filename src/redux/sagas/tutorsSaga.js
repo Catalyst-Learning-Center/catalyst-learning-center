@@ -86,7 +86,7 @@ function* tutorsSaga() {
     yield takeEvery('GET_TUTORS', getTutors);
     yield takeEvery('TOGGLE_ADMIN', toggleAdmin);
     yield takeEvery('DELETE_TUTOR', deleteTutor);
-    yield takeEvery('EDIT_TUTOR', editTutor);
+    yield takeEvery('UPDATE_TUTOR', editTutor);
     yield takeEvery('EDIT_TUTOR_SUBJECTS', editTutorSubjects);
     yield takeEvery('EDIT_TUTOR_LOCATIONS', editTutorLocations);
 };//end tutorSaga
