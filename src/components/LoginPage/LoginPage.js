@@ -99,7 +99,7 @@ class LoginPage extends Component {
   render() {
     return (
       <div className="login-view-container">
-        <img className="main-logo" src="/images/catalyst2.png" />
+        <img className="main-logo" src="/images/catalyst2.png" alt="catalyst logo"/>
         <div className="login-container">
           {this.renderAlert()}
           <form onSubmit={this.login}>

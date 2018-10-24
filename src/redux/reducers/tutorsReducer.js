@@ -5,7 +5,7 @@ const tutors = (state = [], action) => {
             return action.payload || state;
         default:
             return state;
-    };//end switch
+    }//end switch
 };//end tutors
 
 export default tutors;

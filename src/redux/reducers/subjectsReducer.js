@@ -9,7 +9,7 @@ const subjects = (state = [], action) => {
             return state.filter((id) => id !== action.payload);
         default:
             return state;
-    };//end switch
+    }//end switch
 };//end subjects
 
 export default subjects;

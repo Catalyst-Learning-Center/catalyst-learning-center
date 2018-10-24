@@ -7,7 +7,7 @@ const location = (state = null, action) => {
       return action.payload || state;
     default:
       return state;
-  };//end switch
+  }//end switch
 };//end location
 
 // stores the grade of the student being tutored in the session
@@ -19,7 +19,7 @@ const grade = (state = null, action) => {
       return null;
     default:
       return state;
-  };//end switch
+  }//end switch
 };//end grade
 
 // stores the school of the student being tutored in the session
@@ -31,7 +31,7 @@ const school = (state = null, action) => {
       return null;
     default:
       return state;
-  };//end switch
+  }//end switch
 };//end school
 
 // stores the subject worked on with the student in the session
@@ -43,7 +43,7 @@ const subject = (state = null, action) => {
       return null;
     default:
       return state;
-  };//end switch
+  }//end switch
 };//end subject
 
 // stores the list of active sessions
@@ -53,7 +53,7 @@ const activeSessions = (state = [], action) => {
       return action.payload || state;
     default:
       return state;
-  };//end switch
+  }//end switch
 };//end activeSessions
 
 // stores the list of completed sessions
@@ -63,7 +63,7 @@ const completedSessions = (state = [], action) => {
       return action.payload || state;
     default:
       return state;
-  };//end switch
+  }//end switch
 };//end completedSessions
 
 //make one object that has keys id, username, isLoading

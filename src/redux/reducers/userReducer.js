@@ -11,7 +11,7 @@ const id = (state = null, action) => {
       return null;
     default:
       return state;
-  };//end switch
+  }//end switch
 };//end id
 
 //userName holds onto the user.username from passport/database
@@ -23,7 +23,7 @@ const userName = (state = null, action) => {
       return null;
     default:
       return state;
-  };//end switch
+  }//end switch
 };//end userName
 
 const permissions = (state = null, action) => {
@@ -34,7 +34,7 @@ const permissions = (state = null, action) => {
       return null;
     default:
       return state;
-  };//end switch
+  }//end switch
 };//end permissions
 
 //isLoading holds the boolean that tracks whether or not this async call is out in the internet or not
@@ -46,7 +46,7 @@ const isLoading = (state = false, action) => {
       return false;
     default:
       return state;
-  };//end switch
+  }//end switch
 };//end isLoading
 
 //make one object that has keys id, username, isLoading

@@ -11,7 +11,7 @@ const alert = (state = defaultState, action) => {
         return action.payload;
     } else if (action.type === 'CLOSE_ALERT') {
         return defaultState;
-    };//else if
+    }//else if
     return state
 }//end alert
 

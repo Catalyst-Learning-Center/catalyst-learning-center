@@ -28,7 +28,7 @@ const newTutorToAdd = (state={}, action) => {
             username: '',
             password: '',
         });
-    };//end else if
+    }//end else if
     return state
 };//end newTutorToAdd
 

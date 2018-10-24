@@ -11,7 +11,7 @@ const locations = (state = [], action) => {
             return state.filter((id) => id !== action.payload);
         default:
             return state;
-    };//switch
+    }//switch
 };//end locations
 
 // stores edited info for a location before sending it to the database
@@ -21,7 +21,7 @@ const editedLocation = (state = {}, action) => {
             return action.payload || state;
         default:
             return state;
-    };//end switch
+    }//end switch
 };//end editedLocation
 
 export default combineReducers({
