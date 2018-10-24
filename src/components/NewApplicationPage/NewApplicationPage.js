@@ -98,20 +98,20 @@ class NewApplicationPage extends Component {
         })
     }
 
-    // function for the presentation of the app.  Click on the "Subject areas of interest will auto fill most of the form"
+    // function for the presentation of the app.  Click on the "Subject areas of interest" will auto fill most of the form
     easyFunction = () => {
         this.setState({
             application: {
-                applicant_first_name: 'Julia',
-                applicant_last_name: 'Balliet',
+                applicant_first_name: 'Anthony',
+                applicant_last_name: 'James',
                 applicant_address: '1234 Main St',
                 applicant_city: 'Minneapolis',
                 applicant_state: 'MN',
                 applicant_zipcode: '55415',
                 applicant_cell_phone: '612-555-5555',
-                applicant_email: 'John.Doe@gmail.com',
+                applicant_email: 'Anthony.James@gmail.com',
                 applicant_qualifications: 'Licensed Math Teacher',
-                applicant_experience: '4 years teaching at Montessori',
+                applicant_experience: '4 years teaching at Seward Montessori',
                 applicant_age_group: 'K-12',
             },
         })

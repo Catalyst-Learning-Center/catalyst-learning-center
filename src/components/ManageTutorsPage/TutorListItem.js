@@ -68,7 +68,7 @@ class TutorListItem extends Component {
             type: 'TOGGLE_ADMIN',
             payload: {
                 permissions: this.props.tutor.permissions,
-                id: this.props.tutor.id
+                id: this.props.tutor.user_id
             }
         }
         this.props.dispatch(action);

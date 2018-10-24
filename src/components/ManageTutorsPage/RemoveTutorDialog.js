@@ -42,7 +42,7 @@ class RemoveTutorDialog extends Component {
     handleTutorDelete = () => {
         let action = {
             type: 'DELETE_TUTOR',
-            payload: {id: this.props.tutor.id}
+            payload: {id: this.props.tutor.user_id}
         };
         this.props.dispatch(action);
         this.handleClose();
