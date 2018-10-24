@@ -251,14 +251,10 @@ class AdminDataTable extends Component {
     }
 
     setData = () => {
-        console.log('setData');
         let dataLabels = [];
-        console.log(this.state.datasets);
         let sortedData = this.state.datasets.sort(function(a, b) {
-            console.log(moment(a.date).format('YYYY'), moment(b.date).format('YYYY'), moment(a.date).format('YYYY') - moment(b.date).format('YYYY'));
             return moment(a.date).format('YYYY') - moment(b.date).format('YYYY');
         })
-        console.log(sortedData);
         sortedData = sortedData.filter(session => {
             if (session.location_name === 'Hosmer Library') {
                 return session;
@@ -280,7 +276,6 @@ class AdminDataTable extends Component {
     }
 
     getSessionData = () => {
-        console.log('in getSessionData');
         axios({
             method: 'GET',
             url: '/sessions'
@@ -300,7 +295,6 @@ class AdminDataTable extends Component {
             this.setState({
                 data: response.data
             });
-            console.log('back from server with: ', response.data);
         }).catch((error) => {
             console.log('error: ', error);
             alert('There was an error getting sessions data.')

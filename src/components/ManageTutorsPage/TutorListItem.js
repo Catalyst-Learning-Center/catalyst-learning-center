@@ -40,7 +40,6 @@ class TutorListItem extends Component {
             method: 'GET',
             url: `/tutors/locations/${this.props.tutor.id}`
         }).then((response) => {
-            console.log('getTutorLocations: ', response.data);
             this.setState({
                 locations: response.data,
             });
