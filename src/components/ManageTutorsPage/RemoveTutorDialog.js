@@ -11,43 +11,43 @@ import RemoveIcon from '@material-ui/icons/DeleteTwoTone';
 const style = {
     float: 'left',
     marginRight: '5px',
-    
-}
+};//end style
+
 class RemoveTutorDialog extends Component {
     constructor(props) {
         super(props);
         this.state = {
             open: false,
             confirmationOpen: false,
-        }
-    }
+        };//end state
+    };//end constructor
 
     handleOpen = () => {
         this.setState({ open: true });
-    };
+    };//end handleOpen
 
     handleClose = () => {
         this.setState({ open: false });
-    };
+    };//end handleClose
 
     handleConfirmationOpen = () => {
         this.setState({ confirmationOpen: true });
-    };
+    };//end handleConfirmationOpen
 
     handleConfirmationClose = () => {
         this.setState({ confirmationOpen: false });
         this.props.dispatch({type: 'GET_TUTORS'});
-    };
+    };//end handleConfirmationClose
 
     handleTutorDelete = () => {
         let action = {
             type: 'DELETE_TUTOR',
             payload: {id: this.props.tutor.id}
-        };
+        };//end action
         this.props.dispatch(action);
         this.handleClose();
         this.handleConfirmationOpen();
-    }
+    };//end handleTutorDelete
 
     render() {
         let remove = <RemoveIcon />
@@ -85,7 +85,7 @@ class RemoveTutorDialog extends Component {
                 </Dialog>
             </div>
         )
-    }
-}
+    };//end render
+};//end RemoveTutorDialog Component
 
 export default connect()(RemoveTutorDialog);

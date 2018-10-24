@@ -1,3 +1,4 @@
+// stores the list of subjects
 const subjects = (state = [], action) => {
     switch (action.type) {
         case 'SET_SUBJECTS':
@@ -8,7 +9,7 @@ const subjects = (state = [], action) => {
             return state.filter((id) => id !== action.payload);
         default:
             return state;
-    }
-};
+    };//end switch
+};//end subjects
 
 export default subjects;

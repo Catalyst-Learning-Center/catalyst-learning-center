@@ -18,7 +18,7 @@ const mapStateToProps = state => ({
     tutors: state.tutors,
     subjects: state.subjects,
     locations: state.locations.locations
-});
+});//end mapStateToProps
 
 class EditTutorDialog extends Component {
     constructor(props) {
@@ -41,15 +41,15 @@ class EditTutorDialog extends Component {
             },
             selectedLocations: this.props.selectedLocations,
             selectedSubjects: this.props.selectedSubjects,
-        };
-    }
+        };//end state
+    };//end constructor
 
     componentDidMount = () => {
         this.props.dispatch({ type: 'GET_LOCATIONS' });
         this.props.dispatch({ type: 'GET_SUBJECTS' });
         this.getTutorLocations();
         this.getTutorSubjects();
-    }
+    };//end componentDidMount
 
     getTutorLocations = () => {
         Axios({
@@ -62,11 +62,11 @@ class EditTutorDialog extends Component {
             }
             this.setState({
                 selectedLocations: selectedLocations,
-            });
+            });//end setState
         }).catch((error) => {
             console.log('get locations error: ', error);
-        })
-    }
+        });//end error handling
+    };//end getTutorLocations
 
     getTutorSubjects = () => {
         Axios({
@@ -77,45 +77,43 @@ class EditTutorDialog extends Component {
             for (let subject of response.data) {
                 selectedSubjects.push(String(subject.id));
             }
-            console.log(selectedSubjects);
             this.setState({
                 selectedSubjects: selectedSubjects,
-            });
+            });//end setState
         }).catch((error) => {
             console.log('get subjects error: ', error);
-        })
-    }
+        });//end error handling
+    };//end getTutorSubjects
 
     handleClickOpen = () => {
         this.setState({ open: true });
-    };
+    };//end handleClickOpen
 
     handleClose = () => {
         this.props.getTutorLocations();
         this.props.getTutorSubjects();
         this.setState({ open: false });
-    };
+    };//end handleClose
 
     handleStateChange = (event) => {
         this.setState({
             editedTutor: {
                 ...this.state.editedTutor,
                 [event.target.name]: event.target.value
-            }
-        })
-    }
+            }//end editedTutor
+        });//end setState
+    };//end handleStateChange
 
     handleUserStateChange = (value) => {
         this.setState({
             editedTutor: {
                 ...this.state.editedTutor,
                 user_state: value
-            }
-        })
-    }
+            }//end editedTutor
+        });//end setState
+    };//end handleUserStateChange
 
     handleSave = () => {
-        console.log(this.state.editedTutor);
         let subjects = {
             subjects: this.state.selectedSubjects,
             id: this.state.editedTutor.id
@@ -137,32 +135,31 @@ class EditTutorDialog extends Component {
             payload: locations
         });
         this.handleClose();
-    }
+    };//end handleSave
 
     handleSubjectCheckbox = (event, isChecked) => {
-        console.log('clicked: ', event.target);
         if (isChecked) {
             this.setState({
                 selectedSubjects: [...this.state.selectedSubjects, event.target.value]
-            });
+            });//end setState
         } else if (isChecked === false) {
             this.setState({
                 selectedSubjects: this.state.selectedSubjects.filter((id) => id !== event.target.value)
-            });
-        }
-    }
+            });//end setState
+        };//end else if
+    };//end handleSubjectCheckBox
 
     handleLocationsCheckbox = (event, isChecked) => {
         if (isChecked) {
             this.setState({
                 selectedLocations: [...this.state.selectedLocations, event.target.value]
-            });
+            });//end setState
         } else if (isChecked === false) {
             this.setState({
                 selectedLocations: this.state.selectedLocations.filter((id) => id !== event.target.value)
-            });
-        }
-    }
+            });//end setState
+        };//end else if
+    };//end handleLocationsCheckBox
 
     render() {
         let edit = <EditIcon />
@@ -279,7 +276,7 @@ class EditTutorDialog extends Component {
                                         <br />
                                     </label>
                                 )
-                            }
+                            }//end else if
                             return (
                                 <React.Fragment>
                                     {content}
@@ -317,7 +314,7 @@ class EditTutorDialog extends Component {
                                         />
                                     </label>
                                 )
-                            }
+                            }//end else if
                             return (
                                 <React.Fragment>
                                     {content}
@@ -336,7 +333,7 @@ class EditTutorDialog extends Component {
                 </Dialog>
             </div>
         )
-    }
-}
+    };//end render
+};//end EditTutorDialog Component
 
 export default connect(mapStateToProps)(EditTutorDialog);

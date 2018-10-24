@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
+import moment from 'moment';
+// material UI imports
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import moment from 'moment';
 
 const mapStateToProps = state => ({
     locations: state.locations.locations
-});
-
+});//end mapStateToProps
 
 class AdminDataBarGraph extends Component {
     constructor(props) {
@@ -24,27 +24,29 @@ class AdminDataBarGraph extends Component {
                 datasets: [],
             },
             location: 0,
-        }
-    }
+        };//end state
+    };//end constructor
 
     componentDidMount() {
         this.getLocations();
         this.getSessionData();
-    }
+    };//end componentDidMount
 
+//function to get locations to populate select location menu
     getLocations = () => {
         this.props.dispatch({ type: 'GET_LOCATIONS' });
-    }
+    };//end getLocations
 
+//function to handle select menu option change
     handleLocationChange = async (event) => {
         await this.setState({
             location: event.target.value
-        });
+        });//end await setState
         await this.getSessionData();
-    }
+    };//end handleLocationChange
 
+// get session data for selected location
     getSessionData = () => {
-        console.log('in getSessionData');
         axios({
             method: 'GET',
             url: '/sessions/library-summary/' + this.state.location
@@ -52,14 +54,14 @@ class AdminDataBarGraph extends Component {
             this.setState({
                 datasets: response.data,
             });
-            console.log('back from server with: ', response.data);
             this.setData();
         }).catch((error) => {
             console.log('error: ', error);
             alert('There was an error getting sessions data.')
-        })
-    }
+        });//end error handling
+    };//end getSessionData
 
+//set data arrrays for different locations
     setData = () => {
         let dataLabels = [];
         //TODO: Add support for any number of libraries.
@@ -79,7 +81,7 @@ class AdminDataBarGraph extends Component {
                 datasetLibraryOne.push(location.count);
             } else if (location.location_name == 'Hosmer Library') {
                 datasetLibraryTwo.push(location.count);
-            }
+            }//end else if
         }
         this.setState({
             chartData: {
@@ -95,11 +97,12 @@ class AdminDataBarGraph extends Component {
                     backgroundColor: this.getRandomColor(),
                     data: datasetLibraryTwo,
                 }
-                ]
-            }
-        });
-    }
+                ]//end datasets
+            }//end chartData
+        });//end setState
+    }//end setData
 
+//function to randomize color for data in bar graph
     getRandomColor = () => {
         let letters = '0123456789ABCDEF';
         let color = '#';
@@ -107,7 +110,7 @@ class AdminDataBarGraph extends Component {
             color += letters[Math.floor(Math.random() * 16)];
         }
         return color;
-    }
+    };//end getRandomColor
 
     render() {
         let content = null;
@@ -121,7 +124,6 @@ class AdminDataBarGraph extends Component {
                             title: {
                                 display: true,
                                 text: 'Library Site Tutoring Summary',
-                                // text: `Library Site Tutor Summary: ${this.state.location}`,
                                 fontsize: 100,
                             },
                             legend: {
@@ -180,7 +182,7 @@ class AdminDataBarGraph extends Component {
             </div>
         )
 
-    }
-}
+    };//end render
+};//end AdminDataBarGraph Component
 
 export default connect(mapStateToProps)(AdminDataBarGraph);

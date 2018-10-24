@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 // moment.js
 import moment from 'moment';
-//CSV export
+// CSV export
 import { CSVLink } from "react-csv";
 //Material UI 
 import TextField from '@material-ui/core/TextField';
@@ -34,9 +34,8 @@ const MapStateToProps = state => ({
     grades: state.grades,
     subjects: state.subjects,
     locations: state.locations.locations
-
-});
-
+});//end MapStateToProps
+//function to that creates a sort by descending order
 function desc(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -45,8 +44,9 @@ function desc(a, b, orderBy) {
         return 1;
     }
     return 0;
-}
+};//end desc
 
+//function to preserve intitial order of items
 function stableSort(array, cmp) {
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
@@ -55,11 +55,12 @@ function stableSort(array, cmp) {
         return a[1] - b[1];
     });
     return stabilizedThis.map(el => el[0]);
-}
+};//end stableSort
 
+//function that sorts data
 function getSorting(order, orderBy) {
     return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
-}
+};//end getSorting
 
 const rows = [
     { id: 'session_date', numeric: false, disablePadding: false, label: 'Date' },
@@ -69,13 +70,14 @@ const rows = [
     { id: 'grade_level', numeric: true, disablePadding: false, label: 'Grade Level' },
     { id: 'subjects', numeric: false, disablePadding: true, label: 'Subject' },
     { id: 'start_time', numeric: true, disablePadding: false, label: 'Time Spent' },
-];
+];//end rows array
 
 class AdminDataHeader extends Component {
 
+//function for click event that causes the sort to happen
     createSortHandler = property => event => {
         this.props.onRequestSort(event, property);
-    };
+    };//end createSortHandler
 
     render() {
         const { order, orderBy, } = this.props;
@@ -109,8 +111,8 @@ class AdminDataHeader extends Component {
                 </TableRow>
             </TableHead>
         );
-    }
-}
+    };//end render
+};//end AdminDataHeader Component
 
 AdminDataHeader.propTypes = {
     onRequestSort: PropTypes.func.isRequired,
@@ -119,6 +121,7 @@ AdminDataHeader.propTypes = {
     rowCount: PropTypes.number.isRequired,
 };
 
+//create toolbar styles
 const toolbarStyles = theme => ({
     root: {
         paddingRight: theme.spacing.unit,
@@ -142,7 +145,7 @@ const toolbarStyles = theme => ({
     title: {
         flex: '0 0 auto',
     },
-});
+});//end toolbarStyles
 
 let AdminTableToolbar = props => {
     const { numSelected, classes, filteredData } = props;
@@ -156,7 +159,7 @@ let AdminTableToolbar = props => {
         { label: "Grade Level", key: "grade_level" },
         { label: "Subject", key: "subjects" },
         { label: "Time (Minutes)", key: "time" }
-    ];
+    ];//end headers array
     return (
         <div>
             <Toolbar
@@ -186,7 +189,7 @@ let AdminTableToolbar = props => {
             </Toolbar>
         </div>
     );
-};
+};//end AdminTableToolBar
 
 AdminTableToolbar.propTypes = {
     classes: PropTypes.object.isRequired,
@@ -205,7 +208,7 @@ const styles = theme => ({
     tableWrapper: {
         overflowX: 'auto',
     },
-});
+});//end styles
 
 class AdminDataTable extends Component {
 
@@ -215,7 +218,7 @@ class AdminDataTable extends Component {
         this.props.dispatch({ type: 'GET_GRADES' });
         this.props.dispatch({ type:'GET_SUBJECTS' });
         this.props.dispatch({ type: 'GET_LOCATIONS' });
-    }
+    };//end componentDidMount
 
     state = {
         order: 'asc',
@@ -231,10 +234,10 @@ class AdminDataTable extends Component {
         schoolFilter: '',
         gradeFilter: '',
         yearFilter: ''
-    }
+    };//end state
 
+//function to get data by school year in data table
     getYearData = () => {
-        console.log('in getYearData');
         axios({
             method: 'GET',
             url: '/sessions/library-summary/0'
@@ -242,23 +245,19 @@ class AdminDataTable extends Component {
             this.setState({
                 datasets: response.data,
             });
-            console.log('back from server with: ', response.data);
             this.setData();
         }).catch((error) => {
             console.log('error: ', error);
             alert('There was an error getting sessions data.')
-        })
-    }
+        });//end error handling
+    };//end getYearData
 
+//set data arrays for school year data
     setData = () => {
-        console.log('setData');
         let dataLabels = [];
-        console.log(this.state.datasets);
         let sortedData = this.state.datasets.sort(function(a, b) {
-            console.log(moment(a.date).format('YYYY'), moment(b.date).format('YYYY'), moment(a.date).format('YYYY') - moment(b.date).format('YYYY'));
             return moment(a.date).format('YYYY') - moment(b.date).format('YYYY');
         })
-        console.log(sortedData);
         sortedData = sortedData.filter(session => {
             if (session.location_name === 'Hosmer Library') {
                 return session;
@@ -276,11 +275,11 @@ class AdminDataTable extends Component {
         }
         this.setState({
             years: dataLabels
-        });
-    }
+        });//end setState
+    };//end setData
 
+//get session data to populate data table
     getSessionData = () => {
-        console.log('in getSessionData');
         axios({
             method: 'GET',
             url: '/sessions'
@@ -293,21 +292,20 @@ class AdminDataTable extends Component {
                     time = (session.time.hours * 60) + session.time.minutes;
                 } else {
                     time = session.time.minutes;
-                }
+                };//end if else
                 session.time = time;
                 session.session_date = moment(session.session_date.toString()).format('MM/DD/YY');
-            }
+            };
             this.setState({
                 data: response.data
-            });
-            console.log('back from server with: ', response.data);
+            });//end setState
         }).catch((error) => {
             console.log('error: ', error);
             alert('There was an error getting sessions data.')
-        })
+        });//end error handling
+    };//end getSessionsData
 
-    }
-
+//function to handle the request to sort
     handleRequestSort = (event, property) => {
         const orderBy = property;
         let order = 'desc';
@@ -315,61 +313,62 @@ class AdminDataTable extends Component {
         if (this.state.orderBy === property && this.state.order === 'desc') {
             order = 'asc';
         }
-
         this.setState({ order, orderBy });
-    };
+    };//end handleRequestSort
 
+//function for changing pages of data table
     handleChangePage = (event, page) => {
         this.setState({ page });
-    };
+    };//end handleChangePage
 
+//function to change row view for showing 5, 10, 25 rows
     handleChangeRowsPerPage = event => {
         this.setState({ rowsPerPage: event.target.value });
-    };
+    };//end handleChangeRowsPerPage
 
     isSelected = id => {
         return this.state.selected.indexOf(id) !== -1;
-    }
+    };//end isSelected
 
+//function to handle filter
     handleFilterChange = (e) => {
-        console.log(e.target)
         this.setState({
             [e.target.name]: e.target.value
-        });
-    }
+        });//end setState
+    };//end handleFilterChange
 
     // function for the table filtering
     filterData = (data) => {
         let filteredData = data;
-        if (this.state.locationFilter.length) {
+        if (this.state.locationFilter.length) { //filter by location
             filteredData = filteredData.filter(session => {
                 if (session.location_name.toLowerCase().includes(this.state.locationFilter.toLowerCase())) {
                     return session;
                 }
             });
         }
-        if (this.state.subjectFilter.length) {
+        if (this.state.subjectFilter.length) { // filter by subject
             filteredData = filteredData.filter(session => {
                 if (session.subjects.toLowerCase().includes(this.state.subjectFilter.toLowerCase())) {
                     return session;
                 }
             });
         }
-        if (this.state.schoolFilter.length) {
+        if (this.state.schoolFilter.length) { // filter by school
             filteredData = filteredData.filter(session => {
                 if (session.school_name.toLowerCase().includes(this.state.schoolFilter.toLowerCase())) {
                     return session;
                 }
             });
         }
-        if (this.state.gradeFilter.length) {
+        if (this.state.gradeFilter.length) { // filter by grade
             filteredData = filteredData.filter(session => {
                 if (session.grade_level.toLowerCase() === this.state.gradeFilter.toLowerCase()) {
                     return session;
                 }
             });
         }
-        if (this.state.yearFilter.length) {
+        if (this.state.yearFilter.length) { // filter by year
             filteredData = filteredData.filter(session => {
                 let date = moment(session.session_date).format('MM/DD');
                 let year = moment(session.session_date).format('YYYY');
@@ -377,11 +376,11 @@ class AdminDataTable extends Component {
                     return session;
                 } else if (date > '07/31' && year == (this.state.yearFilter - 1)) {
                     return session;
-                }
-            });
+                }//end if else
+            });//end filteredData
         }
         return filteredData;
-    }
+    }//end filterData
 
     render() {
         let content = null;
@@ -467,7 +466,6 @@ class AdminDataTable extends Component {
                                     <MenuItem value={grade.grade_level}>{grade.grade_level}</MenuItem>
                                 )
                             })}
-
                         </Select>
                     </FormControl>
                         <FormControl style={{ minWidth: '15%' }}>
@@ -488,7 +486,6 @@ class AdminDataTable extends Component {
                                     <MenuItem value={subject.subjects}>{subject.subjects}</MenuItem>
                                 )
                             })}
-
                         </Select>
                     </FormControl>
                 </div>
@@ -548,14 +545,13 @@ class AdminDataTable extends Component {
                 </Paper>
             </div>
         );
-
         return (
             <div>
                 {content}
             </div>
         )
-    }
-}
+    };//end render
+};//end AdminDataTable Component
 
 AdminDataTable.propTypes = {
     classes: PropTypes.object.isRequired,
@@ -564,4 +560,3 @@ AdminDataTable.propTypes = {
 let AdminExport = withStyles(styles)(AdminDataTable)
 
 export default connect(MapStateToProps)(AdminExport);
-

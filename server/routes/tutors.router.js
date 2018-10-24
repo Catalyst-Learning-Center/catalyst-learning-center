@@ -3,9 +3,7 @@ const pool = require('../modules/pool');
 const router = express.Router();
 const encryptLib = require('../modules/encryption');
 
-/**
- * GET route template
- */
+// GET route to retrieve list of registered users displayed via the Manage Tutors view and ordered alphabetically by first name.
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/tutors GET route hit');
@@ -17,12 +15,13 @@ router.get('/', (req, res) => {
         }).catch((error) => {
             console.log('/tutors GET error: ', error);
             res.sendStatus(500);
-        })
+        });//end error handling
     } else {
         res.sendStatus(401);
-    }
-});
+    };//end if else
+});//end tutors GET route
 
+// GET route to retrieve list of subjects selected by a registered user
 router.get('/subjects/:id', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/tutors/subjects GET route hit with: ', req.params);
@@ -35,12 +34,13 @@ router.get('/subjects/:id', (req, res) => {
         }).catch((error) => {
             console.log('/tutors/subjects GET error: ', error);
             res.sendStatus(500);
-        })
+        });//end error handling
     } else {
         res.sendStatus(401);
-    }
-})
+    };//end if else
+});//end tutors GET route
 
+// GET route to retrieve list of locations selected by a registered user
 router.get('/locations/:id', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/tutors/locations GET route hit with: ', req.params);
@@ -53,13 +53,13 @@ router.get('/locations/:id', (req, res) => {
         }).catch((error) => {
             console.log('/tutors/locations GET error: ', error);
             res.sendStatus(500);
-        })
+        });//end error handling
     } else {
         res.sendStatus(401);
-    }
-})
+    };//end if else
+});//end tutors GET route
 
-//  async await POST route to add a new tutor to the database and register them as a user
+// async await POST route to add a new tutor to the database and register them as a user
 router.post('/', (req, res) => {
     console.log('in tutors router', req.body)
     const userLocations = req.body.newTutor.newTutorLocations
@@ -120,15 +120,13 @@ router.post('/', (req, res) => {
         })().catch( (error) => {
             console.log('CATCH', error);
             res.sendStatus(500);
-        });
+        });//end error handling
     } else {
         res.sendStatus(401);
-    }
-});
+    };//end if else
+});//end tutors async await POST route
 
-/**
- * PUT route template
- */
+// PUT route to toggle permissions between tutor and admin level users 
 router.put('/admin', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/tutors/admin PUT route hit with: ', req.body);
@@ -145,12 +143,13 @@ router.put('/admin', (req, res) => {
         }).catch((error) => {
             console.log('/tutors/admin PUT error: ', error);
             res.sendStatus(500);
-        })
+        });//end error handling
     } else {
         res.sendStatus(401);
-    }
-})
+    };//end if else
+});//end tutors PUT route
 
+// PUT route that removes a user from the DOM and sets their active status to false in the database
 router.put('/delete', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/tutors/delete PUT route hit with: ', req.body);
@@ -161,12 +160,13 @@ router.put('/delete', (req, res) => {
         }).catch((error) => {
             console.log('/tutors/delete PUT error: ', error);
             res.sendStatus(500);
-        })
+        });//end error handling
     } else {
         res.sendStatus(401);
-    }
-})
+    };//end if else
+});//end tutors PUT route
 
+// PUT route that allows a registered tutor's information to be edited
 router.put('/edit', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/tutors/edit PUT route hit with: ', req.body);
@@ -183,12 +183,13 @@ router.put('/edit', (req, res) => {
         }).catch((error) => {
             console.log('/tutors/edit PUT error: ', error);
             res.sendStatus(500);
-        })
+        });//end error handling
     } else {
         res.sendStatus(401);
-    }
-})
+    };//end if else
+});//end tutors PUT route
 
+// PUT route that allows a user's selected subjects to be altered
 router.put('/edit/subjects', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/tutors/edit/subjects PUT route hit with: ', req.body);
@@ -207,12 +208,13 @@ router.put('/edit/subjects', (req, res) => {
         }).catch((error) => {
             console.log('/tutors/edit PUT error: ', error);
             res.sendStatus(500);
-        })
+        });//end error handling
     } else {
         res.sendStatus(401);
-    }
-})
+    };//end if else 
+})//end tutors PUT route
 
+// PUT route that allows a user's selected locations to be altered
 router.put('/edit/locations', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/tutors/edit/locations PUT route hit with: ', req.body);
@@ -226,15 +228,15 @@ router.put('/edit/locations', (req, res) => {
                 }).catch((error) => {
                     console.log('/tutors/edit PUT error: ', error);
                     res.sendStatus(500);
-                })
+                });//end error handling
             }
         }).catch((error) => {
             console.log('/tutors/edit PUT error: ', error);
             res.sendStatus(500);
-        })
+        });//end error handling
     } else {
         res.sendStatus(401);
-    }
-})
+    };//end if else
+});//end tutors PUT route
 
 module.exports = router;

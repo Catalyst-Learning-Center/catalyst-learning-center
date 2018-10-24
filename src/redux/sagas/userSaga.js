@@ -1,4 +1,5 @@
 import { put, takeLatest } from 'redux-saga/effects';
+// component imports
 import { USER_ACTIONS } from '../actions/userActions';
 import { callUser } from '../requests/userRequests';
 
@@ -26,7 +27,7 @@ function* fetchUser() {
       message: error.data || "FORBIDDEN",
     });
   }
-}
+};
 /*
   Starts fetchUser on each dispatched `FETCH_USER` action.
   Allows concurrent fetches of user.
@@ -44,6 +45,6 @@ function* fetchUser() {
 */
 function* userSaga() {
   yield takeLatest(USER_ACTIONS.FETCH_USER, fetchUser);
-}
+};
 
 export default userSaga;

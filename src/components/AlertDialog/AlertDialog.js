@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+// material UI imports
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -9,7 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const mapStateToProps = state => ({
     alert: state.alert
-});
+});//end mapStateToProps
 
 class AlertDialog extends Component {
 
@@ -17,7 +18,7 @@ class AlertDialog extends Component {
         //this handles closing of the edit alert
         this.props.dispatch({
             type: 'CLOSE_ALERT'
-        })
+        });
         this.props.dispatch({type: this.props.alert.dispatch});
     }//end handleClose
 

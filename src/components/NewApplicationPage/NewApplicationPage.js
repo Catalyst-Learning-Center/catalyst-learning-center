@@ -22,8 +22,7 @@ import PictureAsPdf from '@material-ui/icons/PictureAsPdf';
 const mapStateToProps = state => ({
     locations: state.locations.locations, // to get locations for checkbox mapping
     subjects: state.subjects // to get subjects for checkbox mapping
-});
-
+});//end mapStateToProps
 
 class NewApplicationPage extends Component {
     constructor(props) {
@@ -53,8 +52,8 @@ class NewApplicationPage extends Component {
             // handle alert dialogs
             submitDialogOpen: false,
             submitFailedDialogOpen: false
-        }
-    }
+        };//end state
+    };//end constructor
 
     componentDidMount = () => {
         this.getSubjects(); // get subjects for checkbox mapping
@@ -64,26 +63,26 @@ class NewApplicationPage extends Component {
             this.captcha.reset();
         }
 
-        this.config = { // configure recaptcha
+        this.config = { // configure cloudinary
             cloud_name: "catalyst-learning-center",
-            api_key: process.env.RECAPTCHA_API_KEY,
-            api_secret: process.env.RECAPTCHA_API_SECRET,
+            api_key: process.env.CLOUDINARY_API_KEY,
+            api_secret: process.env.CLOUDINARY_API_SECRET,
             upload_preset: "c7bvn7bu"
         }
-    }
+    };//end componentDidMount
 
     onLoadRecaptcha() {
         if (this.captcha) {
             this.captcha.reset();
         }
-    }
+    };//end onLoadRecaptcha
 
     verifyCallback(recaptchaToken) {
         // Here you will get the final recaptchaToken 
         this.setState({
             recaptchaToken: recaptchaToken
-        });
-    }
+        });//end setState
+    };//end verifyCallBack
 
     // cloudinary image upload request
     openCloudinary = (event) => {
@@ -93,10 +92,10 @@ class NewApplicationPage extends Component {
                 let cloudinaryUrl = result[0].url
                 this.setState({
                     application: { ...this.state.application, resume: cloudinaryUrl }
-                });
+                });//end setState
             }
-        })
-    }
+        });//end
+    };//end openCloudinary
 
     // function for the presentation of the app.  Click on the "Subject areas of interest will auto fill most of the form"
     easyFunction = () => {
@@ -114,8 +113,8 @@ class NewApplicationPage extends Component {
                 applicant_experience: '4 years teaching at Montessori',
                 applicant_age_group: 'K-12',
             },
-        })
-    }
+        });//end SetState
+    };//end easyFunction
 
     //send application to server
     postApplication = (e) => {
@@ -125,74 +124,72 @@ class NewApplicationPage extends Component {
             url: '/applications',
             data: { captcha: this.state.recaptchaToken, application: this.state.application, applicant_subjects: this.state.applicant_subjects, applicant_locations: this.state.applicant_locations }
         }).then((response) => {
-            console.log(response.data);
             this.handleSubmitDialogOpen(); // if successful, open success dialog
         }).catch((error) => {
-            console.log('Error in Application POST', error);
             this.setState({
                 submitFailedDialogOpen: true // if unsuccessful, open failed dialog
-            });
-        })
-    }
+            });//end setState
+        });//end error handling
+    };//end postApplication
 
     // get list of subjects from database
     getSubjects = () => {
         this.props.dispatch({ type: 'GET_SUBJECTS' })
-    }
+    };//end getSubjects
 
     // get list of locations
     getLocations = () => {
         this.props.dispatch({ type: 'GET_LOCATIONS' })
-    }
+    };//end getLocation
 
     // open submit dialog
     handleSubmitDialogOpen = () => {
         this.setState({
             submitDialogOpen: true
-        })
-    }
+        });//end setState
+    };//end handleSubmitDialogOpen
 
     // close submit dialog and push to login
     handleSubmitDialogClose = () => {
         this.setState({
             submitDialogOpen: false
-        })
+        });//end setState
         this.props.history.push('/login')
-    }
+    };//end handleSubmitDialogClose
 
     // close submit failed dialog
     submitFailedDialogClose = () => {
         this.setState({
             submitFailedDialogOpen: false
-        })
-    }
+        });//end setState
+    };//end submitFailedDialogClose
 
     // update application to send
     handleApplicantStateChange = (value) => {
         this.setState({
             application: { ...this.state.application, applicant_state: value }
-        });
-    }
+        });//end setState
+    };//end handleApplicationChange
 
     // change application values
     handleApplicationChange = (e) => {
         this.setState({
             application: { ...this.state.application, [e.target.name]: e.target.value }
-        })
-    }
+        });//end setState
+    };//end handleApplicationChange
 
     //update applicant_subjects in local state
     handleSubjectCheckbox = (event, isChecked) => {
         if (isChecked) {
             this.setState({
                 applicant_subjects: [...this.state.applicant_subjects, event.target.value]
-            });
+            });//end setState
         } else if (isChecked === false) {
             this.setState({
                 applicant_subjects: this.state.applicant_subjects.filter((id) => id !== event.target.value)
-            });
-        }
-    }
+            });//end setState
+        };//end else if
+    };//end handleSubjectCheckBox
 
     //update applicant_locations in local state
     handleLocationsCheckbox = (event, isChecked) => {
@@ -203,9 +200,9 @@ class NewApplicationPage extends Component {
         } else if (isChecked === false) {
             this.setState({
                 applicant_locations: this.state.applicant_locations.filter((id) => id !== event.target.value)
-            });
-        }
-    }
+            });//end setState
+        };//end else if
+    };//end handleLocationCheckBox
 
 
     render() {
@@ -215,7 +212,7 @@ class NewApplicationPage extends Component {
             resumePdf = <p>Resume Upload Successful <PictureAsPdf /></p>
         } else {
             resumePdf = <br />
-        }
+        };//end else if
 
         return (
             <div className="view-container">
@@ -393,7 +390,7 @@ class NewApplicationPage extends Component {
             </div>
             </div >
                 )
-    }
-}
+    };//end render
+};//end NewApplicationPage Component
 
 export default connect(mapStateToProps)(NewApplicationPage);

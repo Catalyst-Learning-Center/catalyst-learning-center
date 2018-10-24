@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 // action imports
 import { triggerLogout } from '../../redux/actions/loginActions';
+// css
 import './TutorNav.css';
 
 import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, Collapse, NavItem, NavLink, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact';
@@ -14,19 +15,19 @@ class TutorNav extends Component {
         this.state = {
             collapse: false,
             isWideEnough: false,
-        };
+        };//end state
         this.onClick = this.onClick.bind(this);
-    }
+    };//end constructor
 
     onClick() {
         this.setState({
             collapse: !this.state.collapse,
-        });
-    }
+        });//end setState
+    };//end onClick
 
     logout = () => {
         this.props.dispatch(triggerLogout());
-    }
+    };//end logout
 
     render() {
         return (
@@ -44,7 +45,7 @@ class TutorNav extends Component {
                 </Collapse>
             </Navbar>
         )
-    }
-}
+    };//end render
+};//end TutorNav Component
 
 export default connect()(TutorNav);

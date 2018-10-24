@@ -14,16 +14,16 @@ import EndSessionDialog from './EndSessionDialog';
 
 const mapStateToProps = state => ({
     activeSessions: state.sessions.activeSessions
-});
+});//end mapStateToProps
 
 class ActiveSessionsTable extends Component {
    componentDidMount = () => {
         this.getActiveSessions();
-    }
+    };//end componentDidMount
 
     getActiveSessions = () => {
         this.props.dispatch({type: 'GET_ACTIVE_SESSIONS'});
-    }
+    };//end getActiveSessions
 
     render() {
         return (
@@ -62,7 +62,7 @@ class ActiveSessionsTable extends Component {
                 </Table>
             </Paper>
         )
-    }
-}
+    };//end render
+};//end ActiveSessionsTable
 
 export default connect(mapStateToProps)(ActiveSessionsTable);
