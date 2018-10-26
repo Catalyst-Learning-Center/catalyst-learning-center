@@ -45,14 +45,15 @@ Steps to get the development environment running.
 7. Navigate to `localhost:3000`
 
 ## Screen Shots
-![Manage Tutors View](public/images/managetutors.png)
 #### Manage Tutors View
-![New Tutor Application View](public/images/newtutorapp.png)
+![Manage Tutors View](public/images/managetutors.png)
 #### New Tutor Application View
-![Tutoring Sessions View](public/images/tutoringsessions.png)
+![New Tutor Application View](public/images/newtutorapp.png)
 #### Tutoring Sessions View
-![Data View](public/images/viewdata.png)
+![Tutoring Sessions View](public/images/tutoringsessions.png)
 #### Data View, displaying 
+![Data View](public/images/viewdata.png)
+#### Database Structure
 ![Data Structure](public/images/catalyst_database_structure.png)
 
 ### Completed Features
