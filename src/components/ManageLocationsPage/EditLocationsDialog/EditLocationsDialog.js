@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import StateSelect from '../../NewApplicationPage/StateSelect'; 
 import { connect } from 'react-redux'
+// material UI imports
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -36,8 +37,8 @@ const mapStateToProps = state => ({
         location_zipcode: this.props.location.location_zipcode,
         location_phone: this.props.location.location_phone,
       }//end locationToEdit
-     }//end state
-   }//end constructor
+     };//end state
+   };//end constructor
 
   openDialog = () => {
     //this when edit button is clicked will open dialog to make changes to input fields
@@ -49,7 +50,7 @@ const mapStateToProps = state => ({
     this.setState({
       open: true,
     });//end setState
-  }//end openDialog
+  };//end openDialog
 
   handleSaveChange = () => {
     //this when the save button is clicked will save changed made
@@ -61,14 +62,14 @@ const mapStateToProps = state => ({
     this.props.dispatch(action);
     this.handleClose();
     this.handleEditAlertOpen();
-  }//end saveLocationsDialog
+  };//end saveLocationsDialog
 
   handleClose = () => {
     //sets edit dialog box to close initially
     this.setState({
       open: false,
     });//end setState
-  }//end handleClose
+  };//end handleClose
 
   handleChange = (event) => {
     //this will allow changes to be added to edit input fields
@@ -78,25 +79,25 @@ const mapStateToProps = state => ({
         [event.target.name]: event.target.value
       }//end locationToEdit
     });//end setState
-  }//end handleChange
+  };//end handleChange
 
   handleEditAlertOpen = () => {
     //when user Edits a location and presses save a alert dialog will appear
     this.setState({ alert: true});
-  }//end handleEditAlertOpen
+  };//end handleEditAlertOpen
 
   handleEditAlertClose = () => {
     //after pressing okay alert dialog will close
     this.setState({ alert: false});
     this.props.dispatch({type: 'GET_LOCATIONS'})
-  }//end handleEditAlertClose
+  };//end handleEditAlertClose
 
   handleStateDropDownChange = (value) => {
     //updates with location from drop down
     this.setState({
         locationToEdit: { ...this.state.locationToEdit, location_state: value }
     });//end setState
-}//end handleLocationStateChange
+};//end handleLocationStateChange
 
   render() {
 
@@ -188,7 +189,7 @@ const mapStateToProps = state => ({
       </React.Fragment>
       </div>
     );
-  }//end render
-}//end Component
+  };//end render
+};//end EditedLoactionsDialog Component
 
 export default connect(mapStateToProps)(EditLocationsDialog);

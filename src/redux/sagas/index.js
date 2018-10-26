@@ -1,4 +1,5 @@
 import { all } from 'redux-saga/effects';
+// component imports
 import userSaga from './userSaga';
 import loginSaga from './loginSaga';
 import sessionsSaga from './sessionsSaga';
@@ -20,4 +21,4 @@ export default function* rootSaga() {
     tutorsSaga(),
     // watchIncrementAsync()
   ]);
-}
+};//end rootSaga

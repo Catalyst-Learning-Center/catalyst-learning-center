@@ -16,10 +16,10 @@ import ManageLocationsPage from './components/ManageLocationsPage/ManageLocation
 import ManageTutorsPage from './components/ManageTutorsPage/ManageTutorsPage';
 import AddTutorPage from './components/AddTutorPage/AddTutorPage';
 import NewApplicationPage from './components/NewApplicationPage/NewApplicationPage';
-
 import loadReCaptcha from './ReCaptcha/loadReCaptcha';
-
+// css
 import './styles/main.css';
+// material UI imports
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
@@ -98,6 +98,5 @@ class App extends Component {
     )
   }
 }
-
 
 export default App;

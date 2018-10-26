@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from '../../../node_modules/axios';
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 // component imports
 import AdminNav from '../AdminNav/AdminNav';
-import axios from '../../../node_modules/axios';
+// component imports
 import ManageAppsExpansionPanel from './ManageAppsExpansionPanel';
+// css
 import './ManageApplications.css';
 
 const mapStateToProps = state => ({
     user: state.user,
     pendingApplications: state.pendingApplications,
-});
+});//end mapStateToProps
 
 class ManageApplicationsPage extends Component {
     componentDidMount = () => {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
         this.getPendingApplications();
-    } // end componentDidMount
+    }; // end componentDidMount
 
     // componentDidUpdate runs after props and state have changed.
     //If we arent loading the user call AND we dont have a user, kick us out to home
@@ -26,8 +28,8 @@ class ManageApplicationsPage extends Component {
             this.props.history.push('/login');
         } else if (!this.props.user.isLoading && this.props.user.permissions === 1) {
             this.props.history.push('/select-location');
-        }
-    } // end componentDidUpdate
+        };//end else if
+    };//end componentDidUpdate
 
     //GET all applications from the database
     getPendingApplications = () => {
@@ -35,36 +37,34 @@ class ManageApplicationsPage extends Component {
             method: 'GET',
             url: '/applications',
         }).then((response) => {
-            console.log(response.data);
             this.props.dispatch({
                 payload: response.data,
                 type: 'DISPLAY_APPLICATIONS',
-            })
+            });
         }).catch((error) => {
             console.log('Error GETTING applications from the database: ', error)
-        })
-    } // end getPendingApplications
+        });//end error handling
+    }//end getPendingApplications
 
     render() {
         let content = null;
         let nav = null;
         let title = null;
 
-        console.log(this.props.pendingApplications)
-
+        // if else for counting pending applications
         if (this.props.pendingApplications.length > 1) {
             title = <h1>{this.props.pendingApplications.length} Pending Applications</h1>
         } else if (this.props.pendingApplications.length > 0){
             title = <h1>{this.props.pendingApplications.length} Pending Application</h1>
         } else {
             title = <h1>There are no pending applications at this time</h1>
-        }
+        };//end else if
 
         if (this.props.user.permissions === 2) {
             nav = (
                 <AdminNav history={this.props.history} />
-            )
-        }
+            );
+        };
 
         if (this.props.user.userName) {
             content = (
@@ -91,7 +91,7 @@ class ManageApplicationsPage extends Component {
                 {content}
             </div>
         )
-    }
-} // end ManageApplicationsPage component
+    }//end render
+}//end ManageApplicationsPage Component
 
 export default connect(mapStateToProps)(ManageApplicationsPage);

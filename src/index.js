@@ -4,17 +4,14 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import logger from 'redux-logger';
-
 import reducer from './redux/reducers'; // imports ./redux/reducers/index.js
+import App from './App';
+import rootSaga from './redux/sagas'; // imports ./redux/sagas/index.js
 import 'typeface-roboto';
-
+// css
 import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
-
-
-import App from './App';
-import rootSaga from './redux/sagas'; // imports ./redux/sagas/index.js
 
 // Initializing to an empty object, but here is where you could
 // preload your redux state with initial values (from localStorage, perhaps)

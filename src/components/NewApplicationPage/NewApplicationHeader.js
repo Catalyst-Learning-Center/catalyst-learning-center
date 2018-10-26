@@ -13,19 +13,20 @@ class NewApplicationHeader extends Component {
         this.state = {
             collapse: false,
             isWideEnough: false,
-        };
+        };//end state
         this.onClick = this.onClick.bind(this);
-    }
+    };//end constructor
 
+    // collapses navbar on shrink
     onClick() {
         this.setState({
             collapse: !this.state.collapse,
-        });
-    }
+        });//end setState
+    };//end onClick
 
     logout = () => {
         this.props.dispatch(triggerLogout());
-    }
+    };//end logout
 
     render() {
         return (
@@ -48,7 +49,7 @@ class NewApplicationHeader extends Component {
                 </Collapse>
             </Navbar>
         )
-    }
-}
+    };//end render
+};//end NewApplicationHeader Component
 
 export default connect()(NewApplicationHeader);

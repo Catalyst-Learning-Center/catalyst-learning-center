@@ -2,7 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-//route to retrieve data from server
+// GET route to retrieve library location data from server
 router.get('/', (req, res) => {
         console.log('/locations GET route hit');
         const queryText = `SELECT * from "location" ORDER BY "location"."location_name";`;
@@ -12,10 +12,10 @@ router.get('/', (req, res) => {
         })//error handling
         .catch((error) => {
             console.log('Error making GET request: ', error);
-        });
+        });//end error handling
 });//end GET
 
-// POST route 
+// POST route to add a new library location
 router.post('/', (req, res) => {
     if(req.isAuthenticated()) {
         console.log('locations POST route hit');
@@ -30,13 +30,13 @@ router.post('/', (req, res) => {
         .catch((error) => {
             console.log('Error making POST request:', error);
             res.sendStatus(500);
-        });
+        });//end error handling
     }else{
         res.sendStatus(403);
     }//end isAuthenticted
 });//end POST
 
-//route to edit locations
+// PUT route to edit library locations
 router.put('/edit/:id', (req, res) => {
     if(req.isAuthenticated()) {
         console.log('/locations PUT route hit');
@@ -64,13 +64,13 @@ router.put('/edit/:id', (req, res) => {
         .catch((error) => {
             console.log('Error making PUT request:', error);
             res.sendStatus(500);
-        });
+        });//end error handling
     }else{
         res.sendStatus(403);
     }//end isAuthenticted
 });//end PUT request
 
-//route to deactivate location
+// PUT route to deactivate library location(s)
 router.put('/status/:id', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/locations/status PUT route hit with: ', req.params.id);
@@ -82,7 +82,7 @@ router.put('/status/:id', (req, res) => {
         .catch((error) => {
             console.log('/locations/status PUT error: ', error);
             res.sendStatus(500);
-        });
+        });//end error handling
     } else {
         res.sendStatus(401);
     }//end isAuthenticated

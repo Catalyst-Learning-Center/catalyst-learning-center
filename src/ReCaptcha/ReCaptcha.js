@@ -18,7 +18,7 @@ const propTypes = {
     tabindex: PropTypes.string,
     hl: PropTypes.string,
     badge: PropTypes.string,
-};
+};//end propTypes
 
 const defaultProps = {
     elementID: 'g-recaptcha',
@@ -35,7 +35,7 @@ const defaultProps = {
     tabindex: '0',
     hl: 'en',
     badge: 'bottomright',
-};
+};//end defaultProps
 
 const isReady = () => typeof window !== 'undefined' && typeof window.grecaptcha !== 'undefined' && typeof window.grecaptcha.render === 'function';
 
@@ -56,13 +56,13 @@ class ReCaptcha extends Component {
         if (!this.state.ready) {
             readyCheck = setInterval(this._updateReadyState.bind(this), 1000);
         }
-    }
+    };//end constructor
 
     componentDidMount() {
         if (!!(this.state.ready)) {
             this._renderGrecaptcha();
         }
-    }
+    };//end componentDidMount
 
     componentDidUpdate(prevProps, prevState) {
         const {render, onloadCallback} = this.props;
@@ -70,25 +70,25 @@ class ReCaptcha extends Component {
         if (render === 'explicit' && onloadCallback && this.state.ready && !prevState.ready) {
             this._renderGrecaptcha();
         }
-    }
+    };//end componentDidUpdate
 
     componentWillUnmount() {
         clearInterval(readyCheck);
-    }
+    };//end componentWillUnmount
 
     reset() {
         const {ready, widget} = this.state;
         if (ready && widget !== null) {
             window.grecaptcha.reset(widget);
         }
-    }
+    };//end reset
 
     execute() {
         const { ready, widget } = this.state;
         if (ready && widget !== null) {
             window.grecaptcha.execute(widget);
         }
-    }
+    };//end execute
 
     _updateReadyState() {
         if (isReady()) {
@@ -98,7 +98,7 @@ class ReCaptcha extends Component {
 
             clearInterval(readyCheck);
         }
-    }
+    };//end _updateReadyState
 
     _renderGrecaptcha() {
         this.state.widget = window.grecaptcha.render(this.props.elementID, {
@@ -116,7 +116,7 @@ class ReCaptcha extends Component {
         if (this.props.onloadCallback) {
             this.props.onloadCallback();
         }
-    }
+    };//end _renderGrecaptcha
 
     render() {
         if (this.props.render === 'explicit' && this.props.onloadCallback) {
@@ -140,8 +140,8 @@ class ReCaptcha extends Component {
             />
         );
       }
-    }
-}
+    }//end render
+};//end ReCaptcha Component
 
 ReCaptcha.propTypes = propTypes;
 ReCaptcha.defaultProps = defaultProps;
