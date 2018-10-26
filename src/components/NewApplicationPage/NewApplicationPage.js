@@ -374,7 +374,7 @@ class NewApplicationPage extends Component {
                                         ref={(el) => { this.captcha = el; }}
                                         size="normal"
                                         render="explicit"
-                                        sitekey="6Ld9BHQUAAAAANG2ZTJ-tsZGsw9uaE1_1PTUKXlM"
+                                        sitekey={process.env.REACT_APP_RECAPTCHA_KEY}
                                         onloadCallback={this.onLoadRecaptcha}
                                         verifyCallback={this.verifyCallback}
                                     />
