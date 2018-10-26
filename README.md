@@ -47,12 +47,13 @@ Steps to get the development environment running.
 ## Screen Shots
 ![Manage Tutors View](public/images/managetutors.png)
 #### Manage Tutors View
-![New Tutor Application View](public/images/managetutors.png)
+![New Tutor Application View](public/images/newtutorapp.png)
 #### New Tutor Application View
 ![Tutoring Sessions View](public/images/tutoringsessions.png)
 #### Tutoring Sessions View
 ![Data View](public/images/viewdata.png)
 #### Data View, displaying 
+![Data Structure](public/images/catalyst_database_structure.png)
 
 ### Completed Features
 - [x] Two-level access: Admin and user-level 
