@@ -1,4 +1,5 @@
 import { put, takeLatest } from 'redux-saga/effects';
+// component imports
 import { LOGIN_ACTIONS } from '../actions/loginActions';
 import { USER_ACTIONS } from '../actions/userActions';
 import { callLogin, callLogout } from '../requests/loginRequests';
@@ -32,9 +33,9 @@ function* loginUser(action) {
         type: LOGIN_ACTIONS.LOGIN_FAILED_NO_CODE,
         message: error.message,
       });
-    }
-  }
-}
+    };//end else if
+  };//end error handling
+};//end loginUser
 
 // worker Saga: will be fired on "LOGOUT" actions
 function* logoutUser(action) {
@@ -45,12 +46,12 @@ function* logoutUser(action) {
     });
   } catch (error) {
     console.log('LOGOUT FAILED -- CHECK YOUR SERVER', error);
-  }
-}
+  };//end logoutUser
+};//end logoutUser
 
 function* loginSaga() {
   yield takeLatest(LOGIN_ACTIONS.LOGIN, loginUser);
   yield takeLatest(LOGIN_ACTIONS.LOGOUT, logoutUser);
-}
+};//end loginSaga
 
 export default loginSaga;

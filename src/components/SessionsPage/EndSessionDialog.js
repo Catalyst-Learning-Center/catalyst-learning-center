@@ -16,7 +16,7 @@ import SelectSubject from './SelectSubject';
 
 const mapStateToProps = state => ({
     subject: state.sessions.subject
-});
+});//end mapStateToProps
 
 class EndSessionDialog extends Component {
     constructor(props) {
@@ -25,44 +25,43 @@ class EndSessionDialog extends Component {
             open: false,
             topic: '',
             endTime: ''
-        }
-    }
+        };//end state
+    };//end constructor
 
     endSession = () => {
-        console.log('endSession id: ', this.props.id);
         let dataToSend = {
             id: this.props.id,
             subject: this.props.subject,
             topic: this.state.topic,
             end_time: this.state.endTime
-        }
+        };//end dataToSend
         let action = {
             type: 'END_SESSION',
             payload: dataToSend
-        }
+        };//end action
         this.props.dispatch(action);
-    }
+    };//end endSession
 
     handleClickOpen = () => {
-        this.setState({ open: true });
-        this.props.dispatch({type: 'RESET_SESSION'})
-    };
+        this.setState({ open: true });//end setState
+        this.props.dispatch({type: 'RESET_SESSION'});
+    };//end handleClickOpen
 
     handleClose = () => {
         this.setState({ open: false });
-    };
+    };//end handleClose
 
     handleInputChange = (event) => {
         this.setState({
             topic: event.target.value
-        })
-    }
+        });//end setState
+    };//end handleInputChange
 
     handleEndTime = (event) => {
         this.setState({
             endTime: event.target.value
-        })
-    }
+        });//end setState
+    };//end handleEndTime
 
     render() {
         let content = null;
@@ -104,9 +103,8 @@ class EndSessionDialog extends Component {
             selectSubject = (
                 <SelectSubject overtime={false} />
             )
-        }
-        console.log(today);
-        console.log(moment(this.props.date).format('MM/DD/YYYY'));
+        };//end if else
+
             return (
                 <div>
                     <Button style={{float: 'right'}} variant="contained" color="secondary" onClick={this.handleClickOpen}>{stop}End</Button>
@@ -143,7 +141,7 @@ class EndSessionDialog extends Component {
                     </Dialog>
                 </div>
             )
-    }
-}
+    };//end render
+};//end EndSessionsDialog
 
 export default connect(mapStateToProps)(EndSessionDialog);

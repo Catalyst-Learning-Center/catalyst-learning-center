@@ -8,25 +8,24 @@ import Select from '@material-ui/core/Select';
 const mapStateToProps = state => ({
     selectedGrade: state.sessions.grade,
     grades: state.grades
-});
+});//end mapStateToProps
 
 class SelectGrade extends Component {
     componentDidMount = () => {
         this.getGrades();
-    }
+    };//end componentDidMount
 
     getGrades = () => {
         this.props.dispatch({type: 'GET_GRADES'});
-    }
+    };//end getGrades
 
     handleChange = (event) => {
-        console.log(event.target.value);
         let action = {
             type: 'SET_SESSION_GRADE',
             payload: event.target.value
-        }
+        };//end action
         this.props.dispatch(action);
-    }
+    };//end handleChange
 
     render() {
         return (
@@ -52,7 +51,7 @@ class SelectGrade extends Component {
                 </Select>
             </div>
         )
-    }
-}
+    };//end render
+};//end SelectGrade Component
 
 export default connect(mapStateToProps)(SelectGrade);

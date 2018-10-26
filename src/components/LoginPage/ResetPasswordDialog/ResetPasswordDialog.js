@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import React, { Component } from 'react';
 import axios from 'axios';
+// material UI imports
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 
 class ResetPasswordDialog extends Component {
     constructor(props){
@@ -8,35 +9,32 @@ class ResetPasswordDialog extends Component {
         this.state = {
             userInfoEmail: '',
             emailError: null,
-        }
-    }
+        };//end state
+    };//end constructor
 
     handleChange = (e) => {
         this.setState({
             userInfoEmail: e.target.value
-        });
-    }
+        });//end setState
+    };//end handleChange
 
+    // post email address that will receive a message from nodemailer
     handleUserInfoRequest = () => {
         axios({
             method: 'POST',
             url: '/api/user/forgot',
             data: {userInfoEmail: this.state.userInfoEmail}
         }).then((response)=>{
-            console.log(response.data);
             this.props.handlePasswordResetClose();
         }).catch((error)=>{
             console.log('error', error);
             if (error) {
                 this.setState({
                     emailError: true
-                })
+                });//end setState
             }
-        });
-    }
-
-
-
+        });//end error handling
+    };//end handleUserInfoRequest
 
     render() {
         let errorText = null
@@ -76,7 +74,7 @@ class ResetPasswordDialog extends Component {
                 </DialogActions>
             </Dialog>
         )
-    }
-}
+    };//end render
+};//end ResetPasswordDialog Component
 
 export default ResetPasswordDialog;

@@ -13,7 +13,7 @@ import { triggerLogout } from '../../redux/actions/loginActions';
 
 const style = {
     backgroundColor: 'rgba(0,0,0,0.5)',
-}
+};//end style
 
 class AdminNav extends React.Component {
     constructor(props) {
@@ -22,19 +22,14 @@ class AdminNav extends React.Component {
             collapse: false,
             isWideEnough: false,
             pendingApplications: 0,
-        };
+        };//end state
         this.onClick = this.onClick.bind(this);
-    }
+    };//end constructor
 
     // on page render, display the count of current pending applications
     componentDidMount() {
         this.getPendingApplications();
-    }
-
-    // when pending applications are updated, re-fetch, re-count, and re-render
-    // componentDidUpdate() {
-    //     this.getPendingApplications();
-    // }
+    };//end componentDidMount
 
     // get the count of current pending applications
     getPendingApplications = () => {
@@ -44,25 +39,27 @@ class AdminNav extends React.Component {
         }).then((response) => {
             this.setState({
                 pendingApplications: response.data[0].count
-            })
+            });//end setState
         }).catch((error) => {
             console.log('Error getting applications from the server: ', error);
-        });
-    }
+        });//end error handling
+    };//end getPendingApplications
 
+    // controls whether the expansion panel is opened or closed
     onClick() {
         this.setState({
             collapse: !this.state.collapse,
-        });
-    }
+        });//end setState
+    };//end onClick
 
     logout = () => {
         this.props.dispatch(triggerLogout());
-    }
+    };//end logout
 
+    // onClick, user is prompted to select their tutoring location
     startTutoring = () => {
         this.props.history.push('/select-location');
-    }
+    };//end startTutoring
 
     render() {
         // regular manage applications nav link without pending applications
@@ -82,7 +79,6 @@ class AdminNav extends React.Component {
         }
 
         return (
-            
             <Navbar className="admin-nav" dark expand="md" scrolling>
                 <NavbarBrand tag="span">
                 <NavItem>
@@ -117,8 +113,8 @@ class AdminNav extends React.Component {
                 </Collapse>
             </Navbar>
         );
-    }
-}
+    };//end render
+};//end AdminNav Component
 
 export default connect()(AdminNav);
 

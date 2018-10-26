@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+// css
 import './ManageLocationsPage.css';
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
@@ -7,8 +8,9 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 import AdminNav from '../AdminNav/AdminNav';
 import AddLocationsDialog from './AddLocationsDialog/AddLocationsDialog';
 import LocationExpansionPanel from './LocationExpansionPanel/LocationExpansionPanel';
-import Button from '@material-ui/core/Button';
 import AlertDialog from '../AlertDialog/AlertDialog';
+// material UI imports
+import Button from '@material-ui/core/Button';
 
 const style = {
     marginLeft: '85%',
@@ -35,13 +37,13 @@ class ManageLocationsPage extends Component {
                 location_zipcode: '',
                 location_phone: ''
             },//end locationsToEdit
-        }//end state
-    }//end constructor
+        };//end state
+    };//end constructor
 
     componentDidMount() {
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
         this.getLocations();
-    }//end componentDidMount
+    };//end componentDidMount
 
     // componentDidUpdate runs after props and state have changed.
     //If we arent loading the user call AND we dont have a user, kick us out to home
@@ -50,51 +52,48 @@ class ManageLocationsPage extends Component {
             this.props.history.push('/login');
         } else if (!this.props.user.isLoading && this.props.user.permissions === 1) {
             this.props.history.push('/select-location');
-        }//end if else
-    }//end componentDidUpdate
+        };//end if else
+    };//end componentDidUpdate
 
     addLocationOpen = () => {
         //this handles opening dialog for add locations button
-        console.log('addLocationOpen');
         this.setState({
             addDialogOpen: true,
         });//end setState
-    }//end addLocationOpen
+    };//end addLocationOpen
 
     addLocationClose = () => {
         //this will manage closing the dialog in add location
         this.setState({
           addDialogOpen: false,
         });//end setState
-      }//end handleClose
+      };//end handleClose
 
     handleEditDialogOpen = (location) => {
         //this handles openining the edit dialog
-        console.log('handleEditDialogOpen');
         this.setState({
             editDialogOpen: true,
         });//end setState
-    }//end handleEditDialogOpen
+    };//end handleEditDialogOpen
 
     handleEditDialogClose = () => {
         //this handles closing the edit dialog
         this.setState({
             editDialogOpen: false,
         });//end setState
-    }//end handleEditDialogClose
+    };//end handleEditDialogClose
 
     handleEditChange = (event) => {
         //this allows edits to the dialog fields
-        console.log('in handleEditChange', event);
         this.setState({
             [event.target.name]: event.target.value
         });//end setState
-    }//end handleEditChange
+    };//end handleEditChange
 
     getLocations() {
         //Get location data from server
         this.props.dispatch({type: 'GET_LOCATIONS'})
-    }//end getLocations
+    };//end getLocations
 
     render() {
         let content = null;
@@ -137,7 +136,7 @@ class ManageLocationsPage extends Component {
                 <AlertDialog />
             </div>
         )
-    }//end render
-}//end Component
+    };//end render
+};//end ManageLocationsPage Component
 
 export default connect(mapStateToProps)(ManageLocationsPage);

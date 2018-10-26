@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from '../../../node_modules/axios';
+import moment from 'moment';
+// css
+import './ManageApplications.css';
+// material UI imports
+import RemoveIcon from '@material-ui/icons/DeleteTwoTone';
+import CheckIcon from '@material-ui/icons/CheckCircleOutlined';
+import PersonIcon from '@material-ui/icons/PersonOutlined';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -10,15 +18,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import axios from '../../../node_modules/axios';
-import moment from 'moment';
-import './ManageApplications.css';
-import RemoveIcon from '@material-ui/icons/DeleteTwoTone';
-import CheckIcon from '@material-ui/icons/CheckCircleOutlined';
-import PersonIcon from '@material-ui/icons/PersonOutlined';
-
-
-
 
 // this is an inline-style object variable for the expansion panel summary "date applied". 
 const style = {
@@ -44,78 +43,76 @@ class ManageAppsExpansionPanel extends Component {
             removeDialogue: false,
             locations: [],
             subjects: [],
-        };
-    };
+        };//end state
+    };//end constructor
 
     componentDidMount = () => {
         this.getApplicationsLocations();
         this.getApplicationsSubjects();
-    } 
+    };//end componentDidMount
 
+    // display list of of selected locations
     getApplicationsLocations = () => {
         axios({
             method: 'GET',
             url: '/applications/locations/' + this.props.item.id,
         }).then((response) => {
-            console.log('in getApplicationsLocations GET route: ', response.data)
             this.setState({
                 locations: response.data
-            })
+            });//end setState
         }).catch((error) => {
             console.log('Error GETTING application locations from the database: ', error)
-        })
+        });//end error handling
     } // end getApplicationsLocations
 
+    // display list of of selected subjects
     getApplicationsSubjects = () => {
-        console.log('get application subjects');
         axios({
             method: 'GET',
             url: '/applications/subjects/' + this.props.item.id,
         }).then((response) => {
-            console.log('in getApplicationsSubjects GET route: ', response.data)
             this.setState({
                 subjects: response.data
-            })
+            });//end setState
         }).catch((error) => {
             console.log('Error GETTING application subjects from the database: ', error)
-        })
+        });//end error handling
     } // end getApplicationsSubjects
 
     // tracks whether each expansion panel is open or closed
     handleExpansion = (event) => {
-        console.log('in handleExpansion')
         this.setState({
             isOpen: !this.state.isOpen,
-        });
-    };
+        });//end setState
+    };//end handleExpansion
 
     // handles whether the 'Are you sure you want to remove this application?' dialogue box is open
     handleConfirmRemoveDialogueOpen = (event) => {
         this.setState({
             confirmRemoveDialogue: true,
-        });
-    };
+        });//end setState
+    };//end handleConfirmRemoveDialogueOpen
 
     // handles whether the 'Are you sure you want to remove this application?' dialogue box is closed
     handleConfirmRemoveDialogueClose = (event) => {
         this.setState({
             confirmRemoveDialogue: false,
-        });
-    };
+        });//end setState
+    };//end handleConfirmRemoveDialogueClose
 
     // handles whether the 'application successfully removed' dialogue box is open
     handleRemoveDialogueOpen = (event) => {
         this.setState({
             removeDialogue: true,
-        });
-    };
+        });//end setState
+    };//end handleRemoveDialogueOpen
 
     // handles whether the 'application successfully removed' dialogue box is closed
     handleRemoveDialogueClose = (event) => {
         this.setState({
             removeDialogue: false,
-        });
-    };
+        });//end setState
+    };//end handleRemoveDialogueClose
 
     acceptApplication = (event) => { 
         // history is available to us because it is passed into the parent component
@@ -141,7 +138,7 @@ class ManageAppsExpansionPanel extends Component {
             payload: locations,
         })
         this.props.history.push('add-tutor')
-    }
+    }//end acceptApplication
 
     // removes an application from the DOM and updates the active status is the database from 'true' to 'false'
     removeApplication = (event) => {
@@ -156,7 +153,7 @@ class ManageAppsExpansionPanel extends Component {
             this.props.getPendingApplications();
         }).catch((error) => {
             console.log(`error removing application from the database: ${error}`);
-        });
+        });//end error handling
     }; // end removeApplication
 
     render() {
@@ -247,7 +244,7 @@ class ManageAppsExpansionPanel extends Component {
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
         );
-    };
-};
+    };//end render
+};//end ManageAppsExpansionPanel
 
 export default connect() (ManageAppsExpansionPanel);

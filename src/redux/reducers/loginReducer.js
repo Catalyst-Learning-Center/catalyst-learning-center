@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+// action imports
 import { LOGIN_ACTIONS } from '../actions/loginActions';
 
 //message holds the string that will display on the login screen if there's an error
@@ -14,8 +15,8 @@ const message = (state = '', action) => {
       return action.payload;
     default:
       return state;
-  }
-};
+  }//end switch
+};//end message
 
 //isLoading holds the boolean that tracks whether or not this async call is out in the internet or not
 const isLoading = (state = false, action) => {
@@ -26,8 +27,8 @@ const isLoading = (state = false, action) => {
       return false;
     default:
       return state;
-  }
-};
+  }//end switch
+};//end isLoading
 
 //make one object that has keys message, isLoading
 export default combineReducers({

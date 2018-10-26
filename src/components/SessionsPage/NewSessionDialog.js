@@ -13,11 +13,11 @@ import SelectGrade from './SelectGrade';
 
 const style = {
     marginBottom: '10px',
-}
+};//end style
 
 const mapStateToProps = state => ({
     sessions: state.sessions
-});
+});//end mapStateToProps
 
 class NewSessionDialog extends Component {
     constructor(props) {
@@ -25,27 +25,27 @@ class NewSessionDialog extends Component {
         this.state = {
             open: false,
             name: '',
-        }
-    }
+        };//end state
+    };//end constructor
 
     handleClickOpen = () => {
         this.setState({
             open: true,
-        })
+        });//end setState
         this.props.dispatch({type: 'RESET_SESSION'})
-    }
+    };//end handleClickOpen
 
     handleClose = () => {
         this.setState({
             open: false,
-        })
-    }
+        });//end setState
+    };//end handleClose
 
     handleInputChange = (event) => {
         this.setState({
             name: event.target.value,
-        })
-    }
+        });//end setState
+    };//end handleInputChange
 
     handleSessionStart = (e) => {
         e.preventDefault();
@@ -54,14 +54,14 @@ class NewSessionDialog extends Component {
             name: this.state.name,
             school: this.props.sessions.school.value,
             grade: this.props.sessions.grade
-        }
+        }//end dataToSend
         let action = {
             type: 'POST_NEW_SESSION',
             payload: dataToSend
-        }
+        };//end action
         this.props.dispatch(action);
         this.handleClose();
-    }
+    };//end handleSessionStart
 
     render() {
         return (
@@ -103,7 +103,7 @@ class NewSessionDialog extends Component {
                 </Dialog>
             </div>
         )
-    }
-}
+    };//end render
+};//end NewSessionsDialog
 
 export default connect(mapStateToProps)(NewSessionDialog);

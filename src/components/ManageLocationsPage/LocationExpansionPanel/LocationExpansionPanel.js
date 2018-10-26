@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+// component imports
 import EditLocationsDialog from '../EditLocationsDialog/EditLocationsDialog';
+// material UI imports
 import Button from '@material-ui/core/Button';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -11,16 +13,6 @@ import LockIcon from '@material-ui/icons/LockOutlined';
 import UnlockIcon from '@material-ui/icons/LockOpenOutlined';
 import LocationIcon from '@material-ui/icons/LocalLibraryOutlined';
 import GPSIcon from '@material-ui/icons/RoomOutlined';
-
-
-
-
-
-// const style = {
-//     marginRight: '80%',
-//     justifyContent: 'right',
-//     float: 'right'
-//   }//end style
 
 class LocationExpansionPanel extends Component {
 
@@ -40,9 +32,9 @@ class LocationExpansionPanel extends Component {
         let action = {
           type: 'TOGGLE_LOCATIONS',
           payload: this.props.location.id
-        }//end action
+        };//end action
         this.props.dispatch(action);
-      }//end toggleLocationStatus
+      };//end toggleLocationStatus
       
     render() {
         let toggleButton = null;
@@ -56,8 +48,8 @@ class LocationExpansionPanel extends Component {
     } else {
       toggleButton = (
         <Button style={{height: '37px'}} onClick={this.toggleLocationStatus} variant="contained" color="secondary">{deactive}Deactivate</Button>
-      )
-    }//end if/else
+      );
+    };//end if/else
 
         return (
             <ExpansionPanel>
@@ -76,7 +68,7 @@ class LocationExpansionPanel extends Component {
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         );
-    }//end render
-}//end Component
+    };//end render
+};//end LocationExpansionPanel Component
 
 export default connect()(LocationExpansionPanel);

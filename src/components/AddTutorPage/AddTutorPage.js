@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import StateSelect from '../NewApplicationPage/StateSelect';
 import { connect } from 'react-redux';
-import './AddTutorPage.css';
-import AdminNav from '../AdminNav/AdminNav';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
 import axios from 'axios';
+// css
+import './AddTutorPage.css';
+// component imports
+import AdminNav from '../AdminNav/AdminNav';
 import AddTutorConfirmation from './AddTutorConfirmation';
+// material UI imports
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormHelperText from '@material-ui/core/FormHelperText';
-
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 // action imports
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
@@ -22,7 +24,7 @@ const mapStateToProps = state => ({
     newTutorToAdd: state.newTutorToAdd,
     subjects: state.subjects,
     locations: state.locations.locations,
-});
+});//end mapStateToProps
 
 class AddTutorPage extends Component {
     constructor(props) {
@@ -31,36 +33,36 @@ class AddTutorPage extends Component {
             applicant_subjects: [],
             applicant_locations: [],
             confirmationOpen: false,
-        }
-    }
+        };//end state
+    };//end constructor
 
     componentDidMount() {
         this.getSubjects();
         this.getLocations();
         this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
-    }
+    };//end componentDidMount
 
     // componentDidUpdate runs after props and state have changed.
     //If we arent loading the user call AND we dont have a user, kick us out to home
     componentDidUpdate() {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
             this.props.history.push('/login');
-        }
-    }
+        };
+    };//end componentDidUpdate
 
     // get list of subjects from subjectsSaga
     getSubjects = () => {
         this.props.dispatch({
             type: 'GET_SUBJECTS'
         });
-    }
+    };//end getSubjects
 
     // get list of current tutoring locations from locationsSaga
     getLocations = () => {
         this.props.dispatch({
             type: 'GET_LOCATIONS'
         });
-    }
+    };//end getLocations
 
     // handles the change of application input values
     handleApplicationChange = (event) => {
@@ -70,9 +72,9 @@ class AddTutorPage extends Component {
                 name: event.target.name,
                 value: event.target.value
             }
-        }
+        };//end action
         this.props.dispatch(action);
-    }
+    };//end handleApplicationChange
 
     // handles selecting the state
     handleApplicantStateChange = (value) => {
@@ -82,9 +84,9 @@ class AddTutorPage extends Component {
                 name: 'user_state',
                 value: value
             }
-        }
+        };//end action
         this.props.dispatch(action);
-    }
+    };//end handleApplicatStateChange
 
     // update array of checked subjects in redux
     handleSubjectCheckbox = (event, isChecked) => {
@@ -92,14 +94,14 @@ class AddTutorPage extends Component {
             this.props.dispatch({
                 type: 'CHECK_SUBJECT',
                 payload: event.target.value
-            })
+            });
         } else if (isChecked === false) {
             this.props.dispatch({
                 type: 'UNCHECK_SUBJECT',
                 payload: event.target.value
-            })
-        }
-    }
+            });
+        };//end else if
+    };//end handleSubjectCheckbox
 
     // update array of checked locations in redux
     handleLocationsCheckbox = (event, isChecked) => {
@@ -107,14 +109,14 @@ class AddTutorPage extends Component {
             this.props.dispatch({
                 type: 'CHECK_LOCATION',
                 payload: event.target.value
-            })
+            });
         } else if (isChecked === false) {
             this.props.dispatch({
                 type: 'UNCHECK_LOCATION',
                 payload: event.target.value
-            })
-        }
-    }
+            });
+        };//end else if
+    };//end handleLocationCheckbox
 
     // post new tutor form to the server
     handleNewTutorForm = (event) => {
@@ -123,29 +125,27 @@ class AddTutorPage extends Component {
             newTutor: this.props.newTutorToAdd,
             subjects: this.state.applicant_subjects,
             locations: this.state.applicant_locations,
-        }
-        console.log(tutor)
+        }//end tutor
         axios({
             method: 'POST',
             url: '/tutors',
             data: tutor
         }).then((response) => {
             // setState to open dialogue
-            console.log(response.data);
             this.setState({
                 confirmationOpen: true,
-            })
+            });//end setState
         }).catch((error) => {
             console.log('Error in handleNewTutorForm POST route: ', error);
-        });
-    }
+        });//end error handling
+    };//end handleNewTutorForm
 
     handleConfirmationClose = () => {
         this.setState({
             confirmationOpen: false,
-        })
+        });//end setState
         this.props.history.push('/manage-tutors');
-    }
+    };//end handleConfirmationClose
 
     render() {
         let content = null;
@@ -345,7 +345,7 @@ class AddTutorPage extends Component {
                                                     label={subject.subjects}>
                                                 </FormControlLabel>
                                             )
-                                        }
+                                        }//end else if
                                         return (
                                             <React.Fragment>
                                                 {content}
@@ -387,7 +387,7 @@ class AddTutorPage extends Component {
                 />
             </div>
         )
-    }
-}
+    };//end render
+};//end AddTutorPage Component
 
 export default connect(mapStateToProps)(AddTutorPage);

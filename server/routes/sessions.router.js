@@ -2,9 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-/**
- * GET route template
- */
+// get all sessions for view data table
 router.get('/', (req, res) => {
     if (req.isAuthenticated()) {
         const query = `SELECT "location"."location_name", "sessions"."id", "sessions"."location_id", "sessions"."session_date", "sessions"."student_name", "sessions"."school_id", 
@@ -19,13 +17,13 @@ router.get('/', (req, res) => {
             res.send(results.rows);
         }).catch((error) => {
             res.sendStatus(500);
-        });
+        });//end error handling
     } else {
         res.sendStatus(403);
+    };//end if else
+});//end sessions GET route
 
-    }
-});
-
+// get session data for bar graph
 router.get('/library-summary/:id', (req, res) => {
     if (req.isAuthenticated()) {
         if (req.params.id == 0) {
@@ -46,7 +44,7 @@ router.get('/library-summary/:id', (req, res) => {
             }).catch((error) => {
                 res.sendStatus(500);
                 console.log(error);
-            });
+            });//end error handling
         } else {
             const query = `WITH dates AS (
                 SELECT
@@ -66,13 +64,14 @@ router.get('/library-summary/:id', (req, res) => {
             }).catch((error) => {
                 res.sendStatus(500);
                 console.log(error);
-            });
-        }
+            });//end error handling
+        }//end if else
     } else {
         res.sendStatus(403);
-    }
-});
+    }//end if else
+});//end sessions GET router
 
+// get sessions for pie chart
 router.get('/school-reach/:id', (req, res) => {
     if (req.isAuthenticated()) {
         if (req.params.id == 0) {
@@ -84,7 +83,7 @@ router.get('/school-reach/:id', (req, res) => {
                 res.send(results.rows);
             }).catch((error) => {
                 res.sendStatus(500);
-            });
+            });//end error handling
         } else {
             const query = `SELECT "schools"."school_name", COUNT("sessions"."school_id") FROM "sessions"
             JOIN "schools" ON "schools"."id" = "sessions"."school_id"
@@ -95,14 +94,14 @@ router.get('/school-reach/:id', (req, res) => {
                 res.send(results.rows);
             }).catch((error) => {
                 res.sendStatus(500);
-            });
-        }
+            });//end error handling
+        };//end if else
     } else {
         res.sendStatus(403);
+    };//end if else
+});//end sessions GET route
 
-    }
-});
-
+// get all active sessions for currently logged in user
 router.get('/active', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/sessions/active GET hit');
@@ -116,12 +115,13 @@ router.get('/active', (req, res) => {
         }).catch((error) => {
             console.log('/sessions/active GET error: ', error);
             res.sendStatus(500);
-        })
+        });//end error handling
     } else {
         res.sendStatus(401);
-    }
-});
+    };//end if else
+});//end sessions GET route
 
+// get all completed sessions for currently logged in tutor
 router.get('/completed', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/sessions/active GET hit');
@@ -137,15 +137,13 @@ router.get('/completed', (req, res) => {
         }).catch((error) => {
             console.log('/sessions/completed GET error: ', error);
             res.sendStatus(500);
-        })
+        });//end error handling
     } else {
         res.sendStatus(401);
-    }
-});
+    };//end if else 
+});//end sessions GET route
 
-/**
- * POST route template
- */
+// post new tutoring session
 router.post('/', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/sessions POST route hit with: ', req.body);
@@ -159,15 +157,13 @@ router.post('/', (req, res) => {
             }).catch((error) => {
                 console.log('/sessions POST error: ', error);
                 res.sendStatus(500);
-            })
+            });//end error handling
     } else {
         res.sendStatus(401);
-    }
-});
+    };//end if else
+});//end sessions POST route
 
-/**
- * PUT route template
- */
+// update end time for tutoring session
 router.put('/', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('in /sessions PUT with: ', req.body);
@@ -189,12 +185,13 @@ router.put('/', (req, res) => {
         }).catch((error) => {
             console.log('/sessions PUT error: ', error);
             res.sendStatus(500);
-        })
+        });//end error handling
     } else {
         res.sendStatus(401);
-    }
-})
+    };//end if else
+});//end sessions PUT route
 
+// edit completed session data
 router.put('/edit', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('in /sessions/edit PUT with: ', req.body);
@@ -209,10 +206,10 @@ router.put('/edit', (req, res) => {
         }).catch((error) => {
             console.log('/sessions/edit PUT error: ', error);
             res.sendStatus(500);
-        })
+        });//end error handling
     } else {
         res.sendStatus(401);
-    }
-})
+    };//end if else
+});//end sessions PUT route
 
 module.exports = router;

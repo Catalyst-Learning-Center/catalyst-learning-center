@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import StateSelect from '../../NewApplicationPage/StateSelect';
 import { connect } from 'react-redux';
+// material UI imports
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -23,15 +24,15 @@ class AddLocationsDialog extends Component {
         location_zipcode: '',
         location_phone: '',
       }//end locationToAdd
-    }//end state
-  }//end constructor
+    };//end state
+  };//end constructor
 
   handleStateDropDownChange = (value) => {
     //updates with location from drop down
     this.setState({
       locationToAdd: { ...this.state.locationToAdd, location_state: value }
     });//end setState
-  }//end handleLocationStateChange
+  };//end handleLocationStateChange
 
   saveLocation = () => {
     //when ok is clicked this will POST data to server and save new location
@@ -41,17 +42,17 @@ class AddLocationsDialog extends Component {
     }//end action
     this.props.dispatch(action);
     this.props.addLocationClose();
-  }//end handleAddLocation
+  };//end handleAddLocation
 
   handleAlertOpen = () => {
     //when user adds a location and presses save a confirmation will appear
     this.setState({ alert: true });
-  }//end handleAlertOpen
+  };//end handleAlertOpen
 
   handleAlertClose = () => {
     //after pressing okay alert dialog will close
     this.setState({ alert: false });
-  }//end handleAlertClose
+  };//end handleAlertClose
 
   handleAddLocationChange = (event) => {
     //handles changes to input fields
@@ -61,7 +62,7 @@ class AddLocationsDialog extends Component {
         [event.target.name]: event.target.value
       }//end locationToAdd
     });//end setState
-  }//end handleAddLocationChange
+  };//end handleAddLocationChange
 
   render() {
     return (
@@ -149,7 +150,7 @@ class AddLocationsDialog extends Component {
         </React.Fragment>
       </div>
     );
-  }//end render
-}//end Component
+  };//end render
+};//end AddLocationsDialog Component
 
 export default connect()(AddLocationsDialog);

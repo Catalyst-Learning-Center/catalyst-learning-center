@@ -15,7 +15,7 @@ class CompletedSessionsTableRow extends Component {
             time = (this.props.n.time.hours * 60) + this.props.n.time.minutes;
         } else {
             time = this.props.n.time.minutes;
-        }
+        };//end else if
 
         return (
             <TableRow
@@ -42,7 +42,7 @@ class CompletedSessionsTableRow extends Component {
                     </TableCell>
                 </TableRow>
         )
-    }
-}
+    };//end render
+};//end CompletedSessionsTableRow Component
 
 export default CompletedSessionsTableRow;

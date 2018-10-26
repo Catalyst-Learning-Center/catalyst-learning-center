@@ -2,9 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-/**
- * GET route template
- */
+// GET all stored grades from the database
 router.get('/', (req, res) => {
     console.log('/grades GET route hit');
     const queryText = `SELECT * FROM "grade" ORDER BY "id";`;
@@ -14,14 +12,7 @@ router.get('/', (req, res) => {
     }).catch((error) => {
         console.log('/grades GET error: ', error);
         res.sendStatus(500);
-    })
-});
-
-/**
- * POST route template
- */
-router.post('/', (req, res) => {
-
-});
+    });//end error handling
+});//end grades router
 
 module.exports = router;
