@@ -51,7 +51,7 @@ Steps to get the development environment running.
 ![New Tutor Application View](public/images/newtutorapp.png)
 #### Tutoring Sessions View
 ![Tutoring Sessions View](public/images/tutoringsessions.png)
-#### Data View, displaying 
+#### Data View
 ![Data View](public/images/viewdata.png)
 #### Database Structure
 ![Data Structure](public/images/catalyst_database_structure.png)
