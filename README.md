@@ -47,12 +47,58 @@ Steps to get the development environment running.
 ## Screen Shots
 #### Manage Tutors View
 ![Manage Tutors View](public/images/managetutors.png)
+After navigating to the ‘Manage Tutors’ view, admin users are able to:
+* See a list of all existing users, both admin and tutor level, that are clickable to reveal an
+expanded view that houses the tutor permissions, edit, and remove buttons, as well as additional tutor information
+* Demote an existing admin to a tutor, or promote a tutor to an admin
+* The ‘Make Admin’ button toggles to ‘Make Tutor’ if a user is already in the
+admin role
+* Edit an existing tutor’s contact information
+* Remove an existing tutor from the database
+* Add a new tutor to the system
 #### New Tutor Application View
 ![New Tutor Application View](public/images/newtutorapp.png)
+After completing the inputs and clicking ‘submit’ on the form:
+* The form data is then collected and sent to the ‘Manage Applications’ portion of the
+Admin view.
+* Admins will be alerted via a pre-provided email that a new application exists within the
+tutorBuddy app.
+* This feature will be implemented using nodemailer, which allows emails to be
+sent within the application.
 #### Tutoring Sessions View
 ![Tutoring Sessions View](public/images/tutoringsessions.png)
+After selecting their tutoring location, tutors are directed to the Sessions view where they can start a new session, time active sessions, mark sessions complete, and edit completed sessions for the day.
+##### Start a new session:
+* When ‘New Session’ is clicked, a dialogue box appears and tutors are prompted to input the student’s first name, school, and grade level.
+* Within the dialogue, when a tutor clicks “Begin Session”, an alert displays “You are about to begin a new tutoring session. Please confirm.”
+** Users are then prompted to click ‘OK’ or ‘Cancel’.
+* If the tutor clicks ‘OK’, start time is logged and the session information is moved to the
+‘Active Sessions’ table
+* If the tutor clicks ‘Cancel’, the dialogue box will go away and return the user to the main Sessions view.
+##### Active sessions:
+* Active sessions are shown in a table
+* Each session is populated with a ‘Complete’ button
+* When the ‘Complete’ button is clicked, the session end-time is logged and a dialogue
+box appears
+* Within the dialogue, a tutor will select the subject(s) on which they worked and then click
+‘Complete session’
+* The completed session is then moved into the ‘Completed Sessions’ table
+##### Completed sessions:
+* Completed sessions are shown in a table
+* Each completed session is populated with an ‘Edit’ button
+* When the ‘Edit’ button is clicked, input fields become editable ​inline
+* Tutors can edit sessions within the timeframe of each shift, but not thereafter.
 #### Data View
 ![Data View](public/images/viewdata.png)
+After login, admins are directed to a home page where they can immediately view tutor session data via a table, including: date, student name, school, grade, amount of time spent and on which subject. This view will also contain various data charts that cover how many schools and corresponding participants each hosting site (library) has reached. This information is filterable by tutoring location and school year.
+
+From this landing page, an admin can switch pages via top bar navigation in the following ways:
+* Start a tutoring session (this navigates to the Tutor Home view)
+* The top navigation bar will persist on every admin view. Admins can easily exit
+the Tutoring Session view by navigating to a different page.
+* Manage existing tutors
+* Manage tutoring locations
+* Review new applicants
 #### Database Structure
 ![Data Structure](public/images/catalyst_database_structure.png)
 
