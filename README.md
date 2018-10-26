@@ -1,6 +1,8 @@
 # Catalyst Learning Center tutorBuddy
 Catalyst tutorBuddy is a web-first application built to streamline the paper-tracking process of a local math tutoring nonprofit organization. At its highest level, the app allows tutors to track, time, and edit session information. With separate permissions, admin users can visualize, filter, and export this data and also manage current tutors, pending tutor applications, as well as the information for partnering library locations.
 
+Live Version: http://catalyst-learning-center.herokuapp.com
+
 ## Built With
 * React
 * Redux
